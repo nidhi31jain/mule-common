@@ -12,11 +12,11 @@ package org.mule.common.connectiontest;
 
 public interface ConnectionTestResult
 {
-    TestResultStatus getStatus();
+    Status getStatus();
 
     String getMessage();
 
-    static enum TestResultStatus
+    static enum Status
     {
         SUCESS, FAIL
     }
