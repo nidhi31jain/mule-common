@@ -8,18 +8,15 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.connectiontest;
+package org.mule.common.config;
 
-import org.mule.common.config.XmlDocumentAccessor;
-import org.mule.common.config.XmlElement;
+import org.mule.common.MuleObject;
 
-import javax.xml.namespace.QName;
+import org.w3c.dom.Element;
 
-public interface ConnectionTester
+public interface XmlMuleObjectFactory
 {
 
-    boolean supportsConnectionTest(QName element);
-
-    ConnectionTestResult testConnection(XmlElement element, XmlDocumentAccessor callback);
+    MuleObject getObject(Element element, XmlConfigurationCallback callback);
 
 }

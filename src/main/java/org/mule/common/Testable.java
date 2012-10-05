@@ -10,10 +10,8 @@
 
 package org.mule.common;
 
-public interface Testable
+public interface Testable extends Capability
 {
     TestResult test();
 
 }
-
-

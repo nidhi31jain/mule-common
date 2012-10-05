@@ -10,16 +10,11 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.config.XmlDocumentAccessor;
-import org.mule.common.config.XmlElement;
+import com.sun.xml.internal.ws.api.addressing.WSEndpointReference.Metadata;
 
-import javax.xml.namespace.QName;
-
-public interface MetadataLocator
+public interface MetaDataAware
 {
+    Metadata getInMetada();
 
-    boolean hasMetaData(QName element);
-
-    MetaData getMetaData(XmlElement element, XmlDocumentAccessor callback);
-
+    Metadata getOutMetada();
 }

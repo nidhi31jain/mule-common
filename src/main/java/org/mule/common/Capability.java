@@ -10,14 +10,9 @@
 
 package org.mule.common;
 
-public interface TestResult
+public interface Capability
 {
-    Status getStatus();
 
-    String getMessage();
-
-    static enum Status
-    {
-        SUCCESS, FAILURE
-    }
 }
+
+

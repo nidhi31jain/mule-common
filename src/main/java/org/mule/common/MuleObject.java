@@ -8,16 +8,12 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.connectiontest;
+package org.mule.common;
 
-public interface ConnectionTestResult
+public interface MuleObject
 {
-    Status getStatus();
+    boolean hasCapability(Class<? extends Capability> clazz);
 
-    String getMessage();
+    Class<? extends Capability> getCapability(Class<? extends Capability> clazz);
 
-    static enum Status
-    {
-        SUCESS, FAIL
-    }
 }
