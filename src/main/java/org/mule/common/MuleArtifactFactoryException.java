@@ -10,10 +10,19 @@
 
 package org.mule.common;
 
-public interface MuleObject
+public class MuleArtifactFactoryException extends Exception
 {
-    boolean hasCapability(Class<? extends Capability> clazz);
 
-    Class<? extends Capability> getCapability(Class<? extends Capability> clazz);
+    private static final long serialVersionUID = 2962452640497689015L;
+
+    public MuleArtifactFactoryException(String message)
+    {
+        super(message);
+    }
+
+    public MuleArtifactFactoryException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

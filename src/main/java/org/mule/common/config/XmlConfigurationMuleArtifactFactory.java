@@ -10,13 +10,12 @@
 
 package org.mule.common.config;
 
-import org.mule.common.MuleObject;
+import org.mule.common.MuleArtifactFactory;
 
 import org.w3c.dom.Element;
 
-public interface XmlMuleObjectFactory
+public interface XmlConfigurationMuleArtifactFactory
+    extends MuleArtifactFactory<Element, XmlConfigurationCallback>
 {
-
-    MuleObject getObject(Element element, XmlConfigurationCallback callback);
 
 }

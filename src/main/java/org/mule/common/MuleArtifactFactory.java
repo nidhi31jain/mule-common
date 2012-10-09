@@ -8,15 +8,11 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.metadata;
+package org.mule.common;
 
-import org.mule.common.Capability;
-
-import com.sun.xml.internal.ws.api.addressing.WSEndpointReference.Metadata;
-
-public interface MetaDataAware extends Capability
+public interface MuleArtifactFactory<R, C>
 {
-    Metadata getInMetada();
 
-    Metadata getOutMetada();
+    MuleArtifact getArtifact(R representation, C callback) throws MuleArtifactFactoryException;
+
 }
