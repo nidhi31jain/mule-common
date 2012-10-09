@@ -12,8 +12,8 @@ package org.mule.common;
 
 public interface MuleArtifact
 {
-    boolean hasCapability(Class<? extends Capability> clazz);
+    <T extends Capability> boolean hasCapability(Class<T> clazz);
 
-    Class<? extends Capability> getCapability(Class<? extends Capability> clazz);
+    <T extends Capability> T getCapability(Class<T> clazz);
 
 }
