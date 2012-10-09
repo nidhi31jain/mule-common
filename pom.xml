@@ -6,16 +6,26 @@
     <name>Mule Shared API</name>
     <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+    </build>
+
     <distributionManagement>
         <repository>
-            <id>mule-ee-releases</id>
-            <name>MuleEE Releases Repository</name>
-            <url>http://dev.ee.mulesource.com/repository/content/repositories/releases/</url>
+            <id>mule-releases</id>
+            <name>Mule Release Repository</name>
+            <url>dav:https://dav.codehaus.org/repository/mule/</url>
         </repository>
         <snapshotRepository>
-            <id>mule-ee-snapshots</id>
-            <name>MuleEE Snapshots Repository</name>
-            <url>http://dev.ee.mulesource.com/repository/content/repositories/snapshots/</url>
+            <id>mule-snapshots</id>
+            <name>Mule Snapshot Repository</name>
+            <url>dav:https://dav.codehaus.org/snapshots.repository/mule/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
