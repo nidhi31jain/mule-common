@@ -12,11 +12,9 @@ package org.mule.common.metadata;
 
 import org.mule.common.Capability;
 
-import com.sun.xml.internal.ws.api.addressing.WSEndpointReference.Metadata;
-
 public interface MetaDataAware extends Capability
 {
-    Metadata getInMetada();
+    MetaData getInMetada();
 
-    Metadata getOutMetada();
+    MetaData getOutMetada();
 }
