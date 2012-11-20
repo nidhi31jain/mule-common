@@ -10,12 +10,16 @@
 
 package org.mule.common;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class DefaultTestResult implements TestResult
 {
 
     private Status status;
     private String message;
     private FailureType failureType;
+    private String stacktrace;
 
     public DefaultTestResult(TestResult.Status status)
     {
@@ -24,14 +28,18 @@ public class DefaultTestResult implements TestResult
 
     public DefaultTestResult(TestResult.Status status, String message)
     {
-    	this(status, message, (Status.FAILURE.equals(status)) ? FailureType.UNSPECIFIED : null);
+    	this(status, message, (Status.FAILURE.equals(status)) ? FailureType.UNSPECIFIED : null, null);
     }
 
-    public DefaultTestResult(TestResult.Status status, String message, FailureType failureType)
+    public DefaultTestResult(TestResult.Status status, String message, FailureType failureType, Throwable throwable)
     {
         this.status = status;
         this.message = message;
         this.failureType = failureType;
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        throwable.printStackTrace(pw);
+        this.stacktrace = sw.toString();
     }
 
     @Override
@@ -49,6 +57,11 @@ public class DefaultTestResult implements TestResult
 	@Override
 	public FailureType getFailureType() {
 		return failureType;
+	}
+
+	@Override
+	public String getStacktrace() {
+		return stacktrace;
 	}
 
 }

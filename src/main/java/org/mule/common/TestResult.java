@@ -17,6 +17,8 @@ public interface TestResult
     String getMessage();
     
     FailureType getFailureType();
+    
+    String getStacktrace();
 
     static enum Status
     {
