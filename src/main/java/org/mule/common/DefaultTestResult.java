@@ -36,10 +36,17 @@ public class DefaultTestResult implements TestResult
         this.status = status;
         this.message = message;
         this.failureType = failureType;
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        throwable.printStackTrace(pw);
-        this.stacktrace = sw.toString();
+        if (throwable != null)
+        {
+	        StringWriter sw = new StringWriter();
+	        PrintWriter pw = new PrintWriter(sw);
+	        throwable.printStackTrace(pw);
+	        this.stacktrace = sw.toString();
+        }
+        else
+        {
+        	this.stacktrace = null;
+        }
     }
 
     @Override
