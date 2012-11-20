@@ -15,6 +15,7 @@ public class DefaultTestResult implements TestResult
 
     private Status status;
     private String message;
+    private FailureType failureType;
 
     public DefaultTestResult(TestResult.Status status)
     {
@@ -23,8 +24,14 @@ public class DefaultTestResult implements TestResult
 
     public DefaultTestResult(TestResult.Status status, String message)
     {
+    	this(status, message, (Status.FAILURE.equals(status)) ? FailureType.UNSPECIFIED : null);
+    }
+
+    public DefaultTestResult(TestResult.Status status, String message, FailureType failureType)
+    {
         this.status = status;
         this.message = message;
+        this.failureType = failureType;
     }
 
     @Override
@@ -38,5 +45,10 @@ public class DefaultTestResult implements TestResult
     {
         return status;
     }
+
+	@Override
+	public FailureType getFailureType() {
+		return failureType;
+	}
 
 }

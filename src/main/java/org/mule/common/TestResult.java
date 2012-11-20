@@ -15,9 +15,21 @@ public interface TestResult
     Status getStatus();
 
     String getMessage();
+    
+    FailureType getFailureType();
 
     static enum Status
     {
         SUCCESS, FAILURE
+    }
+    
+    static enum FailureType
+    {
+    	INVALID_CONFIGURATION,
+    	INVALID_CREDENTIALS,
+    	NOT_AUTHORIZED,
+    	CONNECTION_FAILURE,
+    	RESOURCE_UNAVAILABLE,
+    	UNSPECIFIED
     }
 }
