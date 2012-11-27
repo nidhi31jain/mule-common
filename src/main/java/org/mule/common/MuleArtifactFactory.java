@@ -14,5 +14,7 @@ public interface MuleArtifactFactory<R, C>
 {
 
     MuleArtifact getArtifact(R representation, C callback) throws MuleArtifactFactoryException;
+    
+    void returnArtifact(MuleArtifact artifact);
 
 }
