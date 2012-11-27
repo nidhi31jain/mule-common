@@ -10,11 +10,12 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.Capability;
+import java.util.Set;
 
-public interface MetaDataAware extends Capability
+public interface SimpleMetaDataModel extends MetaDataModel
 {
-    MetaData getInMetada();
-
-    MetaData getOutMetada();
+    public String getName();
+    public Set<String> getParents();
 }
+
+

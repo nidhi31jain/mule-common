@@ -8,15 +8,10 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common;
+package org.mule.common.metadata;
 
-public interface MuleArtifactFactory<R, C>
+import org.mule.common.Capability;
+
+public interface OperationMetaDataEnabled extends MetaDataDescriptor, Capability
 {
-
-    MuleArtifact getArtifact(R representation, C callback) throws MuleArtifactFactoryException;
-    
-    MuleArtifact getArtifactForMessageProcessor(R representation, C callback) throws MuleArtifactFactoryException;
-    
-    void returnArtifact(MuleArtifact artifact);
-
 }

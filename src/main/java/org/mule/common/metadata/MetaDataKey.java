@@ -8,15 +8,12 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common;
+package org.mule.common.metadata;
 
-public interface MuleArtifactFactory<R, C>
+public interface MetaDataKey
 {
-
-    MuleArtifact getArtifact(R representation, C callback) throws MuleArtifactFactoryException;
-    
-    MuleArtifact getArtifactForMessageProcessor(R representation, C callback) throws MuleArtifactFactoryException;
-    
-    void returnArtifact(MuleArtifact artifact);
-
+    public String getId();
+    public String getDisplayName();
 }
+
+

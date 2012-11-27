@@ -6,6 +6,15 @@
     <name>Mule Shared API</name>
     <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
+	<dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+
     <build>
         <extensions>
             <extension>
