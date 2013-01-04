@@ -10,29 +10,6 @@
 
 package org.mule.common;
 
-public interface TestResult
+public interface TestResult extends Result<Void>
 {
-    Status getStatus();
-
-    String getMessage();
-    
-    FailureType getFailureType();
-    
-    String getStacktrace();
-
-    static enum Status
-    {
-        SUCCESS, FAILURE
-    }
-    
-    static enum FailureType
-    {
-    	INVALID_CONFIGURATION,
-    	INVALID_CREDENTIALS,
-    	NOT_AUTHORIZED,
-    	UNKNOWN_HOST,
-    	CONNECTION_FAILURE,
-    	RESOURCE_UNAVAILABLE,
-    	UNSPECIFIED
-    }
 }

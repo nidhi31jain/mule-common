@@ -10,65 +10,22 @@
 
 package org.mule.common;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-public class DefaultTestResult implements TestResult
+public class DefaultTestResult extends DefaultResult<Void> implements TestResult
 {
-
-    private Status status;
-    private String message;
-    private FailureType failureType;
-    private String stacktrace;
-
-    public DefaultTestResult(TestResult.Status status)
+    public DefaultTestResult(org.mule.common.Result.Status status)
     {
-        this(status, "");
+        super(null, status);
     }
-
+    
     public DefaultTestResult(TestResult.Status status, String message)
     {
-    	this(status, message, (Status.FAILURE.equals(status)) ? FailureType.UNSPECIFIED : null, null);
+        super(null, status, message);
     }
 
     public DefaultTestResult(TestResult.Status status, String message, FailureType failureType, Throwable throwable)
     {
-        this.status = status;
-        this.message = message;
-        this.failureType = failureType;
-        if (throwable != null)
-        {
-	        StringWriter sw = new StringWriter();
-	        PrintWriter pw = new PrintWriter(sw);
-	        throwable.printStackTrace(pw);
-	        this.stacktrace = sw.toString();
-        }
-        else
-        {
-        	this.stacktrace = null;
-        }
+        super(null, status, message, failureType, throwable);
     }
-
-    @Override
-    public String getMessage()
-    {
-        return message;
-    }
-
-    @Override
-    public Status getStatus()
-    {
-        return status;
-    }
-
-	@Override
-	public FailureType getFailureType() {
-		return failureType;
-	}
-
-	@Override
-	public String getStacktrace() {
-		return stacktrace;
-	}
-
 }
+
+

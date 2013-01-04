@@ -3,6 +3,7 @@ package org.mule.common.metadata;
 import java.util.List;
 
 import org.mule.common.Capability;
+import org.mule.common.Result;
 
 public interface ConnectorMetaDataEnabled extends Capability
 {
@@ -11,7 +12,7 @@ public interface ConnectorMetaDataEnabled extends Capability
      * Obviously, this can't be all possible MetaData because sometimes they accept arbitrary input.
      * @return all (a best effort) MetaData that this connector works with. 
      */
-    public List<MetaDataKey> getMetaDataKeys();
+    public Result<List<MetaDataKey>> getMetaDataKeys();
     
-    public MetaData getMetaData(MetaDataKey key);
+    public Result<MetaData> getMetaData(MetaDataKey key);
 }
