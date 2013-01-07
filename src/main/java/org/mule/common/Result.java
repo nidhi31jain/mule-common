@@ -22,7 +22,7 @@ public interface Result<T>
     
     String getStacktrace();
 
-    static enum Status
+    public static enum Status
     {
         SUCCESS, FAILURE
     }
