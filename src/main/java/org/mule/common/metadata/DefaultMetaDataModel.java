@@ -18,7 +18,7 @@ public class DefaultMetaDataModel implements MetaDataModel {
 	@Override
 	public <T extends MetaDataModel> T as(Class<T> clazz) {
 
-        if (this.getClass().isAssignableFrom(clazz))
+        if ((clazz.isAssignableFrom(this.getClass())))
         {
             return clazz.cast(this);
         }

@@ -49,6 +49,9 @@ public class DataTypeFactory {
 		}
 	}
 	
+	private static final MetaDataModelEvaluator<Void> VOID_EVALUATOR = new AssignableMetaDataModelEvaluator<Void>(
+			new Class[] {void.class, Void.class}, DataType.VOID);
+
 	private static final MetaDataModelEvaluator<Boolean> BOOLEAN_EVALUATOR = new AssignableMetaDataModelEvaluator<Boolean>(
 			new Class[] {boolean.class, Boolean.class}, DataType.BOOLEAN);
 	
@@ -82,6 +85,7 @@ public class DataTypeFactory {
 	};
 	
 	private static final MetaDataModelEvaluator<?>[] evaluators = new MetaDataModelEvaluator[] {
+		VOID_EVALUATOR,
 		BOOLEAN_EVALUATOR,
 		STRING_EVALUATOR,
 		NUMBER_EVALUATOR,

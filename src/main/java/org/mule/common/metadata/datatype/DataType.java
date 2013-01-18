@@ -2,6 +2,7 @@ package org.mule.common.metadata.datatype;
 
 public enum DataType
 {
+	VOID,
 	BOOLEAN,
 	NUMBER,
 	STRING,
