@@ -78,7 +78,7 @@ public class MetaDataModelFactory
         DataType dataType = factory.getDataType(fieldClass);
         switch (dataType) {
             case POJO:
-                m = new DefaultPojoMetaDataModel(name, fieldClass.getName(), parentNames, getFieldsForClass(fieldClass));
+                m = new DefaultPojoMetaDataModel(name, fieldClass.getName(), parentNames);
                 break;
             case LIST:
                 Class<?> elementClass = Object.class;
@@ -121,7 +121,6 @@ public class MetaDataModelFactory
         return m;
     }
 
-    
     public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz) {
         List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
         for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {

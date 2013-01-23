@@ -7,19 +7,24 @@ import java.util.Set;
 
 public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel implements PojoMetaDataModel {
 
+    private Class<?> clazz;
 	private String className;
-	private List<SimpleMetaDataModel> fields;
 	
-	@SuppressWarnings("rawtypes")
-	public DefaultPojoMetaDataModel(Class clazz) {
-		this(clazz.getSimpleName(), clazz.getName(), MetaDataModelFactory.getInstance().getParentNames(clazz), 
-		        MetaDataModelFactory.getInstance().getFieldsForClass(clazz));
+	public DefaultPojoMetaDataModel(Class<?> clazz) {
+		this(clazz.getSimpleName(), clazz.getName(), MetaDataModelFactory.getInstance().getParentNames(clazz));
 	}
-
-    public DefaultPojoMetaDataModel(String name, String className, Set<String> parentNames, List<SimpleMetaDataModel> fields) {
+	
+	public DefaultPojoMetaDataModel(String name, String className, Set<String> parentNames) {
 		super(DataType.POJO, name, parentNames);
 		this.className = className;
-		this.fields = fields;
+		try
+        {
+            this.clazz = Class.forName(className);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new IllegalArgumentException("must supply a valid class name", e);
+        }
 	}
 	
 	@Override
@@ -29,7 +34,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 
 	@Override
 	public List<SimpleMetaDataModel> getFields() {
-		return fields;
+		return MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
 	}
 
 	@Override
@@ -40,12 +45,14 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 		sb.append(", className=");
 		sb.append(className);
 		sb.append(", fields=");
+		List<SimpleMetaDataModel> fields = getFields();
 		if (fields != null) {
 			sb.append("[");
 			for (SimpleMetaDataModel f : fields) {
-			    sb.append("{");
-			    sb.append(f.toString());
-			    sb.append("}");
+			    sb.append(f.getName());
+			    sb.append("={ dataType=");
+		        sb.append(f.getDataType());
+			    sb.append("},");
 			}
 			sb.append("]");
 		} else {
@@ -61,7 +68,6 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((className == null) ? 0 : className.hashCode());
-        result = prime * result + ((fields == null) ? 0 : fields.hashCode());
         return result;
     }
 
@@ -77,11 +83,6 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
             if (other.className != null) return false;
         }
         else if (!className.equals(other.className)) return false;
-        if (fields == null)
-        {
-            if (other.fields != null) return false;
-        }
-        else if (!fields.equals(other.fields)) return false;
         return true;
     }
 
