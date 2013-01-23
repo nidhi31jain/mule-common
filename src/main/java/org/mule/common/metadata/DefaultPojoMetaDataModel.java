@@ -1,61 +1,25 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.datatype.DataTypeFactory;
 
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel implements PojoMetaDataModel {
 
 	private String className;
-	private List<Field> fields;
+	private List<SimpleMetaDataModel> fields;
 	
 	@SuppressWarnings("rawtypes")
 	public DefaultPojoMetaDataModel(Class clazz) {
-		this(clazz.getSimpleName(), clazz.getName(), getParentsForClass(clazz), getFieldsForClass(clazz));
+		this(clazz.getSimpleName(), clazz.getName(), MetaDataModelFactory.getInstance().getParentNames(clazz), 
+		        MetaDataModelFactory.getInstance().getFieldsForClass(clazz));
 	}
 
-    public DefaultPojoMetaDataModel(String name, String className, Set<String> parentNames, List<Field> fields) {
+    public DefaultPojoMetaDataModel(String name, String className, Set<String> parentNames, List<SimpleMetaDataModel> fields) {
 		super(DataType.POJO, name, parentNames);
 		this.className = className;
 		this.fields = fields;
-	}
-
-    @SuppressWarnings("rawtypes")
-    private static Set<String> getParentsForClass(Class clazz)
-    {
-        Set<String> parents = new HashSet<String>();
-        for (Class c : clazz.getInterfaces()) {
-            if (c != null)
-            {
-                parents.add(c.getCanonicalName());
-                parents.addAll(getParentsForClass(c));
-            }
-        }
-        Class parent = clazz.getSuperclass();
-        if (parent != null)
-        {
-            parents.add(parent.getCanonicalName());
-            parents.addAll(getParentsForClass(parent));
-        }
-        return parents;
-    }
-	
-	@SuppressWarnings("rawtypes")
-	private static List<Field> getFieldsForClass(Class clazz) {
-		List<Field> fields = new ArrayList<Field>();
-		for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
-		    if (!Modifier.isStatic(f.getModifiers())) {
-    			String name = f.getName();
-    			DataType dataType = DataTypeFactory.getInstance().getDataType(f.getType());
-    			fields.add(new DefaultField(name, dataType));
-		    }
-		}
-		return fields;
 	}
 	
 	@Override
@@ -64,7 +28,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 	}
 
 	@Override
-	public List<Field> getFields() {
+	public List<SimpleMetaDataModel> getFields() {
 		return fields;
 	}
 
@@ -78,12 +42,10 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 		sb.append(", fields=");
 		if (fields != null) {
 			sb.append("[");
-			for (Field f : fields) {
-				sb.append("{name=");
-				sb.append(f.getName());
-				sb.append(", dataType=");
-				sb.append(f.getDataType().toString());
-				sb.append("},");
+			for (SimpleMetaDataModel f : fields) {
+			    sb.append("{");
+			    sb.append(f.toString());
+			    sb.append("}");
 			}
 			sb.append("]");
 		} else {
