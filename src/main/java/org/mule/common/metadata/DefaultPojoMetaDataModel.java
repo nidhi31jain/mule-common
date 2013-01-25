@@ -3,33 +3,23 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.datatype.DataType;
 
 import java.util.List;
-import java.util.Set;
 
 public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel implements PojoMetaDataModel {
 
     private Class<?> clazz;
-	private String className;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
-		this(clazz.getSimpleName(), clazz.getName(), MetaDataModelFactory.getInstance().getParentNames(clazz));
+		this(clazz, clazz.getSimpleName());
 	}
 	
-	public DefaultPojoMetaDataModel(String name, String className, Set<String> parentNames) {
-		super(DataType.POJO, name, parentNames);
-		this.className = className;
-		try
-        {
-            this.clazz = Class.forName(className);
-        }
-        catch (ClassNotFoundException e)
-        {
-            throw new IllegalArgumentException("must supply a valid class name", e);
-        }
-	}
+	public DefaultPojoMetaDataModel(Class<?> clazz, String name) {
+        super(DataType.POJO, name,  MetaDataModelFactory.getInstance().getParentNames(clazz));
+        this.clazz = clazz;
+    }
 	
 	@Override
 	public String getClassName() {
-		return className;
+		return clazz.getName();
 	}
 
 	@Override
@@ -43,7 +33,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 		sb.append("DefaultPojoMetaDataModel { name=");
 		sb.append(getName());
 		sb.append(", className=");
-		sb.append(className);
+		sb.append(clazz.getName());
 		sb.append(", fields=");
 		List<SimpleMetaDataModel> fields = getFields();
 		if (fields != null) {
@@ -67,7 +57,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((className == null) ? 0 : className.hashCode());
+        result = prime * result + ((clazz.getName() == null) ? 0 : clazz.getName().hashCode());
         return result;
     }
 
@@ -78,11 +68,11 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
         if (!super.equals(obj)) return false;
         if (!(obj instanceof DefaultPojoMetaDataModel)) return false;
         DefaultPojoMetaDataModel other = (DefaultPojoMetaDataModel) obj;
-        if (className == null)
+        if (clazz.getName() == null)
         {
-            if (other.className != null) return false;
+            if (other.clazz.getName() != null) return false;
         }
-        else if (!className.equals(other.className)) return false;
+        else if (!clazz.getName().equals(other.clazz.getName())) return false;
         return true;
     }
 

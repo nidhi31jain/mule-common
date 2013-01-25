@@ -78,7 +78,7 @@ public class MetaDataModelFactory
         DataType dataType = factory.getDataType(fieldClass);
         switch (dataType) {
             case POJO:
-                m = new DefaultPojoMetaDataModel(name, fieldClass.getName(), parentNames);
+                m = new DefaultPojoMetaDataModel(fieldClass, name);
                 break;
             case LIST:
                 Class<?> elementClass = Object.class;
