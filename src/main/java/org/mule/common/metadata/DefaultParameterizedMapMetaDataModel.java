@@ -1,0 +1,71 @@
+/*
+ * $Id$
+ * --------------------------------------------------------------------------------------
+ * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ *
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
+ */
+
+package org.mule.common.metadata;
+
+import org.mule.common.metadata.datatype.DataType;
+
+public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel implements ParameterizedMapMetaDataModel
+{
+    private MetaDataModel keyMetaDataModel;
+    private MetaDataModel valueMetaDataModel;
+    
+    public DefaultParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel)
+    {
+        super(DataType.MAP);
+        this.keyMetaDataModel = keyMetaDataModel;
+        this.valueMetaDataModel = valueMetaDataModel;
+    }
+
+    @Override
+    public MetaDataModel getKeyMetaDataModel()
+    {
+        return keyMetaDataModel;
+    }
+
+    @Override
+    public MetaDataModel getValueMetaDataModel()
+    {
+        return valueMetaDataModel;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((keyMetaDataModel == null) ? 0 : keyMetaDataModel.hashCode());
+        result = prime * result + ((valueMetaDataModel == null) ? 0 : valueMetaDataModel.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (!(obj instanceof DefaultParameterizedMapMetaDataModel)) return false;
+        DefaultParameterizedMapMetaDataModel other = (DefaultParameterizedMapMetaDataModel) obj;
+        if (keyMetaDataModel == null)
+        {
+            if (other.keyMetaDataModel != null) return false;
+        }
+        else if (!keyMetaDataModel.equals(other.keyMetaDataModel)) return false;
+        if (valueMetaDataModel == null)
+        {
+            if (other.valueMetaDataModel != null) return false;
+        }
+        else if (!valueMetaDataModel.equals(other.valueMetaDataModel)) return false;
+        return true;
+    }
+
+}
+
+

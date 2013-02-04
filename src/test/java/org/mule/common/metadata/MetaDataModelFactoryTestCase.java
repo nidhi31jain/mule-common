@@ -145,12 +145,12 @@ public class MetaDataModelFactoryTestCase
         
         MetaDataModel model = factory.getMetaDataModel(clazz);
         assertNotNull(model);
-        assertTrue(model instanceof MapMetaDataModel);
+        assertTrue(model instanceof ParameterizedMapMetaDataModel);
         assertSame(DataType.MAP, model.getDataType());
         
-        MapMetaDataModel mapModel = model.as(MapMetaDataModel.class);
-        assertNotNull(mapModel.getKeyModel());
-        assertEquals(new DefaultMetaDataModel(DataType.POJO), mapModel.getKeyModel());
+        ParameterizedMapMetaDataModel mapModel = model.as(ParameterizedMapMetaDataModel.class);
+        assertNotNull(mapModel.getKeyMetaDataModel());
+        assertEquals(new DefaultMetaDataModel(DataType.POJO), mapModel.getKeyMetaDataModel());
     }
     
     @Test
@@ -373,7 +373,7 @@ public class MetaDataModelFactoryTestCase
     {
         assertNotNull(m);
         assertFalse(m instanceof ListMetaDataModel);
-        assertFalse(m instanceof MapMetaDataModel);
+        assertFalse(m instanceof ParameterizedMapMetaDataModel);
         assertEquals(name, m.getName());
         assertEquals(dt, m.getDataType());
     }
