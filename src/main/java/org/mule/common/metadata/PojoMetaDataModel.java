@@ -6,4 +6,5 @@ public interface PojoMetaDataModel extends SimpleMetaDataModel
 {	
 	public String getClassName();
 	public List<SimpleMetaDataModel> getFields();
+	public boolean isInterface();
 }
