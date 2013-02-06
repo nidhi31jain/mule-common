@@ -16,12 +16,19 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
 {
     private MetaDataModel keyMetaDataModel;
     private MetaDataModel valueMetaDataModel;
+    private String name;
     
     public DefaultParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel)
     {
+        this(keyMetaDataModel, valueMetaDataModel, null);
+    }
+    
+    public DefaultParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel, String name)
+        {
         super(DataType.MAP);
         this.keyMetaDataModel = keyMetaDataModel;
         this.valueMetaDataModel = valueMetaDataModel;
+        this.name = name;
     }
 
     @Override
@@ -37,11 +44,18 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
     }
 
     @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((keyMetaDataModel == null) ? 0 : keyMetaDataModel.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((valueMetaDataModel == null) ? 0 : valueMetaDataModel.hashCode());
         return result;
     }
@@ -58,6 +72,11 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
             if (other.keyMetaDataModel != null) return false;
         }
         else if (!keyMetaDataModel.equals(other.keyMetaDataModel)) return false;
+        if (name == null)
+        {
+            if (other.name != null) return false;
+        }
+        else if (!name.equals(other.name)) return false;
         if (valueMetaDataModel == null)
         {
             if (other.valueMetaDataModel != null) return false;
@@ -65,6 +84,8 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
         else if (!valueMetaDataModel.equals(other.valueMetaDataModel)) return false;
         return true;
     }
+    
+    
 
 }
 

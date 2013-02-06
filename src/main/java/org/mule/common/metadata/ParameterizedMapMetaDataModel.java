@@ -12,6 +12,7 @@ package org.mule.common.metadata;
 
 public interface ParameterizedMapMetaDataModel extends MetaDataModel
 {
-    MetaDataModel getKeyMetaDataModel();
-    MetaDataModel getValueMetaDataModel();
+    public String getName();
+    public MetaDataModel getKeyMetaDataModel();
+    public MetaDataModel getValueMetaDataModel();
 }

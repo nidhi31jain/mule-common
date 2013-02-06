@@ -21,10 +21,16 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
 
     private MetaDataModel keyMetaDataModel;
     private Map<K, ? extends MetaDataModel> metaDataModelMap;
+    private String name;
     
     public DefaultDefinedMapMetaDataModel(Map<K,?> map)
     {
-        this(getKeyMetaDataModel(map), getMetaDataModelMap(map));
+        this(map, null);
+    }
+    
+    public DefaultDefinedMapMetaDataModel(Map<K,?> map, String name)
+    {
+        this(getKeyMetaDataModel(map), getMetaDataModelMap(map), name);
     }
 
     private static MetaDataModel getKeyMetaDataModel(Map<?, ?> map)
@@ -70,9 +76,15 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
 
     public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap)
     {
+        this(keyMetaDataModel, metaDataModelMap, null);
+    }
+    
+    public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap, String name)
+    {
         super(DataType.MAP);
         this.keyMetaDataModel = keyMetaDataModel;
         this.metaDataModelMap = metaDataModelMap;
+        this.name = name;
     }
 
     @Override
@@ -94,12 +106,19 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
     }
 
     @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((keyMetaDataModel == null) ? 0 : keyMetaDataModel.hashCode());
         result = prime * result + ((metaDataModelMap == null) ? 0 : metaDataModelMap.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -109,7 +128,7 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
         if (this == obj) return true;
         if (!super.equals(obj)) return false;
         if (!(obj instanceof DefaultDefinedMapMetaDataModel)) return false;
-        DefaultDefinedMapMetaDataModel<?> other = (DefaultDefinedMapMetaDataModel<?>) obj;
+        DefaultDefinedMapMetaDataModel other = (DefaultDefinedMapMetaDataModel) obj;
         if (keyMetaDataModel == null)
         {
             if (other.keyMetaDataModel != null) return false;
@@ -120,6 +139,11 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
             if (other.metaDataModelMap != null) return false;
         }
         else if (!metaDataModelMap.equals(other.metaDataModelMap)) return false;
+        if (name == null)
+        {
+            if (other.name != null) return false;
+        }
+        else if (!name.equals(other.name)) return false;
         return true;
     }
 

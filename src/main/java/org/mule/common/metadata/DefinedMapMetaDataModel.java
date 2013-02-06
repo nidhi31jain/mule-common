@@ -14,7 +14,8 @@ import java.util.Set;
 
 public interface DefinedMapMetaDataModel<K> extends MetaDataModel
 {
-    Set<K> getKeys();
-    MetaDataModel getKeyMetaDataModel();
-    MetaDataModel getValueMetaDataModel(K key);
+    public String getName();
+    public Set<K> getKeys();
+    public MetaDataModel getKeyMetaDataModel();
+    public MetaDataModel getValueMetaDataModel(K key);
 }
