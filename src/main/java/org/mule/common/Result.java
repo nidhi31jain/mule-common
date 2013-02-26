@@ -26,17 +26,4 @@ public interface Result<T>
     {
         SUCCESS, FAILURE
     }
-    
-    public static enum FailureType
-    {
-        INVALID_CONFIGURATION,
-        INVALID_CREDENTIALS,
-        NOT_AUTHORIZED,
-        UNKNOWN_HOST,
-        CONNECTION_FAILURE,
-        RESOURCE_UNAVAILABLE,
-        UNSPECIFIED
-    }
 }
-
-
