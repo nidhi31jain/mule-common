@@ -27,6 +27,12 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 		return MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
 	}
 
+    @Override
+    public boolean isInterface()
+    {
+        return clazz.isInterface();
+    }
+
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

@@ -17,7 +17,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +38,25 @@ public class MetaDataModelFactory
         return instance;
     }
     
+    public <T> MetaDataModel getMetaDataModel(T obj)
+    {
+        @SuppressWarnings("unchecked")
+        Class<T> c = (Class<T>)  obj.getClass();
+        return getMetaDataModel(obj, c);
+    }
+    
     public <T> MetaDataModel getMetaDataModel(Class<T> clazz)
+    {
+        return getMetaDataModel(null, clazz);
+    }
+    
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private <T> MetaDataModel getMetaDataModel(T obj, Class<T> clazz)
     {
         MetaDataModel m = null;
         DataType dataType = factory.getDataType(clazz);
-        switch (dataType) {
+        switch (dataType)
+        {
             case POJO:
                 m = new DefaultPojoMetaDataModel(clazz);
                 break;
@@ -51,7 +64,15 @@ public class MetaDataModelFactory
                 m = new DefaultListMetaDataModel(new DefaultMetaDataModel(DataType.POJO));
                 break;
             case MAP:
-                m = new DefaultMapMetaDataModel<Object>(new DefaultMetaDataModel(DataType.POJO), new HashMap<Object, MetaDataModel>());
+                if (obj != null && obj instanceof Map && !((Map<?,?>)obj).isEmpty())
+                {
+                    Map<?,?> map = (Map<?,?>) obj;
+                    m = new DefaultDefinedMapMetaDataModel(map);
+                }
+                else
+                {
+                    m = new DefaultParameterizedMapMetaDataModel(new DefaultMetaDataModel(DataType.POJO), new DefaultMetaDataModel(DataType.POJO));
+                }
                 break;
             case VOID:
             case BOOLEAN:
@@ -76,7 +97,8 @@ public class MetaDataModelFactory
         Set<String> parentNames = getParentNames(fieldClass);
         SimpleMetaDataModel m = null;
         DataType dataType = factory.getDataType(fieldClass);
-        switch (dataType) {
+        switch (dataType)
+        {
             case POJO:
                 m = new DefaultPojoMetaDataModel(fieldClass, name);
                 break;
@@ -84,9 +106,11 @@ public class MetaDataModelFactory
                 Class<?> elementClass = Object.class;
                 
                 Type t = f.getGenericType();
-                if (t instanceof ParameterizedType) {
+                if (t instanceof ParameterizedType)
+                {
                     Type elementType = ((ParameterizedType)t).getActualTypeArguments()[0];
-                    if (elementType instanceof Class) {
+                    if (elementType instanceof Class)
+                    {
                         elementClass = (Class<?>) elementType;
                     }
                 }
@@ -94,17 +118,25 @@ public class MetaDataModelFactory
                 break;
             case MAP:
                 Class<?> keyClass = Object.class;
+                Class<?> valueClass = Object.class;
 
                 t = f.getGenericType();
-                if (t instanceof ParameterizedType) {
+                if (t instanceof ParameterizedType)
+                {
                     Type[] elementTypes = ((ParameterizedType)t).getActualTypeArguments();
-                    if (elementTypes.length == 2) {
-                        if (elementTypes[0] instanceof Class) {
+                    if (elementTypes.length == 2)
+                    {
+                        if (elementTypes[0] instanceof Class)
+                        {
                             keyClass = (Class<?>) elementTypes[0];
+                        }
+                        if (elementTypes[1] instanceof Class)
+                        {
+                            valueClass = (Class<?>) elementTypes[1];
                         }
                     }
                 }
-                m = new DefaultSimpleMapMetaDataModel<Object>(getMetaDataModel(keyClass), new HashMap<Object, MetaDataModel>(), name, parentNames);
+                m = new DefaultSimpleParameterizedMapMetaDataModel(getMetaDataModel(keyClass), getMetaDataModel(valueClass), name, parentNames);
                 break;
             case VOID:
             case BOOLEAN:
@@ -121,10 +153,13 @@ public class MetaDataModelFactory
         return m;
     }
 
-    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz) {
+    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz)
+    {
         List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
-        for (java.lang.reflect.Field f : clazz.getDeclaredFields()) {
-            if (!Modifier.isStatic(f.getModifiers())) {
+        for (java.lang.reflect.Field f : clazz.getDeclaredFields())
+        {
+            if (!Modifier.isStatic(f.getModifiers()))
+            {
                 fields.add(getMetaDataModel(f));
             }
         }
@@ -156,14 +191,14 @@ public class MetaDataModelFactory
         }
     }
     
-    private static class DefaultSimpleMapMetaDataModel<K> extends DefaultMapMetaDataModel<K> implements SimpleMetaDataModel
+    private static class DefaultSimpleParameterizedMapMetaDataModel extends DefaultParameterizedMapMetaDataModel implements SimpleMetaDataModel
     {
         private String name;
         private Set<String> parents;
-        
-        public DefaultSimpleMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap, String name, Set<String> parents)
+      
+        public DefaultSimpleParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel, String name, Set<String> parents)
         {
-            super(keyMetaDataModel, metaDataModelMap);
+            super(keyMetaDataModel, valueMetaDataModel);
             this.name = name;
             this.parents = parents;
         }
@@ -184,7 +219,8 @@ public class MetaDataModelFactory
     public Set<String> getParentNames(Class<?> clazz)
     {
         Set<String> parents = new HashSet<String>();
-        for (Class<?> c : clazz.getInterfaces()) {
+        for (Class<?> c : clazz.getInterfaces())
+        {
             if (c != null)
             {
                 parents.add(c.getCanonicalName());
