@@ -9,7 +9,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 
     private String clazzName;
     private boolean isInterface;
-    private List<MetaDataModel> fieldsForClass;
+    private List<SimpleMetaDataModel> fieldsForClass;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
 		this(clazz, clazz.getSimpleName());
@@ -28,7 +28,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 	}
 
 	@Override
-	public List<MetaDataModel> getFields() {
+	public List<SimpleMetaDataModel> getFields() {
 		return fieldsForClass;
 	}
 

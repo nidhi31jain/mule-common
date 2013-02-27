@@ -114,7 +114,7 @@ public class MetaDataModelFactory
         return listType;
     }
 
-    public MetaDataModel getMetaDataModel(java.lang.reflect.Field f)
+    public SimpleMetaDataModel getMetaDataModel(java.lang.reflect.Field f)
     {
         String name = f.getName();
         Class<?> fieldClass = f.getType();
@@ -177,11 +177,11 @@ public class MetaDataModelFactory
         return m;
     }
 
-    public List<MetaDataModel> getFieldsForClass(Class<?> clazz)
+    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz)
     {
 
         //Todo change this for Introspector of beans
-        List<MetaDataModel> fields = new ArrayList<MetaDataModel>();
+        List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
         for (java.lang.reflect.Field f : getInheritedPrivateFields(clazz))
         {
             fields.add(getMetaDataModel(f));
