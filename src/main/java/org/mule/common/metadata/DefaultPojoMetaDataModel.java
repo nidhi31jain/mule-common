@@ -73,6 +73,10 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
         {
             return false;
         }
+        if (fieldsForClass != null ? !fieldsForClass.equals(that.fieldsForClass) : that.fieldsForClass != null)
+        {
+            return false;
+        }
 
         return true;
     }
@@ -83,6 +87,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
         int result = super.hashCode();
         result = 31 * result + (clazzName != null ? clazzName.hashCode() : 0);
         result = 31 * result + (isInterface ? 1 : 0);
+        result = 31 * result + (fieldsForClass != null ? fieldsForClass.hashCode() : 0);
         return result;
     }
 }
