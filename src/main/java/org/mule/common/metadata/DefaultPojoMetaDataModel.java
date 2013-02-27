@@ -1,22 +1,26 @@
 package org.mule.common.metadata;
 
+import java.util.List;
+import java.util.Set;
+
 import org.mule.common.metadata.datatype.DataType;
 
-import java.util.Collections;
-import java.util.List;
-
-public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel implements PojoMetaDataModel {
+public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements PojoMetaDataModel {
 
     private String clazzName;
     private boolean isInterface;
-    private List<SimpleMetaDataModel> fieldsForClass;
+    private List<MetaDataField> fieldsForClass;
+    private String name;
+    private Set<String> parentNames;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
 		this(clazz, clazz.getSimpleName());
 	}
 	
-	public DefaultPojoMetaDataModel(Class<?> clazz, String name) {
-        super(DataType.POJO, name,  MetaDataModelFactory.getInstance().getParentNames(clazz));
+	protected DefaultPojoMetaDataModel(Class<?> clazz, String name) {
+        super(DataType.POJO);
+        this.name = name;
+        this.parentNames = MetaDataModelFactory.getInstance().getParentNames(clazz);
         this.clazzName = clazz.getName();
         this.isInterface = clazz.isInterface();
         this.fieldsForClass = MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
@@ -28,7 +32,7 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 	}
 
 	@Override
-	public List<SimpleMetaDataModel> getFields() {
+	public List<MetaDataField> getFields() {
 		return fieldsForClass;
 	}
 
@@ -38,56 +42,69 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
         return isInterface;
     }
 
-    @Override
-    public String toString()
-    {
-        return "DefaultPojoMetaDataModel{" +
-                "clazzName='" + clazzName + '\'' +
-                ", isInterface=" + isInterface +
-                '}';
-    }
+    
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof DefaultPojoMetaDataModel))
-        {
-            return false;
-        }
-        if (!super.equals(o))
-        {
-            return false;
-        }
+    
+    
+	@Override
+	public String toString() {
+		return "DefaultPojoMetaDataModel [clazzName=" + clazzName
+				+ ", isInterface=" + isInterface + ", fieldsForClass="
+				+ fieldsForClass + ", name=" + name + ", parentNames="
+				+ parentNames + "]";
+	}
 
-        DefaultPojoMetaDataModel that = (DefaultPojoMetaDataModel) o;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((clazzName == null) ? 0 : clazzName.hashCode());
+		result = prime * result
+				+ ((fieldsForClass == null) ? 0 : fieldsForClass.hashCode());
+		result = prime * result + (isInterface ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((parentNames == null) ? 0 : parentNames.hashCode());
+		return result;
+	}
 
-        if (isInterface != that.isInterface)
-        {
-            return false;
-        }
-        if (clazzName != null ? !clazzName.equals(that.clazzName) : that.clazzName != null)
-        {
-            return false;
-        }
-        if (fieldsForClass != null ? !fieldsForClass.equals(that.fieldsForClass) : that.fieldsForClass != null)
-        {
-            return false;
-        }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultPojoMetaDataModel other = (DefaultPojoMetaDataModel) obj;
+		if (clazzName == null) {
+			if (other.clazzName != null)
+				return false;
+		} else if (!clazzName.equals(other.clazzName))
+			return false;
+		if (fieldsForClass == null) {
+			if (other.fieldsForClass != null)
+				return false;
+		} else if (!fieldsForClass.equals(other.fieldsForClass))
+			return false;
+		if (isInterface != other.isInterface)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (parentNames == null) {
+			if (other.parentNames != null)
+				return false;
+		} else if (!parentNames.equals(other.parentNames))
+			return false;
+		return true;
+	}
 
-        return true;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int result = super.hashCode();
-        result = 31 * result + (clazzName != null ? clazzName.hashCode() : 0);
-        result = 31 * result + (isInterface ? 1 : 0);
-        result = 31 * result + (fieldsForClass != null ? fieldsForClass.hashCode() : 0);
-        return result;
-    }
+	@Override
+	public Set<String> getParentNames() {
+		return parentNames;
+	}
 }

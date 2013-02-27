@@ -10,9 +10,6 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.datatype.DataTypeFactory;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -21,8 +18,10 @@ import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.datatype.DataTypeFactory;
 
 public class MetaDataModelFactory
 {
@@ -42,12 +41,6 @@ public class MetaDataModelFactory
 
     public <T> MetaDataModel getMetaDataModel(Class<T> clazz)
     {
-        return getMetaDataModel(null, clazz);
-    }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private <T> MetaDataModel getMetaDataModel(T obj, Class<T> clazz)
-    {
         MetaDataModel m = null;
         DataType dataType = factory.getDataType(clazz);
         switch (dataType)
@@ -57,7 +50,7 @@ public class MetaDataModelFactory
                 break;
             case LIST:
                 TypeVariable<Class<T>>[] listTypeParameters = clazz.getTypeParameters();
-                Class listType;
+                Class<?> listType;
                 if(listTypeParameters.length == 1){
                     listType = getClassOfTypeParameter(listTypeParameters[0]);
                 }else{
@@ -67,26 +60,18 @@ public class MetaDataModelFactory
                 m = new DefaultListMetaDataModel(getMetaDataModel(listType));
                 break;
             case MAP:
-                if (obj != null && obj instanceof Map && !((Map<?,?>)obj).isEmpty())
-                {
-                    Map<String,? extends MetaDataModel> map = (Map<String,? extends MetaDataModel>) obj;
-                    m = new DefaultDefinedMapMetaDataModel(map);
-                }
-                else
-                {
-                    TypeVariable<Class<T>>[] mapTypeParameters = clazz.getTypeParameters();
-                    Class keyType;
-                    Class valueType;
-                    if(mapTypeParameters.length == 2){
+                TypeVariable<Class<T>>[] mapTypeParameters = clazz.getTypeParameters();
+                Class<?> keyType;
+                Class<?> valueType;
+                if(mapTypeParameters.length == 2){
 
-                        keyType = getClassOfTypeParameter(mapTypeParameters[0]);
-                        valueType = getClassOfTypeParameter(mapTypeParameters[1]);
-                    }else{
-                        keyType = Object.class;
-                        valueType = Object.class;
-                    }
-                    m = new DefaultParameterizedMapMetaDataModel(getMetaDataModel(keyType),getMetaDataModel(valueType));
+                    keyType = getClassOfTypeParameter(mapTypeParameters[0]);
+                    valueType = getClassOfTypeParameter(mapTypeParameters[1]);
+                }else{
+                    keyType = Object.class;
+                    valueType = Object.class;
                 }
+                m = new DefaultParameterizedMapMetaDataModel(getMetaDataModel(keyType),getMetaDataModel(valueType));
                 break;
             case VOID:
             case BOOLEAN:
@@ -104,8 +89,8 @@ public class MetaDataModelFactory
         return m;
     }
 
-    private <T> Class getClassOfTypeParameter(TypeVariable<Class<T>> typeParameter) {
-        Class listType;
+    private <T> Class<?> getClassOfTypeParameter(TypeVariable<Class<T>> typeParameter) {
+        Class<?> listType;
         if(typeParameter != null){
             listType = typeParameter.getGenericDeclaration();
         }else {
@@ -114,17 +99,16 @@ public class MetaDataModelFactory
         return listType;
     }
 
-    public SimpleMetaDataModel getMetaDataModel(java.lang.reflect.Field f)
+    public MetaDataField getMetaDataField(java.lang.reflect.Field f)
     {
         String name = f.getName();
         Class<?> fieldClass = f.getType();
-        Set<String> parentNames = getParentNames(fieldClass);
-        SimpleMetaDataModel m = null;
+        MetaDataModel m = null;
         DataType dataType = factory.getDataType(fieldClass);
         switch (dataType)
         {
             case POJO:
-                m = new DefaultPojoMetaDataModel(fieldClass, name);
+                m = new DefaultPojoMetaDataModel(fieldClass);
                 break;
             case LIST:
                 Class<?> elementClass = Object.class;
@@ -138,7 +122,7 @@ public class MetaDataModelFactory
                         elementClass = (Class<?>) elementType;
                     }
                 }
-                m = new DefaultSimpleListMetaDataModel(getMetaDataModel(elementClass), name, parentNames);
+                m = new DefaultListMetaDataModel(getMetaDataModel(elementClass));
                 break;
             case MAP:
                 Class<?> keyClass = Object.class;
@@ -160,7 +144,7 @@ public class MetaDataModelFactory
                         }
                     }
                 }
-                m = new DefaultSimpleParameterizedMapMetaDataModel(getMetaDataModel(keyClass), getMetaDataModel(valueClass), name, parentNames);
+                m = new DefaultParameterizedMapMetaDataModel(getMetaDataModel(keyClass), getMetaDataModel(valueClass));
                 break;
             case VOID:
             case BOOLEAN:
@@ -171,20 +155,20 @@ public class MetaDataModelFactory
             case ENUM: 
             case DATE_TIME:
             default:
-                m = new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+                m = new DefaultSimpleMetaDataModel(dataType);
                 break;
         }
-        return m;
+
+        return new DefaultMetaDataField(name, m);
     }
 
-    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz)
+    public List<MetaDataField> getFieldsForClass(Class<?> clazz)
     {
-
         //Todo change this for Introspector of beans
-        List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
+        List<MetaDataField> fields = new ArrayList<MetaDataField>();
         for (java.lang.reflect.Field f : getInheritedPrivateFields(clazz))
         {
-            fields.add(getMetaDataModel(f));
+            fields.add(getMetaDataField(f));
         }
         return fields;
     }
@@ -203,56 +187,6 @@ public class MetaDataModelFactory
         }
 
         return result;
-    }
-
-    private static class DefaultSimpleListMetaDataModel extends DefaultListMetaDataModel implements SimpleMetaDataModel
-    {
-        private String name;
-        private Set<String> parents;
-        
-        public DefaultSimpleListMetaDataModel(MetaDataModel elementMetaDataModel, String name, Set<String> parents)
-        {
-            super(elementMetaDataModel);
-            this.name = name;
-            this.parents = parents;
-        }
-
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public Set<String> getParents()
-        {
-            return parents;
-        }
-    }
-    
-    private static class DefaultSimpleParameterizedMapMetaDataModel extends DefaultParameterizedMapMetaDataModel implements SimpleMetaDataModel
-    {
-        private String name;
-        private Set<String> parents;
-      
-        public DefaultSimpleParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel, String name, Set<String> parents)
-        {
-            super(keyMetaDataModel, valueMetaDataModel);
-            this.name = name;
-            this.parents = parents;
-        }
-
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public Set<String> getParents()
-        {
-            return parents;
-        }
     }
 
     public Set<String> getParentNames(Class<?> clazz)

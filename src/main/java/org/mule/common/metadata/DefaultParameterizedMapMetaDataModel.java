@@ -12,7 +12,7 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel implements ParameterizedMapMetaDataModel
+public class DefaultParameterizedMapMetaDataModel extends AbstractMetaDataModel implements ParameterizedMapMetaDataModel
 {
     private MetaDataModel keyMetaDataModel;
     private MetaDataModel valueMetaDataModel;

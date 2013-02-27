@@ -10,17 +10,18 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.datatype.DataType;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import org.mule.common.metadata.datatype.DataType;
 
 /**
  * Model for representing dynamic maps with string keys
  */
 
-public class DefaultDefinedMapMetaDataModel extends DefaultMetaDataModel implements DefinedMapMetaDataModel<String>
+public class DefaultDefinedMapMetaDataModel 
+	extends AbstractMetaDataModel 
+	implements DefinedMapMetaDataModel
 {
 
     private Map<String, ? extends MetaDataModel> metaDataModelMap;
