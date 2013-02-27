@@ -2,11 +2,11 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public class DefaultMetaDataModel implements MetaDataModel {
+public abstract class DefaultMetaDataModel implements MetaDataModel {
 
 	private DataType dataType;
 	
-	public DefaultMetaDataModel(DataType dataType) {
+	protected DefaultMetaDataModel(DataType dataType) {
 		this.dataType = dataType;
 	}
 	

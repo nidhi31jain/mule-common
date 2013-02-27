@@ -16,6 +16,7 @@ import org.mule.common.metadata.datatype.DataTypeFactory;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,17 +62,36 @@ public class MetaDataModelFactory
                 m = new DefaultPojoMetaDataModel(clazz);
                 break;
             case LIST:
-                m = new DefaultListMetaDataModel(new DefaultMetaDataModel(DataType.POJO));
+                TypeVariable<Class<T>>[] listTypeParameters = clazz.getTypeParameters();
+                Class listType;
+                if(listTypeParameters.length == 1){
+                    listType = getClassOfTypeParameter(listTypeParameters[0]);
+                }else{
+                    listType = Object.class;
+                }
+
+                m = new DefaultListMetaDataModel(getMetaDataModel(listType));
                 break;
             case MAP:
                 if (obj != null && obj instanceof Map && !((Map<?,?>)obj).isEmpty())
                 {
-                    Map<?,?> map = (Map<?,?>) obj;
+                    Map<String,? extends MetaDataModel> map = (Map<String,? extends MetaDataModel>) obj;
                     m = new DefaultDefinedMapMetaDataModel(map);
                 }
                 else
                 {
-                    m = new DefaultParameterizedMapMetaDataModel(new DefaultMetaDataModel(DataType.POJO), new DefaultMetaDataModel(DataType.POJO));
+                    TypeVariable<Class<T>>[] mapTypeParameters = clazz.getTypeParameters();
+                    Class keyType;
+                    Class valueType;
+                    if(mapTypeParameters.length == 2){
+
+                        keyType = getClassOfTypeParameter(mapTypeParameters[0]);
+                        valueType = getClassOfTypeParameter(mapTypeParameters[1]);
+                    }else{
+                        keyType = Object.class;
+                        valueType = Object.class;
+                    }
+                    m = new DefaultParameterizedMapMetaDataModel(getMetaDataModel(keyType),getMetaDataModel(valueType));
                 }
                 break;
             case VOID:
@@ -83,13 +103,23 @@ public class MetaDataModelFactory
             case ENUM: 
             case DATE_TIME:
             default:
-                m = new DefaultMetaDataModel(dataType);
+                m = new DefaultSimpleMetaDataModel(dataType);
                 break;
         }
         
         return m;
     }
-    
+
+    private <T> Class getClassOfTypeParameter(TypeVariable<Class<T>> typeParameter) {
+        Class listType;
+        if(typeParameter != null){
+            listType = typeParameter.getGenericDeclaration();
+        }else {
+            listType = Object.class;
+        }
+        return listType;
+    }
+
     public SimpleMetaDataModel getMetaDataModel(java.lang.reflect.Field f)
     {
         String name = f.getName();

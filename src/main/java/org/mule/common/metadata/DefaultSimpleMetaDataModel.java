@@ -27,6 +27,11 @@ public class DefaultSimpleMetaDataModel extends DefaultMetaDataModel implements 
         this.parentNames = parentNames;
     }
 
+    public DefaultSimpleMetaDataModel(DataType dataType)
+    {
+        super(dataType);
+    }
+
     @Override
     public String getName()
     {

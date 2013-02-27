@@ -16,21 +16,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel implements DefinedMapMetaDataModel<K>
+/**
+ * Model for representing dynamic maps with string keys
+ */
+
+public class DefaultDefinedMapMetaDataModel extends DefaultMetaDataModel implements DefinedMapMetaDataModel<String>
 {
 
-    private MetaDataModel keyMetaDataModel;
-    private Map<K, ? extends MetaDataModel> metaDataModelMap;
+    private Map<String, ? extends MetaDataModel> metaDataModelMap;
     private String name;
-    
-    public DefaultDefinedMapMetaDataModel(Map<K,?> map)
+
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap, String name)
     {
-        this(map, null);
+        super(DataType.MAP);
+        this.metaDataModelMap = metaDataModelMap;
+        this.name = name;
     }
-    
-    public DefaultDefinedMapMetaDataModel(Map<K,?> map, String name)
+
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap)
     {
-        this(getKeyMetaDataModel(map), getMetaDataModelMap(map), name);
+        super(DataType.MAP);
+        this.metaDataModelMap = metaDataModelMap;
     }
 
     private static MetaDataModel getKeyMetaDataModel(Map<?, ?> map)
@@ -60,7 +66,7 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
         if (baseClass == null) baseClass = Object.class;
         return MetaDataModelFactory.getInstance().getMetaDataModel(baseClass);
     }
-    
+
     private static <K> Map<K, ? extends MetaDataModel> getMetaDataModelMap(Map<K, ?> map)
     {
         Map<K, MetaDataModel> modelsMap = new HashMap<K, MetaDataModel>();
@@ -74,35 +80,20 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
         return modelsMap;
     }
 
-    public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap)
-    {
-        this(keyMetaDataModel, metaDataModelMap, null);
-    }
-    
-    public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap, String name)
-    {
-        super(DataType.MAP);
-        this.keyMetaDataModel = keyMetaDataModel;
-        this.metaDataModelMap = metaDataModelMap;
-        this.name = name;
-    }
-
     @Override
-    public Set<K> getKeys()
+    public Set<String> getKeys()
     {
         return metaDataModelMap.keySet();
     }
 
     @Override
-    public MetaDataModel getKeyMetaDataModel()
-    {
-        return keyMetaDataModel;
+    public MetaDataModel getKeyMetaDataModel() {
+        return new DefaultSimpleMetaDataModel(DataType.STRING);
     }
 
     @Override
-    public MetaDataModel getValueMetaDataModel(K key)
-    {
-        return metaDataModelMap.get(key);
+    public MetaDataModel getValueMetaDataModel(String key) {
+        return null;
     }
 
     @Override
@@ -116,7 +107,6 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((keyMetaDataModel == null) ? 0 : keyMetaDataModel.hashCode());
         result = prime * result + ((metaDataModelMap == null) ? 0 : metaDataModelMap.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -129,11 +119,6 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
         if (!super.equals(obj)) return false;
         if (!(obj instanceof DefaultDefinedMapMetaDataModel)) return false;
         DefaultDefinedMapMetaDataModel other = (DefaultDefinedMapMetaDataModel) obj;
-        if (keyMetaDataModel == null)
-        {
-            if (other.keyMetaDataModel != null) return false;
-        }
-        else if (!keyMetaDataModel.equals(other.keyMetaDataModel)) return false;
         if (metaDataModelMap == null)
         {
             if (other.metaDataModelMap != null) return false;

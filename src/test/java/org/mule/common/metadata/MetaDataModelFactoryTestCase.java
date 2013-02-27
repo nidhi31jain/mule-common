@@ -127,19 +127,19 @@ public class MetaDataModelFactoryTestCase
         assertSame(DataType.LIST, model.getDataType());
         ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
         assertNotNull(listModel.getElementModel());
-        assertEquals(new DefaultMetaDataModel(DataType.POJO), listModel.getElementModel());
+        assertEquals(new DefaultSimpleMetaDataModel(DataType.POJO), listModel.getElementModel());
     }
     
     @Test
     public void testGetMetaDataModelForMaps()
     {
         // all list element types will appear as POJOs because there is no type information
-        assertMapMetaDataModel((new HashMap<String, String>()).getClass());
-        assertMapMetaDataModel((new TreeMap<DataType, MetaDataModelFactory>()).getClass());
+        assertMapMetaDataModel((new HashMap<String, String>()).getClass(), new DefaultSimpleMetaDataModel(DataType.STRING));
+        assertMapMetaDataModel((new TreeMap<DataType, MetaDataModelFactory>()).getClass(), new DefaultPojoMetaDataModel(DataType.class));
     }
 
     @SuppressWarnings("rawtypes")
-    private void assertMapMetaDataModel(Class<? extends Map> clazz)
+    private void assertMapMetaDataModel(Class<? extends Map> clazz, MetaDataModel keyModel)
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
         
@@ -150,7 +150,7 @@ public class MetaDataModelFactoryTestCase
         
         ParameterizedMapMetaDataModel mapModel = model.as(ParameterizedMapMetaDataModel.class);
         assertNotNull(mapModel.getKeyMetaDataModel());
-        assertEquals(new DefaultMetaDataModel(DataType.POJO), mapModel.getKeyMetaDataModel());
+        assertEquals(keyModel, mapModel.getKeyMetaDataModel());
     }
     
     @Test
@@ -191,7 +191,7 @@ public class MetaDataModelFactoryTestCase
             assertNotNull(pojoModel.getFields());
             
             assertSimpleMetaDataModel(getField(pojoModel, "name"), "name", DataType.STRING);
-            assertSimpleListMetaDataModel(getField(pojoModel, "parentNames"), "parentNames", DataType.STRING);
+            assertSimpleListMetaDataModel(getField(pojoModel, "parentNames"), "parentNames", new DefaultSimpleMetaDataModel(DataType.STRING));
         }
         {
             MetaDataModel model = factory.getMetaDataModel(DefaultSimpleMetaDataModel.class);
@@ -209,7 +209,7 @@ public class MetaDataModelFactoryTestCase
             assertNotNull(pojoModel.getFields());
             
             assertSimpleMetaDataModel(getField(pojoModel, "name"), "name", DataType.STRING);
-            assertSimpleListMetaDataModel(getField(pojoModel, "parentNames"), "parentNames", DataType.STRING);
+            assertSimpleListMetaDataModel(getField(pojoModel, "parentNames"), "parentNames", new DefaultSimpleMetaDataModel(DataType.STRING));
         }
     }
 
@@ -232,7 +232,7 @@ public class MetaDataModelFactoryTestCase
         assertNotNull(pojoModel.getFields());
         assertNotNull(pojoModel.toString());
 
-        assertSimpleListMetaDataModel(getField(pojoModel, "structList"), "structList", DataType.POJO);
+        assertSimpleListMetaDataModel(getField(pojoModel, "structList"), "structList", new DefaultPojoMetaDataModel(Struct.class));
         MetaDataModel struct = ((ListMetaDataModel)getField(pojoModel, "structList")).getElementModel();
         assertTrue(struct instanceof PojoMetaDataModel);
         assertNotNull(struct.toString());
@@ -301,7 +301,7 @@ public class MetaDataModelFactoryTestCase
         assertTrue(pojoModel.getParents().contains("java.lang.Object"));
         assertNotNull(pojoModel.getFields());
 
-        assertSimpleListMetaDataModel(getField(pojoModel, "structList"), "structList", DataType.POJO);
+        assertSimpleListMetaDataModel(getField(pojoModel, "structList"), "structList", new DefaultPojoMetaDataModel(Struct.class));
         assertSimpleMetaDataModel(getField(pojoModel, "recursiveNode"), "recursiveNode", DataType.POJO);
 
         ListMetaDataModel structList = (ListMetaDataModel)getField(pojoModel, "structList");
@@ -343,7 +343,7 @@ public class MetaDataModelFactoryTestCase
         private NodeListOfStruct recursiveNode;
     }
     
-    private void assertSimpleListMetaDataModel(SimpleMetaDataModel model, String name, DataType elementDataType)
+    private void assertSimpleListMetaDataModel(SimpleMetaDataModel model, String name, MetaDataModel elementMetaDataModel)
     {
         assertNotNull(model);
         assertTrue(model instanceof ListMetaDataModel);
@@ -351,7 +351,7 @@ public class MetaDataModelFactoryTestCase
         ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
         assertEquals(name, model.getName());
         assertNotNull(listModel.getElementModel());
-        assertEquals(new DefaultMetaDataModel(elementDataType), listModel.getElementModel());
+        assertEquals(elementMetaDataModel, listModel.getElementModel());
     }
     
     private SimpleMetaDataModel getField(PojoMetaDataModel m, String name)
