@@ -2,11 +2,14 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel implements PojoMetaDataModel {
 
-    private Class<?> clazz;
+    private String clazzName;
+    private boolean isInterface;
+    private List<MetaDataModel> fieldsForClass;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
 		this(clazz, clazz.getSimpleName());
@@ -14,72 +17,72 @@ public class DefaultPojoMetaDataModel extends DefaultSimpleMetaDataModel impleme
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz, String name) {
         super(DataType.POJO, name,  MetaDataModelFactory.getInstance().getParentNames(clazz));
-        this.clazz = clazz;
+        this.clazzName = clazz.getName();
+        this.isInterface = clazz.isInterface();
+        this.fieldsForClass = MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
     }
 	
 	@Override
 	public String getClassName() {
-		return clazz.getName();
+		return clazzName;
 	}
 
 	@Override
-	public List<SimpleMetaDataModel> getFields() {
-		return MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
+	public List<MetaDataModel> getFields() {
+		return fieldsForClass;
 	}
 
     @Override
     public boolean isInterface()
     {
-        return clazz.isInterface();
+        return isInterface;
     }
 
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("DefaultPojoMetaDataModel { name=");
-		sb.append(getName());
-		sb.append(", className=");
-		sb.append(clazz.getName());
-		sb.append(", fields=");
-		List<SimpleMetaDataModel> fields = getFields();
-		if (fields != null) {
-			sb.append("[");
-			for (SimpleMetaDataModel f : fields) {
-			    sb.append(f.getName());
-			    sb.append("={ dataType=");
-		        sb.append(f.getDataType());
-			    sb.append("},");
-			}
-			sb.append("]");
-		} else {
-			sb.append("null");
-		}
-		sb.append(" }");
-		return  sb.toString();
-	}
+    @Override
+    public String toString()
+    {
+        return "DefaultPojoMetaDataModel{" +
+                "clazzName='" + clazzName + '\'' +
+                ", isInterface=" + isInterface +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof DefaultPojoMetaDataModel))
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+
+        DefaultPojoMetaDataModel that = (DefaultPojoMetaDataModel) o;
+
+        if (isInterface != that.isInterface)
+        {
+            return false;
+        }
+        if (clazzName != null ? !clazzName.equals(that.clazzName) : that.clazzName != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     @Override
     public int hashCode()
     {
-        final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((clazz.getName() == null) ? 0 : clazz.getName().hashCode());
+        result = 31 * result + (clazzName != null ? clazzName.hashCode() : 0);
+        result = 31 * result + (isInterface ? 1 : 0);
         return result;
     }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (!(obj instanceof DefaultPojoMetaDataModel)) return false;
-        DefaultPojoMetaDataModel other = (DefaultPojoMetaDataModel) obj;
-        if (clazz.getName() == null)
-        {
-            if (other.clazz.getName() != null) return false;
-        }
-        else if (!clazz.getName().equals(other.clazz.getName())) return false;
-        return true;
-    }
-
 }

@@ -20,16 +20,25 @@ public class DefaultSimpleMetaDataModel extends DefaultMetaDataModel implements 
     private String name;
     private Set<String> parentNames;
 
-    public DefaultSimpleMetaDataModel(DataType dataType, String name, Set<String> parentNames)
+
+    protected DefaultSimpleMetaDataModel(DataType dataType, String name, Set<String> parentNames)
     {
         super(dataType);
         this.name = name;
         this.parentNames = parentNames;
     }
 
+    /**
+     * Used for Define Simple Types
+     * @param dataType
+     */
     public DefaultSimpleMetaDataModel(DataType dataType)
     {
         super(dataType);
+        if (dataType == DataType.POJO || dataType == DataType.MAP || dataType == DataType.LIST)
+        {
+            throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
+        }
     }
 
     @Override
@@ -49,7 +58,7 @@ public class DefaultSimpleMetaDataModel extends DefaultMetaDataModel implements 
     {
         return "DefaultSimpleMetaDataModel:{ name:" + name + " dataType:" + getDataType().toString() + " parentNames:" + toString(parentNames) + " }";
     }
-    
+
     private static final String toString(Set<String> strings)
     {
         if (strings == null)
@@ -82,23 +91,44 @@ public class DefaultSimpleMetaDataModel extends DefaultMetaDataModel implements 
     @Override
     public boolean equals(Object obj)
     {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (!(obj instanceof DefaultSimpleMetaDataModel)) return false;
+        if (this == obj)
+        {
+            return true;
+        }
+        if (!super.equals(obj))
+        {
+            return false;
+        }
+        if (!(obj instanceof DefaultSimpleMetaDataModel))
+        {
+            return false;
+        }
         DefaultSimpleMetaDataModel other = (DefaultSimpleMetaDataModel) obj;
         if (name == null)
         {
-            if (other.name != null) return false;
+            if (other.name != null)
+            {
+                return false;
+            }
         }
-        else if (!name.equals(other.name)) return false;
+        else if (!name.equals(other.name))
+        {
+            return false;
+        }
         if (parentNames == null)
         {
-            if (other.parentNames != null) return false;
+            if (other.parentNames != null)
+            {
+                return false;
+            }
         }
-        else if (!parentNames.equals(other.parentNames)) return false;
+        else if (!parentNames.equals(other.parentNames))
+        {
+            return false;
+        }
         return true;
     }
-    
+
 }
 
 

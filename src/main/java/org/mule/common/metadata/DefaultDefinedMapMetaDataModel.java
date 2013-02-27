@@ -39,46 +39,6 @@ public class DefaultDefinedMapMetaDataModel extends DefaultMetaDataModel impleme
         this.metaDataModelMap = metaDataModelMap;
     }
 
-    private static MetaDataModel getKeyMetaDataModel(Map<?, ?> map)
-    {
-        Class<?> baseClass = null;
-        if (map != null)
-        {
-            for (Object key : map.keySet())
-            {
-                if (key == null) continue;
-                else if (baseClass == null) baseClass = key.getClass();
-                else
-                {
-                    Class<?> keyClass = key.getClass();
-                    while (keyClass != null && !keyClass.isAssignableFrom(baseClass))
-                    {
-                        keyClass = keyClass.getSuperclass();
-                    }
-                    if (keyClass == null)
-                    {
-                        keyClass = Object.class;
-                    }
-                    baseClass = keyClass;
-                }
-            }
-        }
-        if (baseClass == null) baseClass = Object.class;
-        return MetaDataModelFactory.getInstance().getMetaDataModel(baseClass);
-    }
-
-    private static <K> Map<K, ? extends MetaDataModel> getMetaDataModelMap(Map<K, ?> map)
-    {
-        Map<K, MetaDataModel> modelsMap = new HashMap<K, MetaDataModel>();
-        if (map != null)
-        {
-            for (K key : map.keySet())
-            {
-                modelsMap.put(key, MetaDataModelFactory.getInstance().getMetaDataModel(map.get(key)));
-            }
-        }
-        return modelsMap;
-    }
 
     @Override
     public Set<String> getKeys()

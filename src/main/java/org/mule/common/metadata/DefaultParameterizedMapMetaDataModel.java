@@ -17,14 +17,14 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
     private MetaDataModel keyMetaDataModel;
     private MetaDataModel valueMetaDataModel;
     private String name;
-    
+
     public DefaultParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel)
     {
         this(keyMetaDataModel, valueMetaDataModel, null);
     }
-    
+
     public DefaultParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel, String name)
-        {
+    {
         super(DataType.MAP);
         this.keyMetaDataModel = keyMetaDataModel;
         this.valueMetaDataModel = valueMetaDataModel;
@@ -63,29 +63,55 @@ public class DefaultParameterizedMapMetaDataModel extends DefaultMetaDataModel i
     @Override
     public boolean equals(Object obj)
     {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (!(obj instanceof DefaultParameterizedMapMetaDataModel)) return false;
+        if (this == obj)
+        {
+            return true;
+        }
+        if (!super.equals(obj))
+        {
+            return false;
+        }
+        if (!(obj instanceof DefaultParameterizedMapMetaDataModel))
+        {
+            return false;
+        }
         DefaultParameterizedMapMetaDataModel other = (DefaultParameterizedMapMetaDataModel) obj;
         if (keyMetaDataModel == null)
         {
-            if (other.keyMetaDataModel != null) return false;
+            if (other.keyMetaDataModel != null)
+            {
+                return false;
+            }
         }
-        else if (!keyMetaDataModel.equals(other.keyMetaDataModel)) return false;
+        else if (!keyMetaDataModel.equals(other.keyMetaDataModel))
+        {
+            return false;
+        }
         if (name == null)
         {
-            if (other.name != null) return false;
+            if (other.name != null)
+            {
+                return false;
+            }
         }
-        else if (!name.equals(other.name)) return false;
+        else if (!name.equals(other.name))
+        {
+            return false;
+        }
         if (valueMetaDataModel == null)
         {
-            if (other.valueMetaDataModel != null) return false;
+            if (other.valueMetaDataModel != null)
+            {
+                return false;
+            }
         }
-        else if (!valueMetaDataModel.equals(other.valueMetaDataModel)) return false;
+        else if (!valueMetaDataModel.equals(other.valueMetaDataModel))
+        {
+            return false;
+        }
         return true;
     }
-    
-    
+
 
 }
 

@@ -13,6 +13,7 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.DataTypeFactory;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -38,14 +39,7 @@ public class MetaDataModelFactory
     {
         return instance;
     }
-    
-    public <T> MetaDataModel getMetaDataModel(T obj)
-    {
-        @SuppressWarnings("unchecked")
-        Class<T> c = (Class<T>)  obj.getClass();
-        return getMetaDataModel(obj, c);
-    }
-    
+
     public <T> MetaDataModel getMetaDataModel(Class<T> clazz)
     {
         return getMetaDataModel(null, clazz);
@@ -120,7 +114,7 @@ public class MetaDataModelFactory
         return listType;
     }
 
-    public SimpleMetaDataModel getMetaDataModel(java.lang.reflect.Field f)
+    public MetaDataModel getMetaDataModel(java.lang.reflect.Field f)
     {
         String name = f.getName();
         Class<?> fieldClass = f.getType();
@@ -183,19 +177,34 @@ public class MetaDataModelFactory
         return m;
     }
 
-    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz)
+    public List<MetaDataModel> getFieldsForClass(Class<?> clazz)
     {
-        List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
-        for (java.lang.reflect.Field f : clazz.getDeclaredFields())
+
+        //Todo change this for Introspector of beans
+        List<MetaDataModel> fields = new ArrayList<MetaDataModel>();
+        for (java.lang.reflect.Field f : getInheritedPrivateFields(clazz))
         {
-            if (!Modifier.isStatic(f.getModifiers()))
-            {
-                fields.add(getMetaDataModel(f));
-            }
+            fields.add(getMetaDataModel(f));
         }
         return fields;
     }
-    
+
+    public static List<Field> getInheritedPrivateFields(Class<?> type) {
+        List<Field> result = new ArrayList<Field>();
+
+        Class<?> i = type;
+        while (i != null && i != Object.class) {
+            for (Field field : i.getDeclaredFields()) {
+                if (!field.isSynthetic() && !Modifier.isStatic(field.getModifiers())) {
+                    result.add(field);
+                }
+            }
+            i = i.getSuperclass();
+        }
+
+        return result;
+    }
+
     private static class DefaultSimpleListMetaDataModel extends DefaultListMetaDataModel implements SimpleMetaDataModel
     {
         private String name;
