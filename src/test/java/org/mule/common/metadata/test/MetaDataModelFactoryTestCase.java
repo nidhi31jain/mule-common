@@ -15,22 +15,108 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
 import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.MetaDataModelFactory;
 import org.mule.common.metadata.ParameterizedMapMetaDataModel;
 import org.mule.common.metadata.PojoMetaDataModel;
+import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
+
+import java.net.Socket;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.Test;
 
 public class MetaDataModelFactoryTestCase
 {
+    
+    public interface S {}
+
+    public interface S1 extends S {}
+    
+    public interface S2 extends S1, S {}
+    
+    public class DuplicateInterfaceObject implements S2, S {
+        
+    }
+    
+    public class Container {
+        private S2 dup = new DuplicateInterfaceObject();
+        public S2 getDup()
+        {
+            return dup;
+        }
+    }
+    
+    public class ContainerOtherGetter {
+        private DuplicateInterfaceObject dup = new DuplicateInterfaceObject();
+        public DuplicateInterfaceObject getOther() {
+            return dup;
+        }
+    }
+    
+    public class ContainerNoGetter {
+        public Integer obj = new Integer(101);
+    }
+    
+    @Test
+    public void testDuplicateInterfaces()
+    {
+        MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+        
+        List<MetaDataField> fields = factory.getFieldsForClass(Container.class);
+        assertEquals(1, fields.size());
+        MetaDataField dupField = fields.get(0);
+        assertEquals("dup", dupField.getName());
+        MetaDataModel dupm = dupField.getMetaDataModel();
+        assertTrue(dupm instanceof PojoMetaDataModel);
+        PojoMetaDataModel dupModel = dupm.as(PojoMetaDataModel.class);
+        assertEquals(0, dupModel.getFields().size());
+        assertEquals(S2.class.getName(), dupModel.getClassName());
+        Set<String> parents = dupModel.getParentNames();
+        assertEquals(2, parents.size());
+        assertTrue(parents.contains(S.class.getName()));
+        assertTrue(parents.contains(S1.class.getName()));
+    }
+    
+    @Test
+    public void testOddNamedGetter()
+    {
+        MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+        
+        List<MetaDataField> fields = factory.getFieldsForClass(ContainerOtherGetter.class);
+        assertEquals(1, fields.size());
+        MetaDataField dupField = fields.get(0);
+        assertEquals("other", dupField.getName());
+        MetaDataModel dupm = dupField.getMetaDataModel();
+        assertTrue(dupm instanceof PojoMetaDataModel);
+        PojoMetaDataModel dupModel = dupm.as(PojoMetaDataModel.class);
+        assertEquals(0, dupModel.getFields().size());
+        assertEquals(DuplicateInterfaceObject.class.getName(), dupModel.getClassName());
+        Set<String> parents = dupModel.getParentNames();
+        assertEquals(4, parents.size());
+        assertTrue(parents.contains(S.class.getName()));
+        assertTrue(parents.contains(S1.class.getName()));
+        assertTrue(parents.contains(S2.class.getName()));
+        assertTrue(parents.contains(Object.class.getName()));
+    }
+    
+    @Test
+    public void testNoGetter()
+    {
+        MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+        
+        List<MetaDataField> fields = factory.getFieldsForClass(ContainerNoGetter.class);
+        assertEquals(0, fields.size());
+    }
 
     @Test
     public void testGetMetaDataModelForListPojoFields()
@@ -148,7 +234,6 @@ public class MetaDataModelFactoryTestCase
     
     public static class ListOfStruct
     {
-        @SuppressWarnings("unused")
         private List<Struct> structList;
 
 		public List<Struct> getStructList() {
@@ -162,7 +247,6 @@ public class MetaDataModelFactoryTestCase
 
     public static class MapOfStruct
     {
-    	@SuppressWarnings("unused")
     	private Map<Struct, Struct1> structMap;
 
 		public Map<Struct, Struct1> getStructMap() {
@@ -222,7 +306,6 @@ public class MetaDataModelFactoryTestCase
     {
         public Node left;
         protected Node right;
-        @SuppressWarnings("unused")
         private int value;
         int defaultVisibility;
 		public Node getLeft() {
@@ -253,9 +336,7 @@ public class MetaDataModelFactoryTestCase
     
     public static class NodeListOfStruct
     {
-        @SuppressWarnings("unused")
         private List<Struct> structList;
-        @SuppressWarnings("unused")
         private NodeListOfStruct recursiveNode;
 		public List<Struct> getStructList() {
 			return structList;
@@ -340,6 +421,60 @@ public class MetaDataModelFactoryTestCase
         assertFalse(model instanceof ListMetaDataModel);
         assertFalse(model instanceof ParameterizedMapMetaDataModel);
         assertEquals(dt, model.getDataType());
+    }
+    
+    public static class SocketMapContainer {
+        Map<String, Socket> socketMap = new HashMap<String, Socket>();
+        public Map<String, Socket> getSocketMap() {
+            return socketMap;
+        }
+        public Socket getSocket(String id) {
+            return socketMap.get(id);
+        }
+    }
+    
+    @Test
+    public void testTwoGetters() {
+        MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+        List<MetaDataField> fields = factory.getFieldsForClass(SocketMapContainer.class);
+        assertEquals(1, fields.size());
+        for (MetaDataField f : fields)
+        {
+            if ("socketMap".equals(f.getName()))
+            {
+                ParameterizedMapMetaDataModel socketMapModel = f.getMetaDataModel().as(ParameterizedMapMetaDataModel.class);
+                assertSame(DataType.MAP, socketMapModel.getDataType());
+                assertEquals(null, socketMapModel.getName());
+                MetaDataModel keyMetaDataModel = socketMapModel.getKeyMetaDataModel();
+                assertEquals(DataType.STRING, keyMetaDataModel.getDataType());
+                assertTrue(keyMetaDataModel instanceof SimpleMetaDataModel);
+                MetaDataModel valueMetaDataModel = socketMapModel.getValueMetaDataModel();
+                assertEquals(DataType.POJO, valueMetaDataModel.getDataType());
+                assertEquals(Socket.class.getName(), valueMetaDataModel.as(PojoMetaDataModel.class).getClassName());
+            }
+            else
+            {
+                fail("Shouldn't have any other fields. Unexpected field name: " + f.getName());
+            }
+        }
+    }
+    
+    public static class MapLikeContainer {
+        private Map<String, String> properties = new HashMap<String, String>();
+        public void put(String key, String value) {
+            properties.put(key, value);
+        }
+        public String get(String id) {
+            return properties.get(id);
+        }
+    }
+    
+    @Test
+    public void testMapLikeContainer() {
+        MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+        List<MetaDataField> fields = factory.getFieldsForClass(MapLikeContainer.class);
+        // doesn't have a bean like interface so no fields are found.
+        assertEquals(0, fields.size());
     }
 }
 

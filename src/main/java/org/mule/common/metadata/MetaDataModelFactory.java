@@ -253,14 +253,14 @@ public class MetaDataModelFactory
         {
             if (c != null)
             {
-                parents.add(c.getCanonicalName());
+                parents.add(c.getName());
                 parents.addAll(getParentNames(c));
             }
         }
         Class<?> parent = clazz.getSuperclass();
         if (parent != null)
         {
-            parents.add(parent.getCanonicalName());
+            parents.add(parent.getName());
             parents.addAll(getParentNames(parent));
         }
         return parents;

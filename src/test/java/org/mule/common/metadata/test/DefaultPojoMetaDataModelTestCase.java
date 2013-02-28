@@ -35,12 +35,11 @@ public class DefaultPojoMetaDataModelTestCase
     
     public static class ClassE extends ClassA {}
     
-    private static String classNamePrefix = DefaultPojoMetaDataModelTestCase.class.getName() + ".";
-    private static String nameA = classNamePrefix + "A";
-    private static String nameB = classNamePrefix + "B_A";
-    private static String nameC = classNamePrefix + "C_A";
-    private static String nameD = classNamePrefix + "D_BC";
-    private static String nameClassA = classNamePrefix + "ClassA";
+    private static String nameA = A.class.getName();
+    private static String nameB = B_A.class.getName();
+    private static String nameC = C_A.class.getName();
+    private static String nameD = D_BC.class.getName();
+    private static String nameClassA = ClassA.class.getName();
     
     @Test
     public void testParentNames()
