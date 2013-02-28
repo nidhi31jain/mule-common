@@ -8,10 +8,16 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.metadata;
+package org.mule.common.metadata.test;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.mule.common.metadata.DefaultListMetaDataModel;
+import org.mule.common.metadata.DefaultParameterizedMapMetaDataModel;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.DefaultSimpleMetaDataModel;
+import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
 import org.junit.Test;
@@ -56,7 +62,7 @@ public class MetaDataModelTestCase
     public void testListMetadataModelReturnClassName()
     {
         MetaDataModel elementModel = new DefaultPojoMetaDataModel(DataType.class);
-        DefaultListMetaDataModel defaultListMetaDataModel = new DefaultListMetaDataModel(elementModel);
+        ListMetaDataModel defaultListMetaDataModel = new DefaultListMetaDataModel(elementModel);
         Assert.assertThat(defaultListMetaDataModel.getElementModel(), CoreMatchers.is(elementModel));
     }
 

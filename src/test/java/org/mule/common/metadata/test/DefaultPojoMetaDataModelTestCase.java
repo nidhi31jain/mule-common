@@ -8,13 +8,15 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.metadata;
+package org.mule.common.metadata.test;
 
 import static org.junit.Assert.*;
 
 import java.util.Set;
 
 import org.junit.Test;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.PojoMetaDataModel;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -33,7 +35,7 @@ public class DefaultPojoMetaDataModelTestCase
     
     public static class ClassE extends ClassA {}
     
-    private static String classNamePrefix = "org.mule.common.metadata.DefaultPojoMetaDataModelTestCase.";
+    private static String classNamePrefix = DefaultPojoMetaDataModelTestCase.class.getName() + ".";
     private static String nameA = classNamePrefix + "A";
     private static String nameB = classNamePrefix + "B_A";
     private static String nameC = classNamePrefix + "C_A";

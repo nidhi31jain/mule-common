@@ -14,16 +14,21 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     private Set<String> parentNames;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
-		this(clazz, clazz.getSimpleName());
+		this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz));
 	}
 	
-	protected DefaultPojoMetaDataModel(Class<?> clazz, String name) {
+	public DefaultPojoMetaDataModel(Class<?> clazz, List<MetaDataField> fields) {
+		this(clazz, clazz.getSimpleName(),fields);
+	}
+	
+	protected DefaultPojoMetaDataModel(Class<?> clazz, String name, List<MetaDataField> fields) {
         super(DataType.POJO);
         this.name = name;
         this.parentNames = MetaDataModelFactory.getInstance().getParentNames(clazz);
         this.clazzName = clazz.getName();
         this.isInterface = clazz.isInterface();
-        this.fieldsForClass = MetaDataModelFactory.getInstance().getFieldsForClass(clazz);
+        this.fieldsForClass = fields;
+        
     }
 	
 	@Override

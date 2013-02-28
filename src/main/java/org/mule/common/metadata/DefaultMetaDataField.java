@@ -23,7 +23,7 @@ public class DefaultMetaDataField
 
 	@Override
 	public String toString() {
-		return "DefaultMetaDataField [name=" + name + ", model=" + model + "]";
+		return "DefaultMetaDataField [name=" + name + ", model=" + model.getClass() + "]";
 	}
 
 	@Override

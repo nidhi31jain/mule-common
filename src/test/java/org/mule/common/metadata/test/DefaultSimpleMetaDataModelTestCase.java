@@ -8,12 +8,14 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.metadata;
+package org.mule.common.metadata.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
+import org.mule.common.metadata.DefaultSimpleMetaDataModel;
+import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
 import java.util.ArrayList;
