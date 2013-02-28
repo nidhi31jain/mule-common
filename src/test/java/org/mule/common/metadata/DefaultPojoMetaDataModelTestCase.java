@@ -70,7 +70,7 @@ public class DefaultPojoMetaDataModelTestCase
 
     private void assertExpectedParentNames(String[] expectedParentNames, PojoMetaDataModel pojoModel)
     {
-        Set<String> actualParentNames = pojoModel.getParents();
+        Set<String> actualParentNames = pojoModel.getParentNames();
         assertEquals("Not the expected number of parents. ExpectedParents=" + toString(expectedParentNames) + " ActualParents=" + actualParentNames, expectedParentNames.length, actualParentNames.size());
         for (String expectedParentName : expectedParentNames)
         {

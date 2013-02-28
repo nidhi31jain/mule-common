@@ -10,18 +10,17 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.datatype.DataTypeFactory;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.datatype.DataTypeFactory;
 
 public class MetaDataModelFactory
 {
@@ -49,28 +48,14 @@ public class MetaDataModelFactory
                 m = new DefaultPojoMetaDataModel(clazz);
                 break;
             case LIST:
-                TypeVariable<Class<T>>[] listTypeParameters = clazz.getTypeParameters();
-                Class<?> listType;
-                if(listTypeParameters.length == 1){
-                    listType = getClassOfTypeParameter(listTypeParameters[0]);
-                }else{
-                    listType = Object.class;
-                }
-
+                // Because of java's type erasure, we can not know the type here so we go with Object.
+                Class<?> listType = Object.class;
                 m = new DefaultListMetaDataModel(getMetaDataModel(listType));
                 break;
             case MAP:
-                TypeVariable<Class<T>>[] mapTypeParameters = clazz.getTypeParameters();
-                Class<?> keyType;
-                Class<?> valueType;
-                if(mapTypeParameters.length == 2){
-
-                    keyType = getClassOfTypeParameter(mapTypeParameters[0]);
-                    valueType = getClassOfTypeParameter(mapTypeParameters[1]);
-                }else{
-                    keyType = Object.class;
-                    valueType = Object.class;
-                }
+                // Because of java's type erasure, we can not know the type here so we go with Object.
+                Class<?> keyType = Object.class;
+                Class<?> valueType = Object.class;
                 m = new DefaultParameterizedMapMetaDataModel(getMetaDataModel(keyType),getMetaDataModel(valueType));
                 break;
             case VOID:
@@ -87,16 +72,6 @@ public class MetaDataModelFactory
         }
         
         return m;
-    }
-
-    private <T> Class<?> getClassOfTypeParameter(TypeVariable<Class<T>> typeParameter) {
-        Class<?> listType;
-        if(typeParameter != null){
-            listType = typeParameter.getGenericDeclaration();
-        }else {
-            listType = Object.class;
-        }
-        return listType;
     }
 
     public MetaDataField getMetaDataField(java.lang.reflect.Field f)

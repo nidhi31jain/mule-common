@@ -41,10 +41,6 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     {
         return isInterface;
     }
-
-    
-
-    
     
 	@Override
 	public String toString() {
