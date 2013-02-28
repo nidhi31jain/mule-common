@@ -12,88 +12,28 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-import java.util.Set;
-
-public class DefaultSimpleMetaDataModel extends DefaultMetaDataModel implements SimpleMetaDataModel
+public class DefaultSimpleMetaDataModel 
+	extends AbstractMetaDataModel implements SimpleMetaDataModel
 {
-
-    private String name;
-    private Set<String> parentNames;
-
-    public DefaultSimpleMetaDataModel(DataType dataType, String name, Set<String> parentNames)
+    /**
+     * Used for Define Simple Types
+     * @param dataType
+     */
+    public DefaultSimpleMetaDataModel(DataType dataType)
     {
         super(dataType);
-        this.name = name;
-        this.parentNames = parentNames;
-    }
-
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public Set<String> getParents()
-    {
-        return parentNames;
+        if (dataType == DataType.POJO || dataType == DataType.MAP || dataType == DataType.LIST)
+        {
+            throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
+        }
     }
 
     @Override
     public String toString()
     {
-        return "DefaultSimpleMetaDataModel:{ name:" + name + " dataType:" + getDataType().toString() + " parentNames:" + toString(parentNames) + " }";
-    }
-    
-    private static final String toString(Set<String> strings)
-    {
-        if (strings == null)
-        {
-            return "null";
-        }
-        else
-        {
-            StringBuilder sb = new StringBuilder("{ ");
-            for (String s : strings)
-            {
-                sb.append(s);
-                sb.append(",");
-            }
-            sb.append(" }");
-            return sb.toString();
-        }
+        return "DefaultSimpleMetaDataModel:{ dataType:" + getDataType().toString() + " }";
     }
 
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((parentNames == null) ? 0 : parentNames.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (!(obj instanceof DefaultSimpleMetaDataModel)) return false;
-        DefaultSimpleMetaDataModel other = (DefaultSimpleMetaDataModel) obj;
-        if (name == null)
-        {
-            if (other.name != null) return false;
-        }
-        else if (!name.equals(other.name)) return false;
-        if (parentNames == null)
-        {
-            if (other.parentNames != null) return false;
-        }
-        else if (!parentNames.equals(other.parentNames)) return false;
-        return true;
-    }
-    
 }
 
 

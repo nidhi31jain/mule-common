@@ -10,13 +10,25 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.MetaDataField.FieldAccessType;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.DataTypeFactory;
+import org.mule.common.metadata.util.TypeResolver;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,183 +49,201 @@ public class MetaDataModelFactory
     {
         return instance;
     }
-    
-    public <T> MetaDataModel getMetaDataModel(T obj)
-    {
-        @SuppressWarnings("unchecked")
-        Class<T> c = (Class<T>)  obj.getClass();
-        return getMetaDataModel(obj, c);
-    }
-    
-    public <T> MetaDataModel getMetaDataModel(Class<T> clazz)
-    {
-        return getMetaDataModel(null, clazz);
-    }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private <T> MetaDataModel getMetaDataModel(T obj, Class<T> clazz)
-    {
-        MetaDataModel m = null;
-        DataType dataType = factory.getDataType(clazz);
-        switch (dataType)
-        {
-            case POJO:
-                m = new DefaultPojoMetaDataModel(clazz);
-                break;
-            case LIST:
-                m = new DefaultListMetaDataModel(new DefaultMetaDataModel(DataType.POJO));
-                break;
-            case MAP:
-                if (obj != null && obj instanceof Map && !((Map<?,?>)obj).isEmpty())
-                {
-                    Map<?,?> map = (Map<?,?>) obj;
-                    m = new DefaultDefinedMapMetaDataModel(map);
-                }
-                else
-                {
-                    m = new DefaultParameterizedMapMetaDataModel(new DefaultMetaDataModel(DataType.POJO), new DefaultMetaDataModel(DataType.POJO));
-                }
-                break;
-            case VOID:
-            case BOOLEAN:
-            case NUMBER:
-            case STRING:
-            case BYTE_ARRAY:
-            case STREAM:
-            case ENUM: 
-            case DATE_TIME:
-            default:
-                m = new DefaultMetaDataModel(dataType);
-                break;
-        }
-        
-        return m;
-    }
-    
-    public SimpleMetaDataModel getMetaDataModel(java.lang.reflect.Field f)
-    {
-        String name = f.getName();
-        Class<?> fieldClass = f.getType();
-        Set<String> parentNames = getParentNames(fieldClass);
-        SimpleMetaDataModel m = null;
-        DataType dataType = factory.getDataType(fieldClass);
-        switch (dataType)
-        {
-            case POJO:
-                m = new DefaultPojoMetaDataModel(fieldClass, name);
-                break;
-            case LIST:
-                Class<?> elementClass = Object.class;
-                
-                Type t = f.getGenericType();
-                if (t instanceof ParameterizedType)
-                {
-                    Type elementType = ((ParameterizedType)t).getActualTypeArguments()[0];
-                    if (elementType instanceof Class)
-                    {
-                        elementClass = (Class<?>) elementType;
-                    }
-                }
-                m = new DefaultSimpleListMetaDataModel(getMetaDataModel(elementClass), name, parentNames);
-                break;
-            case MAP:
-                Class<?> keyClass = Object.class;
-                Class<?> valueClass = Object.class;
 
-                t = f.getGenericType();
-                if (t instanceof ParameterizedType)
-                {
-                    Type[] elementTypes = ((ParameterizedType)t).getActualTypeArguments();
-                    if (elementTypes.length == 2)
-                    {
-                        if (elementTypes[0] instanceof Class)
-                        {
-                            keyClass = (Class<?>) elementTypes[0];
-                        }
-                        if (elementTypes[1] instanceof Class)
-                        {
-                            valueClass = (Class<?>) elementTypes[1];
-                        }
-                    }
-                }
-                m = new DefaultSimpleParameterizedMapMetaDataModel(getMetaDataModel(keyClass), getMetaDataModel(valueClass), name, parentNames);
-                break;
-            case VOID:
-            case BOOLEAN:
-            case NUMBER:
-            case STRING:
-            case BYTE_ARRAY:
-            case STREAM:
-            case ENUM: 
-            case DATE_TIME:
-            default:
-                m = new DefaultSimpleMetaDataModel(dataType, name, parentNames);
-                break;
-        }
-        return m;
+    public List<MetaDataField> getFieldsForClass(Class<?> clazz)
+    {
+    	return getFieldsForClass(clazz, new ParsingContext());
     }
 
-    public List<SimpleMetaDataModel> getFieldsForClass(Class<?> clazz)
+    public List<MetaDataField> getFieldsForClass(Class<?> clazz, ParsingContext context)
     {
-        List<SimpleMetaDataModel> fields = new ArrayList<SimpleMetaDataModel>();
-        for (java.lang.reflect.Field f : clazz.getDeclaredFields())
-        {
-            if (!Modifier.isStatic(f.getModifiers()))
-            {
-                fields.add(getMetaDataModel(f));
+        ArrayList<MetaDataField> result = new ArrayList<MetaDataField>();
+        parseFields(clazz, context, result);
+        return result;
+    }
+
+	/**
+	 * Parses given type and answers schema object corresponding to that type.
+	 */
+	protected MetaDataModel parseType(Type type, ParsingContext context) {
+		
+		if (type instanceof Class<?>) {
+			return parseClass((Class<?>)type, context);
+		}
+		if (type instanceof ParameterizedType) {
+			/*
+			 * for parameterized type, discover raw type and resolved variables
+			 */
+			ParameterizedType paramType = (ParameterizedType)type;
+			
+			Class<?> raw = TypeResolver.erase(type);
+			
+			if (Collection.class.isAssignableFrom(raw)) {				
+				return  new DefaultListMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context));							
+			}
+			if (Map.class.isAssignableFrom(raw)) {				
+				return new DefaultParameterizedMapMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context), parseType(paramType.getActualTypeArguments()[1], context));				
+				
+			}
+			/*
+			 * some other parameterized type, resolve variables and proceed
+			 * with raw type
+			 */
+			context.addResolvedVariables(TypeResolver.resolveVariables(type));
+			
+			return parseClass(raw, context);
+		}
+		if (type instanceof GenericArrayType) {			
+			GenericArrayType arrayType = (GenericArrayType)type;
+			return new DefaultListMetaDataModel(parseType(arrayType.getGenericComponentType(), context));			
+		}
+		if (type instanceof TypeVariable<?>) {
+			
+			Type actual = context.getResolvedVariables().get(type);
+			if (actual == null || type.equals(actual)) {
+				
+				TypeVariable<?> typeVariable = (TypeVariable<?>)type;
+				Type bounds[] = typeVariable.getBounds();
+				if (bounds.length > 0) {
+					return parseType(bounds[0], context);
+				} else {
+					return context.OBJECT;
+				}
+			} else {
+				return parseType(actual, context);
+			}
+		}
+		if (type instanceof WildcardType) {
+			
+			WildcardType wildType = (WildcardType)type;
+			Type lowerBounds[] = wildType.getLowerBounds();
+			Type upperBounds[] = wildType.getUpperBounds();
+			
+			if (lowerBounds.length > 0) {
+				return parseType(lowerBounds[0], context);
+			}
+			if (upperBounds.length > 0) {
+				return parseType(upperBounds[0], context);
+			}
+			return context.OBJECT;
+		}
+		throw new IllegalArgumentException("Unsupported type " + type);
+	}
+	
+	protected MetaDataModel parseClass(Class<?> klass, ParsingContext context) {
+		
+		if (Collection.class.isAssignableFrom(klass)) {
+			/*
+			 * find declaration that caused this class to be a Collection,
+			 * we want type arguments from it
+			 */
+			Type declaring = TypeResolver.getGenericSuperclass(klass, Collection.class);
+			if (declaring == null) {
+				/*
+				 * no generic parent found, proceed on super type
+				 */
+				declaring = TypeResolver.getSuperclass(klass, Collection.class);
+			}
+			if (declaring != null) {
+				return  parseType(declaring, context);				
+			}
+			/*
+			 * we are directly on interface
+			 */
+			return  new  DefaultListMetaDataModel(context.OBJECT);			
+		}
+		if (klass.isArray()) {			
+			return new DefaultListMetaDataModel(parseClass(klass.getComponentType(), context), true);
+		}
+		if (Map.class.isAssignableFrom(klass)) {
+			/*
+			 * find declaration that caused this class to be a Map,
+			 * we want type arguments from it
+			 */
+			Type declaring = TypeResolver.getGenericSuperclass(klass, Map.class);
+			if (declaring == null) {
+				/*
+				 * no parameterized super type found, so proceed to parent
+				 */
+				declaring = TypeResolver.getSuperclass(klass, Map.class);
+			}
+			if (declaring != null) {
+				return parseType(declaring, context);				
+			}
+			
+			/*
+			 * we are directly on raw interface
+			 */
+			return new DefaultParameterizedMapMetaDataModel(context.OBJECT, context.OBJECT);			
+		}
+		
+		DataType dataType = factory.getDataType(klass);
+		if(dataType == DataType.POJO){
+			return parseBeanType(klass, context);
+		}else{
+			return new DefaultSimpleMetaDataModel(dataType);
+		}
+		
+	}
+	
+	protected static class ParsingContext {
+		
+		private Map<TypeVariable<?>, Type> resolvedVariables = new HashMap<TypeVariable<?>, Type>();
+		
+		public final MetaDataModel OBJECT = new DefaultPojoMetaDataModel(Object.class, new ArrayList<MetaDataField>());
+		private final Map<String, MetaDataModel> typedObjects = new HashMap<String, MetaDataModel>();
+		{
+			addTypedObject(Object.class.getName(), OBJECT);
+		}
+		
+		public MetaDataModel getTypedObject(String typeName) {
+			return typedObjects.get(typeName);
+		}
+		
+		public void addTypedObject(String typeName,MetaDataModel typedObject) {
+			if (!typedObjects.containsKey(typeName)) {
+				typedObjects.put(typeName, typedObject);
+			}
+		}
+		
+		/**
+		 * @return the resolvedVariables
+		 */
+		public Map<TypeVariable<?>, Type> getResolvedVariables() {
+			return Collections.unmodifiableMap(resolvedVariables);
+		}
+		
+		public void addResolvedVariables(Map<TypeVariable<?>, Type> map) {
+			
+			for (Map.Entry<TypeVariable<?>, Type> entry : map.entrySet()) {
+				if (resolvedVariables.containsKey(entry.getKey())) {
+					/*
+					 * only replace if value is something usable
+					 */
+					if (!(entry.getValue() instanceof TypeVariable<?>)) {
+						resolvedVariables.put(entry.getKey(), entry.getValue());
+					}
+				} else {
+					resolvedVariables.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+	}
+
+    public static List<Field> getInheritedPrivateFields(Class<?> type) {
+        List<Field> result = new ArrayList<Field>();
+
+        Class<?> i = type;
+        while (i != null && i != Object.class) {
+            for (Field field : i.getDeclaredFields()) {
+                if (!field.isSynthetic() && !Modifier.isStatic(field.getModifiers())) {
+                    result.add(field);
+                }
             }
-        }
-        return fields;
-    }
-    
-    private static class DefaultSimpleListMetaDataModel extends DefaultListMetaDataModel implements SimpleMetaDataModel
-    {
-        private String name;
-        private Set<String> parents;
-        
-        public DefaultSimpleListMetaDataModel(MetaDataModel elementMetaDataModel, String name, Set<String> parents)
-        {
-            super(elementMetaDataModel);
-            this.name = name;
-            this.parents = parents;
+            i = i.getSuperclass();
         }
 
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public Set<String> getParents()
-        {
-            return parents;
-        }
-    }
-    
-    private static class DefaultSimpleParameterizedMapMetaDataModel extends DefaultParameterizedMapMetaDataModel implements SimpleMetaDataModel
-    {
-        private String name;
-        private Set<String> parents;
-      
-        public DefaultSimpleParameterizedMapMetaDataModel(MetaDataModel keyMetaDataModel, MetaDataModel valueMetaDataModel, String name, Set<String> parents)
-        {
-            super(keyMetaDataModel, valueMetaDataModel);
-            this.name = name;
-            this.parents = parents;
-        }
-
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public Set<String> getParents()
-        {
-            return parents;
-        }
+        return result;
     }
 
     public Set<String> getParentNames(Class<?> clazz)
@@ -223,18 +253,77 @@ public class MetaDataModelFactory
         {
             if (c != null)
             {
-                parents.add(c.getCanonicalName());
+                parents.add(c.getName());
                 parents.addAll(getParentNames(c));
             }
         }
         Class<?> parent = clazz.getSuperclass();
         if (parent != null)
         {
-            parents.add(parent.getCanonicalName());
+            parents.add(parent.getName());
             parents.addAll(getParentNames(parent));
         }
         return parents;
     }
+    
+	protected MetaDataModel parseBeanType(Class<?> klass, ParsingContext context) {
+		
+		if(context.getTypedObject(klass.getName())!= null){
+			return context.getTypedObject(klass.getName());
+		}
+		ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
+		DefaultPojoMetaDataModel typedObject = new DefaultPojoMetaDataModel(klass,fields);
+		context.addTypedObject(klass.getName(),typedObject);
+		/*
+		 * resolve type variables in the class
+		 */
+		context.addResolvedVariables(TypeResolver.resolveVariables(klass));
+		/*
+		 * parse properties
+		 */
+		parseFields(klass, context, fields);
+		
+		return typedObject;
+	}
+
+	private void parseFields(Class<?> klass, ParsingContext context, ArrayList<MetaDataField> fields) {
+		if (!klass.equals(Object.class)) {
+			try {
+				List<PropertyDescriptor> propertyDescriptors = null;
+				if (klass.isInterface()) {
+					/*
+					 * collect properties from whole hierarchy
+					 */
+					propertyDescriptors = new ArrayList<PropertyDescriptor>();
+					propertyDescriptors.addAll(Arrays.asList(Introspector.getBeanInfo(klass).getPropertyDescriptors()));
+					for (Class<?> interfaceType : TypeResolver.getSuperInterfaces(klass)) {
+						propertyDescriptors.addAll(Arrays.asList(
+								Introspector.getBeanInfo(interfaceType).getPropertyDescriptors()));
+					}
+				} else {
+					propertyDescriptors = Arrays.asList(Introspector.getBeanInfo(klass, Object.class).getPropertyDescriptors());
+				}
+				for (PropertyDescriptor pd : propertyDescriptors) {
+
+						if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
+							Type propertyType = pd.getReadMethod().getGenericReturnType();
+							MetaDataModel property = parseType(propertyType, context);
+							fields.add(new DefaultMetaDataField(pd.getName(), property));
+						} else if (pd.getReadMethod() != null) {
+							Type propertyType = pd.getReadMethod().getGenericReturnType();
+							MetaDataModel property = parseType(propertyType, context);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ));
+						} else if (pd.getWriteMethod() != null) {
+							Type propertyType = pd.getWriteMethod().getGenericReturnType();
+							MetaDataModel property = parseType(propertyType, context);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE));
+						}
+				}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 }
 
 

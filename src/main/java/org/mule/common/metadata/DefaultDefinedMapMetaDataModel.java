@@ -10,99 +10,51 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.datatype.DataType;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel implements DefinedMapMetaDataModel<K>
+import org.mule.common.metadata.datatype.DataType;
+
+/**
+ * Model for representing dynamic maps with string keys
+ */
+
+public class DefaultDefinedMapMetaDataModel 
+	extends AbstractMetaDataModel 
+	implements DefinedMapMetaDataModel
 {
 
-    private MetaDataModel keyMetaDataModel;
-    private Map<K, ? extends MetaDataModel> metaDataModelMap;
+    private Map<String, ? extends MetaDataModel> metaDataModelMap;
     private String name;
-    
-    public DefaultDefinedMapMetaDataModel(Map<K,?> map)
-    {
-        this(map, null);
-    }
-    
-    public DefaultDefinedMapMetaDataModel(Map<K,?> map, String name)
-    {
-        this(getKeyMetaDataModel(map), getMetaDataModelMap(map), name);
-    }
 
-    private static MetaDataModel getKeyMetaDataModel(Map<?, ?> map)
-    {
-        Class<?> baseClass = null;
-        if (map != null)
-        {
-            for (Object key : map.keySet())
-            {
-                if (key == null) continue;
-                else if (baseClass == null) baseClass = key.getClass();
-                else
-                {
-                    Class<?> keyClass = key.getClass();
-                    while (keyClass != null && !keyClass.isAssignableFrom(baseClass))
-                    {
-                        keyClass = keyClass.getSuperclass();
-                    }
-                    if (keyClass == null)
-                    {
-                        keyClass = Object.class;
-                    }
-                    baseClass = keyClass;
-                }
-            }
-        }
-        if (baseClass == null) baseClass = Object.class;
-        return MetaDataModelFactory.getInstance().getMetaDataModel(baseClass);
-    }
-    
-    private static <K> Map<K, ? extends MetaDataModel> getMetaDataModelMap(Map<K, ?> map)
-    {
-        Map<K, MetaDataModel> modelsMap = new HashMap<K, MetaDataModel>();
-        if (map != null)
-        {
-            for (K key : map.keySet())
-            {
-                modelsMap.put(key, MetaDataModelFactory.getInstance().getMetaDataModel(map.get(key)));
-            }
-        }
-        return modelsMap;
-    }
-
-    public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap)
-    {
-        this(keyMetaDataModel, metaDataModelMap, null);
-    }
-    
-    public DefaultDefinedMapMetaDataModel(MetaDataModel keyMetaDataModel, Map<K, ? extends MetaDataModel> metaDataModelMap, String name)
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap, String name)
     {
         super(DataType.MAP);
-        this.keyMetaDataModel = keyMetaDataModel;
         this.metaDataModelMap = metaDataModelMap;
         this.name = name;
     }
 
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap)
+    {
+        super(DataType.MAP);
+        this.metaDataModelMap = metaDataModelMap;
+    }
+
+
     @Override
-    public Set<K> getKeys()
+    public Set<String> getKeys()
     {
         return metaDataModelMap.keySet();
     }
 
     @Override
-    public MetaDataModel getKeyMetaDataModel()
-    {
-        return keyMetaDataModel;
+    public MetaDataModel getKeyMetaDataModel() {
+        return new DefaultSimpleMetaDataModel(DataType.STRING);
     }
 
     @Override
-    public MetaDataModel getValueMetaDataModel(K key)
-    {
-        return metaDataModelMap.get(key);
+    public MetaDataModel getValueMetaDataModel(String key) {
+        return null;
     }
 
     @Override
@@ -116,7 +68,6 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((keyMetaDataModel == null) ? 0 : keyMetaDataModel.hashCode());
         result = prime * result + ((metaDataModelMap == null) ? 0 : metaDataModelMap.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
@@ -129,11 +80,6 @@ public class DefaultDefinedMapMetaDataModel<K> extends DefaultMetaDataModel impl
         if (!super.equals(obj)) return false;
         if (!(obj instanceof DefaultDefinedMapMetaDataModel)) return false;
         DefaultDefinedMapMetaDataModel other = (DefaultDefinedMapMetaDataModel) obj;
-        if (keyMetaDataModel == null)
-        {
-            if (other.keyMetaDataModel != null) return false;
-        }
-        else if (!keyMetaDataModel.equals(other.keyMetaDataModel)) return false;
         if (metaDataModelMap == null)
         {
             if (other.metaDataModelMap != null) return false;

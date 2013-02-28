@@ -10,12 +10,12 @@
 
 package org.mule.common.metadata;
 
-import java.util.Set;
-
-public interface SimpleMetaDataModel extends MetaDataModel
+/**
+ * Represents a simple type. Such as String, Integer, etc.
+ */
+public interface SimpleMetaDataModel 
+	extends MetaDataModel
 {
-    public String getName();
-    public Set<String> getParents();
 }
 
 

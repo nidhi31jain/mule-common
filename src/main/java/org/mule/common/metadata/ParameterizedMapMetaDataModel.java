@@ -10,6 +10,9 @@
 
 package org.mule.common.metadata;
 
+/**
+ * Represents a map with unknown keys. For example can be MAP<POJO, POJO>
+ */
 public interface ParameterizedMapMetaDataModel extends MetaDataModel
 {
     public String getName();

@@ -2,11 +2,12 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public class DefaultMetaDataModel implements MetaDataModel {
+public abstract class AbstractMetaDataModel 
+	implements MetaDataModel {
 
 	private DataType dataType;
 	
-	public DefaultMetaDataModel(DataType dataType) {
+	protected AbstractMetaDataModel(DataType dataType) {
 		this.dataType = dataType;
 	}
 	
@@ -45,8 +46,8 @@ public class DefaultMetaDataModel implements MetaDataModel {
     {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (!(obj instanceof DefaultMetaDataModel)) return false;
-        DefaultMetaDataModel other = (DefaultMetaDataModel) obj;
+        if (!(obj instanceof AbstractMetaDataModel)) return false;
+        AbstractMetaDataModel other = (AbstractMetaDataModel) obj;
         if (dataType != other.dataType) return false;
         return true;
     }

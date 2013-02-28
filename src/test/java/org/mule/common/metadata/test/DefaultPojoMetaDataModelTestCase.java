@@ -8,13 +8,15 @@
  * LICENSE.txt file.
  */
 
-package org.mule.common.metadata;
+package org.mule.common.metadata.test;
 
 import static org.junit.Assert.*;
 
 import java.util.Set;
 
 import org.junit.Test;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.PojoMetaDataModel;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -33,12 +35,11 @@ public class DefaultPojoMetaDataModelTestCase
     
     public static class ClassE extends ClassA {}
     
-    private static String classNamePrefix = "org.mule.common.metadata.DefaultPojoMetaDataModelTestCase.";
-    private static String nameA = classNamePrefix + "A";
-    private static String nameB = classNamePrefix + "B_A";
-    private static String nameC = classNamePrefix + "C_A";
-    private static String nameD = classNamePrefix + "D_BC";
-    private static String nameClassA = classNamePrefix + "ClassA";
+    private static String nameA = A.class.getName();
+    private static String nameB = B_A.class.getName();
+    private static String nameC = C_A.class.getName();
+    private static String nameD = D_BC.class.getName();
+    private static String nameClassA = ClassA.class.getName();
     
     @Test
     public void testParentNames()
@@ -70,7 +71,7 @@ public class DefaultPojoMetaDataModelTestCase
 
     private void assertExpectedParentNames(String[] expectedParentNames, PojoMetaDataModel pojoModel)
     {
-        Set<String> actualParentNames = pojoModel.getParents();
+        Set<String> actualParentNames = pojoModel.getParentNames();
         assertEquals("Not the expected number of parents. ExpectedParents=" + toString(expectedParentNames) + " ActualParents=" + actualParentNames, expectedParentNames.length, actualParentNames.size());
         for (String expectedParentName : expectedParentNames)
         {
