@@ -5,10 +5,21 @@ public class DefaultMetaDataField
 
 	private String name;
 	private MetaDataModel model;
+	private FieldAccessType accessType;
 	
 	public DefaultMetaDataField(final String name, final MetaDataModel model) {
+		this(name, model, FieldAccessType.READ_WRITE);
+	}
+
+	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType) {
 		this.name = name;
 		this.model = model;
+		this.accessType = accessType;
+	}
+
+	@Override
+	public FieldAccessType getAccessType() {
+		return accessType;
 	}
 
 	@Override
@@ -57,4 +68,5 @@ public class DefaultMetaDataField
 		return true;
 	}
 	
+
 }

@@ -10,6 +10,7 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.MetaDataField.FieldAccessType;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.DataTypeFactory;
 import org.mule.common.metadata.util.TypeResolver;
@@ -303,14 +304,20 @@ public class MetaDataModelFactory
 					propertyDescriptors = Arrays.asList(Introspector.getBeanInfo(klass, Object.class).getPropertyDescriptors());
 				}
 				for (PropertyDescriptor pd : propertyDescriptors) {
-					
-					
+
 						if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
 							Type propertyType = pd.getReadMethod().getGenericReturnType();
 							MetaDataModel property = parseType(propertyType, context);
 							fields.add(new DefaultMetaDataField(pd.getName(), property));
-					
-					}
+						} else if (pd.getReadMethod() != null) {
+							Type propertyType = pd.getReadMethod().getGenericReturnType();
+							MetaDataModel property = parseType(propertyType, context);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ));
+						} else if (pd.getWriteMethod() != null) {
+							Type propertyType = pd.getWriteMethod().getGenericReturnType();
+							MetaDataModel property = parseType(propertyType, context);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE));
+						}
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
