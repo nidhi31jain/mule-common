@@ -53,8 +53,9 @@ public class DefaultDefinedMapMetaDataModel
     }
 
     @Override
-    public MetaDataModel getValueMetaDataModel(String key) {
-        return null;
+    public MetaDataModel getValueMetaDataModel(String key) 
+    {
+        return metaDataModelMap.get(key);
     }
 
     @Override
