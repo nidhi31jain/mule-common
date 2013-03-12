@@ -28,7 +28,7 @@ import org.junit.Test;
 public class DefaultSimpleMetaDataModelTestCase
 {
     public static final List<DataType> simpleDataTypes = Collections.unmodifiableList(Arrays.asList(
-        new DataType[] { DataType.BOOLEAN, DataType.BYTE_ARRAY, DataType.DATE_TIME, 
+        new DataType[] { DataType.BOOLEAN, DataType.BYTE, DataType.DATE_TIME, 
         DataType.ENUM, DataType.NUMBER, DataType.STREAM, DataType.STRING, DataType.VOID}));
     
     public static final List<DataType> complexDataTypes;

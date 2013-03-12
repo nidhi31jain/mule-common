@@ -119,6 +119,23 @@ public class MetaDataModelFactoryTestCase
     }
 
     @Test
+    public void testGetMetaDataModelForPojoFields()
+    {
+    	MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+    	
+    	List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(Struct1.class);
+    	assertNotNull(fieldsForStruct);
+    	
+    	assertPojoMetaDataModelField(getField(fieldsForStruct, "date"), "date", DataType.DATE_TIME);
+    	assertPojoMetaDataModelField(getField(fieldsForStruct, "value"), "value", DataType.NUMBER);
+    	MetaDataField field = getField(fieldsForStruct, "byteArray");
+    	assertNotNull(field);
+    	MetaDataModel metaDataModel = field.getMetaDataModel();
+    	assertNotNull(metaDataModel);
+		assertListMetaDataModelField(field, "byteArray", DataType.BYTE, true);
+    }
+
+    @Test
     public void testGetMetaDataModelForListPojoFields()
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
@@ -282,6 +299,16 @@ public class MetaDataModelFactoryTestCase
     	Date date;
     	String name;
     	long value = 30941L;
+    	byte[] byteArray = new byte[12];
+    	
+		public byte[] getByteArray() {
+			return byteArray;
+		}
+
+		public void setByteArray(byte[] byteArray) {
+			this.byteArray = byteArray;
+		}
+
 		public Date getDate() {
 			return date;
 		}
@@ -362,6 +389,19 @@ public class MetaDataModelFactoryTestCase
         assertSame(DataType.LIST, model.getDataType());
         ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
         assertNotNull(listModel.getElementModel());
+    }
+
+    private void assertListMetaDataModelField(MetaDataField field, String name, DataType elementDataType, boolean isArray)
+    {
+    	assertNotNull(field);
+    	assertEquals(name, field.getName());
+    	
+    	MetaDataModel model = field.getMetaDataModel();
+    	assertTrue(model instanceof ListMetaDataModel);
+    	assertSame(DataType.LIST, model.getDataType());
+    	ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
+    	assertNotNull(listModel.getElementModel());
+    	assertEquals(isArray, listModel.isArray());
     }
 
     private void assertPojoListMetaDataModelField(MetaDataField field, String name, Class<?> clazz)

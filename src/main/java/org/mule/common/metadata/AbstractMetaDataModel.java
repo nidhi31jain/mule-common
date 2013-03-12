@@ -29,7 +29,7 @@ public abstract class AbstractMetaDataModel
 	@Override
 	public String toString()
 	{
-	    return "DefaultMetaDataModel:{ dataType:" + dataType.toString() + " }";
+	    return "DefaultMetaDataModel:{ dataType:" + dataType != null ? dataType.toString() : "null" + " }";
 	}
 
     @Override

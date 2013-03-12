@@ -6,7 +6,7 @@ public enum DataType
 	BOOLEAN,
 	NUMBER,
 	STRING,
-	BYTE_ARRAY,
+	BYTE,
 	STREAM,
 	ENUM, 
 	DATE_TIME,

@@ -80,8 +80,8 @@ public class DataTypeFactory {
 	private static final MetaDataModelEvaluator<Number> NUMBER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {int.class, long.class, double.class, float.class, Number.class}, DataType.NUMBER);
 	
-	private static final MetaDataModelEvaluator<Byte[]> BYTE_EVALUATOR = new AssignableMetaDataModelEvaluator<Byte[]>(
-			new Class[] {byte[].class, Byte[].class}, DataType.BYTE_ARRAY);
+	private static final MetaDataModelEvaluator<Byte> BYTE_EVALUATOR = new AssignableMetaDataModelEvaluator<Byte>(
+			new Class[] {byte.class, Byte.class}, DataType.BYTE);
 	
 	private static final MetaDataModelEvaluator<?> DATE_TIME_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
 			new Class[] {Date.class, GregorianCalendar.class}, DataType.DATE_TIME); // || DateTime.class.isAssignableFrom(c);

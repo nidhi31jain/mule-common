@@ -31,7 +31,7 @@ public class DefaultSimpleMetaDataModel
     @Override
     public String toString()
     {
-        return "DefaultSimpleMetaDataModel:{ dataType:" + getDataType().toString() + " }";
+        return "DefaultSimpleMetaDataModel:{ dataType:" + getDataType() != null ? getDataType().toString() : "null" + " }";
     }
 
 }
