@@ -7,7 +7,7 @@ import org.mule.common.query.Field;
  *
  * @author Mulesoft, Inc
  */
-public class CompareExpression extends Expression {
+public class Compare extends Expression {
 
     /**
      * Field to be compared

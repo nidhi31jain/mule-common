@@ -6,7 +6,7 @@ package org.mule.common.query.expression;
  *
  * @author Mulesoft, Inc
  */
-public class FunctionExpression extends Expression {
+public class Function extends Expression {
 
     /**
      * Function expression

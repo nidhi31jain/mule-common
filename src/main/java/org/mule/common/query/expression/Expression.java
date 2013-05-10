@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
  * @author Mulesoft, Inc
  */
 @XmlSeeAlso({
-        CompareExpression.class,
+        Compare.class,
         LogicalExpression.class,
-        FunctionExpression.class
+        Function.class
 })
 public class Expression {
 
