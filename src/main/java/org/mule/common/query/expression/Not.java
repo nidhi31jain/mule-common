@@ -7,4 +7,9 @@ package org.mule.common.query.expression;
  */
 public class Not extends UnaryLogicalExpression {
 
+    public Not(Expression expression){
+        this.expression = expression;
+        this.operator = UnaryOperator.NOT;
+    }
+
 }

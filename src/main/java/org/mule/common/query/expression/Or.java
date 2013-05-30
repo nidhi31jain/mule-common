@@ -7,4 +7,9 @@ package org.mule.common.query.expression;
  */
 public class Or extends BinaryLogicalExpression {
 
+    public Or(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
 }

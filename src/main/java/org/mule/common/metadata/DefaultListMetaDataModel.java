@@ -63,4 +63,9 @@ public class DefaultListMetaDataModel extends AbstractMetaDataModel implements L
         sb.append("] }");
         return sb.toString();
     }
+
+    @Override
+    public void accept(MetaDataModelVisitor modelVisitor) {
+        modelVisitor.visitListMetaDataModel(this);
+    }
 }

@@ -108,4 +108,9 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
 	public Set<String> getParentNames() {
 		return parentNames;
 	}
+
+    @Override
+    public void accept(MetaDataModelVisitor modelVisitor) {
+        modelVisitor.visitPojoModel(this);
+    }
 }

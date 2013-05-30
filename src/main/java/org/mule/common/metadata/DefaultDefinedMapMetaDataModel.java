@@ -94,6 +94,10 @@ public class DefaultDefinedMapMetaDataModel
         return true;
     }
 
+    @Override
+    public void accept(MetaDataModelVisitor modelVisitor) {
+        modelVisitor.visitDynamicMapModel(this);
+    }
 }
 
 

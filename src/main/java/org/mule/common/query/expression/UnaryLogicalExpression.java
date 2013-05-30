@@ -12,15 +12,16 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 public abstract class UnaryLogicalExpression extends LogicalExpression {
 
     /**
-     * Right expression
+     *  expression
      */
-    private Expression right;
+    protected Expression expression;
+
+    /**
+     * operator
+     */
+    protected UnaryOperator operator;
 
     public Expression getRight() {
-        return right;
-    }
-
-    public void setRight(Expression right) {
-        this.right = right;
+        return expression;
     }
 }

@@ -6,4 +6,6 @@ public interface MetaDataModel
 {
 	public DataType getDataType();
 	public <T extends MetaDataModel> T as(Class<T> clazz);
+
+    public void accept(MetaDataModelVisitor modelVisitor);
 }

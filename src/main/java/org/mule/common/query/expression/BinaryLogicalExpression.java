@@ -16,26 +16,19 @@ public abstract class BinaryLogicalExpression extends LogicalExpression {
     /**
      * Left expression
      */
-    private Expression left;
+    protected Expression left;
 
     /**
      * Right expression
      */
-    private Expression right;
+    protected Expression right;
 
     public Expression getLeft() {
         return left;
-    }
-
-    public void setLeft(Expression left) {
-        this.left = left;
     }
 
     public Expression getRight() {
         return right;
     }
 
-    public void setRight(Expression right) {
-        this.right = right;
-    }
 }

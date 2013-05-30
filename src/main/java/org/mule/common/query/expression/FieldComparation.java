@@ -7,7 +7,13 @@ import org.mule.common.query.Field;
  *
  * @author Mulesoft, Inc
  */
-public class Compare extends Expression {
+public class FieldComparation extends Expression {
+
+    public FieldComparation(BinaryOperator operator, Field field, Value value) {
+        this.operator = operator;
+        this.field = field;
+        this.value = value;
+    }
 
     /**
      * Field to be compared
@@ -17,34 +23,23 @@ public class Compare extends Expression {
     /**
      * Operator
      */
-    private String operator;
+    private BinaryOperator operator;
 
     /**
      * Compare value
      */
-    private String value;
+    private Value value;
 
     public Field getField() {
         return field;
     }
 
-    public void setField(Field field) {
-        this.field = field;
-    }
-
-    public String getOperator() {
+    public BinaryOperator getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-    public String getValue() {
+    public Value getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

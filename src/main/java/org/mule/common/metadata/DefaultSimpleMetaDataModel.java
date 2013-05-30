@@ -34,6 +34,10 @@ public class DefaultSimpleMetaDataModel
         return "DefaultSimpleMetaDataModel:{ dataType:" + getDataType() != null ? getDataType().toString() : "null" + " }";
     }
 
+    @Override
+    public void accept(MetaDataModelVisitor modelVisitor) {
+        modelVisitor.visitSimpleMetaDataModel(this);
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import com.sun.istack.internal.NotNull;
 import org.mule.common.query.expression.Expression;
 
 import java.util.List;
@@ -14,66 +15,61 @@ public abstract class Query {
     /**
      * Type or types to be queried
      */
-    private List<Type> types;
+    protected List<Type> types;
 
     /**
      * Fields to be retrieved
      */
-    private List<Field> fields;
+    protected List<Field> fields;
 
     /**
      * Fields for sorting the query
      */
-    private List<Field> orderByFields;
+    protected List<Field> orderByFields;
 
     /**
      * Expression which contains the filter conditions
      */
-    private Expression filterExpression;
+    protected Expression filterExpression;
 
     /**
      * Expression for joining the different types
      */
-    private Expression joinExpression;
+    protected Expression joinExpression;
+
+    protected int limit;
+
+    protected int offset;
 
 
     public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
-
     public List<Field> getOrderByFields() {
         return orderByFields;
     }
 
-    public void setOrderByFields(List<Field> orderByFields) {
-        this.orderByFields = orderByFields;
-    }
 
     public Expression getFilterExpression() {
         return filterExpression;
     }
 
-    public void setFilterExpression(Expression filterExpression) {
-        this.filterExpression = filterExpression;
-    }
 
     public List<Type> getTypes() {
         return types;
     }
 
-    public void setTypes(List<Type> types) {
-        this.types = types;
-    }
 
     public Expression getJoinExpression() {
         return joinExpression;
     }
 
-    public void setJoinExpression(Expression joinExpression) {
-        this.joinExpression = joinExpression;
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getOffset() {
+        return offset;
     }
 }
