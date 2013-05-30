@@ -4,3 +4,7 @@
 target/
 .idea
 *.iml
+lib/
+src/main/java/org/mule/common/query/dsql/*.tokens
+src/main/java/org/mule/common/query/dsql/grammar/*Lexer.java
+src/main/java/org/mule/common/query/dsql/grammar/*Parser.java
