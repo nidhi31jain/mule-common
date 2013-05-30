@@ -1,6 +1,5 @@
 package org.mule.common.query;
 
-import com.sun.istack.internal.NotNull;
 import org.mule.common.query.expression.Expression;
 
 import java.util.List;
