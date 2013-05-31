@@ -1,5 +1,7 @@
 package org.mule.common.query.expression;
 
+import org.mule.common.query.QueryVisitor;
+
 /**
  * Class for representing query expressions which contains functions.
  * E.g.: ...WHERE MAX(field)
@@ -19,5 +21,10 @@ public class Function extends Expression {
 
     public void setFunction(String function) {
         this.function = function;
+    }
+
+    @Override
+    public void accept(QueryVisitor queryVisitor) {
+        //TODO
     }
 }

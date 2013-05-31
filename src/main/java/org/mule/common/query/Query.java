@@ -71,4 +71,6 @@ public abstract class Query {
     public int getOffset() {
         return offset;
     }
+
+    public abstract void accept(QueryVisitor queryVisitor);
 }

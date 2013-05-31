@@ -4,7 +4,6 @@ import org.mule.common.query.expression.EmptyExpression;
 import org.mule.common.query.expression.Expression;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Basic query
@@ -47,5 +46,27 @@ public class DefaultQuery extends Query {
 
     public void setOffset(int offset) {
         this.offset = offset;
+    }
+
+    @Override
+    public void accept(QueryVisitor queryVisitor) {
+        queryVisitor.visitFields(this.fields);
+        queryVisitor.visitTypes(this.types);
+        if (!(this.filterExpression instanceof EmptyExpression)) {
+            queryVisitor.visitBeginExpression();
+            this.filterExpression.accept(queryVisitor);
+        }
+
+        if (this.orderByFields.size()>0){
+            queryVisitor.visitOrderByFields(this.orderByFields);
+        }
+
+        if (limit != -1) {
+            queryVisitor.visitLimit(this.limit);
+        }
+
+        if (offset != -1) {
+            queryVisitor.visitOffset(this.offset);
+        }
     }
 }

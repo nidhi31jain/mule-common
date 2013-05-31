@@ -1,5 +1,7 @@
 package org.mule.common.query.expression;
 
+import org.mule.common.query.QueryVisitor;
+
 /**
  * Logical Expression OR
  *
@@ -12,4 +14,12 @@ public class Or extends BinaryLogicalExpression {
         this.right = right;
     }
 
+    @Override
+    public void accept(QueryVisitor queryVisitor) {
+        queryVisitor.visitInitPrecedence();
+        left.accept(queryVisitor);
+        queryVisitor.visitOR();
+        right.accept(queryVisitor);
+        queryVisitor.visitEndPrecedence();
+    }
 }

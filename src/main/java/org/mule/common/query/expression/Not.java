@@ -1,5 +1,7 @@
 package org.mule.common.query.expression;
 
+import org.mule.common.query.QueryVisitor;
+
 /**
  * Class for representing NOT expression
  *
@@ -12,4 +14,8 @@ public class Not extends UnaryLogicalExpression {
         this.operator = UnaryOperator.NOT;
     }
 
+    @Override
+    public void accept(QueryVisitor queryVisitor) {
+        //TODO
+    }
 }

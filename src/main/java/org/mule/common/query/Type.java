@@ -7,6 +7,10 @@ package org.mule.common.query;
  */
 public class Type {
 
+    public Type(String typeName){
+        this.name = typeName;
+    }
+
     /**
      * Type's name
      */

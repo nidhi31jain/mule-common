@@ -1,5 +1,7 @@
 package org.mule.common.query.expression;
 
+import org.mule.common.query.QueryVisitor;
+
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
@@ -14,5 +16,5 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 })
 public abstract class Expression {
 
-
+    public abstract void accept(QueryVisitor queryVisitor);
 }

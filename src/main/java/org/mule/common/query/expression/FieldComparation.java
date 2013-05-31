@@ -1,6 +1,7 @@
 package org.mule.common.query.expression;
 
 import org.mule.common.query.Field;
+import org.mule.common.query.QueryVisitor;
 
 /**
  * Expression for comparing
@@ -42,4 +43,8 @@ public class FieldComparation extends Expression {
         return value;
     }
 
+    @Override
+    public void accept(QueryVisitor queryVisitor) {
+        queryVisitor.visitComparison(operator.accept(queryVisitor.operatorVisitor()), this.field, this.value);
+    }
 }
