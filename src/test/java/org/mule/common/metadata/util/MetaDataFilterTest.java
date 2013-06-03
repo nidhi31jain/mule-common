@@ -28,9 +28,11 @@ public class MetaDataFilterTest {
         filters.add(new Field("filterThis","type"));
         filters.add(new Field("thisIsOk","otherType"));
 
-        model.accept(new FieldFilterVisitor(filters));
+        FieldFilterVisitor visitor = new FieldFilterVisitor(filters);
 
-        Assert.assertEquals(2,model.getKeys().size());
+        model.accept(visitor);
+
+        Assert.assertEquals(2,((DefinedMapMetaDataModel)visitor.filteringResult().getPayload()).getKeys().size());
 
     }
 }

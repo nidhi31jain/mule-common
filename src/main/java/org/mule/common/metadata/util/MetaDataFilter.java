@@ -21,11 +21,11 @@ public class MetaDataFilter {
         this.fields = fields;
     }
 
-    public MetaData filter(){
+    public MetaData doFilter(){
         MetaDataModel model = metaData.getPayload();
-        MetaDataModelVisitor modelVisitor = new FieldFilterVisitor(fields);
+        FieldFilterVisitor modelVisitor = new FieldFilterVisitor(fields);
         model.accept(modelVisitor);
-        return metaData;
+        return modelVisitor.filteringResult();
 
     }
 }
