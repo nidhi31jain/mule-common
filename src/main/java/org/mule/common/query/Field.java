@@ -21,6 +21,10 @@ public class Field {
         this.name = name;
         this.type = type;
     }
+    
+    public Field(String name) {
+    	this(name, null);
+    }
 
     public String getName() {
         return name;

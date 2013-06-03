@@ -61,7 +61,8 @@
 						<fileset>
 							<directory>${grammar.java.dir}</directory>
 							<includes>
-								<include>**/*.java</include>
+								<include>**/DsqlLexer.java</include>
+								<include>**/DsqlParser.java</include>
 								<include>**/*.tokens</include>
 							</includes>
 							<followSymlinks>false</followSymlinks>

@@ -1,11 +1,10 @@
 package org.mule.common.query;
 
-import org.mule.common.query.expression.Expression;
-import org.mule.common.query.expression.OperatorVisitor;
-import org.mule.common.query.expression.Value;
-
 import java.util.Iterator;
 import java.util.List;
+
+import org.mule.common.query.expression.OperatorVisitor;
+import org.mule.common.query.expression.Value;
 
 /**
  * DsqlQueryVisitor

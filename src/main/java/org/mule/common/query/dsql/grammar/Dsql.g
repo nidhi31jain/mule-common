@@ -34,7 +34,7 @@ where:
     
 orderBy:
     ORDER^ BY! 
-    IDENT(','IDENT)*;
+    IDENT(','! IDENT)*;
 
 limit:
     LIMIT^
@@ -52,18 +52,18 @@ number:
     
 term:
     IDENT
-    | '('^expression')'!
+    | OPENING_PARENTHESIS^expression CLOSING_PARENTHESIS!
     | string
     | number;
     
 negation:
-      'not'? term;
+      NOT^* term;
 
 relation:
     negation (OPERATOR^ negation)*;
 
 expression:
-      relation (('and'^|'or'^) relation)*;
+      relation ((AND^|OR^) relation)*;
  
 SELECT  : S_ E_ L_ E_ C_ T_ ; 
 FROM  : F_ R_ O_ M_ ;
@@ -72,7 +72,12 @@ ORDER: O_ R_ D_ E_ R_;
 BY: B_ Y_;
 LIMIT: L_ I_ M_ I_ T_;
 OFFSET: O_ F_ F_ S_ E_ T_;
- 
+AND: A_ N_ D_;
+OR: O_ R_;
+NOT: N_ O_ T_;
+OPENING_PARENTHESIS: '(';
+CLOSING_PARENTHESIS: ')';
+
 STRING_LITERAL: '\''  ~('\'' | '\r' | '\n')* '\'';
 NUMBER_LITERAL:('0'..'9'|'.')*; 
  
