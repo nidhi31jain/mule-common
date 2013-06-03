@@ -1,5 +1,7 @@
 package org.mule.common.query;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -12,6 +14,7 @@ import org.mule.common.query.dsql.grammar.DsqlLexer;
 import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
 import org.mule.common.query.dsql.parser.MuleDsqlParser;
+import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 
 public class DsqlParserTest {
 	
@@ -38,6 +41,15 @@ public class DsqlParserTest {
 	@Test
 	public void testParse3() {
 		parse("select * from users, addresses where name='alejo' and not (age > 25)");
+	}
+	
+	@Test
+	public void testFail() {
+		try {
+			parse("select * from users, addresses where name='alejo' and ");
+		} catch (DsqlParsingException t) {
+			assertNotNull(t);
+		}
 	}
 	
 	public void parse(final String string) {

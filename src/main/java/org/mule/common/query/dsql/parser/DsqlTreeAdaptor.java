@@ -1,6 +1,8 @@
 package org.mule.common.query.dsql.parser;
 
+import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.mule.common.query.dsql.grammar.DsqlParser;
 
@@ -65,4 +67,11 @@ public class DsqlTreeAdaptor extends CommonTreeAdaptor {
 		}
 		return retVal;
 	}
+
+	@Override
+	public Object errorNode(TokenStream input, Token start, Token stop,
+			RecognitionException e) {
+		return new DsqlErrorNode(input, start, stop, e);
+	}
+
 }
