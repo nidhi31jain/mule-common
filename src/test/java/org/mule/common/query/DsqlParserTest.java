@@ -20,35 +20,56 @@ public class DsqlParserTest {
 	
 	@Test
 	public void testEasyParse() {
-		parse("select * from users where name='alejo'");
+		try {
+			parse("select * from users where name='alejo'");
+		} catch (Throwable e) {
+			fail();
+		}
 	}
 
 	@Test
 	public void testParse1() {
-		parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
+		try {
+			parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
+		} catch (Throwable e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void testParse1b() {
-		parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name limit 10 offset 200");
+		try {
+			parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name limit 10 offset 200");
+		} catch (Throwable e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void testParse2() {
-		parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
+		try {
+			parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
+		} catch (Throwable e) {
+			fail();
+		}
 	}
 
 	@Test
 	public void testParse3() {
-		parse("select * from users, addresses where name='alejo' and not (age > 25)");
+		try {
+			parse("select * from users, addresses where name='alejo' and not (age > 25)");
+		} catch (Throwable e) {
+			fail();
+		}
 	}
 	
 	@Test
 	public void testFail() {
 		try {
 			parse("select * from users, addresses where name='alejo' and ");
-		} catch (DsqlParsingException t) {
-			assertNotNull(t);
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
 	
@@ -70,8 +91,7 @@ public class DsqlParserTest {
 	        System.out.println(visitor.dsqlQuery());
 			
 		} catch (RecognitionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DsqlParsingException(e);
 		}
 		
 	}
