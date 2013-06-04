@@ -62,7 +62,25 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
+	@Test
+	public void testParse4() {
+		try {
+			parse("select * from users, addresses where name='alejo' and age <> 25");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testParse5() {
+		try {
+			parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
 	@Test
 	public void testFail() {
 		try {
@@ -72,13 +90,25 @@ public class DsqlParserTest {
 			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
+
+	// TODO: make this test fail correctly. :)
+//	@Test
+//	public void testFail2() {
+//		try {
+//			parse("select * from users, addresses where ");
+//			fail();
+//		} catch (Throwable t) {
+//			t.printStackTrace();
+//			assertTrue (t instanceof DsqlParsingException);
+//		}
+//	}
 	
 	public void parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
 		CommonTokenStream dsqlTokens = new CommonTokenStream();
 		dsqlTokens.setTokenSource(dsqlLexer);
-		
+
 		DsqlParser dsqlParser = new DsqlParser(dsqlTokens);
 		try {
 			select_return select = dsqlParser.select();
@@ -89,11 +119,10 @@ public class DsqlParserTest {
 	        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
 	        parser.parse(string).accept(visitor);
 	        System.out.println(visitor.dsqlQuery());
-			
+
 		} catch (RecognitionException e) {
 			throw new DsqlParsingException(e);
 		}
-		
 	}
 	
 	private void printTree(CommonTree tree) {

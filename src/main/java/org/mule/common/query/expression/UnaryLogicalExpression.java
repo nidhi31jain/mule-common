@@ -16,11 +16,6 @@ public abstract class UnaryLogicalExpression extends LogicalExpression {
      */
     protected Expression expression;
 
-    /**
-     * operator
-     */
-    protected UnaryOperator operator;
-
     public Expression getRight() {
         return expression;
     }
