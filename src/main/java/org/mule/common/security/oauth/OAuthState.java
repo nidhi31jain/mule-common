@@ -10,11 +10,14 @@
 
 package org.mule.common.security.oauth;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OAuthState
+public class OAuthState implements Serializable
 {
+
+    private static final long serialVersionUID = 155987795863945303L;
 
     private String accessToken;
     private String authorizationUrl;
@@ -62,14 +65,14 @@ public class OAuthState
         this.refreshToken = refreshToken;
     }
 
-    public Map<String, String> getCustomProperties()
+    public String getCustomProperty(String property)
     {
-        return customProperties;
+        return this.customProperties.get(property);
     }
 
-    public void setCustomProperties(Map<String, String> customProperties)
+    public void setCustomProperty(String propertyName, String value)
     {
-        this.customProperties = customProperties;
+        this.customProperties.put(propertyName, value);
     }
 
 }

@@ -10,27 +10,14 @@
 
 package org.mule.common.security.oauth;
 
-public interface OAuth2Connector
+
+public interface OAuth2Connector extends OAuthConnector
 {
-
-    public String getAuthorizationUrl();
-
-    public String getAccessTokenUrl();
 
     public String getAccessTokenRegex();
 
     public String getExpirationRegex();
 
     public String getRefreshTokenRegex();
-
-    public String getConsumerKey();
-
-    public String getConsumerSecret();
-
-    public String getAccessToken();
-
-    public String postAuth();
-
-    @Deprecated
-    public String getAccessTokenIdentifier();
+    
 }
