@@ -25,6 +25,16 @@ public interface OAuthAdapter extends OAuthConnector
      * Retrieve access token
      */
     String getAccessToken();
+    
+    /**
+     * Retrieve refresh token
+     */
+    String getRefreshToken();
+    
+    /**
+     * Set refresh token
+     */
+    void setRefreshToken(String refreshToken);
 
     /**
      * Set access token

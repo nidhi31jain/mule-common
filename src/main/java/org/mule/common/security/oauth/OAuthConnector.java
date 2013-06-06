@@ -29,7 +29,7 @@ public interface OAuthConnector extends Serializable
 
     public String getAccessToken();
     
-    public String setAccessToken(String accessToken);
+    public void setAccessToken(String accessToken);
 
     public String getScope();
 
