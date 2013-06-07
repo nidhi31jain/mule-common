@@ -17,28 +17,17 @@ public interface OAuthConnector extends Serializable
 
     public String getAccessTokenUrl();
 
-    public void setAccessTokenUrl(String url);
-    
     public String getConsumerKey();
-    
-    public void setConsumerKey(String consumerKey);
 
     public String getConsumerSecret();
     
-    public void setConsumerSecret(String consumerSecret);
-
     public String getAccessToken();
     
-    public void setAccessToken(String accessToken);
-
     public String getScope();
 
     public void postAuth();
     
     public String getAuthorizationUrl();
-    
-    public void setAuthorizationUrl(String authorizationUrl);
-
     
     @Deprecated
     public String getAccessTokenId();
