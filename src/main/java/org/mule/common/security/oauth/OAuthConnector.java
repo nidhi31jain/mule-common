@@ -11,6 +11,7 @@
 package org.mule.common.security.oauth;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public interface OAuthConnector extends Serializable
 {
@@ -28,6 +29,8 @@ public interface OAuthConnector extends Serializable
     public void postAuth();
     
     public String getAuthorizationUrl();
+    
+    public Set<AuthorizationParameter<?>> getAuthorizationParameters();
     
     @Deprecated
     public String getAccessTokenId();
