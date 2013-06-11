@@ -10,6 +10,8 @@
 
 package org.mule.common.security.oauth;
 
+import java.util.Set;
+
 
 public interface OAuth2Connector extends OAuthConnector
 {
@@ -19,5 +21,13 @@ public interface OAuth2Connector extends OAuthConnector
     public String getExpirationRegex();
 
     public String getRefreshTokenRegex();
+    
+    public Set<AuthorizationParameter<?>> getAuthorizationParameters();
+    
+    public void postAuth();
+    
+    @Deprecated
+    public String getAccessTokenId();
+
     
 }
