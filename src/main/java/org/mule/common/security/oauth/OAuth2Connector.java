@@ -13,8 +13,20 @@ package org.mule.common.security.oauth;
 import java.util.Set;
 
 
-public interface OAuth2Connector extends OAuthConnector
+public interface OAuth2Connector
 {
+    
+    public String getAccessTokenUrl();
+
+    public String getConsumerKey();
+
+    public String getConsumerSecret();
+    
+    public String getAccessToken();
+    
+    public String getScope();
+
+    public String getAuthorizationUrl();
 
     public String getAccessTokenRegex();
 

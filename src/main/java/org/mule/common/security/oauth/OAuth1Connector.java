@@ -10,8 +10,7 @@
 
 package org.mule.common.security.oauth;
 
-
-public interface OAuthConnector
+public interface OAuth1Connector
 {
 
     public String getAccessTokenUrl();
@@ -25,4 +24,7 @@ public interface OAuthConnector
     public String getScope();
 
     public String getAuthorizationUrl();
+    
 }
+
+
