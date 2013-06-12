@@ -24,6 +24,13 @@
     		<groupId>org.antlr</groupId>
       		<artifactId>antlr-runtime</artifactId>
       		<version>${antlr.version}</version>
+      		<exclusions>
+      		<exclusion>
+	      		<groupId>antlr</groupId>
+	      		<artifactId>antlr</artifactId>
+	      		<!--version>2.7.7</version-->
+      		</exclusion>
+      		</exclusions>
   		</dependency>
 	</dependencies>
 
