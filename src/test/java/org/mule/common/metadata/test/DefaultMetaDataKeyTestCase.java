@@ -42,5 +42,15 @@ public class DefaultMetaDataKeyTestCase {
 		map.remove(key2);
 		assertTrue(map.firstKey().equals(key3));
 	}
+	
+	@Test
+	public void testMetadataKeyEquality() {
+		MetaDataKey key1 = new DefaultMetaDataKey("Aaa", "Key #A");
+		MetaDataKey key2 = new DefaultMetaDataKey("Aaa", "Key #B");
+		assertTrue(key1.equals(key2));
+		key1 = new DefaultMetaDataKey("A", "Key #A");
+		key2 = new DefaultMetaDataKey("B", "Key #A");
+		assertFalse(key1.equals(key2));
+	}
 
 }
