@@ -14,6 +14,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Simple pojo to carry OAuth connection state
+ */
 public class OAuthState implements Serializable
 {
 

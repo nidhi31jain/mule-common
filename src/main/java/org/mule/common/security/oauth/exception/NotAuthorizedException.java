@@ -10,6 +10,9 @@
 
 package org.mule.common.security.oauth.exception;
 
+/**
+ * This exception signals that a connector's authorization process hasn't taken place
+ */
 public class NotAuthorizedException extends Exception
 {
 
