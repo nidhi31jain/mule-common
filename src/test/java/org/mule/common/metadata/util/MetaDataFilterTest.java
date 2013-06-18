@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class MetaDataFilterTest {
     @Test
-    public void testFilter() throws Exception {
+      public void testFilter() throws Exception {
 
         Map<String,MetaDataModel> map = new HashMap<String, MetaDataModel>();
 
@@ -33,6 +33,79 @@ public class MetaDataFilterTest {
         model.accept(visitor);
 
         Assert.assertEquals(2,((DefinedMapMetaDataModel)visitor.filteringResult().getPayload()).getKeys().size());
+
+    }
+
+    @Test
+    public void testQueryFilter() throws Exception {
+
+        Map<String,MetaDataModel> map = new HashMap<String, MetaDataModel>();
+
+        map.put("filterThis", new DefaultSimpleMetaDataModel(DataType.STRING));
+        map.put("noFilterThis", new DefaultPojoMetaDataModel(DataType.class));
+        map.put("nietherThis", new DefaultSimpleMetaDataModel(DataType.NUMBER));
+        map.put("thisIsOk", new DefaultPojoMetaDataModel(MetaDataFilterTest.class));
+        DefaultDefinedMapMetaDataModel model = new DefaultDefinedMapMetaDataModel(map, "Account");
+
+        List<Field> filters = new ArrayList<Field>();
+        filters.add(new Field("filterThis","type"));
+        filters.add(new Field("thisIsOk","otherType"));
+
+        MetaDataQueryFilterVisitor visitor = new MetaDataQueryFilterVisitor(filters);
+
+        model.accept(visitor);
+
+        Assert.assertEquals(2, visitor.filteringResult().getPayload().as(QueryResultMetaDataModel.class).getKeys().size());
+
+    }
+
+    @Test
+    public void testFilterList() throws Exception {
+
+        Map<String,MetaDataModel> map = new HashMap<String, MetaDataModel>();
+
+        map.put("filterThis", new DefaultSimpleMetaDataModel(DataType.STRING));
+        map.put("noFilterThis", new DefaultPojoMetaDataModel(DataType.class));
+        map.put("nietherThis", new DefaultSimpleMetaDataModel(DataType.NUMBER));
+        map.put("thisIsOk", new DefaultPojoMetaDataModel(MetaDataFilterTest.class));
+        DefaultDefinedMapMetaDataModel model = new DefaultDefinedMapMetaDataModel(map, "Account");
+
+        DefaultListMetaDataModel listModel = new DefaultListMetaDataModel(model);
+
+        List<Field> filters = new ArrayList<Field>();
+        filters.add(new Field("filterThis","type"));
+        filters.add(new Field("thisIsOk","otherType"));
+
+        FieldFilterVisitor visitor = new FieldFilterVisitor(filters);
+
+        listModel.accept(visitor);
+
+        Assert.assertEquals(2,visitor.filteringResult().getPayload().as(ListMetaDataModel.class).getElementModel().as(DefinedMapMetaDataModel.class).getKeys().size());
+
+    }
+
+    @Test
+    public void testQueryFilterTest() throws Exception {
+
+        Map<String,MetaDataModel> map = new HashMap<String, MetaDataModel>();
+
+        map.put("filterThis", new DefaultSimpleMetaDataModel(DataType.STRING));
+        map.put("noFilterThis", new DefaultPojoMetaDataModel(DataType.class));
+        map.put("nietherThis", new DefaultSimpleMetaDataModel(DataType.NUMBER));
+        map.put("thisIsOk", new DefaultPojoMetaDataModel(MetaDataFilterTest.class));
+        DefaultDefinedMapMetaDataModel model = new DefaultDefinedMapMetaDataModel(map, "Account");
+
+        DefaultListMetaDataModel listModel = new DefaultListMetaDataModel(model);
+
+        List<Field> filters = new ArrayList<Field>();
+        filters.add(new Field("filterThis","type"));
+        filters.add(new Field("thisIsOk","otherType"));
+
+        MetaDataQueryFilterVisitor visitor = new MetaDataQueryFilterVisitor(filters);
+
+        listModel.accept(visitor);
+
+        Assert.assertEquals(2,visitor.filteringResult().getPayload().as(ListMetaDataModel.class).getElementModel().as(QueryResultMetaDataModel.class).getKeys().size());
 
     }
 }

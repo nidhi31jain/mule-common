@@ -28,7 +28,9 @@ public class FieldFilterVisitor implements MetaDataModelVisitor {
 
     @Override
     public void visitListMetaDataModel(ListMetaDataModel listMetaDataModel) {
-        //DO NOTHING
+        FieldFilterVisitor child = new FieldFilterVisitor(fields);
+        listMetaDataModel.getElementModel().accept(child);
+        resultModel = new DefaultListMetaDataModel(child.filteringResult().getPayload());
     }
 
     @Override

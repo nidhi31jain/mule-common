@@ -47,9 +47,12 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
     }
 
     @Override
-    public <T extends MetaDataModel> T as(Class<T> clazz)
-    {
-        return definedMapMetaDataModel.as(clazz);
+    public <T extends MetaDataModel> T as(Class<T> clazz) {
+        if ((clazz.isAssignableFrom(this.getClass())))
+        {
+            return clazz.cast(this);
+        }
+        return null;
     }
 
     @Override
