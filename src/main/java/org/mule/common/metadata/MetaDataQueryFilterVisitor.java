@@ -8,14 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MetaDataModelVisitor for fields filtering, only by name not by type
+ * Visitor used to filter metadata fields
  */
-public class FieldFilterVisitor implements MetaDataModelVisitor {
-
+public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
     private List<Field> fields;
     private MetaDataModel resultModel;
 
-    public FieldFilterVisitor(List<Field> fields) {
+    public MetaDataQueryFilterVisitor(List<Field> fields) {
         this.fields = fields;
         this.resultModel = new DefaultSimpleMetaDataModel(DataType.VOID);
     }
@@ -28,7 +27,7 @@ public class FieldFilterVisitor implements MetaDataModelVisitor {
 
     @Override
     public void visitListMetaDataModel(ListMetaDataModel listMetaDataModel) {
-        FieldFilterVisitor child = new FieldFilterVisitor(fields);
+        MetaDataQueryFilterVisitor child = new MetaDataQueryFilterVisitor(fields);
         listMetaDataModel.getElementModel().accept(child);
         resultModel = new DefaultListMetaDataModel(child.filteringResult().getPayload());
     }
@@ -53,7 +52,7 @@ public class FieldFilterVisitor implements MetaDataModelVisitor {
                 newMapModel.put(f.getName(),fieldModel);
             }
         }
-        resultModel = new DefaultDefinedMapMetaDataModel(newMapModel,definedMapMetaDataModel.getName());
+        resultModel = new DefaultQueryResultMetaDataModel(new DefaultDefinedMapMetaDataModel(newMapModel,definedMapMetaDataModel.getName()));
     }
 
     public MetaData filteringResult() {

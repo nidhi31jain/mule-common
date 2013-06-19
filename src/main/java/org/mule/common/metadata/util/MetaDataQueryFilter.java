@@ -1,9 +1,6 @@
 package org.mule.common.metadata.util;
 
-import org.mule.common.metadata.FieldFilterVisitor;
-import org.mule.common.metadata.MetaData;
-import org.mule.common.metadata.MetaDataModel;
-import org.mule.common.metadata.MetaDataModelVisitor;
+import org.mule.common.metadata.*;
 import org.mule.common.query.Field;
 
 import java.util.List;
@@ -11,19 +8,19 @@ import java.util.List;
 /**
  * A class used to filter up fields from a metadata object
  */
-public class MetaDataFilter {
+public class MetaDataQueryFilter {
 
     private MetaData metaData;
     private List<Field> fields;
 
-    public MetaDataFilter(MetaData metaData, List<Field> fields) {
+    public MetaDataQueryFilter(MetaData metaData, List<Field> fields) {
         this.metaData = metaData;
         this.fields = fields;
     }
 
     public MetaData doFilter(){
         MetaDataModel model = metaData.getPayload();
-        FieldFilterVisitor modelVisitor = new FieldFilterVisitor(fields);
+        MetaDataQueryFilterVisitor modelVisitor = new MetaDataQueryFilterVisitor(fields);
         model.accept(modelVisitor);
         return modelVisitor.filteringResult();
 
