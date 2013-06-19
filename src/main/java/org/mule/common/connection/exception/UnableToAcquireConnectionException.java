@@ -34,4 +34,15 @@ public class UnableToAcquireConnectionException extends Exception
     {
         super(throwable);
     }
+    
+    /**
+     * Create a new exception
+     * 
+     * @param message a custom message
+     * @param throwable Inner exception
+     */
+    public UnableToAcquireConnectionException(String message, Throwable throwable)
+    {
+        super(message, throwable);
+    }
 }
