@@ -18,13 +18,32 @@ public class NotAuthorizedException extends Exception
 
     private static final long serialVersionUID = -3762818759852803099L;
 
+    private String accessTokenId;
+
     public NotAuthorizedException(String message)
     {
         super(message);
     }
 
+    public NotAuthorizedException(String message, String accessTokenId)
+    {
+        this(message);
+        this.accessTokenId = accessTokenId;
+    }
+
     public NotAuthorizedException(String message, Throwable throwable)
     {
         super(message, throwable);
+    }
+
+    public NotAuthorizedException(String message, String accessTokenId, Throwable throwable)
+    {
+        this(message, throwable);
+        this.accessTokenId = accessTokenId;
+    }
+
+    public String getAccessTokenId()
+    {
+        return accessTokenId;
     }
 }
