@@ -13,7 +13,7 @@ public abstract class QueryBuilder {
     public abstract QueryBuilder addField(Field field);
 
     public abstract QueryBuilder addOrderByField(Field field);
-
+    
     public abstract QueryBuilder setFilterExpression(Expression expression);
 
     public abstract QueryBuilder setJoinExpression(Expression joinExpression);

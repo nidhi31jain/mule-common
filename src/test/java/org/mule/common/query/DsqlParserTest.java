@@ -167,6 +167,16 @@ public class DsqlParserTest {
 		}
 	}
 	
+	@Test
+	public void testFail6() {
+		try {
+			parse("selecct users, addresses from Account where name = 123");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+	
 	public void parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
@@ -181,7 +191,8 @@ public class DsqlParserTest {
 			
 			MuleDsqlParser parser = new MuleDsqlParser();
 	        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
-	        parser.parse(string).accept(visitor);
+	        Query parse = parser.parse(string);
+			parse.accept(visitor);
 	        System.out.println(visitor.dsqlQuery());
 
 		} catch (RecognitionException e) {

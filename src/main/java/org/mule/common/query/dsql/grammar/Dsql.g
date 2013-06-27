@@ -20,6 +20,12 @@ options {
     }
 }
 
+@parser::members {
+    public void reportError(RecognitionException e) {
+        throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(e);
+    }
+}
+
 select:
       SELECT^
       (IDENT(','! IDENT)*| ASTERIX)
