@@ -91,17 +91,45 @@ public class DsqlParserTest {
 		}
 	}
 
-	// TODO: make this test fail correctly. :)
-//	@Test
-//	public void testFail2() {
-//		try {
-//			parse("select * from users, addresses where ");
-//			fail();
-//		} catch (Throwable t) {
-//			t.printStackTrace();
-//			assertTrue (t instanceof DsqlParsingException);
-//		}
-//	}
+	@Test
+	public void testFail2() {
+		try {
+			parse("dsql:select from");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	public void testFail3() {
+		try {
+			parse("*");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	public void testFail4() {
+		try {
+			parse("SELECT *");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	public void testFail5() {
+		try {
+			parse("select * from users, addresses where ");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
 	
 	public void parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);

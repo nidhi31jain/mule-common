@@ -1,6 +1,5 @@
 grammar Dsql;
 
-
 options {
   language = Java;
   output=AST;
@@ -13,6 +12,12 @@ options {
 
 @lexer::header {
   package org.mule.common.query.dsql.grammar;
+}
+
+@rulecatch {
+    catch (RecognitionException e) {
+        throw e;
+    }
 }
 
 select:
@@ -34,7 +39,11 @@ where:
     
 orderBy:
     ORDER^ BY! 
-    IDENT(','! IDENT)*;
+    IDENT(','! IDENT)*
+    (direction)?;
+
+direction:
+	(ASC|DESC);
 
 limit:
     LIMIT^
@@ -64,7 +73,9 @@ relation:
 
 expression:
       relation ((AND^|OR^) relation)*;
- 
+
+ASC : (A_ S_ C_ | A_ S_ C_ E_ N_ D_ I_ N_ G_);
+DESC : (D_ E_ S_ C_ | D_ E_ S_ C_ E_ N_ D_ I_ N_ G_);
 SELECT  : S_ E_ L_ E_ C_ T_ ; 
 FROM  : F_ R_ O_ M_ ;
 WHERE  : W_ H_ E_ R_ E_;
@@ -88,7 +99,6 @@ OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';
 
 COMMENT  : ( ('--'|'#') ~('\n'|'\r')* '\r'? '\n' ) {$channel=HIDDEN;};
 WS : ( ' ' | '\t' | '\n' | '\r' | '\f' )+ {$channel=HIDDEN;};
-
 
 fragment A_:('a'|'A');
 fragment B_:('b'|'B');
