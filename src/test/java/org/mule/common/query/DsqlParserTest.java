@@ -9,6 +9,7 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.common.query.dsql.grammar.DsqlLexer;
 import org.mule.common.query.dsql.grammar.DsqlParser;
@@ -168,9 +169,70 @@ public class DsqlParserTest {
 	}
 	
 	@Test
-	public void testFail6() {
+	public void testFailSelect() {
 		try {
 			parse("selecct users, addresses from Account where name = 123");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+	
+	@Test
+	public void testFailFrom() {
+		try {
+			parse("select users, addresses frrom Account where name = 123");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+	
+	@Test
+	public void testFailFrom2() {
+		try {
+			parse("select users, addresses *");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	public void testFailFrom3() {
+		try {
+			parse("select users, addresses ffrom");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+	
+	@Test
+	public void testFailMissingFrom() {
+		try {
+			parse("select users, addresses where");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	@Ignore	// FIX THISSSS!
+	public void testFailWhere() {
+		try {
+			parse("select users, addresses from Account whseree name = 123");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	public void testFailWhere2() {
+		try {
+			parse("select users, addresses from Account where *");
 			fail();
 		} catch (Throwable t) {
 			assertTrue (t instanceof DsqlParsingException);
@@ -224,7 +286,6 @@ public class DsqlParserTest {
 			System.out.print("-");
 		}
 		System.out.print("-> ");
-		
 	}
 
 }

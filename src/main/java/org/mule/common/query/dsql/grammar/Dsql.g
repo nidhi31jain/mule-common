@@ -21,7 +21,19 @@ options {
 }
 
 @parser::members {
+	protected void mismatch(IntStream input, int ttype, BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, input);
+    }
+
+    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException {
+        throw e;
+    }
+
     public void reportError(RecognitionException e) {
+        throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(e);
+    }
+
+    public void recover(RecognitionException e) {
         throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(e);
     }
 }
