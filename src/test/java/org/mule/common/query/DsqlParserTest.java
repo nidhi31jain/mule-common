@@ -39,7 +39,7 @@ public class DsqlParserTest {
 	@Test
 	public void testParse1b() {
 		try {
-			parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name limit 10 offset 200");
+			parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
 		} catch (Throwable e) {
 			fail();
 		}
@@ -76,6 +76,42 @@ public class DsqlParserTest {
 	public void testParse5() {
 		try {
 			parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testParseAscending() {
+		try {
+			parse("select * from users, addresses where name='alejo' order by name ascending");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testParseAscending2() {
+		try {
+			parse("select * from users, addresses where name='alejo' order by name asc");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testParseDescending() {
+		try {
+			parse("select * from users, addresses where name='alejo' order by name descending");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testParseDescending2() {
+		try {
+			parse("select * from users, addresses where name='alejo' order by name desc");
 		} catch (Throwable e) {
 			fail();
 		}

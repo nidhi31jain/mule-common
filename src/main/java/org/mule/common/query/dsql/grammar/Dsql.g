@@ -39,8 +39,8 @@ where:
     
 orderBy:
     ORDER^ BY! 
-    IDENT(','! IDENT)*
-    (direction)?;
+    (IDENT(','! IDENT)*)
+    direction?;
 
 direction:
 	(ASC|DESC);
