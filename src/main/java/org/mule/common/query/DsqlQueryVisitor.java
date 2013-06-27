@@ -19,14 +19,17 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor {
 
     @Override
     public void visitFields(List<Field> fields) {
-        stringBuilder.append("SELECT ");
+    	StringBuilder select = new StringBuilder();
+    	select.append("SELECT ");
         Iterator<Field> fieldIterable = fields.iterator();
         while (fieldIterable.hasNext()) {
-            stringBuilder.append(fieldIterable.next().getName());
+            select.append(fieldIterable.next().getName());
             if (fieldIterable.hasNext()) {
-                stringBuilder.append(",");
+            	select.append(",");
             }
         }
+        
+        stringBuilder.insert(0, select);
     }
 
     @Override

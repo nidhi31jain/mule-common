@@ -50,8 +50,9 @@ public class DefaultQuery extends Query {
 
     @Override
     public void accept(QueryVisitor queryVisitor) {
+    	// This order matters! Please don't change it. Visit types first, then fields.
+    	queryVisitor.visitTypes(this.types);
         queryVisitor.visitFields(this.fields);
-        queryVisitor.visitTypes(this.types);
         if (!(this.filterExpression instanceof EmptyExpression)) {
             queryVisitor.visitBeginExpression();
             this.filterExpression.accept(queryVisitor);
