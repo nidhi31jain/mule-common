@@ -63,7 +63,7 @@ public class DsqlQueryVisitorTest {
 
         }
         System.out.println(visitor.dsqlQuery());
-        Assert.assertEquals("SELECT name FROM Account WHERE ((age != 18 OR grade > 0) AND grade > 0)",visitor.dsqlQuery());
+        Assert.assertEquals("SELECT name FROM Account WHERE ((age <> 18 OR grade > 0) AND grade > 0)",visitor.dsqlQuery());
     }
 
     @Test

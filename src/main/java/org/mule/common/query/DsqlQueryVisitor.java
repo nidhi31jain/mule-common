@@ -122,7 +122,7 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor {
 
             @Override
             public String notEqualsOperator() {
-                return " != ";
+                return " <> ";
             }
 
             @Override
