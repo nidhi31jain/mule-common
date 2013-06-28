@@ -77,6 +77,8 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 				Value value = new StringValue(operatorChildren.get(1).getText());
 				FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
+			} else if (type == DsqlParser.OPENING_PARENTHESIS) {
+				dsqlNode.accept(this);
 			}
 		}
 	}

@@ -83,6 +83,15 @@ public class DsqlParserTest {
 	}
 
 	@Test
+	public void testParse6() {
+		try {
+			parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+	
+	@Test
 	public void testParseAscending() {
 		try {
 			parse("select * from users, addresses where name='alejo' order by name ascending");
