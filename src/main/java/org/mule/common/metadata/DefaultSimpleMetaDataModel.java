@@ -22,7 +22,7 @@ public class DefaultSimpleMetaDataModel
     public DefaultSimpleMetaDataModel(DataType dataType)
     {
         super(dataType);
-        if (dataType == DataType.POJO || dataType == DataType.MAP || dataType == DataType.LIST)
+        if (dataType == DataType.POJO || dataType == DataType.MAP || dataType == DataType.LIST || dataType == DataType.XML || dataType == DataType.CSV || dataType == DataType.JSON)
         {
             throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
         }

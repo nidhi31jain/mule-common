@@ -4,8 +4,10 @@ import org.mule.common.metadata.datatype.DataType;
 
 public interface MetaDataModel
 {
-	public DataType getDataType();
-	public <T extends MetaDataModel> T as(Class<T> clazz);
 
-    public void accept(MetaDataModelVisitor modelVisitor);
+    DataType getDataType();
+
+    <T extends MetaDataModel> T as(Class<T> clazz);
+
+    void accept(MetaDataModelVisitor modelVisitor);
 }
