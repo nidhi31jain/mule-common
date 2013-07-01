@@ -23,5 +23,10 @@ public class UnableToAcquireAccessTokenException extends Exception
     {
         super(throwable);
     }
+    
+    public UnableToAcquireAccessTokenException(String message, Throwable throwable)
+    {
+        super(message, throwable);
+    }
 
 }
