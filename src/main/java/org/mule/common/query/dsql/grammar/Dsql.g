@@ -105,10 +105,33 @@ AND: A_ N_ D_;
 OR: O_ R_;
 NOT: N_ O_ T_;
 OPENING_PARENTHESIS: '(';
-CLOSING_PARENTHESIS: ')';
+CLOSING_PARENTHESIS: ')'; 
 
-STRING_LITERAL: '\''  ~('\'' | '\r' | '\n')* '\'';
-NUMBER_LITERAL:('0'..'9'|'.')*; 
+STRING_LITERAL:  
+	'\'' ( ESCAPE_SEQUENCE | ~('\\'|'\'') )* '\'';
+    
+fragment
+ESCAPE_SEQUENCE:   
+	'\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
+    |   UNICODE_ESCAPE
+    |   OCTAL_ESCAPE;
+
+fragment
+OCTAL_ESCAPE:   
+	'\\' ('0'..'3') ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7');
+
+fragment
+UNICODE_ESCAPE:   
+	'\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT;
+
+fragment
+HEX_DIGIT: 
+	('0'..'9'|'a'..'f'|'A'..'F');
+
+NUMBER_LITERAL:
+	('0'..'9'|'.')*; 
  
 IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
 

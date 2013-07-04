@@ -10,20 +10,13 @@ import org.mule.common.query.Type;
 import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.expression.And;
 import org.mule.common.query.expression.BinaryOperator;
-import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
-import org.mule.common.query.expression.GreaterOperator;
-import org.mule.common.query.expression.GreaterOrEqualsOperator;
-import org.mule.common.query.expression.LessOperator;
-import org.mule.common.query.expression.LessOrEqualsOperator;
 import org.mule.common.query.expression.Not;
-import org.mule.common.query.expression.NotEqualsOperator;
 import org.mule.common.query.expression.Or;
 import org.mule.common.query.expression.StringValue;
 import org.mule.common.query.expression.Value;
 
-@SuppressWarnings("unchecked")
 public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	private QueryBuilder queryBuilder;

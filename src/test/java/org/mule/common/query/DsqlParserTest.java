@@ -126,6 +126,43 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testWithMuleExpression() {
+		try {
+			parse("select * from users, addresses where name='#[payload.name]' order by name desc");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testWithMuleExpression2() {
+		try {
+			parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testWithMuleExpression3() {
+		try {
+			parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
+		} catch (Throwable e) {
+			fail();
+		}
+	}
+
+	@Test
+	@Ignore
+	public void testWithMuleExpression4() {
+		try {
+			parse("select * from users, addresses where id > #[flowVars[\\'id\\'] order by name");
+		} catch (Throwable e) {
+			fail(e.getMessage());
+		}
+	}
 
 	@Test
 	public void testFail() {
