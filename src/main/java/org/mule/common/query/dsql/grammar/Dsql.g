@@ -21,19 +21,28 @@ options {
 }
 
 @parser::members {
+	protected Object recoverFromMismatchedToken(IntStream input,int ttype, BitSet follow) throws RecognitionException {
+	    //System.out.println("recoverFromMismatechedToken");
+		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(null);
+	}
+	
 	protected void mismatch(IntStream input, int ttype, BitSet follow) throws RecognitionException {
+		//System.out.println("mismatch");
         throw new MismatchedTokenException(ttype, input);
     }
 
     public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException {
+    	//System.out.println("recoverFromMismatechedSet");
         throw e;
     }
 
     public void reportError(RecognitionException e) {
+    	//System.out.println("reportError");
         throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(e);
     }
 
     public void recover(RecognitionException e) {
+    	//System.out.println("recover");
         throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(e);
     }
 }
@@ -75,7 +84,7 @@ string:
     STRING_LITERAL;
 
 number:
-  NUMBER_LITERAL;
+  NUMBER_LITERAL | MULE_EXPRESSION;
     
 term:
     IDENT
@@ -106,6 +115,19 @@ OR: O_ R_;
 NOT: N_ O_ T_;
 OPENING_PARENTHESIS: '(';
 CLOSING_PARENTHESIS: ')'; 
+
+MULE_EXPRESSION
+	:	'#'NESTED_MULE_EXPRESSION;
+
+fragment
+NESTED_MULE_EXPRESSION :
+	'['
+	(	options {greedy=false; k=2;}
+	: NESTED_MULE_EXPRESSION
+	| STRING_LITERAL
+	|	.
+	)*
+	']';
 
 STRING_LITERAL:  
 	'\'' ( ESCAPE_SEQUENCE | ~('\\'|'\'') )* '\'';
@@ -138,7 +160,7 @@ IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
 ASTERIX : '*';
 OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';
 
-COMMENT  : ( ('--'|'#') ~('\n'|'\r')* '\r'? '\n' ) {$channel=HIDDEN;};
+COMMENT  : ( ('--') ~('\n'|'\r')* '\r'? '\n' ) {$channel=HIDDEN;};
 WS : ( ' ' | '\t' | '\n' | '\r' | '\f' )+ {$channel=HIDDEN;};
 
 fragment A_:('a'|'A');

@@ -148,19 +148,54 @@ public class DsqlParserTest {
 	@Test
 	public void testWithMuleExpression3() {
 		try {
-			parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
+			parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
 		} catch (Throwable e) {
 			fail();
 		}
 	}
 
 	@Test
-	@Ignore
 	public void testWithMuleExpression4() {
 		try {
-			parse("select * from users, addresses where id > #[flowVars[\\'id\\'] order by name");
+			parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
 		} catch (Throwable e) {
 			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWithMuleExpression5() {
+		try {
+			parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
+		} catch (Throwable e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWithMuleExpression6() {
+		try {
+			parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
+		} catch (Throwable e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWithMuleExpression7() {
+		try {
+			parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
+		} catch (Throwable e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWithMuleExpression9() {
+		try {
+			parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
+		} catch (Throwable e) {
+			fail();
 		}
 	}
 
@@ -265,7 +300,28 @@ public class DsqlParserTest {
 	}
 
 	@Test
-	@Ignore	// FIX THISSSS!
+	public void testFailWhere2() {
+		try {
+			parse("select users, addresses from Account where *");
+			fail();
+		} catch (Throwable t) {
+			assertTrue (t instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	@Ignore
+	public void testWithMuleExpressionShouldFail() {
+		try {
+			parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
+			fail();
+		} catch (Throwable e) {
+			assertTrue (e instanceof DsqlParsingException);
+		}
+	}
+
+	@Test
+	@Ignore
 	public void testFailWhere() {
 		try {
 			parse("select users, addresses from Account whseree name = 123");
@@ -275,16 +331,6 @@ public class DsqlParserTest {
 		}
 	}
 
-	@Test
-	public void testFailWhere2() {
-		try {
-			parse("select users, addresses from Account where *");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
-	}
-	
 	public void parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
