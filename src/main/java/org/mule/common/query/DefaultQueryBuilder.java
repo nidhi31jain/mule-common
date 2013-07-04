@@ -57,6 +57,9 @@ public class DefaultQueryBuilder extends QueryBuilder {
 
     @Override
     public Query build() throws QueryBuilderException {
+    	if (query.getTypes().isEmpty()) {
+    		throw new QueryBuilderException("Empty types list");
+    	}
         return this.query;
     }
 }
