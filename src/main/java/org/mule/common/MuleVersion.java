@@ -1,0 +1,193 @@
+/**
+ * Mule Development Kit
+ * Copyright 2010-2012 (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ *
+ * This software is protected under international copyright law. All use of this software is
+ * subject to MuleSoft's Master Subscription Agreement (or other master license agreement)
+ * separately entered into in writing between you and MuleSoft. If such an agreement is not
+ * in place, you may not use the software.
+ */
+
+package org.mule.common;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * This class represents Mule Software version scheme:
+ * {major}.{minor}.{revision}-{suffix}
+ *
+ * For example:
+ *   3.3.2 => major: 3, minor: 3, revision: 2, suffix: ''
+ *   3.3.1-SNAPSHOT => major: 3, minor: 3, revision: 1, suffix: SNAPSHOT
+ *   3.4-M2 => major: 3, minor: 4, suffix: M2
+ *
+ */
+public class MuleVersion {
+    private int major = 0;
+    private int minor = 0;
+    private int revision = -1;
+    private String suffix;
+
+    public MuleVersion(String version) {
+       parse(version);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder v = new StringBuilder(major + "." +  minor);
+
+        if(revision >= 0) {
+            v.append("." + revision);
+        }
+
+        if(suffix != null && suffix.trim().length() > 0) {
+            v.append("-" + suffix);
+        }
+
+        return v.toString();
+
+    }
+
+    private void parse(String version) {
+        Pattern p = Pattern.compile("([0-9]+)(\\.)([0-9]+)(\\.([0-9]*))?(-(.+))?");
+        Matcher m = p.matcher(version);
+
+        if(!m.matches()) {
+            throw new IllegalArgumentException("Invalid version " + version);
+        }
+
+        try {
+            major = Integer.parseInt(m.group(1));
+            minor = Integer.parseInt(m.group(3));
+
+            if(m.group(4) != null && m.group(4).startsWith(".")) {
+                revision = Integer.parseInt(m.group(5));
+            }
+
+            if(m.group(6) != null && m.group(6).startsWith("-")) {
+                suffix = m.group(7);
+            }
+        } catch(NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid version " + version);
+        }
+
+        if(!toString().equals(version)) {
+           throw new IllegalArgumentException("Invalid version " + version);
+        }
+    }
+
+    /**
+     * Returns true if the version represented by the current object is
+     * equals newer to the version sent as parameter.
+     * @param version
+     * @return
+     */
+    public boolean atLeast(String version) {
+        return atLeast(new MuleVersion(version));
+    }
+
+    public boolean atLeast(MuleVersion version) {
+        return equals(version) || newerThan(version);
+    }
+
+    public boolean atLeastBase(String baseVersion) {
+        return getBaseVersion().atLeast(baseVersion);
+    }
+
+    public boolean atLeastBase(MuleVersion baseVersion) {
+        return getBaseVersion().atLeast(baseVersion);
+    }
+
+    public boolean sameAs(String version) {
+        return sameAs(new MuleVersion(version));
+    }
+
+    public boolean sameAs(MuleVersion version) {
+        return equals(version);
+    }
+
+    public boolean priorTo(String version) {
+        return priorTo(new MuleVersion(version));
+    }
+
+    public boolean priorTo(MuleVersion version) {
+        return !atLeast(version);
+    }
+
+    public boolean newerThan(String version) {
+        return newerThan(new MuleVersion(version));
+    }
+
+    public boolean newerThan(MuleVersion version) {
+        if(getMajor() > version.getMajor()) {
+            return true;
+        } else if(getMajor() == version.getMajor()) {
+            if(getMinor() > version.getMinor()) {
+                return true;
+            } else if(getMinor() == version.getMinor()) {
+                if(getRevision() > version.getRevision()) {
+                    return true;
+                } else if(getRevision() == version.getRevision() || (getRevision() <= 0 && version.getRevision() <=0)) {
+                    if(!hasSuffix() && version.hasSuffix()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSuffix() {
+        return getSuffix() != null && getSuffix().length() > 0;
+    }
+
+    private MuleVersion getBaseVersion() {
+        return new MuleVersion(getMajor() + "." + getMinor());
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if(this == otherObject) {
+            return true;
+        }
+
+        if(!(otherObject instanceof MuleVersion)) {
+            return false;
+        }
+
+        return toString().equals(otherObject.toString());
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
+    public void setMajor(int major) {
+        this.major = major;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
+
+    public void setMinor(int minor) {
+        this.minor = minor;
+    }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+}
