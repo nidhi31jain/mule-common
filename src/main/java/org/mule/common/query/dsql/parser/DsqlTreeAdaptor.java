@@ -1,10 +1,11 @@
 package org.mule.common.query.dsql.parser;
 
+import org.mule.common.query.dsql.grammar.DsqlParser;
+
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.mule.common.query.dsql.grammar.DsqlParser;
 
 public class DsqlTreeAdaptor extends CommonTreeAdaptor {
 
@@ -42,6 +43,7 @@ public class DsqlTreeAdaptor extends CommonTreeAdaptor {
 				retVal = new OpeningParenthesesDsqlNode(payload);
 				break;
 			}
+            case DsqlParser.COMPARATOR:
 			case DsqlParser.OPERATOR: {
 				retVal = new OperatorDsqlNode(payload);
 				break;

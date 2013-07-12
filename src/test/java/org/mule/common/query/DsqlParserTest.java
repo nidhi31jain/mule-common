@@ -1,6 +1,12 @@
 package org.mule.common.query;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import org.mule.common.query.dsql.grammar.DsqlLexer;
+import org.mule.common.query.dsql.grammar.DsqlParser;
+import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
+import org.mule.common.query.dsql.parser.MuleDsqlParser;
+import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 
 import java.util.List;
 
@@ -11,14 +17,9 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mule.common.query.dsql.grammar.DsqlLexer;
-import org.mule.common.query.dsql.grammar.DsqlParser;
-import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
-import org.mule.common.query.dsql.parser.MuleDsqlParser;
-import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 
 public class DsqlParserTest {
-	
+
 	@Test
 	public void testEasyParse() {
 		try {
@@ -36,7 +37,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testParse1b() {
 		try {
@@ -45,7 +46,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testParse2() {
 		try {
@@ -63,6 +64,16 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
+
+    @Test
+    public void testLike() {
+        parse("select * from users, addresses where name like '%alejo%'");
+    }
+
+    @Test
+    public void testExpression() {
+        parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
+    }
 
 	@Test
 	public void testParse4() {
@@ -90,7 +101,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testParseAscending() {
 		try {
@@ -108,7 +119,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testParseDescending() {
 		try {
@@ -117,7 +128,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testParseDescending2() {
 		try {
@@ -126,7 +137,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testWithMuleExpression() {
 		try {
@@ -144,7 +155,7 @@ public class DsqlParserTest {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testWithMuleExpression3() {
 		try {
@@ -248,7 +259,7 @@ public class DsqlParserTest {
 			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
-	
+
 	@Test
 	public void testFailSelect() {
 		try {
@@ -258,7 +269,7 @@ public class DsqlParserTest {
 			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
-	
+
 	@Test
 	public void testFailFrom() {
 		try {
@@ -268,7 +279,7 @@ public class DsqlParserTest {
 			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
-	
+
 	@Test
 	public void testFailFrom2() {
 		try {
@@ -288,7 +299,7 @@ public class DsqlParserTest {
 			assertTrue (t instanceof DsqlParsingException);
 		}
 	}
-	
+
 	@Test
 	public void testFailMissingFrom() {
 		try {
@@ -342,7 +353,7 @@ public class DsqlParserTest {
 			select_return select = dsqlParser.select();
 			CommonTree tree = (CommonTree) select.getTree();
 			printTree(tree);
-			
+
 			MuleDsqlParser parser = new MuleDsqlParser();
 	        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
 	        Query parse = parser.parse(string);
@@ -353,11 +364,11 @@ public class DsqlParserTest {
 			throw new DsqlParsingException(e);
 		}
 	}
-	
+
 	private void printTree(CommonTree tree) {
 		printTree(tree, 0);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void printTree(CommonTree tree, int level) {
 		List<CommonTree> children = (List<CommonTree>)tree.getChildren();

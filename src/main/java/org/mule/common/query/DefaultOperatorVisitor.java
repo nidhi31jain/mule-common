@@ -32,4 +32,10 @@ public class DefaultOperatorVisitor implements OperatorVisitor {
 	public String greaterOrEqualsOperator() {
 		return " >= ";
 	}
+
+    @Override
+    public String likeOperator()
+    {
+        return " like ";
+    }
 }

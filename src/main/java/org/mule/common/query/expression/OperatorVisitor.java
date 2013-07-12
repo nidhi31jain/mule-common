@@ -15,4 +15,6 @@ public interface OperatorVisitor {
     String notEqualsOperator();
 
     String greaterOrEqualsOperator();
+
+    String likeOperator();
 }

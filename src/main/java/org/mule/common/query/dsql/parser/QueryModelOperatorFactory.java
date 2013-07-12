@@ -1,14 +1,15 @@
 package org.mule.common.query.dsql.parser;
 
-import java.util.HashMap;
-
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.GreaterOperator;
 import org.mule.common.query.expression.GreaterOrEqualsOperator;
 import org.mule.common.query.expression.LessOperator;
 import org.mule.common.query.expression.LessOrEqualsOperator;
+import org.mule.common.query.expression.LikeOperator;
 import org.mule.common.query.expression.NotEqualsOperator;
 import org.mule.common.query.expression.Operator;
+
+import java.util.HashMap;
 
 public final class QueryModelOperatorFactory {
 
@@ -23,7 +24,7 @@ public final class QueryModelOperatorFactory {
 		operators.put(">=", new GreaterOrEqualsOperator());
 		operators.put("<=", new LessOrEqualsOperator());
 		operators.put("<>", new NotEqualsOperator());
-		//operators.put("!", new NotOperator());
+
 	}
 	
 	public static QueryModelOperatorFactory getInstance() {
@@ -31,6 +32,9 @@ public final class QueryModelOperatorFactory {
 	}
 	
 	public Operator getOperator(String symbol) {
+        if(symbol.equalsIgnoreCase("like")){
+            return new LikeOperator();
+        }
 		return operators.get(symbol);
 	}
 }

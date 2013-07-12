@@ -96,7 +96,7 @@ negation:
       NOT^* term;
 
 relation:
-    negation (OPERATOR^ negation)*;
+    negation ((OPERATOR^|COMPARATOR^) negation)*;
 
 expression:
       relation ((AND^|OR^) relation)*;
@@ -114,7 +114,9 @@ AND: A_ N_ D_;
 OR: O_ R_;
 NOT: N_ O_ T_;
 OPENING_PARENTHESIS: '(';
-CLOSING_PARENTHESIS: ')'; 
+CLOSING_PARENTHESIS: ')';
+
+COMPARATOR: L_ I_ K_ E_;
 
 MULE_EXPRESSION
 	:	'#'NESTED_MULE_EXPRESSION;

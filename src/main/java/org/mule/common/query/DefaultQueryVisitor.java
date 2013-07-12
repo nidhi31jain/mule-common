@@ -69,6 +69,12 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
             public String greaterOrEqualsOperator() {
                 return "";
             }
+
+            @Override
+            public String likeOperator()
+            {
+                return "";
+            }
         };
     }
 
