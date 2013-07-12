@@ -58,6 +58,6 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
     @Override
     public void accept(MetaDataModelVisitor modelVisitor)
     {
-        definedMapMetaDataModel.accept(modelVisitor);
+        modelVisitor.visitDynamicMapModel(this);
     }
 }
