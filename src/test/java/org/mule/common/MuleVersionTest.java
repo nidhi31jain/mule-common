@@ -62,6 +62,7 @@ public class MuleVersionTest {
         assertTrue(new MuleVersion("3.4.1-SNAPSHOT").atLeastBase("3.4"));
         assertTrue(new MuleVersion("3.3.0").atLeastBase("3.3"));
         assertTrue(new MuleVersion("3.4.0-RC1").atLeastBase("3.4"));
+        assertTrue(new MuleVersion("3.5.0-M1-SNAPSHOT").atLeastBase("3.5.0"));
 
         assertFalse(new MuleVersion("3.4.1-RC1").atLeastBase("3.5"));
     }

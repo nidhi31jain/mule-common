@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
  *
  */
 public class MuleVersion {
+    
+    private static final Pattern pattern = Pattern.compile("([0-9]+)(\\.)([0-9]+)(\\.([0-9]*))?(-(.+))?");
+    
     private int major = 0;
     private int minor = 0;
     private int revision = -1;
@@ -50,8 +53,7 @@ public class MuleVersion {
     }
 
     private void parse(String version) {
-        Pattern p = Pattern.compile("([0-9]+)(\\.)([0-9]+)(\\.([0-9]*))?(-(.+))?");
-        Matcher m = p.matcher(version);
+        Matcher m = pattern.matcher(version);
 
         if(!m.matches()) {
             throw new IllegalArgumentException("Invalid version " + version);
@@ -92,11 +94,11 @@ public class MuleVersion {
     }
 
     public boolean atLeastBase(String baseVersion) {
-        return getBaseVersion().atLeast(baseVersion);
+        return getBaseVersion().atLeastBase(new MuleVersion(baseVersion));
     }
 
     public boolean atLeastBase(MuleVersion baseVersion) {
-        return getBaseVersion().atLeast(baseVersion);
+        return getBaseVersion().atLeast(baseVersion.getBaseVersion());
     }
 
     public boolean sameAs(String version) {
@@ -136,6 +138,30 @@ public class MuleVersion {
             }
         }
         return false;
+    }
+    
+    /**
+     * Returns a string representing the complete numeric version, what means the
+     * 3 numbers that represent major.minor.revision. If revision is not present, then it will
+     * be set to 0 (zero).<br/>
+     * Examples:<br/>
+     * <ol>
+     * <li>3.4.1-SNAPSHOT -> returns 3.4.1</li>
+     * <li>3.4 -> returns 3.4.0</li>
+     * <li>3.4.1 -> returns 3.4.1</li>
+     * </ol>
+     * @return Complete numeric version: major.minor.revision
+     */
+    public String toCompleteNumericVersion() {
+        StringBuilder v = new StringBuilder(major + "." +  minor + ".");
+
+        if(revision >= 0) {
+            v.append(revision);
+        } else {
+            v.append("0");
+        }
+
+        return v.toString();
     }
 
     public boolean hasSuffix() {
