@@ -83,6 +83,10 @@ offset:
 string:
     STRING_LITERAL;
 
+bool:
+    BOOLEAN_LITERAL;
+
+
 number:
   NUMBER_LITERAL | MULE_EXPRESSION;
     
@@ -90,7 +94,8 @@ term:
     IDENT
     | OPENING_PARENTHESIS^expression CLOSING_PARENTHESIS!
     | string
-    | number;
+    | number
+    | bool;
     
 negation:
       NOT^* term;
@@ -133,6 +138,8 @@ NESTED_MULE_EXPRESSION :
 
 STRING_LITERAL:  
 	'\'' ( ESCAPE_SEQUENCE | ~('\\'|'\'') )* '\'';
+
+BOOLEAN_LITERAL: (T_ R_ U_ E_ | F_ A_ L_ S_ E_);
     
 fragment
 ESCAPE_SEQUENCE:   

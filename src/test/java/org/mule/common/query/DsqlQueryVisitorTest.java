@@ -30,8 +30,8 @@ public class DsqlQueryVisitorTest {
         QueryBuilder queryBuilder = new DefaultQueryBuilder();
         queryBuilder.addField(new Field("name","string"));
         queryBuilder.addType(new Type("Account"));
-        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new IntValue(18));
-        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new IntValue(0));
+        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
+        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new NumberValue(0));
         Expression simpleAnd = new And(comparision,anotherComparision);
         queryBuilder.setFilterExpression(simpleAnd);
 
@@ -50,8 +50,8 @@ public class DsqlQueryVisitorTest {
         QueryBuilder queryBuilder = new DefaultQueryBuilder();
         queryBuilder.addField(new Field("name","string"));
         queryBuilder.addType(new Type("Account"));
-        Expression comparision = new FieldComparation(new NotEqualsOperator(),new Field("age","int"),new IntValue(18));
-        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new IntValue(0));
+        Expression comparision = new FieldComparation(new NotEqualsOperator(),new Field("age","int"),new NumberValue(18));
+        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new NumberValue(0));
         Expression simpleOr = new Or(comparision,anotherComparision);
         Expression simpleAnd = new And(simpleOr,anotherComparision);
         queryBuilder.setFilterExpression(simpleAnd);
@@ -73,8 +73,8 @@ public class DsqlQueryVisitorTest {
         queryBuilder.addType(new Type("Account"));
         queryBuilder.addOrderByField(new Field("name","string"));
         queryBuilder.addOrderByField(new Field("age","int"));
-        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new IntValue(18));
-        Expression anotherComparision = new FieldComparation(new EqualsOperator(),new Field("grade","int"), new IntValue(0));
+        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
+        Expression anotherComparision = new FieldComparation(new EqualsOperator(),new Field("grade","int"), new NumberValue(0));
         Expression simpleOr = new Or(comparision,anotherComparision);
         Expression simpleAnd = new And(simpleOr,anotherComparision);
         queryBuilder.setFilterExpression(simpleAnd);
@@ -97,8 +97,8 @@ public class DsqlQueryVisitorTest {
         queryBuilder.addOrderByField(new Field("age","int"));
         queryBuilder.setLimit(10);
         queryBuilder.setOffset(20);
-        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new IntValue(18));
-        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new IntValue(0));
+        Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
+        Expression anotherComparision = new FieldComparation(new GreaterOperator(),new Field("grade","int"), new NumberValue(0));
         Expression simpleOr = new Or(comparision,anotherComparision);
         Expression simpleAnd = new And(simpleOr,anotherComparision);
         queryBuilder.setFilterExpression(simpleAnd);

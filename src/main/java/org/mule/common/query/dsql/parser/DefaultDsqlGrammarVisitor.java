@@ -7,8 +7,10 @@ import org.mule.common.query.Type;
 import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.expression.And;
 import org.mule.common.query.expression.BinaryOperator;
+import org.mule.common.query.expression.BooleanValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Not;
 import org.mule.common.query.expression.Or;
 import org.mule.common.query.expression.StringValue;
@@ -35,7 +37,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(SelectDsqlNode selectDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)selectDsqlNode.getChildren();
+		List<IDsqlNode> children = selectDsqlNode.getChildren();
 		
 		for (final IDsqlNode dsqlNode : children) {
 			if (dsqlNode.getType() != DsqlParser.IDENT && 
@@ -49,7 +51,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(FromDsqlNode fromDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)fromDsqlNode.getChildren();
+		List<IDsqlNode> children = fromDsqlNode.getChildren();
 		
 		for (final IDsqlNode dsqlNode : children) {
 			queryBuilder.addType(new Type(dsqlNode.getText()));
@@ -67,8 +69,21 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			} else if (type == DsqlParser.OPERATOR| type == DsqlParser.COMPARATOR) {
 				List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
 				Field field = new Field(operatorChildren.get(0).getText());
-				Value value = new StringValue(operatorChildren.get(1).getText());
-				FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
+                IDsqlNode node = operatorChildren.get(1);
+                Value value;
+                switch (node.getType()){
+                    case DsqlParser.NUMBER_LITERAL:
+                        value = new NumberValue(Double.parseDouble(node.getText()));
+                        break;
+                    case DsqlParser.BOOLEAN_LITERAL:
+                        value = new BooleanValue(Boolean.parseBoolean(node.getText()));
+                        break;
+                    default:
+                        value = new StringValue(node.getText());
+                        break;
+                }
+
+                FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
 			} else if (type == DsqlParser.OPENING_PARENTHESIS) {
 				dsqlNode.accept(this);
@@ -100,7 +115,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(OrDsqlNode orDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)orDsqlNode.getChildren();
+		List<IDsqlNode> children = orDsqlNode.getChildren();
 		expressionLevel++;
 		for (IDsqlNode dsqlNode : children) {
 			dsqlNode.accept(this);
@@ -113,7 +128,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(NotDsqlNode notDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)notDsqlNode.getChildren();
+		List<IDsqlNode> children = notDsqlNode.getChildren();
 		expressionLevel++;
 		for (IDsqlNode dsqlNode : children) {
 			dsqlNode.accept(this);
@@ -125,7 +140,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(OperatorDsqlNode operatorDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)operatorDsqlNode.getChildren();
+		List<IDsqlNode> children = operatorDsqlNode.getChildren();
 		Field field = new Field(children.get(0).getText());
 		Value value = new StringValue(children.get(1).getText());
 		expressions.push(new FieldComparation(getOperatorFor(operatorDsqlNode.getText()), field, value));
@@ -133,7 +148,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 	
 	@Override
 	public void visit(OpeningParenthesesDsqlNode openingParenthesesDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)openingParenthesesDsqlNode.getChildren();
+		List<IDsqlNode> children = openingParenthesesDsqlNode.getChildren();
 
 		for (IDsqlNode dsqlNode : children) {
 			dsqlNode.accept(this);
@@ -165,7 +180,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	@Override
 	public void visit(OffsetDsqlNode offsetDsqlNode) {
-		List<IDsqlNode> children = (List<IDsqlNode>)offsetDsqlNode.getChildren();
+		List<IDsqlNode> children = offsetDsqlNode.getChildren();
 		
 		for (final IDsqlNode dsqlNode : children) {
 			queryBuilder.setOffset(Integer.parseInt(dsqlNode.getText()));
