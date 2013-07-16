@@ -86,6 +86,8 @@ string:
 bool:
     BOOLEAN_LITERAL;
 
+date:
+    DATE_LITERAL;
 
 number:
   NUMBER_LITERAL | MULE_EXPRESSION;
@@ -95,7 +97,8 @@ term:
     | OPENING_PARENTHESIS^expression CLOSING_PARENTHESIS!
     | string
     | number
-    | bool;
+    | bool
+    | date;
     
 negation:
       NOT^* term;
@@ -122,6 +125,12 @@ OPENING_PARENTHESIS: '(';
 CLOSING_PARENTHESIS: ')';
 
 COMPARATOR: L_ I_ K_ E_;
+
+DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
+TIME_ZONE: (('+'|'-') TWO_DIGIT':'TWO_DIGIT | 'Z');
+
+fragment
+TWO_DIGIT: ('0'..'9') ('0'..'9');
 
 MULE_EXPRESSION
 	:	'#'NESTED_MULE_EXPRESSION;

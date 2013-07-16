@@ -8,10 +8,11 @@ import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.expression.And;
 import org.mule.common.query.expression.BinaryOperator;
 import org.mule.common.query.expression.BooleanValue;
+import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
-import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Not;
+import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Or;
 import org.mule.common.query.expression.StringValue;
 import org.mule.common.query.expression.Value;
@@ -77,6 +78,9 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
                         break;
                     case DsqlParser.BOOLEAN_LITERAL:
                         value = new BooleanValue(Boolean.parseBoolean(node.getText()));
+                        break;
+                    case DsqlParser.DATE_LITERAL:
+                        value = new DateValue(node.getText());
                         break;
                     default:
                         value = new StringValue(node.getText());
