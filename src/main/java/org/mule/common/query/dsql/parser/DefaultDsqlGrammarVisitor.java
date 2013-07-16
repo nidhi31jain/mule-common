@@ -12,6 +12,7 @@ import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
 import org.mule.common.query.expression.Not;
+import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Or;
 import org.mule.common.query.expression.StringValue;
@@ -81,6 +82,9 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
                         break;
                     case DsqlParser.DATE_LITERAL:
                         value = new DateValue(node.getText());
+                        break;
+                    case DsqlParser.NULL_LITERAL:
+                        value = new NullValue();
                         break;
                     default:
                         value = new StringValue(node.getText());

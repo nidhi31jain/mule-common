@@ -91,6 +91,9 @@ date:
 
 number:
   NUMBER_LITERAL | MULE_EXPRESSION;
+
+null_type:
+  NULL_LITERAL;
     
 term:
     IDENT
@@ -98,7 +101,8 @@ term:
     | string
     | number
     | bool
-    | date;
+    | date
+    | null_type;
     
 negation:
       NOT^* term;
@@ -128,6 +132,7 @@ COMPARATOR: L_ I_ K_ E_;
 
 DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
 TIME_ZONE: (('+'|'-') TWO_DIGIT':'TWO_DIGIT | 'Z');
+NULL_LITERAL: N_ U_ L_ L_;
 
 fragment
 TWO_DIGIT: ('0'..'9') ('0'..'9');

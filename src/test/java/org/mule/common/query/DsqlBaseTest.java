@@ -7,6 +7,7 @@ import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.expression.BooleanValue;
 import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.StringValue;
 
@@ -70,6 +71,15 @@ public class DsqlBaseTest
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(BooleanValue.class));
+    }
+
+    @Test
+    public void parseNullValue(){
+        MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
+        Query parse = muleDsqlParser.parse("select name from account where address = null");
+        Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
+        FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
+        Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(NullValue.class));
     }
 
 }
