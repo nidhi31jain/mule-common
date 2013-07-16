@@ -12,5 +12,9 @@ public class BooleanValue extends Value<Boolean>
         super(value);
     }
 
+    public static BooleanValue fromLiteral(String literal){
+        return new BooleanValue(Boolean.parseBoolean(literal));
+    }
+
 
 }

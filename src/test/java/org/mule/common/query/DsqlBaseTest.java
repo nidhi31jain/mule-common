@@ -25,6 +25,9 @@ public class DsqlBaseTest
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(StringValue.class));
+        StringValue stringValue = (StringValue) fieldComparation.getValue();
+
+        Assert.assertThat(stringValue.getValue(), CoreMatchers.is("de Achaval"));
     }
 
     @Test
