@@ -13,4 +13,8 @@ public class NumberValue extends Value<Number>
     }
 
 
+    public static NumberValue fromLiteral(String literal)
+    {
+        return new NumberValue(Double.parseDouble(literal));
+    }
 }

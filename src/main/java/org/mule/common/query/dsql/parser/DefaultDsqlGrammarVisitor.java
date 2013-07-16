@@ -87,13 +87,13 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
         Value value;
         switch (node.getType()){
             case DsqlParser.NUMBER_LITERAL:
-                value = new NumberValue(Double.parseDouble(node.getText()));
+                value =  NumberValue.fromLiteral(node.getText());
                 break;
             case DsqlParser.BOOLEAN_LITERAL:
                 value =  BooleanValue.fromLiteral(node.getText());
                 break;
             case DsqlParser.DATE_LITERAL:
-                value = new DateValue(node.getText());
+                value =  DateValue.fromLiteral(node.getText());
                 break;
             case DsqlParser.NULL_LITERAL:
                 value = new NullValue();

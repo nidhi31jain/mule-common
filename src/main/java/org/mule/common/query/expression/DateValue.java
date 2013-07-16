@@ -10,4 +10,8 @@ public class DateValue extends Value<String>
     {
         super(value);
     }
+
+    public static DateValue fromLiteral(String literal){
+        return new DateValue(literal);
+    }
 }
