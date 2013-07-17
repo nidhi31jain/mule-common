@@ -11,11 +11,14 @@ import org.mule.common.query.expression.BooleanValue;
 import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.IdentifierValue;
+import org.mule.common.query.expression.MuleExpressionValue;
 import org.mule.common.query.expression.Not;
 import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Or;
 import org.mule.common.query.expression.StringValue;
+import org.mule.common.query.expression.UnknownValue;
 import org.mule.common.query.expression.Value;
 
 import java.util.List;
@@ -98,8 +101,17 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
             case DsqlParser.NULL_LITERAL:
                 value = new NullValue();
                 break;
-            default:
+            case DsqlParser.IDENT:
+                value = IdentifierValue.fromLiteral(node.getText());
+                break;
+            case DsqlParser.MULE_EXPRESSION:
+                value = MuleExpressionValue.fromLiteral(node.getText());
+                break;
+            case DsqlParser.STRING_LITERAL:
                 value = StringValue.fromLiteral(node.getText());
+                break;
+            default:
+                value = UnknownValue.fromLiteral(node.getText());
                 break;
         }
         return value;

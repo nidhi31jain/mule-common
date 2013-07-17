@@ -7,6 +7,8 @@ import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.expression.BooleanValue;
 import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.IdentifierValue;
+import org.mule.common.query.expression.MuleExpressionValue;
 import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.StringValue;
@@ -15,7 +17,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DsqlBaseTest
+public class DsqlValueTest
 {
 
     @Test
@@ -51,7 +53,7 @@ public class DsqlBaseTest
     @Test
     public void parseDateWithTimZone3Value(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        Query parse = muleDsqlParser.parse("select name from account where birdth > 1999-01-01T23:01:01Z");
+        Query parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01T23:01:01Z");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateValue.class));
@@ -75,6 +77,32 @@ public class DsqlBaseTest
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(BooleanValue.class));
     }
+
+    @Test
+    public void parseMuleExpressionValue(){
+        MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
+        Query parse = muleDsqlParser.parse("select name from account where address = #[flowVars['address']]");
+        Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
+        FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
+        Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(MuleExpressionValue.class));
+        MuleExpressionValue stringValue = (MuleExpressionValue) fieldComparation.getValue();
+
+        Assert.assertThat(stringValue.getValue(), CoreMatchers.is("#[flowVars['address']]"));
+    }
+
+
+    @Test
+    public void parseIdentifierValue(){
+        MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
+        Query parse = muleDsqlParser.parse("select name from account where birth > NEXT_WEEK");
+        Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
+        FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
+        Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(IdentifierValue.class));
+        IdentifierValue stringValue = (IdentifierValue) fieldComparation.getValue();
+        Assert.assertThat(stringValue.getValue(), CoreMatchers.is("NEXT_WEEK"));
+    }
+
+
 
     @Test
     public void parseNullValue(){

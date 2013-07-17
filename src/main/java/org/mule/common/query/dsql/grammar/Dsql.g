@@ -94,9 +94,12 @@ number:
 
 null_type:
   NULL_LITERAL;
+
+identifier:
+  IDENT;
     
 term:
-    IDENT
+    identifier
     | OPENING_PARENTHESIS^expression CLOSING_PARENTHESIS!
     | string
     | number
