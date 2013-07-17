@@ -15,7 +15,11 @@ import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 public class MuleDsqlParser {
 
 	public Query parse(final String string) {
-		CharStream antlrStringStream = new ANTLRStringStream(string);
+        String parseString = string;
+        if (string.startsWith("dsql:")) {
+            parseString = string.substring(5);
+        }
+		CharStream antlrStringStream = new ANTLRStringStream(parseString);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
 		CommonTokenStream dsqlTokens = new CommonTokenStream();
 		dsqlTokens.setTokenSource(dsqlLexer);
