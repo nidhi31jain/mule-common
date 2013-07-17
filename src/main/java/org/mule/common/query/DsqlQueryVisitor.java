@@ -82,6 +82,11 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor {
     }
 
     @Override
+    public void _dont_implement_QueryVisitor___instead_extend_DefaultQueryVisitor() {
+
+    }
+
+    @Override
     public void visitAnd() {
         stringBuilder.append(" AND ");
     }

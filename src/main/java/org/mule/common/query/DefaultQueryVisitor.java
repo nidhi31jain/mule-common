@@ -39,43 +39,7 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
 
     @Override
     public OperatorVisitor operatorVisitor() {
-        return new OperatorVisitor() {
-            @Override
-            public String lessOperator() {
-                return "";
-            }
-
-            @Override
-            public String greaterOperator() {
-                return "";
-            }
-
-            @Override
-            public String lessOrEqualsOperator() {
-                return "";
-            }
-
-            @Override
-            public String equalsOperator() {
-                return "";
-            }
-
-            @Override
-            public String notEqualsOperator() {
-                return "";
-            }
-
-            @Override
-            public String greaterOrEqualsOperator() {
-                return "";
-            }
-
-            @Override
-            public String likeOperator()
-            {
-                return "";
-            }
-        };
+        return new DefaultOperatorVisitor();
     }
 
     @Override

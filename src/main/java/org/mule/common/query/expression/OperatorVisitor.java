@@ -17,4 +17,9 @@ public interface OperatorVisitor {
     String greaterOrEqualsOperator();
 
     String likeOperator();
+
+    /**
+     *  This method simply acts a friendly reminder not to implement OperatorVisitor directly and instead extend DefaultOperatorVisitor.
+     */
+    void _dont_implement_OperatorVisitor___instead_extend_DefaultOperatorVisitor();
 }

@@ -38,4 +38,9 @@ public class DefaultOperatorVisitor implements OperatorVisitor {
     {
         return " like ";
     }
+
+    @Override
+    public void _dont_implement_OperatorVisitor___instead_extend_DefaultOperatorVisitor() {
+
+    }
 }

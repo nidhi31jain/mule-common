@@ -33,4 +33,10 @@ public interface QueryVisitor {
     void visitLimit(int limit);
 
     void visitOffset(int offset);
+
+    /**
+     *  This method simply acts a friendly reminder not to implement Query visitor directly and instead extend DefaultQueryVisitor.
+     */
+    void _dont_implement_QueryVisitor___instead_extend_DefaultQueryVisitor();
+
 }
