@@ -71,4 +71,8 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
     public void visitOrderByFields(List<Field> orderByFields) {
 
     }
+
+    @Override
+    public void _dont_implement_QueryVisitor___instead_extend_DefaultQueryVisitor() {
+    }
 }
