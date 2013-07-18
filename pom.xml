@@ -130,4 +130,57 @@
         <tag>HEAD</tag>
     </scm>
 
+    <profiles>
+        <profile>
+            <id>nexus</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>mule-ee-releases</id>
+                    <name>Mule Release Repository</name>
+                    <url>http://dev.ee.mulesource.com/repository/content/repositories/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>mule-ee-snapshots</id>
+                    <name>Mule Snapshot Repository</name>
+                    <url>http://dev.ee.mulesource.com/repository/content/repositories/snapshots/</url>
+                    <uniqueVersion>false</uniqueVersion>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>nexus-ee</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>mule-ee-customer-releases</id>
+                    <name>Mule Release Repository</name>
+                    <url>https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>cloudbees</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>cloudbees-private-release-repository</id>
+                    <name>Cloudbees Release Repository</name>
+                    <url>dav:https://repository-muleion.forge.cloudbees.com/release/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>cloudbees-private-snapshot-repository</id>
+                    <name>Cloudbees Snapshot Repository</name>
+                    <url>dav:https://repository-muleion.forge.cloudbees.com/snapshot/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+   </profiles>
+
 </project>
