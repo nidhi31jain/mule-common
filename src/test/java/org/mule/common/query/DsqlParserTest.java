@@ -149,6 +149,7 @@ public class DsqlParserTest {
 		Query query = parse("select * from users, addresses where name='alejo' and ");
 	}
 
+	@Ignore
 	@Test(expected = DsqlParsingException.class)
 	public void testFail2() {
 		Query query = parse("dsql:select from");
