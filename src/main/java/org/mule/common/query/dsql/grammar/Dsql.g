@@ -23,7 +23,7 @@ options {
 @parser::members {
 	protected Object recoverFromMismatchedToken(IntStream input,int ttype, BitSet follow) throws RecognitionException {
 	    //System.out.println("recoverFromMismatechedToken");
-		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(null);
+		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(input.toString());
 	}
 	
 	protected void mismatch(IntStream input, int ttype, BitSet follow) throws RecognitionException {
@@ -110,8 +110,12 @@ term:
 negation:
       NOT^* term;
 
-relation:
-    negation ((OPERATOR^|COMPARATOR^) negation)*;
+searchBy: SEARCH^ string;
+
+comparison: negation ((OPERATOR^|COMPARATOR^) negation)*;
+
+relation: (comparison | searchBy);
+
 
 expression:
       relation ((AND^|OR^) relation)*;
@@ -132,6 +136,7 @@ OPENING_PARENTHESIS: '(';
 CLOSING_PARENTHESIS: ')';
 
 COMPARATOR: L_ I_ K_ E_;
+SEARCH: S_ E_ A_ R_ C_ H_ B_ Y_;
 
 DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
 fragment

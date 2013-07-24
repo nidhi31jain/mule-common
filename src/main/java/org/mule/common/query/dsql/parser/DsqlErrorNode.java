@@ -1,12 +1,13 @@
 package org.mule.common.query.dsql.parser;
 
+import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
+
 import java.util.List;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonErrorNode;
-import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 
 public class DsqlErrorNode 
 	extends CommonErrorNode 
@@ -18,7 +19,7 @@ public class DsqlErrorNode
 
 	@Override
 	public void accept(DsqlGrammarVisitor visitor) {
-		throw new DsqlParsingException(null);
+		throw new DsqlParsingException();
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -6,4 +6,13 @@ public class DsqlParsingException extends RuntimeException {
 	public DsqlParsingException(Throwable t) {
 		super(t);
 	}
+
+    public DsqlParsingException(String s)
+    {
+        super(s);
+    }
+
+    public DsqlParsingException()
+    {
+    }
 }

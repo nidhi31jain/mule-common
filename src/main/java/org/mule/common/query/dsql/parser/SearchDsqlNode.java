@@ -1,0 +1,22 @@
+/**
+ *
+ */
+package org.mule.common.query.dsql.parser;
+
+import org.antlr.runtime.Token;
+
+public class SearchDsqlNode  extends DsqlNode {
+
+    public SearchDsqlNode(Token t)
+    {
+        super(t);
+    }
+
+    @Override
+    public void accept(DsqlGrammarVisitor visitor)
+    {
+        visitor.visit(this);
+    }
+}
+
+

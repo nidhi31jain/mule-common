@@ -17,6 +17,7 @@ import org.mule.common.query.expression.Not;
 import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Or;
+import org.mule.common.query.expression.SearchByExpression;
 import org.mule.common.query.expression.StringValue;
 import org.mule.common.query.expression.UnknownValue;
 import org.mule.common.query.expression.Value;
@@ -40,7 +41,14 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		// Too generic. Empty on purpose.
 	}
 
-	@Override
+    @Override
+    public void visit(SearchDsqlNode dsqlNode)
+    {
+        SearchByExpression searchByExpression = new SearchByExpression(StringValue.fromLiteral(dsqlNode.getChild(0).getText()));
+        putExpression(searchByExpression);
+    }
+
+    @Override
 	public void visit(SelectDsqlNode selectDsqlNode) {
 		List<IDsqlNode> children = selectDsqlNode.getChildren();
 
@@ -72,16 +80,17 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			if (type == DsqlParser.AND || type == DsqlParser.OR || type == DsqlParser.NOT) {
 				dsqlNode.accept(this);
 			} else if (type == DsqlParser.OPERATOR| type == DsqlParser.COMPARATOR) {
-				List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
-				Field field = new Field(operatorChildren.get(0).getText());
-                IDsqlNode node = operatorChildren.get(1);
+				final List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
+                final Field field = new Field(operatorChildren.get(0).getText());
+                final IDsqlNode node = operatorChildren.get(1);
                 final Value value = buildValue(node);
-
-                FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
+                final FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
 			} else if (type == DsqlParser.OPENING_PARENTHESIS) {
 				dsqlNode.accept(this);
-			}
+			} else if(type == DsqlParser.SEARCH){
+                dsqlNode.accept(this);
+            }
 		}
 	}
 
