@@ -1,12 +1,7 @@
 package org.mule.common.query;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import org.mule.common.query.dsql.grammar.DsqlLexer;
-import org.mule.common.query.dsql.grammar.DsqlParser;
-import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
-import org.mule.common.query.dsql.parser.MuleDsqlParser;
-import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -15,336 +10,243 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mule.common.query.dsql.grammar.DsqlLexer;
+import org.mule.common.query.dsql.grammar.DsqlParser;
+import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
+import org.mule.common.query.dsql.parser.MuleDsqlParser;
+import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
+import org.mule.common.query.expression.EqualsOperator;
+import org.mule.common.query.expression.FieldComparation;
 
 public class DsqlParserTest {
 
 	@Test
 	public void testEasyParse() {
-		try {
-			parse("select * from users where name='alejo'");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users where name='alejo'");
+		assertThat(query.getFields().size(), is(1));
+		assertThat(query.getFields().get(0).getName(), is("*"));
+		assertThat(query.getTypes().size(), is(1));
+		assertThat(query.getTypes().get(0).getName(), is("users"));
+		assertThat(query.getFilterExpression(), is(FieldComparation.class));
+		FieldComparation fieldComparation = (FieldComparation) query.getFilterExpression();
+		assertThat(fieldComparation.getField().getName(), is("name"));
+		assertThat(fieldComparation.getValue().getValue(), is((Object) "alejo"));
+		assertThat(fieldComparation.getOperator(), is(EqualsOperator.class));
 	}
 
 	@Test
 	public void testParse1() {
-		try {
-			parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
 	}
 
 	@Test
 	public void testParse1b() {
-		try {
-			parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
 	}
 
 	@Test
 	public void testParse2() {
-		try {
-			parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
 	}
 
 	@Test
 	public void testParse3() {
-		try {
-			parse("select * from users, addresses where name='alejo' and not (age > 25)");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' and not (age > 25)");
 	}
 
-    @Test
-    public void testLike() {
-        parse("select * from users, addresses where name like '%alejo%'");
-    }
+	@Test
+	public void testLike() {
+		Query query = parse("select * from users, addresses where name like '%alejo%'");
+	}
 
-    @Test
-    public void testExpression() {
-        parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
-    }
+	@Test
+	public void testExpression() {
+		Query query = parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
+	}
 
 	@Test
 	public void testParse4() {
-		try {
-			parse("select * from users, addresses where name='alejo' and age <> 25");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' and age <> 25");
 	}
 
 	@Test
 	public void testParse5() {
-		try {
-			parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
 	}
 
 	@Test
 	public void testParse6() {
-		try {
-			parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
 	}
 
 	@Test
 	public void testParseAscending() {
-		try {
-			parse("select * from users, addresses where name='alejo' order by name ascending");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' order by name ascending");
 	}
 
 	@Test
 	public void testParseAscending2() {
-		try {
-			parse("select * from users, addresses where name='alejo' order by name asc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' order by name asc");
 	}
 
 	@Test
 	public void testParseDescending() {
-		try {
-			parse("select * from users, addresses where name='alejo' order by name descending");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' order by name descending");
 	}
 
 	@Test
 	public void testParseDescending2() {
-		try {
-			parse("select * from users, addresses where name='alejo' order by name desc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='alejo' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression() {
-		try {
-			parse("select * from users, addresses where name='#[payload.name]' order by name desc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='#[payload.name]' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression2() {
-		try {
-			parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
 	}
 
 
 
 	@Test
 	public void testWithMuleExpression3() {
-		try {
-			parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression4() {
-		try {
-			parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
-		} catch (Throwable e) {
-			fail(e.getMessage());
-		}
+		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression5() {
-		try {
-			parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
-		} catch (Throwable e) {
-			fail(e.getMessage());
-		}
+		Query query = parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression6() {
-		try {
-			parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
-		} catch (Throwable e) {
-			fail(e.getMessage());
-		}
+		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression7() {
-		try {
-			parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
-		} catch (Throwable e) {
-			fail(e.getMessage());
-		}
+		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression9() {
-		try {
-			parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
-		} catch (Throwable e) {
-			fail();
-		}
+		Query query = parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFail() {
-		try {
-			parse("select * from users, addresses where name='alejo' and ");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select * from users, addresses where name='alejo' and ");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFail2() {
-		try {
-			parse("dsql:select from");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("dsql:select from");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFail3() {
-		try {
-			parse("*");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("*");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFail4() {
-		try {
-			parse("SELECT *");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("SELECT *");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFail5() {
-		try {
-			parse("select * from users, addresses where ");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select * from users, addresses where ");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailSelect() {
-		try {
-			parse("selecct users, addresses from Account where name = 123");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("selecct users, addresses from Account where name = 123");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom() {
-		try {
-			parse("select users, addresses frrom Account where name = 123");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select users, addresses frrom Account where name = 123");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom2() {
-		try {
-			parse("select users, addresses *");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select users, addresses *");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom3() {
-		try {
-			parse("select users, addresses ffrom");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select users, addresses ffrom");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailMissingFrom() {
-		try {
-			parse("select users, addresses where");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select users, addresses where");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	public void testFailWhere2() {
-		try {
-			parse("select users, addresses from Account where *");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+		Query query = parse("select users, addresses from Account where *");
 	}
 
-	@Test
+	@Test(expected = DsqlParsingException.class)
 	@Ignore
 	public void testWithMuleExpressionShouldFail() {
-		try {
-			parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
-			fail();
-		} catch (Throwable e) {
-			assertTrue (e instanceof DsqlParsingException);
-		}
+		Query query = parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
+	}
+
+	@Test(expected = DsqlParsingException.class)
+	@Ignore
+	public void testFailWhere() {
+		Query query = parse("select users, addresses from Account whseree name = 123");
 	}
 
 	@Test
-	@Ignore
-	public void testFailWhere() {
-		try {
-			parse("select users, addresses from Account whseree name = 123");
-			fail();
-		} catch (Throwable t) {
-			assertTrue (t instanceof DsqlParsingException);
-		}
+	public void testFieldsWithSpaces() {
+		Query query = parse("select 'Field with spaces' from Account");
+		Assert.assertThat(query.getFields().size(), is(1));
+
+		Assert.assertThat(query.getFields().get(0).getName(), is("Field with spaces"));
 	}
 
-	public void parse(final String string) {
+	@Test
+	public void testNormalFieldsMixedWithFieldsWithSpaces() {
+		Query query = parse("select NormalField,'Field with spaces',Underscored_Field from Account");
+		Assert.assertThat(query.getFields().size(), is(3));
+
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(query.getFields().get(1).getName(), is("Field with spaces"));
+		Assert.assertThat(query.getFields().get(2).getName(), is("Underscored_Field"));
+	}
+
+	@Test
+	public void testNormalFieldWithQuotes() {
+		Query query = parse("select 'NormalField' from Account");
+		Assert.assertThat(query.getFields().size(), is(1));
+
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+	}
+
+	@Test
+	public void testNormalFieldWithQuotesMixedWithFieldsWithSpaces() {
+		Query query = parse("select 'NormalField','Field With Spaces' from Account");
+		Assert.assertThat(query.getFields().size(), is(2));
+
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(query.getFields().get(1).getName(), is("Field With Spaces"));
+	}
+
+	public Query parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
 		CommonTokenStream dsqlTokens = new CommonTokenStream();
@@ -357,11 +259,11 @@ public class DsqlParserTest {
 			printTree(tree);
 
 			MuleDsqlParser parser = new MuleDsqlParser();
-	        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
-	        Query parse = parser.parse(string);
+			DsqlQueryVisitor visitor = new DsqlQueryVisitor();
+			Query parse = parser.parse(string);
 			parse.accept(visitor);
-	        System.out.println(visitor.dsqlQuery());
-
+			System.out.println(visitor.dsqlQuery());
+			return parse;
 		} catch (RecognitionException e) {
 			throw new DsqlParsingException(e);
 		}
@@ -373,10 +275,10 @@ public class DsqlParserTest {
 
 	@SuppressWarnings("unchecked")
 	private void printTree(CommonTree tree, int level) {
-		List<CommonTree> children = (List<CommonTree>)tree.getChildren();
+		List<CommonTree> children = (List<CommonTree>) tree.getChildren();
 		System.out.println(tree.getText() + " - Type=" + tree.getType());
 		if (children != null) {
-			level+=2;
+			level += 2;
 			for (CommonTree t : children) {
 				if (t != null) {
 					printLevel(level);

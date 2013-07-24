@@ -49,7 +49,7 @@ options {
 
 select:
       SELECT^
-      (IDENT(','! IDENT)*| ASTERIX)
+      ((IDENT | STRING_LITERAL)(','! (IDENT| STRING_LITERAL))*| ASTERIX)
       from 
       where?
       orderBy?
@@ -188,7 +188,6 @@ NUMBER_LITERAL:
 	('0'..'9'|'.')*; 
  
 IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
-
 ASTERIX : '*';
 OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';
 

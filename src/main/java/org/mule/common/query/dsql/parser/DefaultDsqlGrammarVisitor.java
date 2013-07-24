@@ -41,23 +41,28 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		// Too generic. Empty on purpose.
 	}
 
-    @Override
-    public void visit(SearchDsqlNode dsqlNode)
-    {
-        SearchByExpression searchByExpression = new SearchByExpression(StringValue.fromLiteral(dsqlNode.getChild(0).getText()));
-        putExpression(searchByExpression);
-    }
+	@Override
+	public void visit(SearchDsqlNode dsqlNode) {
+		SearchByExpression searchByExpression = new SearchByExpression(
+				StringValue.fromLiteral(dsqlNode.getChild(0).getText()));
+		putExpression(searchByExpression);
+	}
 
-    @Override
+	@Override
 	public void visit(SelectDsqlNode selectDsqlNode) {
 		List<IDsqlNode> children = selectDsqlNode.getChildren();
 
 		for (final IDsqlNode dsqlNode : children) {
-			if (dsqlNode.getType() != DsqlParser.IDENT &&
-					dsqlNode.getType() != DsqlParser.ASTERIX) {
+			if (dsqlNode.getType() != DsqlParser.IDENT
+					&& dsqlNode.getType() != DsqlParser.STRING_LITERAL
+					&& dsqlNode.getType() != DsqlParser.ASTERIX) {
 				dsqlNode.accept(this);
 			} else {
-				queryBuilder.addField(new Field(dsqlNode.getText(), "string"));
+				String nodeText = dsqlNode.getText();
+				if (dsqlNode.getType() == DsqlParser.STRING_LITERAL) {
+					nodeText = StringValue.fromLiteral(nodeText).getValue();
+				}
+				queryBuilder.addField(new Field(nodeText, "string"));
 			}
 		}
 	}
@@ -77,56 +82,58 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 		for (final IDsqlNode dsqlNode : children) {
 			int type = dsqlNode.getType();
-			if (type == DsqlParser.AND || type == DsqlParser.OR || type == DsqlParser.NOT) {
+			if (type == DsqlParser.AND || type == DsqlParser.OR
+					|| type == DsqlParser.NOT) {
 				dsqlNode.accept(this);
-			} else if (type == DsqlParser.OPERATOR| type == DsqlParser.COMPARATOR) {
+			} else if (type == DsqlParser.OPERATOR
+					| type == DsqlParser.COMPARATOR) {
 				final List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
-                final Field field = new Field(operatorChildren.get(0).getText());
-                final IDsqlNode node = operatorChildren.get(1);
-                final Value value = buildValue(node);
-                final FieldComparation expression = new FieldComparation(getOperatorFor(dsqlNode.getText()), field, value);
+				final Field field = new Field(operatorChildren.get(0).getText());
+				final IDsqlNode node = operatorChildren.get(1);
+				final Value value = buildValue(node);
+				final FieldComparation expression = new FieldComparation(
+						getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
 			} else if (type == DsqlParser.OPENING_PARENTHESIS) {
 				dsqlNode.accept(this);
-			} else if(type == DsqlParser.SEARCH){
-                dsqlNode.accept(this);
-            }
+			} else if (type == DsqlParser.SEARCH) {
+				dsqlNode.accept(this);
+			}
 		}
 	}
 
-    private Value buildValue(IDsqlNode node)
-    {
-        Value value;
-        switch (node.getType()){
-            case DsqlParser.NUMBER_LITERAL:
-                value =  NumberValue.fromLiteral(node.getText());
-                break;
-            case DsqlParser.BOOLEAN_LITERAL:
-                value =  BooleanValue.fromLiteral(node.getText());
-                break;
-            case DsqlParser.DATE_LITERAL:
-                value =  DateValue.fromLiteral(node.getText());
-                break;
-            case DsqlParser.NULL_LITERAL:
-                value = new NullValue();
-                break;
-            case DsqlParser.IDENT:
-                value = IdentifierValue.fromLiteral(node.getText());
-                break;
-            case DsqlParser.MULE_EXPRESSION:
-                value = MuleExpressionValue.fromLiteral(node.getText());
-                break;
-            case DsqlParser.STRING_LITERAL:
-                value = StringValue.fromLiteral(node.getText());
-                break;
-            default:
-                value = UnknownValue.fromLiteral(node.getText());
-                break;
-        }
-        return value;
-    }
+	private Value buildValue(IDsqlNode node) {
+		Value value;
+		switch (node.getType()) {
+			case DsqlParser.NUMBER_LITERAL :
+				value = NumberValue.fromLiteral(node.getText());
+				break;
+			case DsqlParser.BOOLEAN_LITERAL :
+				value = BooleanValue.fromLiteral(node.getText());
+				break;
+			case DsqlParser.DATE_LITERAL :
+				value = DateValue.fromLiteral(node.getText());
+				break;
+			case DsqlParser.NULL_LITERAL :
+				value = new NullValue();
+				break;
+			case DsqlParser.IDENT :
+				value = IdentifierValue.fromLiteral(node.getText());
+				break;
+			case DsqlParser.MULE_EXPRESSION :
+				value = MuleExpressionValue.fromLiteral(node.getText());
+				break;
+			case DsqlParser.STRING_LITERAL :
+				value = StringValue.fromLiteral(node.getText());
+				break;
+			default :
+				value = UnknownValue.fromLiteral(node.getText());
+				break;
+		}
+		return value;
+	}
 
-    @Override
+	@Override
 	public void visit(AndDsqlNode andDsqlNode) {
 		List<IDsqlNode> children = andDsqlNode.getChildren();
 		expressionLevel++;
@@ -177,9 +184,10 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 	public void visit(OperatorDsqlNode operatorDsqlNode) {
 		List<IDsqlNode> children = operatorDsqlNode.getChildren();
 		Field field = new Field(children.get(0).getText());
-        IDsqlNode dsqlNode = children.get(1);
-        Value value = buildValue(dsqlNode);
-		expressions.push(new FieldComparation(getOperatorFor(operatorDsqlNode.getText()), field, value));
+		IDsqlNode dsqlNode = children.get(1);
+		Value value = buildValue(dsqlNode);
+		expressions.push(new FieldComparation(getOperatorFor(operatorDsqlNode
+				.getText()), field, value));
 	}
 
 	@Override
@@ -193,7 +201,8 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 	private BinaryOperator getOperatorFor(String symbol) {
 		// TODO: refactor this when we start using unary operators.
-		return (BinaryOperator)QueryModelOperatorFactory.getInstance().getOperator(symbol);
+		return (BinaryOperator) QueryModelOperatorFactory.getInstance()
+				.getOperator(symbol);
 	}
 
 	@Override

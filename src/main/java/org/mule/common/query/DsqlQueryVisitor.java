@@ -26,7 +26,11 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         Iterator<Field> fieldIterable = fields.iterator();
         while (fieldIterable.hasNext())
         {
-            select.append(fieldIterable.next().getName());
+            String fieldName = fieldIterable.next().getName();
+            if(fieldName.contains(" ")){
+            	fieldName = "'" + fieldName + "'";
+            }
+			select.append(fieldName);
             if (fieldIterable.hasNext())
             {
                 select.append(",");
