@@ -11,10 +11,22 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.query.expression.Operator;
+
+import java.util.List;
 
 public class DefaultSimpleMetaDataModel 
-	extends AbstractMetaDataModel implements SimpleMetaDataModel
+	extends AbstractMetaDataModel implements SimpleMetaDataModel, FieldMetaDataModel
 {
+    private Boolean isSelectCapable;
+
+    private Boolean isWhereCapable;
+
+    private Boolean isSortCapable;
+
+    private List<Operator> supportedOperators;
+
     /**
      * Used for Define Simple Types
      * @param dataType
@@ -26,6 +38,30 @@ public class DefaultSimpleMetaDataModel
         {
             throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
         }
+        this.isSelectCapable = true;
+        this.isSortCapable = true;
+        this.setSupportedOperators(dataType);
+    }
+
+    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable, List<Operator> supportedOperators )
+    {
+        this(dataType);
+        this.isSelectCapable = isSelectCapable;
+        this.isSortCapable = isSortCapable;
+        this.setSupportedOperators(supportedOperators);
+    }
+
+    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable )
+    {
+        this(dataType);
+        this.isSelectCapable=isSelectCapable;
+        this.isSortCapable=isSortCapable;
+    }
+
+    public DefaultSimpleMetaDataModel(DataType dataType, List<Operator> supportedOperators )
+    {
+        this(dataType);
+        this.setSupportedOperators(supportedOperators);
     }
 
     @Override
@@ -37,6 +73,42 @@ public class DefaultSimpleMetaDataModel
     @Override
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitSimpleMetaDataModel(this);
+    }
+
+    private void setSupportedOperators(DataType dataType){
+        this.setSupportedOperators(SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(dataType));
+    }
+
+    private void setSupportedOperators(List<Operator> supportedOperators){
+        this.supportedOperators= supportedOperators;
+        this.calculateWhereCapable();
+    }
+
+    /**
+     * A field is 'where' capable if its operations aren't empty, otherwise there won't be able to operate
+     */
+    private void calculateWhereCapable() {
+        this.isWhereCapable= ! this.getSupportedOperators().isEmpty();
+    }
+
+    @Override
+    public Boolean isSelectCapable() {
+        return this.isSelectCapable;
+    }
+
+    @Override
+    public Boolean isWhereCapable() {
+        return this.isWhereCapable;
+    }
+
+    @Override
+    public Boolean isSortCapable() {
+        return this.isSortCapable;
+    }
+
+    @Override
+    public List<Operator> getSupportedOperators() {
+        return this.supportedOperators;
     }
 }
 
