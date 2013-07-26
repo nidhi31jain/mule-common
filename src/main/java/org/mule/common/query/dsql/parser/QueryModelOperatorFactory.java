@@ -10,8 +10,6 @@ import org.mule.common.query.expression.NotEqualsOperator;
 import org.mule.common.query.expression.Operator;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public final class QueryModelOperatorFactory {
 
