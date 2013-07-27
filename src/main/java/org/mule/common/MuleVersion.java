@@ -133,6 +133,8 @@ public class MuleVersion {
                 } else if(getRevision() == version.getRevision() || (getRevision() <= 0 && version.getRevision() <=0)) {
                     if(!hasSuffix() && version.hasSuffix()) {
                         return true;
+                    } else if(hasSuffix() && version.hasSuffix()) {
+                        return getSuffix().compareToIgnoreCase(version.getSuffix()) > 0;
                     }
                 }
             }

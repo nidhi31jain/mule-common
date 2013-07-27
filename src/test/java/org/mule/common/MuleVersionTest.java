@@ -72,8 +72,10 @@ public class MuleVersionTest {
         assertTrue(new MuleVersion("3.4.1").newerThan("3.4"));
         assertTrue(new MuleVersion("3.4.1").newerThan("3.3.2"));
         assertTrue(new MuleVersion("3.4.1").newerThan("3.4.1-RC2"));
+        assertTrue(new MuleVersion("3.5.0-BIGHORN").newerThan("3.5.0-ANDES"));
 
         assertFalse(new MuleVersion("3.4.1").newerThan("3.4.1"));
+        assertFalse(new MuleVersion("3.5.0-ANDES").newerThan("3.5.0-ANDES"));
     }
 
     @Test
@@ -81,8 +83,10 @@ public class MuleVersionTest {
         assertTrue(new MuleVersion("3.4").priorTo("3.4.1"));
         assertTrue(new MuleVersion("3.3.2").priorTo("3.4.1"));
         assertTrue(new MuleVersion("3.4.1-RC2").priorTo("3.4.1"));
+        assertTrue(new MuleVersion("3.5.0-ANDES").priorTo("3.5.0-BIGHORN"));
 
         assertFalse(new MuleVersion("3.4.1").priorTo("3.4.1"));
+        assertFalse(new MuleVersion("3.5.0-ANDES").priorTo("3.5.0-ANDES"));
     }
 
 }
