@@ -10,15 +10,23 @@
 
 package org.mule.common.metadata;
 
-public class DefaultMetaDataKey implements MetaDataKey {
+public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
 	private String displayName;
+    private Boolean isFromCapable;
 
 	public DefaultMetaDataKey(String id, String displayName) {
 		this.id = id;
 		this.displayName = displayName;
+        this.isFromCapable = true;
 	}
+
+    public DefaultMetaDataKey(String id, String displayName, Boolean isFromCapable) {
+        this.id = id;
+        this.displayName = displayName;
+        this.isFromCapable = isFromCapable;
+    }
 
 	@Override
 	public String getId() {
@@ -71,4 +79,8 @@ public class DefaultMetaDataKey implements MetaDataKey {
 		return id.compareTo(otherMetadataKey.getId());
 	}
 
+    @Override
+    public Boolean isFromCapable() {
+        return isFromCapable;
+    }
 }
