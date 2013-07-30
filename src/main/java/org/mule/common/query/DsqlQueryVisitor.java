@@ -136,9 +136,5 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         return stringBuilder.toString();
     }
 
-    @Override
-    public void visitSearchBy(StringValue stringValue)
-    {
 
-    }
 }
