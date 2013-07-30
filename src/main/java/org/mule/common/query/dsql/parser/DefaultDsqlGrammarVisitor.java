@@ -65,7 +65,17 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		List<IDsqlNode> children = fromDsqlNode.getChildren();
 
 		for (final IDsqlNode dsqlNode : children) {
-			queryBuilder.addType(new Type(dsqlNode.getText()));
+			String text = getTextIfStringLiteral(dsqlNode);
+			queryBuilder.addType(new Type(text));
+		}
+	}
+
+	private String getTextIfStringLiteral(IDsqlNode dsqlNode) {
+		String text = dsqlNode.getText();
+		if (dsqlNode.getType() == DsqlParser.STRING_LITERAL)
+			return StringValue.fromLiteral(text).getValue();
+		else {
+			return text;
 		}
 	}
 
@@ -80,9 +90,11 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 				dsqlNode.accept(this);
 			} else if (type == DsqlParser.OPERATOR | type == DsqlParser.COMPARATOR) {
 				final List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
-				final Field field = new Field(operatorChildren.get(0).getText());
-				final IDsqlNode node = operatorChildren.get(1);
-				final Value value = buildValue(node);
+				IDsqlNode fieldNode = operatorChildren.get(0);
+				String fieldName = getTextIfStringLiteral(fieldNode);
+				final Field field = new Field(fieldName);
+				final IDsqlNode valueNode = operatorChildren.get(1);
+				final Value value = buildValue(valueNode);
 				final FieldComparation expression = new FieldComparation(
 						getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
@@ -203,7 +215,8 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		List<IDsqlNode> children = orderByDsqlNode.getChildren();
 
 		for (final IDsqlNode dsqlNode : children) {
-			queryBuilder.addOrderByField(new Field(dsqlNode.getText()));
+			String text = getTextIfStringLiteral(dsqlNode);
+			queryBuilder.addOrderByField(new Field(text));
 		}
 	}
 

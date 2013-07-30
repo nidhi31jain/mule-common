@@ -58,7 +58,7 @@ select:
 
 from:
       FROM^
-      IDENT(','! IDENT)*;
+      (IDENT | STRING_LITERAL)(','! (IDENT | STRING_LITERAL))*;
 
 where:
       WHERE^
@@ -66,7 +66,7 @@ where:
     
 orderBy:
     ORDER^ BY! 
-    (IDENT(','! IDENT)*)
+    ((IDENT | STRING_LITERAL)(','! (IDENT | STRING_LITERAL))*)
     direction?;
 
 direction:
@@ -188,7 +188,7 @@ HEX_DIGIT:
 
 NUMBER_LITERAL:
 	('0'..'9'|'.')*; 
- 
+
 IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
 ASTERIX : '*';
 OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';

@@ -36,7 +36,7 @@ public class DsqlParserTest {
 		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
 	}
 
-	private void assertFieldComparation(Expression filterExpression, Class<EqualsOperator> operatorClass, String fieldName, String value) {
+	private void assertFieldComparation(Expression filterExpression, Class<EqualsOperator> operatorClass, String fieldName, Object value) {
 		assertThat(filterExpression, is(FieldComparation.class));
 		FieldComparation fieldComparation = (FieldComparation) filterExpression;
 		assertThat(fieldComparation.getField().getName(), is(fieldName));
@@ -270,6 +270,62 @@ public class DsqlParserTest {
 
 		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
 		Assert.assertThat(query.getFields().get(1).getName(), is("Field With Spaces"));
+	}
+
+	@Test
+	public void testTypeWithSpacesInFrom() {
+		Query query = parse("select NormalField from 'Account Reps'");
+		Assert.assertThat(query.getFields().size(), is(1));
+		Assert.assertThat(query.getTypes().size(), is(1));
+		
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(query.getTypes().get(0).getName(), is("Account Reps"));
+	}
+	
+	@Test
+	public void testTypeWithSpacesMixedWithNormalInFrom() {
+		Query query = parse("select NormalField from NormalType,'Account Reps'");
+		Assert.assertThat(query.getFields().size(), is(1));
+		Assert.assertThat(query.getTypes().size(), is(2));
+		
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(query.getTypes().get(0).getName(), is("NormalType"));
+		Assert.assertThat(query.getTypes().get(1).getName(), is("Account Reps"));
+	}
+	
+	@Test
+	public void testNormalTypeWithQuotes() {
+		Query query = parse("select NormalField from 'NormalType'");
+		Assert.assertThat(query.getFields().size(), is(1));
+		Assert.assertThat(query.getTypes().size(), is(1));
+		
+		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(query.getTypes().get(0).getName(), is("NormalType"));
+	}
+	
+	@Test
+	public void testTypeWithSpacesInOrderBy() {
+		Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces'");
+		Assert.assertThat(query.getOrderByFields().size(), is(1));
+		
+		
+		Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+	}
+	
+	@Test
+	public void testTypeWithSpacesMixedWithNormalInOrderBy() {
+		Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField");
+		Assert.assertThat(query.getOrderByFields().size(), is(2));
+		
+		
+		Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+		Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
+	}
+	
+	@Test
+	public void testTypeWithSpacesInFilters() {
+		Query query = parse("select NormalField from Account WHERE 'Field With Spaces' = 1");
+		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
 	}
 
 	public Query parse(final String string) {
