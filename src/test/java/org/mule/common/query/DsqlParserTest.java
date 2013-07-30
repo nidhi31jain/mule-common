@@ -18,7 +18,9 @@ import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
 import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
+import org.mule.common.query.expression.BinaryLogicalExpression;
 import org.mule.common.query.expression.EqualsOperator;
+import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
 
 public class DsqlParserTest {
@@ -30,16 +32,39 @@ public class DsqlParserTest {
 		assertThat(query.getFields().get(0).getName(), is("*"));
 		assertThat(query.getTypes().size(), is(1));
 		assertThat(query.getTypes().get(0).getName(), is("users"));
-		assertThat(query.getFilterExpression(), is(FieldComparation.class));
-		FieldComparation fieldComparation = (FieldComparation) query.getFilterExpression();
-		assertThat(fieldComparation.getField().getName(), is("name"));
-		assertThat(fieldComparation.getValue().getValue(), is((Object) "alejo"));
-		assertThat(fieldComparation.getOperator(), is(EqualsOperator.class));
+		Expression filterExpression = query.getFilterExpression();
+		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
+	}
+
+	private void assertFieldComparation(Expression filterExpression, Class<EqualsOperator> operatorClass, String fieldName, String value) {
+		assertThat(filterExpression, is(FieldComparation.class));
+		FieldComparation fieldComparation = (FieldComparation) filterExpression;
+		assertThat(fieldComparation.getField().getName(), is(fieldName));
+		assertThat(fieldComparation.getValue().getValue(), is((Object) value));
+		assertThat(fieldComparation.getOperator(), is(operatorClass));
 	}
 
 	@Test
 	public void testParse1() {
 		Query query = parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
+		
+		assertThat(query.getFields().size(), is(2));
+		assertThat(query.getFields().get(0).getName(), is("name"));
+		assertThat(query.getFields().get(1).getName(), is("surname"));
+
+		assertThat(query.getTypes().size(), is(2));
+		assertThat(query.getTypes().get(0).getName(), is("users"));
+		assertThat(query.getTypes().get(1).getName(), is("addresses"));
+		
+		assertThat(query.getFilterExpression(), is(BinaryLogicalExpression.class));
+		BinaryLogicalExpression andExpression = (BinaryLogicalExpression) query.getFilterExpression();
+		assertFieldComparation(andExpression.getLeft(), EqualsOperator.class, "name", "alejo");
+		assertThat(andExpression.getRight(), is(BinaryLogicalExpression.class));
+		
+		BinaryLogicalExpression innerAnd = (BinaryLogicalExpression) andExpression.getRight();
+		assertFieldComparation(innerAnd.getLeft(), EqualsOperator.class, "apellido", "abdala");
+		assertFieldComparation(innerAnd.getRight(), EqualsOperator.class, "address", "guatemala 1234");
+		
 	}
 
 	@Test
