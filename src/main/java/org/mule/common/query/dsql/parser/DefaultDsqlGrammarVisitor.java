@@ -8,6 +8,7 @@ import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.expression.And;
 import org.mule.common.query.expression.BinaryOperator;
 import org.mule.common.query.expression.BooleanValue;
+import org.mule.common.query.expression.DateTimeValue;
 import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
@@ -103,6 +104,9 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			case DsqlParser.DATE_LITERAL :
 				value = DateValue.fromLiteral(node.getText());
 				break;
+            case DsqlParser.DATE_TIME_LITERAL :
+                value = DateTimeValue.fromLiteral(node.getText());
+                break;
 			case DsqlParser.NULL_LITERAL :
 				value = new NullValue();
 				break;

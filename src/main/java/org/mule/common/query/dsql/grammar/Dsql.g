@@ -86,6 +86,9 @@ string:
 bool:
     BOOLEAN_LITERAL;
 
+date_time:
+    DATE_TIME_LITERAL;
+
 date:
     DATE_LITERAL;
 
@@ -104,6 +107,7 @@ term:
     | string
     | number
     | bool
+    | date_time
     | date
     | null_type;
     
@@ -133,7 +137,10 @@ CLOSING_PARENTHESIS: ')';
 
 COMPARATOR: L_ I_ K_ E_;
 
-DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
+DATE_TIME_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
+
+DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT;
+
 fragment
 TIME_ZONE: (('+'|'-') TWO_DIGIT':'TWO_DIGIT | 'Z');
 NULL_LITERAL: N_ U_ L_ L_;
