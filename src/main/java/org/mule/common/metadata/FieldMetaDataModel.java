@@ -7,11 +7,11 @@ import java.util.List;
 /**
  */
 public interface FieldMetaDataModel {
-    Boolean isSelectCapable();
+    boolean isSelectCapable();
 
-    Boolean isWhereCapable();
+    boolean isWhereCapable();
 
-    Boolean isSortCapable();
+    boolean isSortCapable();
 
     List<Operator> getSupportedOperators();
 }

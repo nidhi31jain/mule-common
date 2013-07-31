@@ -14,7 +14,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
 	private String displayName;
-    private Boolean isFromCapable;
+    private boolean isFromCapable;
 
 	public DefaultMetaDataKey(String id, String displayName) {
 		this.id = id;
@@ -22,7 +22,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
         this.isFromCapable = true;
 	}
 
-    public DefaultMetaDataKey(String id, String displayName, Boolean isFromCapable) {
+    public DefaultMetaDataKey(String id, String displayName, boolean isFromCapable) {
         this.id = id;
         this.displayName = displayName;
         this.isFromCapable = isFromCapable;
@@ -80,7 +80,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 	}
 
     @Override
-    public Boolean isFromCapable() {
+    public boolean isFromCapable() {
         return isFromCapable;
     }
 }
