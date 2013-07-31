@@ -19,11 +19,11 @@ import java.util.List;
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel, FieldMetaDataModel
 {
-    private boolean isSelectCapable;
+    private boolean isSelectCapable = true;
 
-    private boolean isWhereCapable;
+    private boolean isWhereCapable = true;
 
-    private boolean isSortCapable;
+    private boolean isSortCapable = true;
 
     private List<Operator> supportedOperators;
 

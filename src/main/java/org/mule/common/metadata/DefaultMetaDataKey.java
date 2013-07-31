@@ -14,7 +14,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
 	private String displayName;
-    private boolean isFromCapable;
+    private boolean isFromCapable = true;
 
 	public DefaultMetaDataKey(String id, String displayName) {
 		this.id = id;
