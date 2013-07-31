@@ -14,6 +14,7 @@ import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
 import org.mule.common.query.expression.Operator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultSimpleMetaDataModel 
@@ -51,11 +52,15 @@ public class DefaultSimpleMetaDataModel
         this.setSupportedOperators(supportedOperators);
     }
 
-    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable )
+    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable, Boolean isWhereCapable)
     {
         this(dataType);
         this.isSelectCapable=isSelectCapable;
         this.isSortCapable=isSortCapable;
+        this.isWhereCapable = isWhereCapable;
+        if (!this.isWhereCapable) {
+            this.supportedOperators = new ArrayList<Operator>();
+        }
     }
 
     public DefaultSimpleMetaDataModel(DataType dataType, List<Operator> supportedOperators )

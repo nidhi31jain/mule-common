@@ -61,11 +61,17 @@ public class DefaultSimpleMetaDataModelTestCase
     @Test
     public void testFieldCapabilityWithDataTypeBoolAndOperators()
     {
-        FieldMetaDataModel smdm = new DefaultSimpleMetaDataModel(DataType.BOOLEAN, false, false);
+        FieldMetaDataModel smdm = new DefaultSimpleMetaDataModel(DataType.BOOLEAN, false, false, false);
         assertFalse(smdm.isSelectCapable());
-        assertTrue(smdm.isWhereCapable());
         assertFalse(smdm.isSortCapable());
-        assertFalse(smdm.getSupportedOperators().isEmpty());
+        assertFalse(smdm.isWhereCapable());
+        assertTrue(smdm.getSupportedOperators().isEmpty());
+
+        FieldMetaDataModel smdmWhere = new DefaultSimpleMetaDataModel(DataType.BOOLEAN, false, false, true);
+        assertFalse(smdmWhere.isSelectCapable());
+        assertTrue(smdmWhere.isWhereCapable());
+        assertFalse(smdmWhere.isSortCapable());
+        assertFalse(smdmWhere.getSupportedOperators().isEmpty());
 
         smdm = new DefaultSimpleMetaDataModel(DataType.BOOLEAN, new ArrayList<Operator>());
         assertTrue(smdm.isSelectCapable());
