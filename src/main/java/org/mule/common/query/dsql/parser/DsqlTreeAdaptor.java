@@ -23,9 +23,6 @@ public class DsqlTreeAdaptor extends CommonTreeAdaptor {
 				retVal = new FromDsqlNode(payload);
 				break;
 			}
-            case DsqlParser.SEARCH:
-                retVal = new SearchDsqlNode(payload);
-                break;
 			case DsqlParser.WHERE: {
 				retVal = new ExpressionDsqlNode(payload);
 				break;

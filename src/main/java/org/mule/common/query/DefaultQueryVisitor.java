@@ -1,6 +1,7 @@
 package org.mule.common.query;
 
-import org.mule.common.query.expression.*;
+import org.mule.common.query.expression.OperatorVisitor;
+import org.mule.common.query.expression.Value;
 
 import java.util.List;
 
@@ -73,10 +74,5 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
 
     @Override
     public void _dont_implement_QueryVisitor___instead_extend_DefaultQueryVisitor() {
-    }
-
-    @Override
-    public void visitSearchBy(StringValue stringValue)
-    {
     }
 }

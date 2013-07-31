@@ -8,6 +8,7 @@ import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.expression.And;
 import org.mule.common.query.expression.BinaryOperator;
 import org.mule.common.query.expression.BooleanValue;
+import org.mule.common.query.expression.DateTimeValue;
 import org.mule.common.query.expression.DateValue;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
@@ -17,7 +18,6 @@ import org.mule.common.query.expression.Not;
 import org.mule.common.query.expression.NullValue;
 import org.mule.common.query.expression.NumberValue;
 import org.mule.common.query.expression.Or;
-import org.mule.common.query.expression.SearchByExpression;
 import org.mule.common.query.expression.StringValue;
 import org.mule.common.query.expression.UnknownValue;
 import org.mule.common.query.expression.Value;
@@ -39,13 +39,6 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 	@Override
 	public void visit(DsqlNode dsqlNode) {
 		// Too generic. Empty on purpose.
-	}
-
-	@Override
-	public void visit(SearchDsqlNode dsqlNode) {
-		SearchByExpression searchByExpression = new SearchByExpression(
-				StringValue.fromLiteral(dsqlNode.getChild(0).getText()));
-		putExpression(searchByExpression);
 	}
 
 	@Override
@@ -72,7 +65,17 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		List<IDsqlNode> children = fromDsqlNode.getChildren();
 
 		for (final IDsqlNode dsqlNode : children) {
-			queryBuilder.addType(new Type(dsqlNode.getText()));
+			String text = getTextIfStringLiteral(dsqlNode);
+			queryBuilder.addType(new Type(text));
+		}
+	}
+
+	private String getTextIfStringLiteral(IDsqlNode dsqlNode) {
+		String text = dsqlNode.getText();
+		if (dsqlNode.getType() == DsqlParser.STRING_LITERAL)
+			return StringValue.fromLiteral(text).getValue();
+		else {
+			return text;
 		}
 	}
 
@@ -85,18 +88,17 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			if (type == DsqlParser.AND || type == DsqlParser.OR
 					|| type == DsqlParser.NOT) {
 				dsqlNode.accept(this);
-			} else if (type == DsqlParser.OPERATOR
-					| type == DsqlParser.COMPARATOR) {
+			} else if (type == DsqlParser.OPERATOR | type == DsqlParser.COMPARATOR) {
 				final List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
-				final Field field = new Field(operatorChildren.get(0).getText());
-				final IDsqlNode node = operatorChildren.get(1);
-				final Value value = buildValue(node);
+				IDsqlNode fieldNode = operatorChildren.get(0);
+				String fieldName = getTextIfStringLiteral(fieldNode);
+				final Field field = new Field(fieldName);
+				final IDsqlNode valueNode = operatorChildren.get(1);
+				final Value value = buildValue(valueNode);
 				final FieldComparation expression = new FieldComparation(
 						getOperatorFor(dsqlNode.getText()), field, value);
 				queryBuilder.setFilterExpression(expression);
 			} else if (type == DsqlParser.OPENING_PARENTHESIS) {
-				dsqlNode.accept(this);
-			} else if (type == DsqlParser.SEARCH) {
 				dsqlNode.accept(this);
 			}
 		}
@@ -114,6 +116,9 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			case DsqlParser.DATE_LITERAL :
 				value = DateValue.fromLiteral(node.getText());
 				break;
+            case DsqlParser.DATE_TIME_LITERAL :
+                value = DateTimeValue.fromLiteral(node.getText());
+                break;
 			case DsqlParser.NULL_LITERAL :
 				value = new NullValue();
 				break;
@@ -210,7 +215,8 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 		List<IDsqlNode> children = orderByDsqlNode.getChildren();
 
 		for (final IDsqlNode dsqlNode : children) {
-			queryBuilder.addOrderByField(new Field(dsqlNode.getText()));
+			String text = getTextIfStringLiteral(dsqlNode);
+			queryBuilder.addOrderByField(new Field(text));
 		}
 	}
 

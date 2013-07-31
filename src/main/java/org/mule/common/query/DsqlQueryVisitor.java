@@ -26,10 +26,7 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         Iterator<Field> fieldIterable = fields.iterator();
         while (fieldIterable.hasNext())
         {
-            String fieldName = fieldIterable.next().getName();
-            if(fieldName.contains(" ")){
-            	fieldName = "'" + fieldName + "'";
-            }
+            String fieldName = addQuotesIfNeeded(fieldIterable.next().getName());
 			select.append(fieldName);
             if (fieldIterable.hasNext())
             {
@@ -40,14 +37,19 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         stringBuilder.insert(0, select);
     }
 
-    @Override
+	private String addQuotesIfNeeded(String name) {
+		return name.contains(" ") ? "'" + name + "'" : name;
+	}
+
+	@Override
     public void visitTypes(List<Type> types)
     {
         stringBuilder.append(" FROM ");
         Iterator<Type> typeIterator = types.iterator();
         while (typeIterator.hasNext())
         {
-            stringBuilder.append(typeIterator.next().getName());
+            String typeName = addQuotesIfNeeded(typeIterator.next().getName());
+			stringBuilder.append(typeName);
             if (typeIterator.hasNext())
             {
                 stringBuilder.append(",");
@@ -62,7 +64,8 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         Iterator<Field> orderByFieldsIterator = orderByFields.iterator();
         while (orderByFieldsIterator.hasNext())
         {
-            stringBuilder.append(orderByFieldsIterator.next().getName());
+            String fieldName = addQuotesIfNeeded(orderByFieldsIterator.next().getName());
+			stringBuilder.append(fieldName);
             if (orderByFieldsIterator.hasNext())
             {
                 stringBuilder.append(",");
@@ -122,7 +125,8 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
     @Override
     public void visitComparison(String operator, Field field, Value value)
     {
-        stringBuilder.append(field.getName()).append(operator).append(value.toString());
+        String name = addQuotesIfNeeded(field.getName());
+		stringBuilder.append(name).append(operator).append(value.toString());
     }
 
     @Override
@@ -136,9 +140,5 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
         return stringBuilder.toString();
     }
 
-    @Override
-    public void visitSearchBy(StringValue stringValue)
-    {
 
-    }
 }

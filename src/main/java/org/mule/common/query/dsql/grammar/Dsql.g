@@ -23,7 +23,7 @@ options {
 @parser::members {
 	protected Object recoverFromMismatchedToken(IntStream input,int ttype, BitSet follow) throws RecognitionException {
 	    //System.out.println("recoverFromMismatechedToken");
-		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException(input.toString());
+		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException("Invalid token at : "+input.toString());
 	}
 	
 	protected void mismatch(IntStream input, int ttype, BitSet follow) throws RecognitionException {
@@ -58,7 +58,7 @@ select:
 
 from:
       FROM^
-      IDENT(','! IDENT)*;
+      (IDENT | STRING_LITERAL)(','! (IDENT | STRING_LITERAL))*;
 
 where:
       WHERE^
@@ -66,7 +66,7 @@ where:
     
 orderBy:
     ORDER^ BY! 
-    (IDENT(','! IDENT)*)
+    ((IDENT | STRING_LITERAL)(','! (IDENT | STRING_LITERAL))*)
     direction?;
 
 direction:
@@ -86,6 +86,9 @@ string:
 bool:
     BOOLEAN_LITERAL;
 
+date_time:
+    DATE_TIME_LITERAL;
+
 date:
     DATE_LITERAL;
 
@@ -104,18 +107,15 @@ term:
     | string
     | number
     | bool
+    | date_time
     | date
     | null_type;
     
 negation:
       NOT^* term;
 
-searchBy: SEARCH^ string;
-
-comparison: negation ((OPERATOR^|COMPARATOR^) negation)*;
-
-relation: (comparison | searchBy);
-
+relation:
+    negation ((OPERATOR^|COMPARATOR^) negation)*;
 
 expression:
       relation ((AND^|OR^) relation)*;
@@ -136,9 +136,11 @@ OPENING_PARENTHESIS: '(';
 CLOSING_PARENTHESIS: ')';
 
 COMPARATOR: L_ I_ K_ E_;
-SEARCH: S_ E_ A_ R_ C_ H_ B_ Y_;
 
-DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
+DATE_TIME_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT'T'TWO_DIGIT':'TWO_DIGIT':'TWO_DIGIT TIME_ZONE;
+
+DATE_LITERAL: TWO_DIGIT TWO_DIGIT'-'TWO_DIGIT'-'TWO_DIGIT;
+
 fragment
 TIME_ZONE: (('+'|'-') TWO_DIGIT':'TWO_DIGIT | 'Z');
 NULL_LITERAL: N_ U_ L_ L_;
@@ -186,7 +188,7 @@ HEX_DIGIT:
 
 NUMBER_LITERAL:
 	('0'..'9'|'.')*; 
- 
+
 IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
 ASTERIX : '*';
 OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';

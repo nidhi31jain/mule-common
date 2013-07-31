@@ -4,8 +4,6 @@ public interface DsqlGrammarVisitor {
 
 	void visit(DsqlNode dsqlNode);
 
-	void visit(SearchDsqlNode dsqlNode);
-
 	void visit(SelectDsqlNode selectDsqlNode);
 
 	void visit(FromDsqlNode fromDsqlNode);

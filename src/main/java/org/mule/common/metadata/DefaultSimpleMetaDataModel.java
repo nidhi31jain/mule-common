@@ -20,11 +20,11 @@ import java.util.List;
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel, FieldMetaDataModel
 {
-    private Boolean isSelectCapable;
+    private boolean isSelectCapable = true;
 
-    private Boolean isWhereCapable;
+    private boolean isWhereCapable = true;
 
-    private Boolean isSortCapable;
+    private boolean isSortCapable = true;
 
     private List<Operator> supportedOperators;
 
@@ -44,7 +44,7 @@ public class DefaultSimpleMetaDataModel
         this.setSupportedOperators(dataType);
     }
 
-    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable, List<Operator> supportedOperators )
+    public DefaultSimpleMetaDataModel(DataType dataType, boolean isSelectCapable, boolean isSortCapable, List<Operator> supportedOperators )
     {
         this(dataType);
         this.isSelectCapable = isSelectCapable;
@@ -97,17 +97,17 @@ public class DefaultSimpleMetaDataModel
     }
 
     @Override
-    public Boolean isSelectCapable() {
+    public boolean isSelectCapable() {
         return this.isSelectCapable;
     }
 
     @Override
-    public Boolean isWhereCapable() {
+    public boolean isWhereCapable() {
         return this.isWhereCapable;
     }
 
     @Override
-    public Boolean isSortCapable() {
+    public boolean isSortCapable() {
         return this.isSortCapable;
     }
 
