@@ -12,22 +12,19 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.query.expression.EqualsOperator;
+import org.mule.common.query.expression.LikeOperator;
+import org.mule.common.query.expression.NotEqualsOperator;
 import org.mule.common.query.expression.Operator;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DefaultSimpleMetaDataModel 
-	extends AbstractMetaDataModel implements SimpleMetaDataModel, FieldMetaDataModel
+	extends AbstractMetaDataModel implements SimpleMetaDataModel
 {
-    private boolean isSelectCapable = true;
-
-    private boolean isWhereCapable = true;
-
-    private boolean isSortCapable = true;
-
-    private List<Operator> supportedOperators;
-
     /**
      * Used for Define Simple Types
      * @param dataType
@@ -39,34 +36,6 @@ public class DefaultSimpleMetaDataModel
         {
             throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
         }
-        this.isSelectCapable = true;
-        this.isSortCapable = true;
-        this.setSupportedOperators(dataType);
-    }
-
-    public DefaultSimpleMetaDataModel(DataType dataType, boolean isSelectCapable, boolean isSortCapable, List<Operator> supportedOperators )
-    {
-        this(dataType);
-        this.isSelectCapable = isSelectCapable;
-        this.isSortCapable = isSortCapable;
-        this.setSupportedOperators(supportedOperators);
-    }
-
-    public DefaultSimpleMetaDataModel(DataType dataType, Boolean isSelectCapable, Boolean isSortCapable, Boolean isWhereCapable)
-    {
-        this(dataType);
-        this.isSelectCapable=isSelectCapable;
-        this.isSortCapable=isSortCapable;
-        this.isWhereCapable = isWhereCapable;
-        if (!this.isWhereCapable) {
-            this.supportedOperators = new ArrayList<Operator>();
-        }
-    }
-
-    public DefaultSimpleMetaDataModel(DataType dataType, List<Operator> supportedOperators )
-    {
-        this(dataType);
-        this.setSupportedOperators(supportedOperators);
     }
 
     @Override
@@ -80,41 +49,31 @@ public class DefaultSimpleMetaDataModel
         modelVisitor.visitSimpleMetaDataModel(this);
     }
 
-    private void setSupportedOperators(DataType dataType){
-        this.setSupportedOperators(SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(dataType));
-    }
-
-    private void setSupportedOperators(List<Operator> supportedOperators){
-        this.supportedOperators= supportedOperators;
-        this.calculateWhereCapable();
-    }
-
-    /**
-     * A field is 'where' capable if its operations aren't empty, otherwise there won't be able to operate
-     */
-    private void calculateWhereCapable() {
-        this.isWhereCapable= ! this.getSupportedOperators().isEmpty();
-    }
-
     @Override
-    public boolean isSelectCapable() {
-        return this.isSelectCapable;
-    }
-
-    @Override
-    public boolean isWhereCapable() {
-        return this.isWhereCapable;
-    }
-
-    @Override
-    public boolean isSortCapable() {
-        return this.isSortCapable;
-    }
-
-    @Override
-    public List<Operator> getSupportedOperators() {
-        return this.supportedOperators;
+    public String getDefaultImplementationClass() {
+        switch (this.getDataType()) {
+            case BOOLEAN:
+                return "java.lang.Boolean";
+            case ENUM:
+                return "java.lang.Enum";
+            case DATE:
+                return "java.util.Date";
+            case DATE_TIME:
+                return "java.util.Calendar";
+            case BYTE:
+                return "java.lang.Byte";
+            case NUMBER:
+                return "java.lang.Number";
+            case STRING:
+                return "java.lang.String";
+            case VOID:
+                return "java.lang.Void";
+            case STREAM:
+                return "java.io.InputStream";
+        }
+        return null;
     }
 }
+
 
 

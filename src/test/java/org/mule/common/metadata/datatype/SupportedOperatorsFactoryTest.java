@@ -52,8 +52,6 @@ public class SupportedOperatorsFactoryTest {
         assertTrue(sof.getSupportedOperationsFor(DataType.JSON).isEmpty());
     }
 
-
-
     public void testCollectionsOfSymbolsWithOperations(List<String> symbols, List<Operator> supported ){
         assertEquals(symbols.size(), supported.size());
         for (int i=0; i < symbols.size() ; i++){

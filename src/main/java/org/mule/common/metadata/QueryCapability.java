@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  */
-public interface FieldMetaDataModel {
+public interface QueryCapability extends Capability {
     boolean isSelectCapable();
 
     boolean isWhereCapable();

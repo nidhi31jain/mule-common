@@ -14,8 +14,12 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     private Set<String> parentNames;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
-		this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz));
+		this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, new DefaultFieldFeatureFactory()));
 	}
+
+    public DefaultPojoMetaDataModel(Class<?> clazz, FieldFeatureFactory fieldFeatureFactory) {
+        this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, fieldFeatureFactory));
+    }
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz, List<MetaDataField> fields) {
 		this(clazz, clazz.getSimpleName(),fields);
@@ -28,7 +32,6 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
         this.clazzName = clazz.getName();
         this.isInterface = clazz.isInterface();
         this.fieldsForClass = fields;
-        
     }
 	
 	@Override
@@ -112,5 +115,10 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     @Override
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitPojoModel(this);
+    }
+
+    @Override
+    public String getDefaultImplementationClass() {
+        return clazzName;
     }
 }

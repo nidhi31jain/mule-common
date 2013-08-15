@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.mule.common.metadata.DefaultFieldFeatureFactory;
 
 public class MetaDataModelFactoryTestCase
 {
@@ -72,9 +73,11 @@ public class MetaDataModelFactoryTestCase
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
         
-        List<MetaDataField> fields = factory.getFieldsForClass(Container.class);
+        List<MetaDataField> fields = factory.getFieldsForClass(Container.class, new DefaultFieldFeatureFactory());
         assertEquals(1, fields.size());
         MetaDataField dupField = fields.get(0);
+        assertTrue(dupField.getCapabilities().size() == 1);
+        assertEquals("org.mule.common.metadata.test.MetaDataModelFactoryTestCase$S2", dupField.getImplementationClass());
         assertEquals("dup", dupField.getName());
         MetaDataModel dupm = dupField.getMetaDataModel();
         assertTrue(dupm instanceof PojoMetaDataModel);
@@ -92,9 +95,11 @@ public class MetaDataModelFactoryTestCase
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
         
-        List<MetaDataField> fields = factory.getFieldsForClass(ContainerOtherGetter.class);
+        List<MetaDataField> fields = factory.getFieldsForClass(ContainerOtherGetter.class, new DefaultFieldFeatureFactory());
         assertEquals(1, fields.size());
         MetaDataField dupField = fields.get(0);
+        assertTrue(dupField.getCapabilities().size() == 1);
+        assertEquals("org.mule.common.metadata.test.MetaDataModelFactoryTestCase$DuplicateInterfaceObject", dupField.getImplementationClass());
         assertEquals("other", dupField.getName());
         MetaDataModel dupm = dupField.getMetaDataModel();
         assertTrue(dupm instanceof PojoMetaDataModel);
@@ -114,7 +119,7 @@ public class MetaDataModelFactoryTestCase
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
         
-        List<MetaDataField> fields = factory.getFieldsForClass(ContainerNoGetter.class);
+        List<MetaDataField> fields = factory.getFieldsForClass(ContainerNoGetter.class, new DefaultFieldFeatureFactory());
         assertEquals(0, fields.size());
     }
 
@@ -123,12 +128,13 @@ public class MetaDataModelFactoryTestCase
     {
     	MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
     	
-    	List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(Struct1.class);
+    	List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(Struct1.class, new DefaultFieldFeatureFactory());
     	assertNotNull(fieldsForStruct);
     	
     	assertPojoMetaDataModelField(getField(fieldsForStruct, "date"), "date", DataType.DATE_TIME);
     	assertPojoMetaDataModelField(getField(fieldsForStruct, "value"), "value", DataType.NUMBER);
     	MetaDataField field = getField(fieldsForStruct, "byteArray");
+        assertTrue(field.getCapabilities().size() == 1);
     	assertNotNull(field);
     	MetaDataModel metaDataModel = field.getMetaDataModel();
     	assertNotNull(metaDataModel);
@@ -140,10 +146,11 @@ public class MetaDataModelFactoryTestCase
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
 
-        List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(ListOfStruct.class);
+        List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(ListOfStruct.class, new DefaultFieldFeatureFactory());
         assertNotNull(fieldsForStruct);
 
         MetaDataField structField = getField(fieldsForStruct, "structList");
+        assertTrue(structField.getCapabilities().size() == 1);
 		assertListMetaDataModelField(structField, "structList", DataType.POJO);
         MetaDataModel struct = ((ListMetaDataModel)structField.getMetaDataModel()).getElementModel();
         assertTrue(struct instanceof PojoMetaDataModel);
@@ -160,10 +167,11 @@ public class MetaDataModelFactoryTestCase
     {
     	MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
     	
-    	List<MetaDataField> fieldsForMapStruct = factory.getFieldsForClass(MapOfStruct.class);
+    	List<MetaDataField> fieldsForMapStruct = factory.getFieldsForClass(MapOfStruct.class, new DefaultFieldFeatureFactory());
     	assertNotNull(fieldsForMapStruct);
     	
     	MetaDataField structField = getField(fieldsForMapStruct, "structMap");
+        assertTrue(structField.getCapabilities().size() == 1);
     	assertParamMapMetaDataModelField(structField, "structMap", DataType.POJO, DataType.POJO);
     	
     	MetaDataModel keyStruct = ((ParameterizedMapMetaDataModel)structField.getMetaDataModel()).getKeyMetaDataModel();
@@ -191,7 +199,7 @@ public class MetaDataModelFactoryTestCase
     {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
         {
-            List<MetaDataField> fieldsForNode = factory.getFieldsForClass(Node.class);
+            List<MetaDataField> fieldsForNode = factory.getFieldsForClass(Node.class, new DefaultFieldFeatureFactory());
             assertNotNull(fieldsForNode);
 
             MetaDataField leftField = getField(fieldsForNode, "left");
@@ -212,9 +220,9 @@ public class MetaDataModelFactoryTestCase
             assertPojoMetaDataModelField(getField(leftNodeFields, "defaultVisibility"), "defaultVisibility", DataType.NUMBER);
         }
         {
-            List<MetaDataField> fieldsForNodeListOfStruct = factory.getFieldsForClass(NodeListOfStruct.class);
+            List<MetaDataField> fieldsForNodeListOfStruct = factory.getFieldsForClass(NodeListOfStruct.class, new DefaultFieldFeatureFactory());
             assertNotNull(fieldsForNodeListOfStruct);
-            
+
             MetaDataField structListField = getField(fieldsForNodeListOfStruct,  "structList");
             MetaDataField recursiveListField = getField(fieldsForNodeListOfStruct,  "recursiveNode");
             assertPojoListMetaDataModelField(structListField, "structList", Struct.class);
@@ -383,6 +391,9 @@ public class MetaDataModelFactoryTestCase
     {
         assertNotNull(field);
         assertEquals(name, field.getName());
+        assertTrue(field.getCapabilities().size() == 1);
+        assertEquals("java.util.List", field.getImplementationClass());
+
 
         MetaDataModel model = field.getMetaDataModel();
         assertTrue(model instanceof ListMetaDataModel);
@@ -395,8 +406,11 @@ public class MetaDataModelFactoryTestCase
     {
     	assertNotNull(field);
     	assertEquals(name, field.getName());
-    	
-    	MetaDataModel model = field.getMetaDataModel();
+        assertTrue(field.getCapabilities().size() == 1);
+        assertEquals("java.util.List", field.getImplementationClass());
+
+
+        MetaDataModel model = field.getMetaDataModel();
     	assertTrue(model instanceof ListMetaDataModel);
     	assertSame(DataType.LIST, model.getDataType());
     	ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
@@ -408,8 +422,11 @@ public class MetaDataModelFactoryTestCase
     {
     	assertNotNull(field);
     	assertEquals(name, field.getName());
-    	
-    	MetaDataModel model = field.getMetaDataModel();
+        assertTrue(field.getCapabilities().size() == 1);
+        assertEquals("java.util.List", field.getImplementationClass());
+
+
+        MetaDataModel model = field.getMetaDataModel();
     	assertTrue(model instanceof ListMetaDataModel);
     	assertSame(DataType.LIST, model.getDataType());
     	ListMetaDataModel listModel = model.as(ListMetaDataModel.class);
@@ -423,6 +440,8 @@ public class MetaDataModelFactoryTestCase
     {
     	assertNotNull(field);
     	assertEquals(name, field.getName());
+        assertTrue(field.getCapabilities().size() == 1);
+        assertEquals("java.util.Map", field.getImplementationClass());
     	
     	MetaDataModel model = field.getMetaDataModel();
     	
@@ -455,6 +474,8 @@ public class MetaDataModelFactoryTestCase
     private void assertPojoMetaDataModelField(MetaDataField field, String name, DataType dt)
     {
         assertNotNull(field);
+        assertTrue(field.getCapabilities().size() == 1);
+        assertEquals(getDefaultImplementationClass(field, dt), field.getImplementationClass());
         assertEquals(name, field.getName());
         
         MetaDataModel model = field.getMetaDataModel();
@@ -476,7 +497,7 @@ public class MetaDataModelFactoryTestCase
     @Test
     public void testTwoGetters() {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
-        List<MetaDataField> fields = factory.getFieldsForClass(SocketMapContainer.class);
+        List<MetaDataField> fields = factory.getFieldsForClass(SocketMapContainer.class, new DefaultFieldFeatureFactory());
         assertEquals(1, fields.size());
         for (MetaDataField f : fields)
         {
@@ -512,9 +533,35 @@ public class MetaDataModelFactoryTestCase
     @Test
     public void testMapLikeContainer() {
         MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
-        List<MetaDataField> fields = factory.getFieldsForClass(MapLikeContainer.class);
+        List<MetaDataField> fields = factory.getFieldsForClass(MapLikeContainer.class, new DefaultFieldFeatureFactory());
         // doesn't have a bean like interface so no fields are found.
         assertEquals(0, fields.size());
+    }
+
+    private String getDefaultImplementationClass(MetaDataField field, DataType dt) {
+        switch (dt) {
+            case BOOLEAN:
+                return "java.lang.Boolean";
+            case ENUM:
+                return "java.lang.Enum";
+            case DATE:
+                return "java.util.Date";
+            case DATE_TIME:
+                return "java.util.Calendar";
+            case BYTE:
+                return "java.lang.Byte";
+            case NUMBER:
+                return "java.lang.Number";
+            case STRING:
+                return "java.lang.String";
+            case VOID:
+                return "java.lang.Void";
+            case STREAM:
+                return "java.io.InputStream";
+            case POJO:
+                return field.getImplementationClass();
+        }
+        return null;
     }
 }
 

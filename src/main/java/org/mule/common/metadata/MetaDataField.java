@@ -1,5 +1,7 @@
 package org.mule.common.metadata;
 
+import java.util.List;
+
 public interface MetaDataField {
 	
 	public String getName();
@@ -7,6 +9,10 @@ public interface MetaDataField {
 	public MetaDataModel getMetaDataModel();
 
 	public FieldAccessType getAccessType();
+
+    public List<Capability> getCapabilities();
+
+    public String getImplementationClass();
 
 	public static enum FieldAccessType
 	{

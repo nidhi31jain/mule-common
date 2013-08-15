@@ -50,25 +50,25 @@ public class MetaDataModelFactory
         return instance;
     }
 
-    public List<MetaDataField> getFieldsForClass(Class<?> clazz)
+    public List<MetaDataField> getFieldsForClass(Class<?> clazz, FieldFeatureFactory featureFactory)
     {
-    	return getFieldsForClass(clazz, new ParsingContext());
+    	return getFieldsForClass(clazz, new ParsingContext(), featureFactory);
     }
 
-    public List<MetaDataField> getFieldsForClass(Class<?> clazz, ParsingContext context)
+    public List<MetaDataField> getFieldsForClass(Class<?> clazz, ParsingContext context, FieldFeatureFactory featureFactory)
     {
         ArrayList<MetaDataField> result = new ArrayList<MetaDataField>();
-        parseFields(clazz, context, result);
+        parseFields(clazz, context, featureFactory, result);
         return result;
     }
 
 	/**
 	 * Parses given type and answers schema object corresponding to that type.
 	 */
-	protected MetaDataModel parseType(Type type, ParsingContext context) {
+	protected MetaDataModel parseType(Type type, ParsingContext context, FieldFeatureFactory featureFactory) {
 		
 		if (type instanceof Class<?>) {
-			return parseClass((Class<?>)type, context);
+			return parseClass((Class<?>)type, context, featureFactory);
 		}
 		if (type instanceof ParameterizedType) {
 			/*
@@ -79,10 +79,10 @@ public class MetaDataModelFactory
 			Class<?> raw = TypeResolver.erase(type);
 			
 			if (Collection.class.isAssignableFrom(raw)) {				
-				return  new DefaultListMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context));							
+				return  new DefaultListMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context, featureFactory));
 			}
 			if (Map.class.isAssignableFrom(raw)) {				
-				return new DefaultParameterizedMapMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context), parseType(paramType.getActualTypeArguments()[1], context));				
+				return new DefaultParameterizedMapMetaDataModel(parseType(paramType.getActualTypeArguments()[0], context, featureFactory), parseType(paramType.getActualTypeArguments()[1], context, featureFactory));
 				
 			}
 			/*
@@ -91,11 +91,11 @@ public class MetaDataModelFactory
 			 */
 			context.addResolvedVariables(TypeResolver.resolveVariables(type));
 			
-			return parseClass(raw, context);
+			return parseClass(raw, context, featureFactory);
 		}
 		if (type instanceof GenericArrayType) {			
 			GenericArrayType arrayType = (GenericArrayType)type;
-			return new DefaultListMetaDataModel(parseType(arrayType.getGenericComponentType(), context));			
+			return new DefaultListMetaDataModel(parseType(arrayType.getGenericComponentType(), context, featureFactory));
 		}
 		if (type instanceof TypeVariable<?>) {
 			
@@ -105,12 +105,12 @@ public class MetaDataModelFactory
 				TypeVariable<?> typeVariable = (TypeVariable<?>)type;
 				Type bounds[] = typeVariable.getBounds();
 				if (bounds.length > 0) {
-					return parseType(bounds[0], context);
+					return parseType(bounds[0], context, featureFactory);
 				} else {
 					return context.OBJECT;
 				}
 			} else {
-				return parseType(actual, context);
+				return parseType(actual, context, featureFactory);
 			}
 		}
 		if (type instanceof WildcardType) {
@@ -120,17 +120,17 @@ public class MetaDataModelFactory
 			Type upperBounds[] = wildType.getUpperBounds();
 			
 			if (lowerBounds.length > 0) {
-				return parseType(lowerBounds[0], context);
+				return parseType(lowerBounds[0], context, featureFactory);
 			}
 			if (upperBounds.length > 0) {
-				return parseType(upperBounds[0], context);
+				return parseType(upperBounds[0], context, featureFactory);
 			}
 			return context.OBJECT;
 		}
 		throw new IllegalArgumentException("Unsupported type " + type);
 	}
 	
-	protected MetaDataModel parseClass(Class<?> klass, ParsingContext context) {
+	protected MetaDataModel parseClass(Class<?> klass, ParsingContext context, FieldFeatureFactory featureFactory) {
 		
 		if (Collection.class.isAssignableFrom(klass)) {
 			/*
@@ -145,7 +145,7 @@ public class MetaDataModelFactory
 				declaring = TypeResolver.getSuperclass(klass, Collection.class);
 			}
 			if (declaring != null) {
-				return  parseType(declaring, context);				
+				return  parseType(declaring, context, featureFactory);
 			}
 			/*
 			 * we are directly on interface
@@ -153,7 +153,7 @@ public class MetaDataModelFactory
 			return  new  DefaultListMetaDataModel(context.OBJECT);			
 		}
 		if (klass.isArray()) {			
-			return new DefaultListMetaDataModel(parseClass(klass.getComponentType(), context), true);
+			return new DefaultListMetaDataModel(parseClass(klass.getComponentType(), context, featureFactory), true);
 		}
 		if (Map.class.isAssignableFrom(klass)) {
 			/*
@@ -168,7 +168,7 @@ public class MetaDataModelFactory
 				declaring = TypeResolver.getSuperclass(klass, Map.class);
 			}
 			if (declaring != null) {
-				return parseType(declaring, context);				
+				return parseType(declaring, context, featureFactory);
 			}
 			
 			/*
@@ -179,7 +179,7 @@ public class MetaDataModelFactory
 		
 		DataType dataType = factory.getDataType(klass);
 		if(dataType == DataType.POJO){
-			return parseBeanType(klass, context);
+			return parseBeanType(klass, context, featureFactory);
 		}else{
 			return new DefaultSimpleMetaDataModel(dataType);
 		}
@@ -266,7 +266,7 @@ public class MetaDataModelFactory
         return parents;
     }
     
-	protected MetaDataModel parseBeanType(Class<?> klass, ParsingContext context) {
+	protected MetaDataModel parseBeanType(Class<?> klass, ParsingContext context, FieldFeatureFactory featureFactory) {
 		
 		if(context.getTypedObject(klass.getName())!= null){
 			return context.getTypedObject(klass.getName());
@@ -281,12 +281,12 @@ public class MetaDataModelFactory
 		/*
 		 * parse properties
 		 */
-		parseFields(klass, context, fields);
+		parseFields(klass, context, featureFactory, fields);
 		
 		return typedObject;
 	}
 
-	private void parseFields(Class<?> klass, ParsingContext context, ArrayList<MetaDataField> fields) {
+	private void parseFields(Class<?> klass, ParsingContext context, FieldFeatureFactory featureFactory, ArrayList<MetaDataField> fields) {
 		if (!klass.equals(Object.class)) {
 			try {
 				List<PropertyDescriptor> propertyDescriptors = null;
@@ -307,16 +307,16 @@ public class MetaDataModelFactory
 
 						if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
 							Type propertyType = pd.getReadMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context);
-							fields.add(new DefaultMetaDataField(pd.getName(), property));
+							MetaDataModel property = parseType(propertyType, context, featureFactory);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, featureFactory.getCapabilities(pd.getName(), property.getDataType()), property.getDefaultImplementationClass()));
 						} else if (pd.getReadMethod() != null) {
 							Type propertyType = pd.getReadMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ));
+							MetaDataModel property = parseType(propertyType, context, featureFactory);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ, featureFactory.getCapabilities(pd.getName(), property.getDataType()), property.getDefaultImplementationClass()));
 						} else if (pd.getWriteMethod() != null) {
 							Type propertyType = pd.getWriteMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE));
+							MetaDataModel property = parseType(propertyType, context, featureFactory);
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE, featureFactory.getCapabilities(pd.getName(), property.getDataType()), property.getDefaultImplementationClass()));
 						}
 				}
 			} catch (Exception e) {

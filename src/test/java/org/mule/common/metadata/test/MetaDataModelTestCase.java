@@ -43,6 +43,24 @@ public class MetaDataModelTestCase
         new DefaultSimpleMetaDataModel(DataType.MAP);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void whenXmlUsedAsTypeForSimpleMetadataModelShouldFail()
+    {
+        new DefaultSimpleMetaDataModel(DataType.XML);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenCsvUsedAsTypeForSimpleMetadataModelShouldFail()
+    {
+    new DefaultSimpleMetaDataModel(DataType.CSV);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenJsonUsedAsTypeForSimpleMetadataModelShouldFail()
+    {
+    new DefaultSimpleMetaDataModel(DataType.JSON);
+    }
+
     @Test()
     public void whenStringUsedAsTypeForSimpleMetadataModelItShouldBeReturned()
     {

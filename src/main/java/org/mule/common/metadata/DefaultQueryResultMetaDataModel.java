@@ -1,6 +1,8 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +43,11 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
     }
 
     @Override
+    public List<MetaDataField> getFields() {
+        return definedMapMetaDataModel.getFields();
+    }
+
+    @Override
     public DataType getDataType()
     {
         return definedMapMetaDataModel.getDataType();
@@ -59,5 +66,10 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
     public void accept(MetaDataModelVisitor modelVisitor)
     {
         modelVisitor.visitDynamicMapModel(this);
+    }
+
+    @Override
+    public String getDefaultImplementationClass() {
+        return definedMapMetaDataModel.getDefaultImplementationClass();
     }
 }

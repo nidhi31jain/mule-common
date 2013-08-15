@@ -117,6 +117,11 @@ public class DefaultParameterizedMapMetaDataModel extends AbstractMetaDataModel 
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitStaticMapModel(this);
     }
+
+    @Override
+    public String getDefaultImplementationClass() {
+        return "java.util.Map";
+    }
 }
 
 

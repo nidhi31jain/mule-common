@@ -10,4 +10,6 @@ public interface MetaDataModel
     <T extends MetaDataModel> T as(Class<T> clazz);
 
     void accept(MetaDataModelVisitor modelVisitor);
+
+    String getDefaultImplementationClass();
 }

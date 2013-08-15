@@ -10,6 +10,7 @@
 
 package org.mule.common.metadata;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,4 +22,5 @@ public interface DefinedMapMetaDataModel extends MetaDataModel
     public Set<String> getKeys();
     public MetaDataModel getKeyMetaDataModel();
     public MetaDataModel getValueMetaDataModel(String key);
+    public List<MetaDataField> getFields();
 }

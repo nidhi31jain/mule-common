@@ -26,4 +26,11 @@ public class DefaultExampleBasedMetaDataModel extends AbstractMetaDataModel impl
     public void accept(MetaDataModelVisitor modelVisitor)
     {
     }
+
+    @Override
+    public String getDefaultImplementationClass() {
+        return "java.lang.String";
+    }
+
+
 }

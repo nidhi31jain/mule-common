@@ -2,13 +2,14 @@ package org.mule.common.metadata.datatype;
 
 public enum DataType
 {
-    VOID,
+    VOID, //TODO to be removed
     BOOLEAN,
     NUMBER,
     STRING,
     BYTE,
-    STREAM,
+    STREAM, //TODO to be removed
     ENUM,
+    DATE,
     DATE_TIME,
     POJO,
     LIST,

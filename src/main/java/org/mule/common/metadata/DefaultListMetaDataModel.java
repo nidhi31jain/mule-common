@@ -68,4 +68,9 @@ public class DefaultListMetaDataModel extends AbstractMetaDataModel implements L
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitListMetaDataModel(this);
     }
+
+    @Override
+    public String getDefaultImplementationClass() {
+        return "java.util.List";
+    }
 }
