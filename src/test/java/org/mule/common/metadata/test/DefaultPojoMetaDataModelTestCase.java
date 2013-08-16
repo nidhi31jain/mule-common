@@ -10,13 +10,17 @@
 
 package org.mule.common.metadata.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.PojoMetaDataModel;
+import org.mule.common.metadata.test.pojo.EverythingPojo;
 
 import java.util.Set;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-import org.mule.common.metadata.DefaultPojoMetaDataModel;
-import org.mule.common.metadata.PojoMetaDataModel;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -67,6 +71,12 @@ public class DefaultPojoMetaDataModelTestCase
         
         pojoModel = new DefaultPojoMetaDataModel(Boolean.class);
         assertExpectedParentNames(new String[]{"java.lang.Object", "java.io.Serializable", "java.lang.Comparable"}, pojoModel);
+    }
+
+    @Test
+    public void fullPojoTest(){
+        DefaultPojoMetaDataModel defaultPojoMetaDataModel = new DefaultPojoMetaDataModel(EverythingPojo.class);
+        assertThat(defaultPojoMetaDataModel.getFields().size(), CoreMatchers.is(17));
     }
 
     private void assertExpectedParentNames(String[] expectedParentNames, PojoMetaDataModel pojoModel)
