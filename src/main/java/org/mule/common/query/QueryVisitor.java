@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.OperatorVisitor;
 import org.mule.common.query.expression.Value;
 
@@ -15,6 +16,8 @@ public interface QueryVisitor {
     void visitTypes(List<Type> types);
 
     void visitOrderByFields(List<Field> orderByFields);
+
+    void visitOrderByFields(List<Field> orderByFields, Direction direction);
 
     void visitAnd();
 

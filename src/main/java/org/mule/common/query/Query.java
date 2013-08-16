@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.Expression;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public abstract class Query {
     protected List<Field> orderByFields;
 
     /**
+     * Direction to determine the ascending or descending sorting
+     */
+    protected Direction direction;
+
+    /**
      * Expression which contains the filter conditions
      */
     protected Expression filterExpression;
@@ -49,6 +55,9 @@ public abstract class Query {
         return orderByFields;
     }
 
+    public Direction getDirection(){
+        return direction;
+    }
 
     public Expression getFilterExpression() {
         return filterExpression;

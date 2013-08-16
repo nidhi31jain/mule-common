@@ -22,7 +22,7 @@ public interface DsqlGrammarVisitor {
 
 	void visit(OrderByDsqlNode orderByDsqlNode);
 
-	void visit(LimitDsqlNode limitDsqlNode);
+    void visit(LimitDsqlNode limitDsqlNode);
 
 	void visit(OffsetDsqlNode offsetDsqlNode);
 }

@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.Expression;
 
 /**
@@ -30,6 +31,13 @@ public class DefaultQueryBuilder extends QueryBuilder {
         this.query.addOrderField(field);
         return this;
     }
+
+    @Override
+    public QueryBuilder setDirection(Direction direction){
+        this.query.setDirection(direction);
+        return this;
+    }
+
 
     @Override
     public QueryBuilder setFilterExpression(Expression expression) {

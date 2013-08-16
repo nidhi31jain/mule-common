@@ -1,6 +1,7 @@
 package org.mule.common.query;
 
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.Expression;
 
 /**
@@ -13,6 +14,8 @@ public abstract class QueryBuilder {
     public abstract QueryBuilder addField(Field field);
 
     public abstract QueryBuilder addOrderByField(Field field);
+
+    public abstract QueryBuilder setDirection(Direction direction);
     
     public abstract QueryBuilder setFilterExpression(Expression expression);
 

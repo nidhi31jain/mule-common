@@ -52,6 +52,14 @@ public class DsqlTreeAdaptor extends CommonTreeAdaptor {
 				retVal = new OrderByDsqlNode(payload);
 				break;
 			}
+            case DsqlParser.ASC: {
+                retVal = new DirectionDsqlNode(payload);
+                break;
+            }
+            case DsqlParser.DESC: {
+                retVal = new DirectionDsqlNode(payload);
+                break;
+            }
 			case DsqlParser.LIMIT: {
 				retVal = new LimitDsqlNode(payload);
 				break;

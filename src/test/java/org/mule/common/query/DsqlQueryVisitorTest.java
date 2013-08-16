@@ -1,16 +1,6 @@
 package org.mule.common.query;
 
-import org.mule.common.query.expression.And;
-import org.mule.common.query.expression.EqualsOperator;
-import org.mule.common.query.expression.Expression;
-import org.mule.common.query.expression.FieldComparation;
-import org.mule.common.query.expression.GreaterOperator;
-import org.mule.common.query.expression.IdentifierValue;
-import org.mule.common.query.expression.LessOperator;
-import org.mule.common.query.expression.NotEqualsOperator;
-import org.mule.common.query.expression.NumberValue;
-import org.mule.common.query.expression.Or;
-import org.mule.common.query.expression.StringValue;
+import org.mule.common.query.expression.*;
 
 import junit.framework.Assert;
 import org.junit.Test;
@@ -82,8 +72,9 @@ public class DsqlQueryVisitorTest {
         QueryBuilder queryBuilder = new DefaultQueryBuilder();
         queryBuilder.addField(new Field("name","string"));
         queryBuilder.addType(new Type("Account"));
-        queryBuilder.addOrderByField(new Field("name","string"));
+        queryBuilder.addOrderByField(new Field("name", "string"));
         queryBuilder.addOrderByField(new Field("age","int"));
+        queryBuilder.setDirection(Direction.ASC);
         Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
         Expression anotherComparision = new FieldComparation(new EqualsOperator(),new Field("grade","int"), new NumberValue(0));
         Expression simpleOr = new Or(comparision,anotherComparision);
@@ -96,7 +87,7 @@ public class DsqlQueryVisitorTest {
         } catch (QueryBuilderException e) {
 
         }
-        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade = 0) AND grade = 0) ORDER BY name,age", visitor.dsqlQuery());
+        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade = 0) AND grade = 0) ORDER BY name,age ASC", visitor.dsqlQuery());
     }
 
     @Test
@@ -106,6 +97,7 @@ public class DsqlQueryVisitorTest {
         queryBuilder.addType(new Type("Account"));
         queryBuilder.addOrderByField(new Field("name","string"));
         queryBuilder.addOrderByField(new Field("age","int"));
+        queryBuilder.setDirection(Direction.DESC);
         queryBuilder.setLimit(10);
         queryBuilder.setOffset(20);
         Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
@@ -120,7 +112,7 @@ public class DsqlQueryVisitorTest {
         } catch (QueryBuilderException e) {
 
         }
-        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade > 0) AND grade > 0) ORDER BY name,age LIMIT 10 OFFSET 20",visitor.dsqlQuery());
+        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade > 0) AND grade > 0) ORDER BY name,age DESC LIMIT 10 OFFSET 20",visitor.dsqlQuery());
     }
 
     @Test
@@ -130,6 +122,7 @@ public class DsqlQueryVisitorTest {
         queryBuilder.addType(new Type("Account"));
         queryBuilder.addOrderByField(new Field("name","string"));
         queryBuilder.addOrderByField(new Field("age","int"));
+        queryBuilder.setDirection(Direction.ASC);
         queryBuilder.setLimit(10);
         queryBuilder.setOffset(20);
         Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new NumberValue(18));
@@ -144,7 +137,7 @@ public class DsqlQueryVisitorTest {
         } catch (QueryBuilderException e) {
 
         }
-        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade > NEXT_WEEK) AND grade > NEXT_WEEK) ORDER BY name,age LIMIT 10 OFFSET 20",visitor.dsqlQuery());
+        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 18 OR grade > NEXT_WEEK) AND grade > NEXT_WEEK) ORDER BY name,age ASC LIMIT 10 OFFSET 20",visitor.dsqlQuery());
     }
 
 
@@ -155,6 +148,7 @@ public class DsqlQueryVisitorTest {
         queryBuilder.addType(new Type("Account"));
         queryBuilder.addOrderByField(new Field("name","string"));
         queryBuilder.addOrderByField(new Field("age","int"));
+        queryBuilder.setDirection(Direction.ASC);
         queryBuilder.setLimit(10);
         queryBuilder.setOffset(20);
         Expression comparision = new FieldComparation(new LessOperator(),new Field("age","int"),new StringValue("old"));
@@ -169,6 +163,6 @@ public class DsqlQueryVisitorTest {
         } catch (QueryBuilderException e) {
 
         }
-        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 'old' OR grade > NEXT_WEEK) AND grade > NEXT_WEEK) ORDER BY name,age LIMIT 10 OFFSET 20",visitor.dsqlQuery());
+        Assert.assertEquals("SELECT name FROM Account WHERE ((age < 'old' OR grade > NEXT_WEEK) AND grade > NEXT_WEEK) ORDER BY name,age ASC LIMIT 10 OFFSET 20",visitor.dsqlQuery());
     }
 }

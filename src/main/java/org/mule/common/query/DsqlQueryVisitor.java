@@ -74,6 +74,14 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
     }
 
     @Override
+    public void visitOrderByFields(List<Field> orderByFields, Direction direction)
+    {
+        this.visitOrderByFields(orderByFields);
+        stringBuilder.append(" ");
+        stringBuilder.append(direction.toString());
+    }
+
+    @Override
     public void visitBeginExpression()
     {
         stringBuilder.append(" WHERE ");

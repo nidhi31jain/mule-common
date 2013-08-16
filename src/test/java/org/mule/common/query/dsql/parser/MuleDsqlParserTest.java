@@ -2,6 +2,7 @@ package org.mule.common.query.dsql.parser;
 
 import org.junit.Test;
 import org.mule.common.query.Query;
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.FieldComparation;
 import org.mule.common.query.expression.LessOperator;
@@ -71,6 +72,7 @@ public class MuleDsqlParserTest {
         assertTrue(((FieldComparation) query.getFilterExpression()).getOperator()instanceof LessOperator);
         assertEquals("'#[flowVars[\"id\"]]'",((FieldComparation) query.getFilterExpression()).getValue().toString());
         assertEquals("name", query.getOrderByFields().get(0).getName());
+        assertEquals(Direction.DESC, query.getDirection());
     }
 
     @Test

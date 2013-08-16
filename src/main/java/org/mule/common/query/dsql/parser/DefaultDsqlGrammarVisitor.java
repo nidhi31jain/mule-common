@@ -5,22 +5,7 @@ import org.mule.common.query.Field;
 import org.mule.common.query.QueryBuilder;
 import org.mule.common.query.Type;
 import org.mule.common.query.dsql.grammar.DsqlParser;
-import org.mule.common.query.expression.And;
-import org.mule.common.query.expression.BinaryOperator;
-import org.mule.common.query.expression.BooleanValue;
-import org.mule.common.query.expression.DateTimeValue;
-import org.mule.common.query.expression.DateValue;
-import org.mule.common.query.expression.Expression;
-import org.mule.common.query.expression.FieldComparation;
-import org.mule.common.query.expression.IdentifierValue;
-import org.mule.common.query.expression.MuleExpressionValue;
-import org.mule.common.query.expression.Not;
-import org.mule.common.query.expression.NullValue;
-import org.mule.common.query.expression.NumberValue;
-import org.mule.common.query.expression.Or;
-import org.mule.common.query.expression.StringValue;
-import org.mule.common.query.expression.UnknownValue;
-import org.mule.common.query.expression.Value;
+import org.mule.common.query.expression.*;
 
 import java.util.List;
 import java.util.Stack;
@@ -217,7 +202,11 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 
 		for (final IDsqlNode dsqlNode : children) {
 			String text = getTextIfStringLiteral(dsqlNode);
-			queryBuilder.addOrderByField(new Field(text));
+			if (! (dsqlNode instanceof DirectionDsqlNode) ){
+                queryBuilder.addOrderByField(new Field(text));
+            }else {
+                queryBuilder.setDirection(QueryModelDirectionFactory.getInstance().getDirection(text.toLowerCase()));
+            }
 		}
 	}
 

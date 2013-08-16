@@ -18,13 +18,7 @@ import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
 import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
-import org.mule.common.query.expression.BinaryLogicalExpression;
-import org.mule.common.query.expression.EmptyExpression;
-import org.mule.common.query.expression.EqualsOperator;
-import org.mule.common.query.expression.Expression;
-import org.mule.common.query.expression.FieldComparation;
-import org.mule.common.query.expression.LessOperator;
-import org.mule.common.query.expression.Operator;
+import org.mule.common.query.expression.*;
 
 public class DsqlParserTest {
 
@@ -39,8 +33,8 @@ public class DsqlParserTest {
 		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
 	}
 
-	private void assertFieldComparation(Expression filterExpression, Class<? extends Operator> operatorClass, String fieldName, Object value) {
-		assertThat(filterExpression, is(FieldComparation.class));
+    private void assertFieldComparation(Expression filterExpression, Class<? extends Operator> operatorClass, String fieldName, Object value) {
+        assertThat(filterExpression, is(FieldComparation.class));
 		FieldComparation fieldComparation = (FieldComparation) filterExpression;
 		assertThat(fieldComparation.getField().getName(), is(fieldName));
 		assertThat(fieldComparation.getValue().getValue(), is((Object) value));
@@ -50,14 +44,17 @@ public class DsqlParserTest {
 	@Test
 	public void testParse1() {
 		Query query = parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
-		
-		assertThat(query.getFields().size(), is(2));
-		assertThat(query.getFields().get(0).getName(), is("name"));
-		assertThat(query.getFields().get(1).getName(), is("surname"));
+
+        assertThat(query.getFields().size(), is(2));
+        assertThat(query.getFields().get(0).getName(), is("name"));
+        assertThat(query.getFields().get(1).getName(), is("surname"));
 
 		assertThat(query.getTypes().size(), is(2));
 		assertThat(query.getTypes().get(0).getName(), is("users"));
 		assertThat(query.getTypes().get(1).getName(), is("addresses"));
+
+        assertThat(query.getOrderByFields().size(), is(1));
+        assertThat(query.getOrderByFields().get(0).getName(), is("name"));
 		
 		assertThat(query.getFilterExpression(), is(BinaryLogicalExpression.class));
 		BinaryLogicalExpression andExpression = (BinaryLogicalExpression) query.getFilterExpression();
@@ -324,9 +321,51 @@ public class DsqlParserTest {
 		Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
 		Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
 	}
+
+    @Test
+    public void testTypeWithSpacesInOrderByAscending() {
+        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces' asc");
+        Assert.assertThat(query.getOrderByFields().size(), is(1));
+
+
+        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(query.getDirection(), is(Direction.ASC));
+    }
+
+    @Test
+    public void testTypeWithSpacesMixedWithNormalInOrderByAscending() {
+        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField ascending");
+        Assert.assertThat(query.getOrderByFields().size(), is(2));
+
+
+        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
+        Assert.assertThat(query.getDirection(), is(Direction.ASC));
+    }
+
+    @Test
+    public void testTypeWithSpacesInOrderByDescending() {
+        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces' desc");
+        Assert.assertThat(query.getOrderByFields().size(), is(1));
+
+
+        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(query.getDirection(), is(Direction.DESC));
+    }
+
+    @Test
+    public void testTypeWithSpacesMixedWithNormalInOrderByDescending() {
+        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField descending");
+        Assert.assertThat(query.getOrderByFields().size(), is(2));
+
+
+        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
+        Assert.assertThat(query.getDirection(), is(Direction.DESC));
+    }
 	
 	@Test
-	public void testFieldWithSpacesInFilters() {
+	public void testTypeWithSpacesInFilters() {
 		Query query = parse("select NormalField from Account WHERE 'Field With Spaces' = 1");
 		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
 	}
@@ -340,8 +379,8 @@ public class DsqlParserTest {
 	@Test
 	public void testFieldWithSpacesInComparison() {
 		Query query = parse("select NormalField from Account WHERE ('Field With Spaces' < 1)");
-		assertFieldComparation(query.getFilterExpression(), LessOperator.class, "Field With Spaces", 1.0);
-	}
+        assertFieldComparation(query.getFilterExpression(), LessOperator.class, "Field With Spaces", 1.0);
+    }
 
 	public Query parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);

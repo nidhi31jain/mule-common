@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.OperatorVisitor;
 import org.mule.common.query.expression.Value;
 
@@ -69,6 +70,11 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
 
     @Override
     public void visitOrderByFields(List<Field> orderByFields) {
+
+    }
+
+    @Override
+    public void visitOrderByFields(List<Field> orderByFields, Direction direction) {
 
     }
 

@@ -1,5 +1,6 @@
 package org.mule.common.query;
 
+import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.EmptyExpression;
 import org.mule.common.query.expression.Expression;
 
@@ -14,6 +15,7 @@ public class DefaultQuery extends Query {
         this.types = new ArrayList<Type>();
         this.fields = new ArrayList<Field>();
         this.orderByFields = new ArrayList<Field>();
+        this.direction = null;
         this.filterExpression = new EmptyExpression();
         this.joinExpression = new EmptyExpression();
         this.limit = -1;
@@ -32,6 +34,10 @@ public class DefaultQuery extends Query {
         this.orderByFields.add(orderByField);
     }
 
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
     public void setFilterExpression(Expression filterExpression) {
         this.filterExpression = filterExpression;
     }
@@ -48,6 +54,10 @@ public class DefaultQuery extends Query {
         this.offset = offset;
     }
 
+    private boolean hasDirection() {
+        return this.direction != null;
+    }
+
     @Override
     public void accept(QueryVisitor queryVisitor) {
     	// This order matters! Please don't change it. Visit types first, then fields.
@@ -59,7 +69,12 @@ public class DefaultQuery extends Query {
         }
 
         if (this.orderByFields.size()>0){
-            queryVisitor.visitOrderByFields(this.orderByFields);
+            //queryVisitor.visitOrderByFields(this.orderByFields);
+            if (! hasDirection()){
+                queryVisitor.visitOrderByFields(this.orderByFields);
+            }else{
+                queryVisitor.visitOrderByFields(this.orderByFields, this.getDirection());
+            }
         }
 
         if (limit != -1) {
