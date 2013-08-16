@@ -19,9 +19,12 @@ import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
 import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 import org.mule.common.query.expression.BinaryLogicalExpression;
+import org.mule.common.query.expression.EmptyExpression;
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.Expression;
 import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.LessOperator;
+import org.mule.common.query.expression.Operator;
 
 public class DsqlParserTest {
 
@@ -36,7 +39,7 @@ public class DsqlParserTest {
 		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
 	}
 
-	private void assertFieldComparation(Expression filterExpression, Class<EqualsOperator> operatorClass, String fieldName, Object value) {
+	private void assertFieldComparation(Expression filterExpression, Class<? extends Operator> operatorClass, String fieldName, Object value) {
 		assertThat(filterExpression, is(FieldComparation.class));
 		FieldComparation fieldComparation = (FieldComparation) filterExpression;
 		assertThat(fieldComparation.getField().getName(), is(fieldName));
@@ -323,9 +326,21 @@ public class DsqlParserTest {
 	}
 	
 	@Test
-	public void testTypeWithSpacesInFilters() {
+	public void testFieldWithSpacesInFilters() {
 		Query query = parse("select NormalField from Account WHERE 'Field With Spaces' = 1");
 		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
+	}
+	
+	@Test
+	public void testFieldWithSpacesInFiltersWithParenthesis() {
+		Query query = parse("select NormalField from Account WHERE ('Field With Spaces' = 1)");
+		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
+	}
+	
+	@Test
+	public void testFieldWithSpacesInComparison() {
+		Query query = parse("select NormalField from Account WHERE ('Field With Spaces' < 1)");
+		assertFieldComparation(query.getFilterExpression(), LessOperator.class, "Field With Spaces", 1.0);
 	}
 
 	public Query parse(final String string) {

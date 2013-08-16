@@ -88,7 +88,7 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 			if (type == DsqlParser.AND || type == DsqlParser.OR
 					|| type == DsqlParser.NOT) {
 				dsqlNode.accept(this);
-			} else if (type == DsqlParser.OPERATOR | type == DsqlParser.COMPARATOR) {
+			} else if (type == DsqlParser.OPERATOR || type == DsqlParser.COMPARATOR) {
 				final List<IDsqlNode> operatorChildren = dsqlNode.getChildren();
 				IDsqlNode fieldNode = operatorChildren.get(0);
 				String fieldName = getTextIfStringLiteral(fieldNode);
@@ -188,10 +188,11 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 	@Override
 	public void visit(OperatorDsqlNode operatorDsqlNode) {
 		List<IDsqlNode> children = operatorDsqlNode.getChildren();
-		Field field = new Field(children.get(0).getText());
+		IDsqlNode fieldNode = children.get(0);
+		Field field = new Field(getTextIfStringLiteral(fieldNode));
 		IDsqlNode dsqlNode = children.get(1);
-		Value value = buildValue(dsqlNode);
-		expressions.push(new FieldComparation(getOperatorFor(operatorDsqlNode
+		Value<?> value = buildValue(dsqlNode);
+		putExpression(new FieldComparation(getOperatorFor(operatorDsqlNode
 				.getText()), field, value));
 	}
 
