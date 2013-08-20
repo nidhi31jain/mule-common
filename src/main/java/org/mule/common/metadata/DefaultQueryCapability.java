@@ -86,6 +86,11 @@ public class DefaultQueryCapability implements QueryCapability {
         return supportedOperators;
     }
 
+    @Override
+    public void accept(CapabilityVisitor capabilityVisitor) {
+        capabilityVisitor.visitQueryCapability(this);
+    }
+
     private void setSupportedOperators(List<Operator> supportedOperators){
         this.supportedOperators= supportedOperators;
         this.calculateWhereCapable();

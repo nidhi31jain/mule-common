@@ -2,6 +2,8 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+import java.util.List;
+
 public class DefaultListMetaDataModel extends AbstractMetaDataModel implements ListMetaDataModel {
 
 	private MetaDataModel model;
@@ -71,6 +73,6 @@ public class DefaultListMetaDataModel extends AbstractMetaDataModel implements L
 
     @Override
     public String getDefaultImplementationClass() {
-        return "java.util.List";
+        return List.class.getName();
     }
 }

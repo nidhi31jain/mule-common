@@ -11,5 +11,5 @@ public interface MetaDataModel
 
     void accept(MetaDataModelVisitor modelVisitor);
 
-    String getDefaultImplementationClass();
+    String getDefaultImplementationClass() throws RuntimeException;
 }

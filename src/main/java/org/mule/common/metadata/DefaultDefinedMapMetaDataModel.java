@@ -132,7 +132,7 @@ public class DefaultDefinedMapMetaDataModel
 
     @Override
     public String getDefaultImplementationClass() {
-        return "java.util.Map";
+        return Map.class.getName();
     }
 }
 

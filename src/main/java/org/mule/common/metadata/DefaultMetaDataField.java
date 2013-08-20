@@ -65,6 +65,13 @@ public class DefaultMetaDataField
     }
 
     @Override
+    public void accept(CapabilityVisitor capabilityVisitor) {
+        for(Capability capability : this.getCapabilities()){
+            capability.accept(capabilityVisitor);
+        }
+    }
+
+    @Override
 	public String toString() {
 		return "DefaultMetaDataField [name=" + name + ", model=" + model.getClass() + "]";
 	}

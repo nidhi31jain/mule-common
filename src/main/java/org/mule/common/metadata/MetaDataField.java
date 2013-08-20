@@ -14,6 +14,8 @@ public interface MetaDataField {
 
     public String getImplementationClass();
 
+    public void accept(CapabilityVisitor capabilityVisitor);
+
 	public static enum FieldAccessType
 	{
 		READ, WRITE, READ_WRITE;

@@ -51,6 +51,6 @@ public class StringSchemaBasedMetaDataModel extends AbstractMetaDataModel implem
 
     @Override
     public String getDefaultImplementationClass() {
-        return "java.lang.String";
+        return String.class.getName();
     }
 }

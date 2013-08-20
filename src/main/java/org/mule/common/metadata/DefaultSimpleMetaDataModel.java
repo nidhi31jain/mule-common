@@ -18,9 +18,7 @@ import org.mule.common.query.expression.NotEqualsOperator;
 import org.mule.common.query.expression.Operator;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel
@@ -50,28 +48,29 @@ public class DefaultSimpleMetaDataModel
     }
 
     @Override
-    public String getDefaultImplementationClass() {
+    public String getDefaultImplementationClass() throws RuntimeException{
         switch (this.getDataType()) {
             case BOOLEAN:
-                return "java.lang.Boolean";
+                return Boolean.class.getName();
             case ENUM:
-                return "java.lang.Enum";
+                return Enum.class.getName();
             case DATE:
-                return "java.util.Date";
+                return Date.class.getName();
             case DATE_TIME:
-                return "java.util.Calendar";
+                return Calendar.class.getName();
             case BYTE:
-                return "java.lang.Byte";
+                return Byte.class.getName();
             case NUMBER:
-                return "java.lang.Number";
+                return Number.class.getName();
             case STRING:
-                return "java.lang.String";
+                return String.class.getName();
             case VOID:
-                return "java.lang.Void";
+                return Void.class.getName();
             case STREAM:
-                return "java.io.InputStream";
+                return InputStream.class.getName();
+            default:
+                throw new RuntimeException("There is no default implementation class for the DataType " + this.getDataType().toString());
         }
-        return null;
     }
 }
 
