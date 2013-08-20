@@ -25,6 +25,6 @@ public abstract class QueryBuilder {
 
     public abstract QueryBuilder setOffset(int offset);
 
-    public abstract Query build() throws QueryBuilderException;
+    public abstract QueryModel build() throws QueryBuilderException;
 
 }

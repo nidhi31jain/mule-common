@@ -101,7 +101,6 @@ public class DefaultPojoMetaDataModelTestCase
     }
 
     @Test
-    @Ignore
     public void fullPojoTest()
     {
         DefaultPojoMetaDataModel defaultPojoMetaDataModel = new DefaultPojoMetaDataModel(EverythingPojo.class);

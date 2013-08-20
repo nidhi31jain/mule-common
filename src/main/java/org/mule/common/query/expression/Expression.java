@@ -5,7 +5,7 @@ import org.mule.common.query.QueryVisitor;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
- * Expressions for Mule Query Builder.
+ * Expressions for Mule QueryModel Builder.
  *
  * @author Mulesoft, Inc
  */

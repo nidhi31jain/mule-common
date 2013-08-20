@@ -24,12 +24,12 @@ public class DsqlParserTest {
 
 	@Test
 	public void testEasyParse() {
-		Query query = parse("select * from users where name='alejo'");
-		assertThat(query.getFields().size(), is(1));
-		assertThat(query.getFields().get(0).getName(), is("*"));
-		assertThat(query.getTypes().size(), is(1));
-		assertThat(query.getTypes().get(0).getName(), is("users"));
-		Expression filterExpression = query.getFilterExpression();
+		QueryModel queryModel = parse("select * from users where name='alejo'");
+		assertThat(queryModel.getFields().size(), is(1));
+		assertThat(queryModel.getFields().get(0).getName(), is("*"));
+		assertThat(queryModel.getTypes().size(), is(1));
+		assertThat(queryModel.getTypes().get(0).getName(), is("users"));
+		Expression filterExpression = queryModel.getFilterExpression();
 		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
 	}
 
@@ -43,21 +43,21 @@ public class DsqlParserTest {
 
 	@Test
 	public void testParse1() {
-		Query query = parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
+		QueryModel queryModel = parse("select name, surname from users, addresses where name='alejo' and (apellido='abdala' and address='guatemala 1234') order by name limit 10 offset 200");
 
-        assertThat(query.getFields().size(), is(2));
-        assertThat(query.getFields().get(0).getName(), is("name"));
-        assertThat(query.getFields().get(1).getName(), is("surname"));
+        assertThat(queryModel.getFields().size(), is(2));
+        assertThat(queryModel.getFields().get(0).getName(), is("name"));
+        assertThat(queryModel.getFields().get(1).getName(), is("surname"));
 
-		assertThat(query.getTypes().size(), is(2));
-		assertThat(query.getTypes().get(0).getName(), is("users"));
-		assertThat(query.getTypes().get(1).getName(), is("addresses"));
+		assertThat(queryModel.getTypes().size(), is(2));
+		assertThat(queryModel.getTypes().get(0).getName(), is("users"));
+		assertThat(queryModel.getTypes().get(1).getName(), is("addresses"));
 
-        assertThat(query.getOrderByFields().size(), is(1));
-        assertThat(query.getOrderByFields().get(0).getName(), is("name"));
+        assertThat(queryModel.getOrderByFields().size(), is(1));
+        assertThat(queryModel.getOrderByFields().get(0).getName(), is("name"));
 		
-		assertThat(query.getFilterExpression(), is(BinaryLogicalExpression.class));
-		BinaryLogicalExpression andExpression = (BinaryLogicalExpression) query.getFilterExpression();
+		assertThat(queryModel.getFilterExpression(), is(BinaryLogicalExpression.class));
+		BinaryLogicalExpression andExpression = (BinaryLogicalExpression) queryModel.getFilterExpression();
 		assertFieldComparation(andExpression.getLeft(), EqualsOperator.class, "name", "alejo");
 		assertThat(andExpression.getRight(), is(BinaryLogicalExpression.class));
 		
@@ -69,320 +69,320 @@ public class DsqlParserTest {
 
 	@Test
 	public void testParse1b() {
-		Query query = parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
+		QueryModel queryModel = parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
 	}
 
 	@Test
 	public void testParse2() {
-		Query query = parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
 	}
 
 	@Test
 	public void testParse3() {
-		Query query = parse("select * from users, addresses where name='alejo' and not (age > 25)");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' and not (age > 25)");
 	}
 
 	@Test
 	public void testLike() {
-		Query query = parse("select * from users, addresses where name like '%alejo%'");
+		QueryModel queryModel = parse("select * from users, addresses where name like '%alejo%'");
 	}
 
 	@Test
 	public void testExpression() {
-		Query query = parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
+		QueryModel queryModel = parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
 	}
 
 	@Test
 	public void testParse4() {
-		Query query = parse("select * from users, addresses where name='alejo' and age <> 25");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' and age <> 25");
 	}
 
 	@Test
 	public void testParse5() {
-		Query query = parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
 	}
 
 	@Test
 	public void testParse6() {
-		Query query = parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
+		QueryModel queryModel = parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
 	}
 
 	@Test
 	public void testParseAscending() {
-		Query query = parse("select * from users, addresses where name='alejo' order by name ascending");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' order by name ascending");
 	}
 
 	@Test
 	public void testParseAscending2() {
-		Query query = parse("select * from users, addresses where name='alejo' order by name asc");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' order by name asc");
 	}
 
 	@Test
 	public void testParseDescending() {
-		Query query = parse("select * from users, addresses where name='alejo' order by name descending");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' order by name descending");
 	}
 
 	@Test
 	public void testParseDescending2() {
-		Query query = parse("select * from users, addresses where name='alejo' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression() {
-		Query query = parse("select * from users, addresses where name='#[payload.name]' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='#[payload.name]' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression2() {
-		Query query = parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
 	}
 
 
 
 	@Test
 	public void testWithMuleExpression3() {
-		Query query = parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
 	}
 
 	@Test
 	public void testWithMuleExpression4() {
-		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
+		QueryModel queryModel = parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression5() {
-		Query query = parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
+		QueryModel queryModel = parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression6() {
-		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
+		QueryModel queryModel = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression7() {
-		Query query = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
+		QueryModel queryModel = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
 	}
 
 	@Test
 	public void testWithMuleExpression9() {
-		Query query = parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail() {
-		Query query = parse("select * from users, addresses where name='alejo' and ");
+		QueryModel queryModel = parse("select * from users, addresses where name='alejo' and ");
 	}
 
 	@Ignore
 	@Test(expected = DsqlParsingException.class)
 	public void testFail2() {
-		Query query = parse("dsql:select from");
+		QueryModel queryModel = parse("dsql:select from");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail3() {
-		Query query = parse("*");
+		QueryModel queryModel = parse("*");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail4() {
-		Query query = parse("SELECT *");
+		QueryModel queryModel = parse("SELECT *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail5() {
-		Query query = parse("select * from users, addresses where ");
+		QueryModel queryModel = parse("select * from users, addresses where ");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailSelect() {
-		Query query = parse("selecct users, addresses from Account where name = 123");
+		QueryModel queryModel = parse("selecct users, addresses from Account where name = 123");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom() {
-		Query query = parse("select users, addresses frrom Account where name = 123");
+		QueryModel queryModel = parse("select users, addresses frrom Account where name = 123");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom2() {
-		Query query = parse("select users, addresses *");
+		QueryModel queryModel = parse("select users, addresses *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom3() {
-		Query query = parse("select users, addresses ffrom");
+		QueryModel queryModel = parse("select users, addresses ffrom");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailMissingFrom() {
-		Query query = parse("select users, addresses where");
+		QueryModel queryModel = parse("select users, addresses where");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailWhere2() {
-		Query query = parse("select users, addresses from Account where *");
+		QueryModel queryModel = parse("select users, addresses from Account where *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	@Ignore
 	public void testWithMuleExpressionShouldFail() {
-		Query query = parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
+		QueryModel queryModel = parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	@Ignore
 	public void testFailWhere() {
-		Query query = parse("select users, addresses from Account whseree name = 123");
+		QueryModel queryModel = parse("select users, addresses from Account whseree name = 123");
 	}
 
 	@Test
 	public void testFieldsWithSpaces() {
-		Query query = parse("select 'Field with spaces' from Account");
-		Assert.assertThat(query.getFields().size(), is(1));
+		QueryModel queryModel = parse("select 'Field with spaces' from Account");
+		Assert.assertThat(queryModel.getFields().size(), is(1));
 
-		Assert.assertThat(query.getFields().get(0).getName(), is("Field with spaces"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("Field with spaces"));
 	}
 
 	@Test
 	public void testNormalFieldsMixedWithFieldsWithSpaces() {
-		Query query = parse("select NormalField,'Field with spaces',Underscored_Field from Account");
-		Assert.assertThat(query.getFields().size(), is(3));
+		QueryModel queryModel = parse("select NormalField,'Field with spaces',Underscored_Field from Account");
+		Assert.assertThat(queryModel.getFields().size(), is(3));
 
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
-		Assert.assertThat(query.getFields().get(1).getName(), is("Field with spaces"));
-		Assert.assertThat(query.getFields().get(2).getName(), is("Underscored_Field"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getFields().get(1).getName(), is("Field with spaces"));
+		Assert.assertThat(queryModel.getFields().get(2).getName(), is("Underscored_Field"));
 	}
 
 	@Test
 	public void testNormalFieldWithQuotes() {
-		Query query = parse("select 'NormalField' from Account");
-		Assert.assertThat(query.getFields().size(), is(1));
+		QueryModel queryModel = parse("select 'NormalField' from Account");
+		Assert.assertThat(queryModel.getFields().size(), is(1));
 
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
 	}
 
 	@Test
 	public void testNormalFieldWithQuotesMixedWithFieldsWithSpaces() {
-		Query query = parse("select 'NormalField','Field With Spaces' from Account");
-		Assert.assertThat(query.getFields().size(), is(2));
+		QueryModel queryModel = parse("select 'NormalField','Field With Spaces' from Account");
+		Assert.assertThat(queryModel.getFields().size(), is(2));
 
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
-		Assert.assertThat(query.getFields().get(1).getName(), is("Field With Spaces"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getFields().get(1).getName(), is("Field With Spaces"));
 	}
 
 	@Test
 	public void testTypeWithSpacesInFrom() {
-		Query query = parse("select NormalField from 'Account Reps'");
-		Assert.assertThat(query.getFields().size(), is(1));
-		Assert.assertThat(query.getTypes().size(), is(1));
+		QueryModel queryModel = parse("select NormalField from 'Account Reps'");
+		Assert.assertThat(queryModel.getFields().size(), is(1));
+		Assert.assertThat(queryModel.getTypes().size(), is(1));
 		
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
-		Assert.assertThat(query.getTypes().get(0).getName(), is("Account Reps"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getTypes().get(0).getName(), is("Account Reps"));
 	}
 	
 	@Test
 	public void testTypeWithSpacesMixedWithNormalInFrom() {
-		Query query = parse("select NormalField from NormalType,'Account Reps'");
-		Assert.assertThat(query.getFields().size(), is(1));
-		Assert.assertThat(query.getTypes().size(), is(2));
+		QueryModel queryModel = parse("select NormalField from NormalType,'Account Reps'");
+		Assert.assertThat(queryModel.getFields().size(), is(1));
+		Assert.assertThat(queryModel.getTypes().size(), is(2));
 		
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
-		Assert.assertThat(query.getTypes().get(0).getName(), is("NormalType"));
-		Assert.assertThat(query.getTypes().get(1).getName(), is("Account Reps"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getTypes().get(0).getName(), is("NormalType"));
+		Assert.assertThat(queryModel.getTypes().get(1).getName(), is("Account Reps"));
 	}
 	
 	@Test
 	public void testNormalTypeWithQuotes() {
-		Query query = parse("select NormalField from 'NormalType'");
-		Assert.assertThat(query.getFields().size(), is(1));
-		Assert.assertThat(query.getTypes().size(), is(1));
+		QueryModel queryModel = parse("select NormalField from 'NormalType'");
+		Assert.assertThat(queryModel.getFields().size(), is(1));
+		Assert.assertThat(queryModel.getTypes().size(), is(1));
 		
-		Assert.assertThat(query.getFields().get(0).getName(), is("NormalField"));
-		Assert.assertThat(query.getTypes().get(0).getName(), is("NormalType"));
+		Assert.assertThat(queryModel.getFields().get(0).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getTypes().get(0).getName(), is("NormalType"));
 	}
 	
 	@Test
 	public void testTypeWithSpacesInOrderBy() {
-		Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces'");
-		Assert.assertThat(query.getOrderByFields().size(), is(1));
+		QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces'");
+		Assert.assertThat(queryModel.getOrderByFields().size(), is(1));
 		
 		
-		Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+		Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
 	}
 	
 	@Test
 	public void testTypeWithSpacesMixedWithNormalInOrderBy() {
-		Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField");
-		Assert.assertThat(query.getOrderByFields().size(), is(2));
+		QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField");
+		Assert.assertThat(queryModel.getOrderByFields().size(), is(2));
 		
 		
-		Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
-		Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
+		Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+		Assert.assertThat(queryModel.getOrderByFields().get(1).getName(), is("NormalField"));
 	}
 
     @Test
     public void testTypeWithSpacesInOrderByAscending() {
-        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces' asc");
-        Assert.assertThat(query.getOrderByFields().size(), is(1));
+        QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces' asc");
+        Assert.assertThat(queryModel.getOrderByFields().size(), is(1));
 
 
-        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
-        Assert.assertThat(query.getDirection(), is(Direction.ASC));
+        Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(queryModel.getDirection(), is(Direction.ASC));
     }
 
     @Test
     public void testTypeWithSpacesMixedWithNormalInOrderByAscending() {
-        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField ascending");
-        Assert.assertThat(query.getOrderByFields().size(), is(2));
+        QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField ascending");
+        Assert.assertThat(queryModel.getOrderByFields().size(), is(2));
 
 
-        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
-        Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
-        Assert.assertThat(query.getDirection(), is(Direction.ASC));
+        Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(queryModel.getOrderByFields().get(1).getName(), is("NormalField"));
+        Assert.assertThat(queryModel.getDirection(), is(Direction.ASC));
     }
 
     @Test
     public void testTypeWithSpacesInOrderByDescending() {
-        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces' desc");
-        Assert.assertThat(query.getOrderByFields().size(), is(1));
+        QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces' desc");
+        Assert.assertThat(queryModel.getOrderByFields().size(), is(1));
 
 
-        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
-        Assert.assertThat(query.getDirection(), is(Direction.DESC));
+        Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(queryModel.getDirection(), is(Direction.DESC));
     }
 
     @Test
     public void testTypeWithSpacesMixedWithNormalInOrderByDescending() {
-        Query query = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField descending");
-        Assert.assertThat(query.getOrderByFields().size(), is(2));
+        QueryModel queryModel = parse("select NormalField from Account ORDER BY 'Field With Spaces',NormalField descending");
+        Assert.assertThat(queryModel.getOrderByFields().size(), is(2));
 
 
-        Assert.assertThat(query.getOrderByFields().get(0).getName(), is("Field With Spaces"));
-        Assert.assertThat(query.getOrderByFields().get(1).getName(), is("NormalField"));
-        Assert.assertThat(query.getDirection(), is(Direction.DESC));
+        Assert.assertThat(queryModel.getOrderByFields().get(0).getName(), is("Field With Spaces"));
+        Assert.assertThat(queryModel.getOrderByFields().get(1).getName(), is("NormalField"));
+        Assert.assertThat(queryModel.getDirection(), is(Direction.DESC));
     }
 	
 	@Test
 	public void testTypeWithSpacesInFilters() {
-		Query query = parse("select NormalField from Account WHERE 'Field With Spaces' = 1");
-		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
+		QueryModel queryModel = parse("select NormalField from Account WHERE 'Field With Spaces' = 1");
+		assertFieldComparation(queryModel.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
 	}
 	
 	@Test
 	public void testFieldWithSpacesInFiltersWithParenthesis() {
-		Query query = parse("select NormalField from Account WHERE ('Field With Spaces' = 1)");
-		assertFieldComparation(query.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
+		QueryModel queryModel = parse("select NormalField from Account WHERE ('Field With Spaces' = 1)");
+		assertFieldComparation(queryModel.getFilterExpression(), EqualsOperator.class, "Field With Spaces", 1.0);
 	}
 	
 	@Test
 	public void testFieldWithSpacesInComparison() {
-		Query query = parse("select NormalField from Account WHERE ('Field With Spaces' < 1)");
-        assertFieldComparation(query.getFilterExpression(), LessOperator.class, "Field With Spaces", 1.0);
+		QueryModel queryModel = parse("select NormalField from Account WHERE ('Field With Spaces' < 1)");
+        assertFieldComparation(queryModel.getFilterExpression(), LessOperator.class, "Field With Spaces", 1.0);
     }
 
-	public Query parse(final String string) {
+	public QueryModel parse(final String string) {
 		CharStream antlrStringStream = new ANTLRStringStream(string);
 		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
 		CommonTokenStream dsqlTokens = new CommonTokenStream();
@@ -396,7 +396,7 @@ public class DsqlParserTest {
 
 			MuleDsqlParser parser = new MuleDsqlParser();
 			DsqlQueryVisitor visitor = new DsqlQueryVisitor();
-			Query parse = parser.parse(string);
+			QueryModel parse = parser.parse(string);
 			parse.accept(visitor);
 			System.out.println(visitor.dsqlQuery());
 			return parse;

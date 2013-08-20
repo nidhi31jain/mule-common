@@ -4,14 +4,14 @@ import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.Expression;
 
 /**
- * Basic Query builder
+ * Basic QueryModel builder
  */
 public class DefaultQueryBuilder extends QueryBuilder {
 
-    private DefaultQuery query;
+    private QueryModel query;
 
     public DefaultQueryBuilder() {
-        this.query = new DefaultQuery();
+        this.query = new QueryModel();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class DefaultQueryBuilder extends QueryBuilder {
     }
 
     @Override
-    public Query build() throws QueryBuilderException {
+    public QueryModel build() throws QueryBuilderException {
     	if (query.getTypes().isEmpty()) {
     		throw new QueryBuilderException("Empty types list");
     	}

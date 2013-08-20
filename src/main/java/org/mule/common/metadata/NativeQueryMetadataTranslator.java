@@ -2,12 +2,12 @@ package org.mule.common.metadata;
 
 import org.mule.common.Capability;
 import org.mule.common.Result;
-import org.mule.common.query.Query;
+import org.mule.common.query.QueryModel;
 
 /**
  * Used to translate a model query to a native one in an string format
  */
 public interface NativeQueryMetadataTranslator extends Capability{
 
-    Result<String> toNativeQuery(Query query);
+    Result<String> toNativeQuery(QueryModel queryModel);
 }

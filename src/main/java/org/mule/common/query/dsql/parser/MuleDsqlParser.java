@@ -4,7 +4,7 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.mule.common.query.Query;
+import org.mule.common.query.QueryModel;
 import org.mule.common.query.QueryBuilder;
 import org.mule.common.query.QueryBuilderException;
 import org.mule.common.query.dsql.grammar.DsqlLexer;
@@ -14,7 +14,7 @@ import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
 
 public class MuleDsqlParser {
 
-	public Query parse(final String string) {
+	public QueryModel parse(final String string) {
         String parseString = string;
         if (string.startsWith("dsql:")) {
             parseString = string.substring(5);
@@ -29,7 +29,7 @@ public class MuleDsqlParser {
 		return parse(dsqlParser);
 	}
 
-	private Query parse(DsqlParser dsqlParser) {
+	private QueryModel parse(DsqlParser dsqlParser) {
 		try {
 			select_return select = dsqlParser.select();
 			DsqlNode tree = (DsqlNode) select.getTree();

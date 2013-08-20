@@ -5,13 +5,51 @@ import org.mule.common.query.expression.EmptyExpression;
 import org.mule.common.query.expression.Expression;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Basic query
+ * Represents the query model for Mule QueryModel Builder
+ *
+ * @author Mulesoft, Inc
  */
-public class DefaultQuery extends Query {
+public class QueryModel {
 
-    public DefaultQuery(){
+    /**
+     * Type or types to be queried
+     */
+    protected List<Type> types;
+
+    /**
+     * Fields to be retrieved
+     */
+    protected List<Field> fields;
+
+    /**
+     * Fields for sorting the query
+     */
+    protected List<Field> orderByFields;
+
+    /**
+     * Direction to determine the ascending or descending sorting
+     */
+    protected Direction direction;
+
+    /**
+     * Expression which contains the filter conditions
+     */
+    protected Expression filterExpression;
+
+    /**
+     * Expression for joining the different types
+     */
+    protected Expression joinExpression;
+
+    protected int limit;
+
+    protected int offset;
+
+
+    public QueryModel(){
         this.types = new ArrayList<Type>();
         this.fields = new ArrayList<Field>();
         this.orderByFields = new ArrayList<Field>();
@@ -20,6 +58,40 @@ public class DefaultQuery extends Query {
         this.joinExpression = new EmptyExpression();
         this.limit = -1;
         this.offset = -1;
+    }
+
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public List<Field> getOrderByFields() {
+        return orderByFields;
+    }
+
+    public Direction getDirection(){
+        return direction;
+    }
+
+    public Expression getFilterExpression() {
+        return filterExpression;
+    }
+
+
+    public List<Type> getTypes() {
+        return types;
+    }
+
+
+    public Expression getJoinExpression() {
+        return joinExpression;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getOffset() {
+        return offset;
     }
 
     public void addType(Type type) {
@@ -54,14 +126,9 @@ public class DefaultQuery extends Query {
         this.offset = offset;
     }
 
-    private boolean hasDirection() {
-        return this.direction != null;
-    }
-
-    @Override
     public void accept(QueryVisitor queryVisitor) {
-    	// This order matters! Please don't change it. Visit types first, then fields.
-    	queryVisitor.visitTypes(this.types);
+        // This order matters! Please don't change it. Visit types first, then fields.
+        queryVisitor.visitTypes(this.types);
         queryVisitor.visitFields(this.fields);
         if (!(this.filterExpression instanceof EmptyExpression)) {
             queryVisitor.visitBeginExpression();
@@ -69,11 +136,10 @@ public class DefaultQuery extends Query {
         }
 
         if (this.orderByFields.size()>0){
-            //queryVisitor.visitOrderByFields(this.orderByFields);
             if (! hasDirection()){
                 queryVisitor.visitOrderByFields(this.orderByFields);
             }else{
-                queryVisitor.visitOrderByFields(this.orderByFields, this.getDirection());
+                queryVisitor.visitOrderByFields(this.orderByFields, this.direction);
             }
         }
 
@@ -84,5 +150,9 @@ public class DefaultQuery extends Query {
         if (offset != -1) {
             queryVisitor.visitOffset(this.offset);
         }
+    }
+
+    private boolean hasDirection() {
+        return this.direction != null;
     }
 }
