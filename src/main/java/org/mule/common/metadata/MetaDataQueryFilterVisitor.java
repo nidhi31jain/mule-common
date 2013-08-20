@@ -22,7 +22,7 @@ public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
 
     @Override
     public void visitPojoModel(PojoMetaDataModel pojoMetaDataModel) {
-        //DO NOTHING
+        resultModel = pojoMetaDataModel;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
 
     @Override
     public void visitSimpleMetaDataModel(SimpleMetaDataModel simpleMetaDataModel) {
-        //DO NOTHING
+        resultModel = simpleMetaDataModel;
     }
 
     @Override
     public void visitStaticMapModel(ParameterizedMapMetaDataModel parameterizedMapMetaDataModel) {
-        //DO NOTHING
+        resultModel = parameterizedMapMetaDataModel;
     }
 
     @Override
