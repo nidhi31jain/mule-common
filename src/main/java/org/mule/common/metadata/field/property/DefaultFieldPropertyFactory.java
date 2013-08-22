@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class DefaultFieldPropertyFactory implements FieldPropertyFactory {
     @Override
-    public List<MetaDataFieldProperty> getCapabilities(String name, MetaDataModel metaDataModel) throws NoImplementationClassException{
+    public List<MetaDataFieldProperty> getProperties(String name, MetaDataModel metaDataModel) throws NoImplementationClassException{
         List<MetaDataFieldProperty> fieldProperties = new ArrayList<MetaDataFieldProperty>();
         fieldProperties.add(new DsqlSelectMetaDataFieldProperty());
         fieldProperties.add(new DsqlWhereMetaDataFieldProperty());

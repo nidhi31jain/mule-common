@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 
 /**
  */
-public class DefaultFieldFeatureFactoryTestCase {
+public class DefaultFieldPropertyFactoryTestCase {
 
     private DefaultFieldPropertyFactory defaultFieldFeatureFactory;
 
@@ -27,7 +27,7 @@ public class DefaultFieldFeatureFactoryTestCase {
     @Test
     public void testGetCapabilities() throws Exception{
         MetaDataModel mdm = new DefaultSimpleMetaDataModel(DataType.STRING);
-        List<MetaDataFieldProperty> metaDataFieldPropertyList = defaultFieldFeatureFactory.getCapabilities("SomeFieldName", mdm);
+        List<MetaDataFieldProperty> metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
         assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(5));
         assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
@@ -39,7 +39,7 @@ public class DefaultFieldFeatureFactoryTestCase {
 
 
         mdm = new DefaultSimpleMetaDataModel(DataType.NUMBER);
-        metaDataFieldPropertyList = defaultFieldFeatureFactory.getCapabilities("SomeFieldName", mdm);
+        metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
         assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(5));
         assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));

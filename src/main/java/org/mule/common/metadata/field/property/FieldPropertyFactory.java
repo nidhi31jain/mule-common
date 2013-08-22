@@ -11,5 +11,5 @@ import java.util.List;
 public interface FieldPropertyFactory
 {
 
-    List<MetaDataFieldProperty> getCapabilities(String name, MetaDataModel metaDataModel) throws NoImplementationClassException;
+    List<MetaDataFieldProperty> getProperties(String name, MetaDataModel metaDataModel) throws NoImplementationClassException;
 }

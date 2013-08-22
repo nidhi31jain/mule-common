@@ -309,15 +309,15 @@ public class MetaDataModelFactory
 						if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
 							Type propertyType = pd.getReadMethod().getGenericReturnType();
 							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, featureFactory.getCapabilities(pd.getName(), property)));
+							fields.add(new DefaultMetaDataField(pd.getName(), property, featureFactory.getProperties(pd.getName(), property)));
 						} else if (pd.getReadMethod() != null) {
 							Type propertyType = pd.getReadMethod().getGenericReturnType();
 							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ, featureFactory.getCapabilities(pd.getName(), property)));
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ, featureFactory.getProperties(pd.getName(), property)));
 						} else if (pd.getWriteMethod() != null) {
 							Type propertyType = pd.getWriteMethod().getGenericReturnType();
 							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE, featureFactory.getCapabilities(pd.getName(), property)));
+							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE, featureFactory.getProperties(pd.getName(), property)));
 						}
 				}
 			} catch (Exception e) {
