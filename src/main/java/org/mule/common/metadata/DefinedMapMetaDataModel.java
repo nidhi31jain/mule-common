@@ -18,9 +18,14 @@ import java.util.Set;
  */
 public interface DefinedMapMetaDataModel extends MetaDataModel
 {
-    public String getName();
-    public Set<String> getKeys();
-    public MetaDataModel getKeyMetaDataModel();
-    public MetaDataModel getValueMetaDataModel(String key);
-    public List<MetaDataField> getFields();
+
+     String getName();
+
+     Set<String> getKeys();
+
+     MetaDataModel getKeyMetaDataModel();
+
+     MetaDataModel getValueMetaDataModel(String key);
+
+     List<MetaDataField> getFields();
 }

@@ -22,9 +22,10 @@ public class DefaultDefinedMapMetaDataModel
 	extends AbstractMetaDataModel 
 	implements DefinedMapMetaDataModel
 {
-    List<MetaDataField> fields;
+    private List<MetaDataField> fields;
     private String name;
 
+    @Deprecated
     public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap, String name)
     {
         super(DataType.MAP);
@@ -32,6 +33,7 @@ public class DefaultDefinedMapMetaDataModel
         this.name = name;
     }
 
+    @Deprecated
     public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap)
     {
         this(metaDataModelMap, null);
@@ -92,7 +94,7 @@ public class DefaultDefinedMapMetaDataModel
 
     @Override
     public List<MetaDataField> getFields() {
-        return fields;
+        return Collections.unmodifiableList(fields);
     }
 
     @Override

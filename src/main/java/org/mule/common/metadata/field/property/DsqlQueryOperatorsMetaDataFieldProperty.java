@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Properties regarding operators in WHERE conditions
  */
-public class DsqlQueryOperatorsMetaDataFieldProperty implements MetaDataFieldProperty {
+public class DsqlQueryOperatorsMetaDataFieldProperty implements DsqlMetaDataFieldProperty {
     private List<Operator> supportedOperators;
 
     public DsqlQueryOperatorsMetaDataFieldProperty(List<Operator> supportedOperators) {
