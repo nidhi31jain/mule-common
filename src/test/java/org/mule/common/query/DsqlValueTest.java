@@ -24,7 +24,7 @@ public class DsqlValueTest
     @Test
     public void parseStringValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where lastName = 'de Achaval'");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where lastName = 'de Achaval'");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(StringValue.class));
@@ -36,7 +36,7 @@ public class DsqlValueTest
     @Test
     public void parseDateTimeWithTimZone1Value(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where birdth > 1999-01-01T23:01:01+01:00");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birdth > 1999-01-01T23:01:01+01:00");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateTimeValue.class));
@@ -45,7 +45,7 @@ public class DsqlValueTest
     @Test
     public void parseDateTimeWithTimZone2Value(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where birdth > 1999-01-01T23:01:01-01:00");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birdth > 1999-01-01T23:01:01-01:00");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateTimeValue.class));
@@ -54,7 +54,7 @@ public class DsqlValueTest
     @Test
     public void parseDateTimeWithTimZone3Value(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01T23:01:01Z");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01T23:01:01Z");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateTimeValue.class));
@@ -64,7 +64,7 @@ public class DsqlValueTest
     @Test
     public void parseDateValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateValue.class));
@@ -74,7 +74,7 @@ public class DsqlValueTest
     @Test
     public void parseIntValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where age = 30");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where age = 30");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(NumberValue.class));
@@ -83,7 +83,7 @@ public class DsqlValueTest
     @Test
     public void parseBooleanValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where registered = true");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where registered = true");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(BooleanValue.class));
@@ -92,7 +92,7 @@ public class DsqlValueTest
     @Test
     public void parseMuleExpressionValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where address = #[flowVars['address']]");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where address = #[flowVars['address']]");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(MuleExpressionValue.class));
@@ -105,7 +105,7 @@ public class DsqlValueTest
     @Test
     public void parseIdentifierValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where birth > NEXT_WEEK");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birth > NEXT_WEEK");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(IdentifierValue.class));
@@ -118,7 +118,7 @@ public class DsqlValueTest
     @Test
     public void parseNullValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
-        QueryModel parse = muleDsqlParser.parse("select name from account where address = null");
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where address = null");
         Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
         FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
         Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(NullValue.class));

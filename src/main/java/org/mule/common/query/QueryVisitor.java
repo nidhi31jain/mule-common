@@ -38,7 +38,7 @@ public interface QueryVisitor {
     void visitOffset(int offset);
 
     /**
-     *  This method simply acts a friendly reminder not to implement QueryModel visitor directly and instead extend DefaultQueryVisitor.
+     *  This method simply acts a friendly reminder not to implement DsqlQuery visitor directly and instead extend DefaultQueryVisitor.
      */
     void _dont_implement_QueryVisitor___instead_extend_DefaultQueryVisitor();
 

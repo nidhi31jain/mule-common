@@ -12,6 +12,7 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.metadata.exception.NoImplementationClassException;
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.LikeOperator;
 import org.mule.common.query.expression.NotEqualsOperator;
@@ -48,7 +49,7 @@ public class DefaultSimpleMetaDataModel
     }
 
     @Override
-    public String getDefaultImplementationClass() throws RuntimeException{
+    public String getDefaultImplementationClass() throws NoImplementationClassException{
         switch (this.getDataType()) {
             case BOOLEAN:
                 return Boolean.class.getName();
@@ -69,7 +70,7 @@ public class DefaultSimpleMetaDataModel
             case STREAM:
                 return InputStream.class.getName();
             default:
-                throw new RuntimeException("There is no default implementation class for the DataType " + this.getDataType().toString());
+                throw new NoImplementationClassException("There is no default implementation class for the DataType " + this.getDataType().toString());
         }
     }
 }

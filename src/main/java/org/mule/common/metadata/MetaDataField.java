@@ -1,5 +1,7 @@
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+
 import java.util.List;
 
 public interface MetaDataField {
@@ -10,11 +12,15 @@ public interface MetaDataField {
 
 	public FieldAccessType getAccessType();
 
-    public List<Capability> getCapabilities();
+    public List<MetaDataFieldProperty> getProperties();
 
-    public String getImplementationClass();
+    public boolean addProperty(MetaDataFieldProperty metaDataFieldProperty);
 
-    public void accept(CapabilityVisitor capabilityVisitor);
+    public boolean removeProperty(MetaDataFieldProperty metaDataFieldProperty);
+
+    public boolean hasProperty(Class<? extends MetaDataFieldProperty> metaDataFieldProperty);
+
+    public MetaDataFieldProperty getProperty(Class<? extends MetaDataFieldProperty> metaDataFieldProperty);
 
 	public static enum FieldAccessType
 	{

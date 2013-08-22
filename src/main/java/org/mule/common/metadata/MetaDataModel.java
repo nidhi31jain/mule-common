@@ -1,6 +1,7 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.exception.NoImplementationClassException;
 
 public interface MetaDataModel
 {
@@ -11,5 +12,5 @@ public interface MetaDataModel
 
     void accept(MetaDataModelVisitor modelVisitor);
 
-    String getDefaultImplementationClass() throws RuntimeException;
+    String getDefaultImplementationClass() throws NoImplementationClassException;
 }

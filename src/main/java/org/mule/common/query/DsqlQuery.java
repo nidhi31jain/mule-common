@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the query model for Mule QueryModel Builder
+ * Represents the query model for Mule DsqlQuery Builder
  *
  * @author Mulesoft, Inc
  */
-public class QueryModel {
+public class DsqlQuery {
 
     /**
      * Type or types to be queried
@@ -49,7 +49,7 @@ public class QueryModel {
     protected int offset;
 
 
-    public QueryModel(){
+    public DsqlQuery(){
         this.types = new ArrayList<Type>();
         this.fields = new ArrayList<Field>();
         this.orderByFields = new ArrayList<Field>();

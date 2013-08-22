@@ -10,23 +10,19 @@
 
 package org.mule.common.metadata.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import org.mule.common.metadata.Capability;
-import org.mule.common.metadata.DefaultPojoMetaDataModel;
-import org.mule.common.metadata.MetaDataField;
-import org.mule.common.metadata.PojoMetaDataModel;
-import org.mule.common.metadata.QueryCapability;
+import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.exception.NoImplementationClassException;
+import org.mule.common.metadata.field.property.*;
 import org.mule.common.metadata.test.pojo.EverythingPojo;
 
 import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -107,15 +103,21 @@ public class DefaultPojoMetaDataModelTestCase
         assertThat(defaultPojoMetaDataModel.getFields().size(), CoreMatchers.is(17));
         for (MetaDataField metaDataField : defaultPojoMetaDataModel.getFields())
         {
-            List<Capability> capabilities = metaDataField.getCapabilities();
+            List<MetaDataFieldProperty> capabilities = metaDataField.getProperties();
             if (metaDataField.getMetaDataModel().getDataType() != DataType.POJO)
             {
-                assertThat(capabilities.size(), CoreMatchers.is(1));
-                assertThat(capabilities.get(0), CoreMatchers.is(QueryCapability.class));
-                assertThat(((QueryCapability) capabilities.get(0)).isSelectCapable(), CoreMatchers.is(true));
-                assertThat(((QueryCapability) capabilities.get(0)).isSortCapable(), CoreMatchers.is(true));
-                assertThat(((QueryCapability) capabilities.get(0)).isWhereCapable(), CoreMatchers.is(true));
-                assertThat("Operators should not be empty", ((QueryCapability) capabilities.get(0)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+                assertThat(capabilities.size(), CoreMatchers.is(5));
+                assertThat((DsqlSelectMetaDataFieldProperty)capabilities.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
+                assertThat((DsqlWhereMetaDataFieldProperty)capabilities.get(1), CoreMatchers.is(DsqlWhereMetaDataFieldProperty.class));
+                assertThat((DsqlOrderMetaDataFieldProperty)capabilities.get(2), CoreMatchers.is(DsqlOrderMetaDataFieldProperty.class));
+                assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) capabilities.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+                String implClass= null;
+                try {
+                    implClass =  metaDataField.getMetaDataModel().getDefaultImplementationClass();
+                } catch (NoImplementationClassException noImpClassEx){
+                    fail("All metadata fields should have an implementation class");
+                }
+                assertThat(((ImplementationClassMetaDataFieldProperty) capabilities.get(4)).getName(), CoreMatchers.is(implClass));
             }
         }
     }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
+import org.mule.common.metadata.field.property.FieldPropertyFactory;
 
 public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements PojoMetaDataModel {
 
@@ -14,11 +16,11 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     private Set<String> parentNames;
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz) {
-		this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, new DefaultFieldFeatureFactory()));
+		this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, new DefaultFieldPropertyFactory()));
 	}
 
-    public DefaultPojoMetaDataModel(Class<?> clazz, FieldFeatureFactory fieldFeatureFactory) {
-        this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, fieldFeatureFactory));
+    public DefaultPojoMetaDataModel(Class<?> clazz, FieldPropertyFactory fieldPropertyFactory) {
+        this(clazz, clazz.getSimpleName(), MetaDataModelFactory.getInstance().getFieldsForClass(clazz, fieldPropertyFactory));
     }
 	
 	public DefaultPojoMetaDataModel(Class<?> clazz, List<MetaDataField> fields) {

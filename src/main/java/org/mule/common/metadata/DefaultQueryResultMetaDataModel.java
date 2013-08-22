@@ -1,6 +1,7 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.exception.NoImplementationClassException;
 
 import java.util.List;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
     }
 
     @Override
-    public String getDefaultImplementationClass() {
+    public String getDefaultImplementationClass() throws NoImplementationClassException {
         return definedMapMetaDataModel.getDefaultImplementationClass();
     }
 }

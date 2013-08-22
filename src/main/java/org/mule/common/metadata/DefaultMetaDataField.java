@@ -1,36 +1,36 @@
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+import org.mule.common.metadata.field.property.MetaDataFieldPropertyManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultMetaDataField
 	implements MetaDataField {
 
-    private static String DEFAULT_IMPLEMENTATION_CLASS = "default";
 	private String name;
 	private MetaDataModel model;
 	private FieldAccessType accessType;
-    private List<Capability> capabilities;
-    private String implementationClass = DEFAULT_IMPLEMENTATION_CLASS;
-	
+    private MetaDataFieldPropertyManager metaDataFieldPropertyManager;
+
 	public DefaultMetaDataField(final String name, final MetaDataModel model) {
-		this(name, model, FieldAccessType.READ_WRITE, new ArrayList<Capability>(), model.getDataType().toString());
+		this(name, model, FieldAccessType.READ_WRITE, new ArrayList<MetaDataFieldProperty>());
 	}
 
     public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType) {
-        this(name, model, accessType, new ArrayList<Capability>(), model.getDataType().toString());
+        this(name, model, accessType, new ArrayList<MetaDataFieldProperty>());
     }
 
-    public DefaultMetaDataField(final String name, final MetaDataModel model, List<Capability> capabilities, String implementationClass) {
-        this(name, model, FieldAccessType.READ_WRITE, capabilities, implementationClass);
+    public DefaultMetaDataField(final String name, final MetaDataModel model, List<MetaDataFieldProperty> fieldCapabilities) {
+        this(name, model, FieldAccessType.READ_WRITE, fieldCapabilities);
     }
 
-	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType, List<Capability> capabilities, String implementationClass) {
+	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType, List<MetaDataFieldProperty> fieldCapabilities) {
 		this.name = name;
 		this.model = model;
 		this.accessType = accessType;
-        this.capabilities = capabilities;
-        this.implementationClass = implementationClass;
+        this.metaDataFieldPropertyManager = new MetaDataFieldPropertyManager(fieldCapabilities);
 	}
 
 	@Override
@@ -49,26 +49,28 @@ public class DefaultMetaDataField
 	}
 
     @Override
-    public List<Capability> getCapabilities() {
-        return this.capabilities;
+    public List<MetaDataFieldProperty> getProperties() {
+        return this.metaDataFieldPropertyManager.getProperties();
     }
 
     @Override
-    public String getImplementationClass() {
-        //is default and we need to ask which is the class
-        if (DEFAULT_IMPLEMENTATION_CLASS.equals(implementationClass)) {
-            return model.getDefaultImplementationClass();
-        } else {
-            //it was overridden when created
-            return implementationClass;
-        }
+    public boolean addProperty(MetaDataFieldProperty metaDataFieldProperty) {
+        return this.metaDataFieldPropertyManager.addProperty(metaDataFieldProperty);
     }
 
     @Override
-    public void accept(CapabilityVisitor capabilityVisitor) {
-        for(Capability capability : this.getCapabilities()){
-            capability.accept(capabilityVisitor);
-        }
+    public boolean removeProperty(MetaDataFieldProperty metaDataFieldProperty) {
+        return this.metaDataFieldPropertyManager.removeProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public boolean hasProperty(Class<? extends MetaDataFieldProperty> metaDataFieldProperty) {
+        return this.metaDataFieldPropertyManager.hasProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public MetaDataFieldProperty getProperty(Class<? extends MetaDataFieldProperty> metaDataFieldProperty) {
+        return this.metaDataFieldPropertyManager.getProperty(metaDataFieldProperty);
     }
 
     @Override
@@ -106,6 +108,4 @@ public class DefaultMetaDataField
 			return false;
 		return true;
 	}
-	
-
 }
