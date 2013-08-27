@@ -1,10 +1,9 @@
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.exception.NoImplementationClassException;
-
 import java.util.List;
 import java.util.Set;
+
+import org.mule.common.metadata.datatype.DataType;
 
 /**
  * Model for representing query metadata
@@ -69,8 +68,9 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
         modelVisitor.visitDynamicMapModel(this);
     }
 
-    @Override
-    public String getDefaultImplementationClass() throws NoImplementationClassException {
-        return definedMapMetaDataModel.getDefaultImplementationClass();
-    }
+	@Override
+	public String getImplementationClass() {
+		return definedMapMetaDataModel.getImplementationClass();
+	}
+
 }

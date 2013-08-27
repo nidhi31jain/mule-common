@@ -10,19 +10,25 @@
 
 package org.mule.common.metadata.test;
 
-import org.mule.common.metadata.*;
-import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.exception.NoImplementationClassException;
-import org.mule.common.metadata.field.property.*;
-import org.mule.common.metadata.test.pojo.EverythingPojo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.MetaDataField;
+import org.mule.common.metadata.PojoMetaDataModel;
+import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.field.property.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.DsqlWhereMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+import org.mule.common.metadata.test.pojo.EverythingPojo;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -106,18 +112,11 @@ public class DefaultPojoMetaDataModelTestCase
             List<MetaDataFieldProperty> capabilities = metaDataField.getProperties();
             if (metaDataField.getMetaDataModel().getDataType() != DataType.POJO)
             {
-                assertThat(capabilities.size(), CoreMatchers.is(5));
+                assertThat(capabilities.size(), CoreMatchers.is(4));
                 assertThat((DsqlSelectMetaDataFieldProperty)capabilities.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
                 assertThat((DsqlWhereMetaDataFieldProperty)capabilities.get(1), CoreMatchers.is(DsqlWhereMetaDataFieldProperty.class));
                 assertThat((DsqlOrderMetaDataFieldProperty)capabilities.get(2), CoreMatchers.is(DsqlOrderMetaDataFieldProperty.class));
                 assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) capabilities.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
-                String implClass= null;
-                try {
-                    implClass =  metaDataField.getMetaDataModel().getDefaultImplementationClass();
-                } catch (NoImplementationClassException noImpClassEx){
-                    fail("All metadata fields should have an implementation class");
-                }
-                assertThat(((ImplementationClassMetaDataFieldProperty) capabilities.get(4)).getName(), CoreMatchers.is(implClass));
             }
         }
     }

@@ -32,7 +32,6 @@ public class MetaDataFieldPropertyManagerTestCase {
         properties.add(new DsqlOrderMetaDataFieldProperty());
         properties.add(new DsqlQueryOperatorsMetaDataFieldProperty(
                 SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(DataType.STRING)));
-        properties.add(new ImplementationClassMetaDataFieldProperty(String.class.getName()));
         fullPropertyManager = new MetaDataFieldPropertyManager(properties);
     }
 
@@ -49,7 +48,6 @@ public class MetaDataFieldPropertyManagerTestCase {
         assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlWhereMetaDataFieldProperty.class), CoreMatchers.is(true));
         assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlOrderMetaDataFieldProperty.class), CoreMatchers.is(true));
         assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(ImplementationClassMetaDataFieldProperty.class), CoreMatchers.is(true));
         assertThat("The full manager should not have the property", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
         fullPropertyManager.addProperty(aProperty);
         assertThat("The full manager should have the property at this point", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
@@ -68,7 +66,6 @@ public class MetaDataFieldPropertyManagerTestCase {
         assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlWhereMetaDataFieldProperty.class), CoreMatchers.is(properties.get(1)));
         assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlOrderMetaDataFieldProperty.class), CoreMatchers.is(properties.get(2)));
         assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), CoreMatchers.is(properties.get(3)));
-        assertThat("The full manager should have the property", fullPropertyManager.getProperty(ImplementationClassMetaDataFieldProperty.class), CoreMatchers.is(properties.get(4)));
         assertNull("The full manager should not have the property", fullPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class));
         fullPropertyManager.addProperty(aProperty);
         assertThat("The full manager should have the property at this point", fullPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(aProperty));
@@ -84,13 +81,13 @@ public class MetaDataFieldPropertyManagerTestCase {
         assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
         assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
 
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
         assertThat(fullPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(6));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
         assertThat(fullPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(false));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(6));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
     }
 
@@ -106,11 +103,11 @@ public class MetaDataFieldPropertyManagerTestCase {
         assertThat(emptyPropertyManager.removeProperty(aProperty), CoreMatchers.is(true));
 
 
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
         assertThat(fullPropertyManager.removeProperty(aProperty), CoreMatchers.is(false));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
         assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(6));
+        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
         assertThat(fullPropertyManager.removeProperty(aProperty), CoreMatchers.is(true));
     }
 

@@ -34,6 +34,7 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
         this.clazzName = clazz.getName();
         this.isInterface = clazz.isInterface();
         this.fieldsForClass = fields;
+        setImplementationClass(clazz.getName());
     }
 	
 	@Override
@@ -117,10 +118,5 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
     @Override
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitPojoModel(this);
-    }
-
-    @Override
-    public String getDefaultImplementationClass() {
-        return clazzName;
     }
 }

@@ -27,10 +27,4 @@ public class DefaultExampleBasedMetaDataModel extends AbstractMetaDataModel impl
     {
     }
 
-    @Override
-    public String getDefaultImplementationClass() {
-        return String.class.getName();
-    }
-
-
 }

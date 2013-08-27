@@ -1,21 +1,44 @@
 package org.mule.common.metadata.datatype;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.mule.common.query.expression.Operator;
+
 public enum DataType
 {
-    VOID, //TODO to be removed
-    BOOLEAN,
-    NUMBER,
-    STRING,
-    BYTE,
-    STREAM, //TODO to be removed
-    ENUM,
-    DATE,
-    DATE_TIME,
-    POJO,
-    LIST,
-    MAP,
-    XML,
-    CSV,
-    JSON
+    VOID(Void.class.getName()), //TODO to be removed
+    BOOLEAN(Boolean.class.getName()),
+    NUMBER(Number.class.getName()),
+    STRING(String.class.getName()),
+    BYTE(Byte.class.getName()),
+    STREAM(InputStream.class.getName()), //TODO to be removed
+    ENUM(Enum.class.getName()),
+    DATE(Date.class.getName()),
+    DATE_TIME(Calendar.class.getName()),
+    POJO(Object.class.getName()),
+    LIST(ArrayList.class.getName()),
+    MAP(HashMap.class.getName()),
+    XML(null),
+    CSV(null),
+    JSON(null)
     // TODO: how do we model a UNION type (e.j. Object or Exception)
+;
+    private String defaultImplementationClass;
+
+	private DataType(String defaultImplementationClass) {
+		this.defaultImplementationClass = defaultImplementationClass;
+	}
+
+	public List<Operator> getSupportedOperators() {
+		return SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(this);
+	}
+
+	public String getDefaultImplementationClass() {
+		return defaultImplementationClass;
+	}
 }

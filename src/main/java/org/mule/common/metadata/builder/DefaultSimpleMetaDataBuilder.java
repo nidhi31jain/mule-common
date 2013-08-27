@@ -11,6 +11,7 @@ public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
 {
 
     private DataType dataType;
+	private String implClass;
 
     DefaultSimpleMetaDataBuilder(DataType dataType)
     {
@@ -20,6 +21,18 @@ public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
     @Override
     public MetaDataModel build()
     {
-        return new DefaultSimpleMetaDataModel(dataType);
+        DefaultSimpleMetaDataModel defaultSimpleMetaDataModel = new DefaultSimpleMetaDataModel(dataType);
+        defaultSimpleMetaDataModel.setImplementationClass(implClass == null? dataType.getDefaultImplementationClass() : implClass);
+		return defaultSimpleMetaDataModel;
     }
+
+	@Override
+	public DataType getDataType() {
+		return dataType;
+	}
+
+	public void setImplClass(String implClass) {
+		this.implClass = implClass;
+		
+	}
 }

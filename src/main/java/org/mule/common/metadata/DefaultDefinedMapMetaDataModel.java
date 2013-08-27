@@ -131,11 +131,6 @@ public class DefaultDefinedMapMetaDataModel
     public void accept(MetaDataModelVisitor modelVisitor) {
         modelVisitor.visitDynamicMapModel(this);
     }
-
-    @Override
-    public String getDefaultImplementationClass() {
-        return Map.class.getName();
-    }
 }
 
 

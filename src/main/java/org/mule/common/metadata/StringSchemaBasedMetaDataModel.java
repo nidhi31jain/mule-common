@@ -48,9 +48,4 @@ public class StringSchemaBasedMetaDataModel extends AbstractMetaDataModel implem
     public void accept(MetaDataModelVisitor modelVisitor)
     {
     }
-
-    @Override
-    public String getDefaultImplementationClass() {
-        return String.class.getName();
-    }
 }

@@ -5,6 +5,7 @@ import org.mule.common.metadata.datatype.DataType;
 public abstract class AbstractMetaDataModel 
 	implements MetaDataModel {
 
+	private String implementationClass;
 	private DataType dataType;
 	
 	protected AbstractMetaDataModel(DataType dataType) {
@@ -26,6 +27,19 @@ public abstract class AbstractMetaDataModel
         return null;
 	}
 
+	@Override
+	public String getImplementationClass() {
+		return implementationClass != null? implementationClass : inferImplementationClass();
+	}
+
+	private String inferImplementationClass() {
+		return dataType.getDefaultImplementationClass();
+	}
+
+	public void setImplementationClass(String implementationClass) {
+		this.implementationClass = implementationClass;
+	}
+	
 	@Override
 	public String toString()
 	{

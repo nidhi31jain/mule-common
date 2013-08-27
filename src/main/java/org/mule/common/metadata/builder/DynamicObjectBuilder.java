@@ -11,6 +11,8 @@ public interface DynamicObjectBuilder<P extends MetaDataBuilder<?>> extends Meta
 {
 
     DynamicObjectFieldBuilder<P> addSimpleField(String name, DataType dataType);
+    
+    DynamicObjectFieldBuilder<P> addSimpleField(String name, DataType dataType, String implClass);
 
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name);
 

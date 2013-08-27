@@ -11,15 +11,6 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
-import org.mule.common.metadata.exception.NoImplementationClassException;
-import org.mule.common.query.expression.EqualsOperator;
-import org.mule.common.query.expression.LikeOperator;
-import org.mule.common.query.expression.NotEqualsOperator;
-import org.mule.common.query.expression.Operator;
-
-import java.io.InputStream;
-import java.util.*;
 
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel
@@ -48,31 +39,6 @@ public class DefaultSimpleMetaDataModel
         modelVisitor.visitSimpleMetaDataModel(this);
     }
 
-    @Override
-    public String getDefaultImplementationClass() throws NoImplementationClassException{
-        switch (this.getDataType()) {
-            case BOOLEAN:
-                return Boolean.class.getName();
-            case ENUM:
-                return Enum.class.getName();
-            case DATE:
-                return Date.class.getName();
-            case DATE_TIME:
-                return Calendar.class.getName();
-            case BYTE:
-                return Byte.class.getName();
-            case NUMBER:
-                return Number.class.getName();
-            case STRING:
-                return String.class.getName();
-            case VOID:
-                return Void.class.getName();
-            case STREAM:
-                return InputStream.class.getName();
-            default:
-                throw new NoImplementationClassException("There is no default implementation class for the DataType " + this.getDataType().toString());
-        }
-    }
 }
 
 
