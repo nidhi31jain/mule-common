@@ -133,7 +133,7 @@ public class MetaDataModelFactoryTestCase
     	assertNotNull(fieldsForStruct);
     	
     	assertPojoMetaDataModelField(getField(fieldsForStruct, "date"), "date", DataType.DATE_TIME);
-    	assertPojoMetaDataModelField(getField(fieldsForStruct, "value"), "value", DataType.NUMBER);
+    	assertPojoMetaDataModelField(getField(fieldsForStruct, "value"), "value", DataType.INTEGER);
     	MetaDataField field = getField(fieldsForStruct, "byteArray");
         assertTrue(field.getProperties().size() == 4);
     	assertNotNull(field);
@@ -160,7 +160,7 @@ public class MetaDataModelFactoryTestCase
         assertTrue(structPojo.getClassName().equals(Struct.class.getName()));
         assertNotNull(structPojo.toString());
         assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE_TIME);
-        assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.NUMBER);
+        assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
 
     @Test
@@ -188,11 +188,11 @@ public class MetaDataModelFactoryTestCase
     	assertTrue(valueStructPojo.getClassName().equals(Struct1.class.getName()));
     	
     	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "date"), "date", DataType.DATE_TIME);
-    	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "value"), "value", DataType.NUMBER);
+    	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "value"), "value", DataType.INTEGER);
     	
     	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "date"), "date", DataType.DATE_TIME);
     	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "name"), "name", DataType.STRING);
-    	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "value"), "value", DataType.NUMBER);
+    	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
 
     @Test
@@ -206,8 +206,8 @@ public class MetaDataModelFactoryTestCase
             MetaDataField leftField = getField(fieldsForNode, "left");
 			assertPojoMetaDataModelField(leftField, "left", DataType.POJO);
             assertPojoMetaDataModelField(getField(fieldsForNode, "right"), "right", DataType.POJO);
-            assertPojoMetaDataModelField(getField(fieldsForNode, "value"), "value", DataType.NUMBER);
-            assertPojoMetaDataModelField(getField(fieldsForNode, "defaultVisibility"), "defaultVisibility", DataType.NUMBER);
+            assertPojoMetaDataModelField(getField(fieldsForNode, "value"), "value", DataType.INTEGER);
+            assertPojoMetaDataModelField(getField(fieldsForNode, "defaultVisibility"), "defaultVisibility", DataType.INTEGER);
             
             MetaDataModel leftMetaDataModel = leftField.getMetaDataModel();
             assertTrue(leftMetaDataModel instanceof PojoMetaDataModel);
@@ -217,8 +217,8 @@ public class MetaDataModelFactoryTestCase
             
             assertPojoMetaDataModelField(getField(leftNodeFields, "left"), "left", DataType.POJO);
             assertPojoMetaDataModelField(getField(leftNodeFields, "right"), "right", DataType.POJO);
-            assertPojoMetaDataModelField(getField(leftNodeFields, "value"), "value", DataType.NUMBER);
-            assertPojoMetaDataModelField(getField(leftNodeFields, "defaultVisibility"), "defaultVisibility", DataType.NUMBER);
+            assertPojoMetaDataModelField(getField(leftNodeFields, "value"), "value", DataType.INTEGER);
+            assertPojoMetaDataModelField(getField(leftNodeFields, "defaultVisibility"), "defaultVisibility", DataType.INTEGER);
         }
         {
             List<MetaDataField> fieldsForNodeListOfStruct = factory.getFieldsForClass(NodeListOfStruct.class, new DefaultFieldPropertyFactory());
@@ -255,7 +255,7 @@ public class MetaDataModelFactoryTestCase
         PojoMetaDataModel structPojo = (PojoMetaDataModel)struct;
         assertNotNull(struct.toString());
         assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE_TIME);
-        assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.NUMBER);
+        assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
     
     public static class ListOfStruct
@@ -554,21 +554,20 @@ public class MetaDataModelFactoryTestCase
                 return "java.lang.Byte";
             case NUMBER:
                 return "java.lang.Number";
+            case INTEGER:
+            	return "java.lang.Integer";
+            case DOUBLE:
+            	return "java.lang.Double";
+            case DECIMAL:
+            	return "java.math.BigDecimal";
             case STRING:
                 return "java.lang.String";
             case VOID:
                 return "java.lang.Void";
             case STREAM:
                 return "java.io.InputStream";
-            case INTEGER:
-                return "java.lang.Integer";
-            case DOUBLE:
-                return "java.lang.Double";
-            case DECIMAL:
-                return "java.math.BigDecimal";
             case POJO:
-                return
-                		field.getMetaDataModel().getImplementationClass();
+                return field.getMetaDataModel().getImplementationClass();
         }
         return null;
     }

@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
@@ -80,6 +82,15 @@ public class DataTypeFactory {
 	private static final MetaDataModelEvaluator<Number> NUMBER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {int.class, long.class, short.class ,double.class, float.class, Number.class}, DataType.NUMBER);
 
+	private static final MetaDataModelEvaluator<Number> INTEGER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
+			new Class[] {int.class, long.class, short.class}, DataType.INTEGER);
+	
+	private static final MetaDataModelEvaluator<Number> DOUBLE_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
+			new Class[] {double.class, float.class}, DataType.DOUBLE);
+
+	private static final MetaDataModelEvaluator<Number> DECIMAL_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
+			new Class[] {BigDecimal.class, BigInteger.class}, DataType.DECIMAL);
+	
 	private static final MetaDataModelEvaluator<Byte> BYTE_EVALUATOR = new AssignableMetaDataModelEvaluator<Byte>(
 			new Class[] {byte.class, Byte.class}, DataType.BYTE);
 
@@ -109,6 +120,9 @@ public class DataTypeFactory {
 		VOID_EVALUATOR,
 		BOOLEAN_EVALUATOR,
 		STRING_EVALUATOR,
+		INTEGER_EVALUATOR,
+		DOUBLE_EVALUATOR,
+		DECIMAL_EVALUATOR,
 		NUMBER_EVALUATOR,
 		BYTE_EVALUATOR,
 		DATE_TIME_EVALUATOR,
