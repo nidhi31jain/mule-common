@@ -1,14 +1,13 @@
 package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.DefinedMapMetaDataModel;
-import org.mule.common.metadata.MetaDataModel;
 
-public interface PropertyCustomizableMetaDataBuilder extends MetaDataBuilder<DefinedMapMetaDataModel> {
+public interface PropertyCustomizableMetaDataBuilder<P extends MetaDataBuilder<?>> extends DynamicObjectFieldBuilder<P> {
 
-	public abstract DynamicObjectBuilder isSelectCapable(boolean capable);
+	public abstract PropertyCustomizableMetaDataBuilder<P> isSelectCapable(boolean capable);
 
-	public abstract DynamicObjectBuilder isOrderByCapable(boolean capable);
+	public abstract PropertyCustomizableMetaDataBuilder<P> isOrderByCapable(boolean capable);
 
-	public abstract CustomizingWhereMetaDataFieldBuilder isWhereCapable(boolean capable);
+	public abstract CustomizingWhereMetaDataFieldBuilder<P> isWhereCapable(boolean capable);
 
 }

@@ -12,7 +12,7 @@ import org.mule.common.metadata.DefinedMapMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.datatype.DataType;
 
-public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implements DynamicObjectFieldBuilder<P>, CustomizingWhereMetaDataFieldBuilder, AddingOperatorsMetaDataFieldBuilder
+public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implements AddingOperatorsMetaDataFieldBuilder<P>
 {
 
     private String name;
@@ -27,14 +27,14 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
     }
 
     @Override
-    public DynamicObjectFieldBuilder<P> addSimpleField(String name, DataType dataType)
+    public PropertyCustomizableMetaDataBuilder<P> addSimpleField(String name, DataType dataType)
     {
         fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultSimpleMetaDataBuilder(dataType)));
         return this;
     }
 
     @Override
-    public DynamicObjectFieldBuilder<P> addSimpleField(String name, DataType dataType, String implClass)
+    public PropertyCustomizableMetaDataBuilder<P> addSimpleField(String name, DataType dataType, String implClass)
     {
     	DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(dataType);
     	builder.setImplClass(implClass);
@@ -48,19 +48,22 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
         return this;
     }
 
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     public DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name)
     {
-        DefaultListMetaDataBuilder builder = new DefaultListMetaDataBuilder(this);
-        DynamicObjectBuilder dynamicObjectBuilder = builder.ofDynamicObject(name);
+        DefaultListMetaDataBuilder<?> builder = new DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<?>>(this);
+        DynamicObjectBuilder<?> dynamicObjectBuilder = builder.ofDynamicObject(name);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
         return (DynamicObjectFieldBuilder) dynamicObjectBuilder;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addDynamicObjectField(String name)
     {
-        DefaultDynamicObjectBuilder builder = new DefaultDynamicObjectBuilder<DefaultDynamicObjectBuilder<?>>(name,this);
+    	@SuppressWarnings("rawtypes")
+		DefaultDynamicObjectBuilder builder = new DefaultDynamicObjectBuilder<DefaultDynamicObjectBuilder<?>>(name,this);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
         return builder;
     }
@@ -96,82 +99,82 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
     }
 
 	@Override
-	public DynamicObjectBuilder isSelectCapable(boolean capable) 
+	public PropertyCustomizableMetaDataBuilder<P> isSelectCapable(boolean capable) 
 	{
 		getCurrentField().isSelectCapable(capable);
 		return this;
 	}
 
 	@Override
-	public DynamicObjectBuilder isOrderByCapable(boolean capable) 
+	public PropertyCustomizableMetaDataBuilder<P> isOrderByCapable(boolean capable) 
 	{
 		getCurrentField().isOrderByCapable(capable);
 		return this;
 	}
 
 	@Override
-	public CustomizingWhereMetaDataFieldBuilder isWhereCapable(boolean capable) 
+	public CustomizingWhereMetaDataFieldBuilder<P> isWhereCapable(boolean capable) 
 	{
 		getCurrentField().isWhereCapable(capable);
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder withSpecificOperations() 
+	public AddingOperatorsMetaDataFieldBuilder<P> withSpecificOperations() 
 	{
 		return this;
 	}
 
 	@Override
-	public DynamicObjectFieldBuilder withDefaultOperations() 
+	public PropertyCustomizableMetaDataBuilder<P> withDefaultOperations() 
 	{
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsEquals() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsEquals() 
 	{
 		getCurrentField().supportsEquals();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsNotEquals() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsNotEquals() 
 	{
 		getCurrentField().supportsNotEquals();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsGreater() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsGreater() 
 	{
 		getCurrentField().supportsGreater();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsGreaterOrEquals() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsGreaterOrEquals() 
 	{
 		getCurrentField().supportsGreaterOrEquals();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsLess() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsLess() 
 	{
 		getCurrentField().supportsLess();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsLessOrEquals() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsLessOrEquals() 
 	{
 		getCurrentField().supportsLessOrEquals();
 		return this;
 	}
 
 	@Override
-	public AddingOperatorsMetaDataFieldBuilder supportsLike() 
+	public AddingOperatorsMetaDataFieldBuilder<P> supportsLike() 
 	{
 		getCurrentField().supportsLike();
 		return this;

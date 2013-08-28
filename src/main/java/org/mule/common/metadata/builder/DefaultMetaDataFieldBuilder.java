@@ -27,7 +27,6 @@ import org.mule.common.query.expression.Operator;
 public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 
 	private String name;
-	private List<MetaDataFieldProperty> fieldProperties;
 	private List<Class<? extends MetaDataFieldProperty>> undesiredFieldProperties;
 	private MetaDataField.FieldAccessType accessType;
 	private MetaDataBuilder builder;
@@ -36,34 +35,26 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 	DefaultMetaDataFieldBuilder(String name, MetaDataBuilder builder) {
 		this.name = name;
 		this.builder = builder;
-		this.fieldProperties = new ArrayList<MetaDataFieldProperty>();
 		this.supportedOperators = new ArrayList<Operator>();
 		this.undesiredFieldProperties = new ArrayList<Class<? extends MetaDataFieldProperty>>();
 	}
 
 	public MetaDataFieldBuilder isSelectCapable(boolean capable) {
-
-		if (capable) {
-			fieldProperties.add(new DsqlSelectMetaDataFieldProperty());
-		} else {
+		if (!capable) {
 			undesiredFieldProperties.add(DsqlSelectMetaDataFieldProperty.class);
 		}
 		return this;
 	}
 
 	public MetaDataFieldBuilder isOrderByCapable(boolean capable) {
-		if (capable) {
-			fieldProperties.add(new DsqlOrderMetaDataFieldProperty());
-		} else {
+		if (!capable) {
 			undesiredFieldProperties.add(DsqlOrderMetaDataFieldProperty.class);
 		}
 		return this;
 	}
 
 	public void isWhereCapable(boolean capable) {
-		if (capable) {
-			fieldProperties.add(new DsqlWhereMetaDataFieldProperty());
-		} else {
+		if (!capable) {
 			undesiredFieldProperties.add(DsqlWhereMetaDataFieldProperty.class);
 		}
 	}
@@ -106,15 +97,18 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 		MetaDataModel model = builder.build();
 
 		// add default properties if empty
-		List<MetaDataFieldProperty> finalFieldProperties = new ArrayList<MetaDataFieldProperty>();
-		if (fieldProperties.isEmpty()) {
-			fieldProperties.addAll(defaultFieldPropertyFactory.getProperties("null", model));
-		} else {
-			if (!supportedOperators.isEmpty()) {
-				fieldProperties.add(new DsqlQueryOperatorsMetaDataFieldProperty(supportedOperators));
+		List<MetaDataFieldProperty> fieldProperties = new ArrayList<MetaDataFieldProperty>();
+		fieldProperties.addAll(defaultFieldPropertyFactory.getProperties("null", model));
+		if (!supportedOperators.isEmpty()) {
+			for (MetaDataFieldProperty metaDataFieldProperty : fieldProperties) {
+				if(metaDataFieldProperty instanceof DsqlQueryOperatorsMetaDataFieldProperty){
+					DsqlQueryOperatorsMetaDataFieldProperty operatorsMetaDataFieldProperty = (DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldProperty;
+					operatorsMetaDataFieldProperty.setSupportedOperators(supportedOperators);
+				}
 			}
 		}
 
+		List<MetaDataFieldProperty> finalFieldProperties = new ArrayList<MetaDataFieldProperty>();
 		// filter undesired properties
 		for (MetaDataFieldProperty property : fieldProperties) {
 			if (!undesiredFieldProperties.contains(property.getClass())) {

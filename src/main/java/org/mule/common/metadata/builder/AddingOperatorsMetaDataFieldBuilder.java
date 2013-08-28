@@ -1,18 +1,18 @@
 package org.mule.common.metadata.builder;
 
-public interface AddingOperatorsMetaDataFieldBuilder extends CustomizingWhereMetaDataFieldBuilder {
+public interface AddingOperatorsMetaDataFieldBuilder<P extends MetaDataBuilder<?>> extends CustomizingWhereMetaDataFieldBuilder<P> {
 
-	AddingOperatorsMetaDataFieldBuilder supportsEquals();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsEquals();
 
-	AddingOperatorsMetaDataFieldBuilder supportsNotEquals();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsNotEquals();
 
-	AddingOperatorsMetaDataFieldBuilder supportsGreater();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsGreater();
 
-	AddingOperatorsMetaDataFieldBuilder supportsGreaterOrEquals();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsGreaterOrEquals();
 
-	AddingOperatorsMetaDataFieldBuilder supportsLess();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsLess();
 
-	AddingOperatorsMetaDataFieldBuilder supportsLessOrEquals();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsLessOrEquals();
 
-	AddingOperatorsMetaDataFieldBuilder supportsLike();
+	AddingOperatorsMetaDataFieldBuilder<P> supportsLike();
 }

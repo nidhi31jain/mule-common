@@ -199,18 +199,17 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 	}
 
 	@Test
-	public void whenSpecifyingPropertiesOnlyThoseShouldBeCreated() {
-		DynamicObjectBuilder<?> container = new DefaultMetaDataBuilder().createDynamicObject("Container");
-		container.addSimpleField("simpleField", DataType.STRING).isWhereCapable(true);
-		DefinedMapMetaDataModel metaDataModel = container.build();
+	public void whenSpecifyingPropertiesAlsoTheDefaultsShouldBeCreated() {
+		DefinedMapMetaDataModel metaDataModel = new DefaultMetaDataBuilder().createDynamicObject("Container").addSimpleField("simpleField", DataType.STRING).isWhereCapable(true).build();
+		
 
 		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
 		MetaDataField firstField = metaDataModel.getFields().get(0);
 		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
 		Assert.assertTrue(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
-		Assert.assertFalse(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
-		Assert.assertFalse(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
-		Assert.assertFalse(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
 	}
 
 	@Test
@@ -224,8 +223,8 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
 		Assert.assertTrue(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
-		Assert.assertFalse(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
-		Assert.assertFalse(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
 
 		DsqlQueryOperatorsMetaDataFieldProperty property = firstField.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class);
 		List<Operator> supportedOperators = property.getSupportedOperators();
@@ -256,7 +255,26 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		ListMetaDataModel result = new DefaultMetaDataBuilder().createList().ofPojo(EverythingPojo.class).endPojo().build();
 		Assert.assertThat(result.getElementModel(), CoreMatchers.is(PojoMetaDataModel.class));
 		Assert.assertThat(((PojoMetaDataModel) result.getElementModel()).getFields().size(), CoreMatchers.is(17));
+	}
+	
+	@Test
+	public void compilationTests(){
+		DefinedMapMetaDataModel metaDataModel = new DefaultMetaDataBuilder().createDynamicObject("Container") //
+				.addSimpleField("simpleField", DataType.STRING) //
+				.isSelectCapable(true) //
+				.isOrderByCapable(true) //
+				.isWhereCapable(false) //
+				.build();
 
+		DefinedMapMetaDataModel metaDataModel2 = new DefaultMetaDataBuilder().createDynamicObject("Container") //
+				.addDynamicObjectField("nestedDynamicObject")
+				.addSimpleField("simpleField", DataType.STRING) //
+				.isSelectCapable(true) //
+				.isOrderByCapable(true) //
+				.isWhereCapable(false) //
+				.endDynamicObject() //
+				.addSimpleField("anotherSimpleField", DataType.STRING) //
+				.build();
 	}
 
 }

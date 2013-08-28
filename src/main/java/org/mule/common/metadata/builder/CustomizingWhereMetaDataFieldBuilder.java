@@ -1,9 +1,9 @@
 package org.mule.common.metadata.builder;
 
 
-public interface CustomizingWhereMetaDataFieldBuilder extends PropertyCustomizableMetaDataBuilder {
+public interface CustomizingWhereMetaDataFieldBuilder<P extends MetaDataBuilder<?>> extends PropertyCustomizableMetaDataBuilder<P> {
 	
-	public AddingOperatorsMetaDataFieldBuilder withSpecificOperations();
+	public AddingOperatorsMetaDataFieldBuilder<P> withSpecificOperations();
 	
-	public MetaDataFieldBuilder withDefaultOperations();
+	public PropertyCustomizableMetaDataBuilder<P> withDefaultOperations();
 }

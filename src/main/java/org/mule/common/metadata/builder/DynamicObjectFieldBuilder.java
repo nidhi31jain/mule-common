@@ -7,7 +7,7 @@ import org.mule.common.metadata.field.property.DsqlMetaDataFieldProperty;
 /**
  *
  */
-public interface DynamicObjectFieldBuilder<P extends MetaDataBuilder<?>> extends DynamicObjectBuilder<P>, PropertyCustomizableMetaDataBuilder, MetaDataFieldBuilder
+public interface DynamicObjectFieldBuilder<P extends MetaDataBuilder<?>> extends DynamicObjectBuilder<P>
 {
 
     DynamicObjectFieldBuilder<P> withAccessType(MetaDataField.FieldAccessType accessType);
