@@ -27,6 +27,9 @@ public class SupportedOperatorsFactory {
             case DATE_TIME:
             case BYTE:
             case NUMBER:
+            case INTEGER:
+            case DOUBLE:
+            case DECIMAL:
                 return getCommonOperations();
             case STRING:
                 List<Operator> operators =  getCommonOperations();

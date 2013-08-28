@@ -36,6 +36,9 @@ public class SupportedOperatorsFactoryTest {
     public void testNumberDateTimeByteSymbolsDataType(){
         List<String> symbols = Arrays.asList(" < "," <= "," = "," > "," >= "," <> ");
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.NUMBER));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.INTEGER));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DOUBLE));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DECIMAL));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DATE_TIME));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.BYTE));
     }

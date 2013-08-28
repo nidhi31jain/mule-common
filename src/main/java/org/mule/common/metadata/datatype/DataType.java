@@ -1,6 +1,7 @@
 package org.mule.common.metadata.datatype;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,11 +12,14 @@ import org.mule.common.query.expression.Operator;
 
 public enum DataType
 {
+    @Deprecated
     VOID(Void.class.getName()), //TODO to be removed
     BOOLEAN(Boolean.class.getName()),
+    @Deprecated
     NUMBER(Number.class.getName()),
     STRING(String.class.getName()),
     BYTE(Byte.class.getName()),
+    @Deprecated
     STREAM(InputStream.class.getName()), //TODO to be removed
     ENUM(Enum.class.getName()),
     DATE(Date.class.getName()),
@@ -25,7 +29,10 @@ public enum DataType
     MAP(HashMap.class.getName()),
     XML(null),
     CSV(null),
-    JSON(null)
+    JSON(null),
+    INTEGER(Integer.class.getName()),
+    DOUBLE(Double.class.getName()),
+    DECIMAL(BigDecimal.class.getName())
     // TODO: how do we model a UNION type (e.j. Object or Exception)
 ;
     private String defaultImplementationClass;

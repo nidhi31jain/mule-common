@@ -560,6 +560,12 @@ public class MetaDataModelFactoryTestCase
                 return "java.lang.Void";
             case STREAM:
                 return "java.io.InputStream";
+            case INTEGER:
+                return "java.lang.Integer";
+            case DOUBLE:
+                return "java.lang.Double";
+            case DECIMAL:
+                return "java.math.BigDecimal";
             case POJO:
                 return
                 		field.getMetaDataModel().getImplementationClass();
