@@ -14,6 +14,8 @@ public interface DynamicObjectBuilder<P extends MetaDataBuilder<?>> extends Meta
     
     DynamicObjectFieldBuilder<P> addSimpleField(String name, DataType dataType, String implClass);
 
+    DynamicObjectFieldBuilder<P> addPojoField(String name, Class<?> pojo);
+
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name);
 
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addDynamicObjectField(String name);

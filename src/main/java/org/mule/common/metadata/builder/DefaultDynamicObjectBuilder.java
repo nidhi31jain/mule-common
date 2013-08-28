@@ -43,6 +43,12 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
     }
 
     @Override
+    public DynamicObjectFieldBuilder<P> addPojoField(String name, Class<?> pojo) {
+        fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultPojoMetaDataBuilder(pojo, this)));
+        return this;
+    }
+
+    @Override
     public DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name)
     {
         DefaultListMetaDataBuilder builder = new DefaultListMetaDataBuilder(this);
