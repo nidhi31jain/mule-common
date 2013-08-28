@@ -73,20 +73,22 @@ public class MetaDataFieldPropertyManagerTestCase {
 
     @Test
     public void testAddingProperties(){
+        MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
+
         assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(0));
-        assertThat(emptyPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(true));
+        assertThat("The property should be added", emptyPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
         assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
         assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat(emptyPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(false));
+        assertThat(emptyPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
         assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
         assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
 
         assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
-        assertThat(fullPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(true));
+        assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
         assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.addProperty(new SomePropertyMetaDataFieldProperty()), CoreMatchers.is(false));
+        assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
         assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
         assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
     }

@@ -1,5 +1,6 @@
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.field.property.MetaDataFieldPropertyManager;
 
@@ -15,22 +16,22 @@ public class DefaultMetaDataField
     private MetaDataFieldPropertyManager metaDataFieldPropertyManager;
 
 	public DefaultMetaDataField(final String name, final MetaDataModel model) {
-		this(name, model, FieldAccessType.READ_WRITE, new ArrayList<MetaDataFieldProperty>());
+		this(name, model, FieldAccessType.READ_WRITE, (new DefaultFieldPropertyFactory()).getProperties(null, model));
 	}
 
     public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType) {
-        this(name, model, accessType, new ArrayList<MetaDataFieldProperty>());
+        this(name, model, accessType, (new DefaultFieldPropertyFactory()).getProperties(null, model));
     }
 
-    public DefaultMetaDataField(final String name, final MetaDataModel model, List<MetaDataFieldProperty> fieldCapabilities) {
-        this(name, model, FieldAccessType.READ_WRITE, fieldCapabilities);
+    public DefaultMetaDataField(final String name, final MetaDataModel model, List<MetaDataFieldProperty> fieldProperties) {
+        this(name, model, FieldAccessType.READ_WRITE, fieldProperties);
     }
 
-	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType, List<MetaDataFieldProperty> fieldCapabilities) {
+	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType, List<MetaDataFieldProperty> fieldProperties) {
 		this.name = name;
 		this.model = model;
 		this.accessType = accessType;
-        this.metaDataFieldPropertyManager = new MetaDataFieldPropertyManager(fieldCapabilities);
+        this.metaDataFieldPropertyManager = new MetaDataFieldPropertyManager(fieldProperties);
 	}
 
 	@Override

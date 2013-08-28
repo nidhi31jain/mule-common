@@ -40,16 +40,17 @@ public class  MetaDataFieldPropertyManager {
     }
 
     /**
-     * Adds a property if the class of metaDataFieldProperty was not already used
-     * in the current manager
+     * Adds a property, if the class of metaDataFieldProperty was already used
+     * in the current manager, the manager erases the previous one
      * @param fieldProperty new property to be added
      * @return true if it was added successfully, false otherwise
      */
     public boolean addProperty(MetaDataFieldProperty fieldProperty){
-       if (! hasProperty(fieldProperty.getClass())){
-           return this.fieldProperties.add(fieldProperty);
+       if (hasProperty(fieldProperty.getClass())){
+           MetaDataFieldProperty alreadyDefinedProperty = getProperty(fieldProperty.getClass());
+           removeProperty(alreadyDefinedProperty)  ;
        }
-       return false;
+        return this.fieldProperties.add(fieldProperty);
     }
 
     /**
