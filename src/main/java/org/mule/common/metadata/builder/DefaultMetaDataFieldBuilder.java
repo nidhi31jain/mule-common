@@ -125,7 +125,7 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 		if (accessType == null) {
 			accessType = MetaDataField.FieldAccessType.READ_WRITE;
 		}
-		return new DefaultMetaDataField(name, model, accessType, fieldProperties);
+		return new DefaultMetaDataField(name, model, accessType, finalFieldProperties);
 	}
 
 }

@@ -236,6 +236,22 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 	}
 
 	@Test
+	public void whenSpecifyingAFieldIsNotCapableOfSomethingThePropertyShouldNotBeCreatedButTheRestOfTheDefaultsShould() {
+		DefinedMapMetaDataModel metaDataModel = new DefaultMetaDataBuilder().createDynamicObject("Container") //
+				.addSimpleField("simpleField", DataType.STRING) //
+				.isWhereCapable(false) //
+				.build();
+
+		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
+		MetaDataField firstField = metaDataModel.getFields().get(0);
+		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
+		Assert.assertFalse(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
+		Assert.assertTrue(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
+	}
+
+	@Test
 	public void testListOfPojos() {
 		ListMetaDataModel result = new DefaultMetaDataBuilder().createList().ofPojo(EverythingPojo.class).endPojo().build();
 		Assert.assertThat(result.getElementModel(), CoreMatchers.is(PojoMetaDataModel.class));

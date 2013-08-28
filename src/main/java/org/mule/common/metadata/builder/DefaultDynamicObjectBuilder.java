@@ -90,14 +90,14 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
     }
 
 	@Override
-	public DynamicObjectFieldBuilder isSelectCapable(boolean capable) 
+	public DynamicObjectBuilder isSelectCapable(boolean capable) 
 	{
 		getCurrentField().isSelectCapable(capable);
 		return this;
 	}
 
 	@Override
-	public DynamicObjectFieldBuilder isOrderByCapable(boolean capable) 
+	public DynamicObjectBuilder isOrderByCapable(boolean capable) 
 	{
 		getCurrentField().isOrderByCapable(capable);
 		return this;
