@@ -53,7 +53,7 @@ public class DsqlQuery implements Query{
         this.types = new ArrayList<Type>();
         this.fields = new ArrayList<Field>();
         this.orderByFields = new ArrayList<Field>();
-        this.direction = null;
+        this.direction = Direction.ASC;
         this.filterExpression = new EmptyExpression();
         this.joinExpression = new EmptyExpression();
         this.limit = -1;
@@ -153,11 +153,7 @@ public class DsqlQuery implements Query{
         }
 
         if (this.orderByFields.size()>0){
-            if (! hasDirection()){
-                queryVisitor.visitOrderByFields(this.orderByFields);
-            }else{
-                queryVisitor.visitOrderByFields(this.orderByFields, this.direction);
-            }
+            queryVisitor.visitOrderByFields(this.orderByFields, this.direction);
         }
 
         if (limit != -1) {

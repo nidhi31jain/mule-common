@@ -15,8 +15,6 @@ public interface QueryVisitor {
 
     void visitTypes(List<Type> types);
 
-    void visitOrderByFields(List<Field> orderByFields);
-
     void visitOrderByFields(List<Field> orderByFields, Direction direction);
 
     void visitAnd();

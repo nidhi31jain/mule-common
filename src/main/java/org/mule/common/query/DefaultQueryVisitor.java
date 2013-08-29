@@ -69,11 +69,6 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
     }
 
     @Override
-    public void visitOrderByFields(List<Field> orderByFields) {
-
-    }
-
-    @Override
     public void visitOrderByFields(List<Field> orderByFields, Direction direction) {
 
     }

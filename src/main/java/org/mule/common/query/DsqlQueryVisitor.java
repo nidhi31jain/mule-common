@@ -58,25 +58,20 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
     }
 
     @Override
-    public void visitOrderByFields(List<Field> orderByFields)
+    public void visitOrderByFields(List<Field> orderByFields, Direction direction)
     {
         stringBuilder.append(" ORDER BY ");
         Iterator<Field> orderByFieldsIterator = orderByFields.iterator();
         while (orderByFieldsIterator.hasNext())
         {
             String fieldName = addQuotesIfNeeded(orderByFieldsIterator.next().getName());
-			stringBuilder.append(fieldName);
+            stringBuilder.append(fieldName);
             if (orderByFieldsIterator.hasNext())
             {
                 stringBuilder.append(",");
             }
         }
-    }
 
-    @Override
-    public void visitOrderByFields(List<Field> orderByFields, Direction direction)
-    {
-        this.visitOrderByFields(orderByFields);
         stringBuilder.append(" ");
         stringBuilder.append(direction.toString());
     }
