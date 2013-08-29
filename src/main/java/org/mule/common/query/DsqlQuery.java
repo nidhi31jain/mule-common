@@ -60,68 +60,84 @@ public class DsqlQuery implements Query{
         this.offset = -1;
     }
 
+    @Override
     public List<Field> getFields() {
         return fields;
     }
 
+    @Override
     public List<Field> getOrderByFields() {
         return orderByFields;
     }
 
+    @Override
     public Direction getDirection(){
         return direction;
     }
 
+    @Override
     public Expression getFilterExpression() {
         return filterExpression;
     }
 
 
+    @Override
     public List<Type> getTypes() {
         return types;
     }
 
 
+    @Override
     public Expression getJoinExpression() {
         return joinExpression;
     }
 
+    @Override
     public int getLimit() {
         return limit;
     }
 
+    @Override
     public int getOffset() {
         return offset;
     }
 
+    @Override
     public void addType(Type type) {
         this.types.add(type);
     }
 
+    @Override
     public void addField(Field field) {
         this.fields.add(field);
     }
 
+    @Override
     public void addOrderField(Field orderByField) {
         this.orderByFields.add(orderByField);
     }
 
+    @Override
     public void setDirection(Direction direction){
         this.direction = direction;
     }
 
+    @Override
     public void setFilterExpression(Expression filterExpression) {
         this.filterExpression = filterExpression;
     }
 
+    @Override
     public void setJoinExpression(Expression joinExpression) {
         this.joinExpression = joinExpression;
     }
 
+    @Override
     public void setLimit(int limit) {
         this.limit = limit;
     }
 
+    @Override
     public void setOffset(int offset) {
         this.offset = offset;
     }
@@ -153,7 +169,8 @@ public class DsqlQuery implements Query{
         }
     }
 
-    private boolean hasDirection() {
+    @Override
+    public boolean hasDirection() {
         return this.direction != null;
     }
 }
