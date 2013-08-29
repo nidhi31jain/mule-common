@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Mulesoft, Inc
  */
-public class DsqlQuery {
+public class DsqlQuery implements Query{
 
     /**
      * Type or types to be queried
@@ -126,6 +126,7 @@ public class DsqlQuery {
         this.offset = offset;
     }
 
+    @Override
     public void accept(QueryVisitor queryVisitor) {
         // This order matters! Please don't change it. Visit types first, then fields.
         queryVisitor.visitTypes(this.types);
