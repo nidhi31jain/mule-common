@@ -25,10 +25,12 @@ public class SupportedOperatorsFactory {
             case ENUM:
                 return Arrays.<Operator>asList(new EqualsOperator(), new NotEqualsOperator());
             case DATE_TIME:
+            case CALENDAR:
             case DATE:
             case BYTE:
             case NUMBER:
             case INTEGER:
+            case LONG:
             case DOUBLE:
             case DECIMAL:
                 return getCommonOperations();

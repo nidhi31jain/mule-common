@@ -1,13 +1,14 @@
 package org.mule.common.metadata.datatype;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mule.common.query.expression.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.mule.common.query.expression.Operator;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  */
@@ -37,6 +38,8 @@ public class SupportedOperatorsFactoryTest {
         List<String> symbols = Arrays.asList(" < "," <= "," = "," > "," >= "," <> ");
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.NUMBER));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.INTEGER));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.LONG));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.CALENDAR));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DOUBLE));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DECIMAL));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DATE_TIME));

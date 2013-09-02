@@ -11,6 +11,9 @@
 package org.mule.common.metadata.test;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 import org.mule.common.metadata.DefaultSimpleMetaDataModel;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
@@ -22,13 +25,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class DefaultSimpleMetaDataModelTestCase
 {
     public static final List<DataType> simpleDataTypes = Collections.unmodifiableList(Arrays.asList(
         new DataType[] { DataType.BOOLEAN, DataType.BYTE, DataType.DATE, DataType.DATE_TIME,
-        DataType.ENUM, DataType.NUMBER, DataType.STREAM, DataType.STRING, DataType.VOID,
+        DataType.ENUM, DataType.NUMBER, DataType.STREAM, DataType.STRING, DataType.VOID, DataType.CALENDAR, DataType.LONG,
         DataType.INTEGER, DataType.DOUBLE, DataType.DECIMAL}));
     
     public static final List<DataType> complexDataTypes;

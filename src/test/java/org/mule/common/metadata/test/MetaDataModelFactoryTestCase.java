@@ -16,15 +16,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.net.Socket;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.Test;
 import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataModel;
@@ -34,6 +25,15 @@ import org.mule.common.metadata.PojoMetaDataModel;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
+
+import java.net.Socket;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.Test;
 
 public class MetaDataModelFactoryTestCase
 {
@@ -132,7 +132,7 @@ public class MetaDataModelFactoryTestCase
     	List<MetaDataField> fieldsForStruct = factory.getFieldsForClass(Struct1.class, new DefaultFieldPropertyFactory());
     	assertNotNull(fieldsForStruct);
     	
-    	assertPojoMetaDataModelField(getField(fieldsForStruct, "date"), "date", DataType.DATE_TIME);
+    	assertPojoMetaDataModelField(getField(fieldsForStruct, "date"), "date", DataType.DATE);
     	assertPojoMetaDataModelField(getField(fieldsForStruct, "value"), "value", DataType.INTEGER);
     	MetaDataField field = getField(fieldsForStruct, "byteArray");
         assertTrue(field.getProperties().size() == 4);
@@ -159,7 +159,7 @@ public class MetaDataModelFactoryTestCase
         PojoMetaDataModel structPojo = (PojoMetaDataModel)struct;
         assertTrue(structPojo.getClassName().equals(Struct.class.getName()));
         assertNotNull(structPojo.toString());
-        assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE_TIME);
+        assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE);
         assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
 
@@ -187,10 +187,10 @@ public class MetaDataModelFactoryTestCase
     	assertTrue(keyStructPojo.getClassName().equals(Struct.class.getName()));
     	assertTrue(valueStructPojo.getClassName().equals(Struct1.class.getName()));
     	
-    	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "date"), "date", DataType.DATE_TIME);
+    	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "date"), "date", DataType.DATE);
     	assertPojoMetaDataModelField(getField(keyStructPojo.getFields(), "value"), "value", DataType.INTEGER);
     	
-    	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "date"), "date", DataType.DATE_TIME);
+    	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "date"), "date", DataType.DATE);
     	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "name"), "name", DataType.STRING);
     	assertPojoMetaDataModelField(getField(valueStructPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
@@ -254,7 +254,7 @@ public class MetaDataModelFactoryTestCase
         assertTrue(struct instanceof PojoMetaDataModel);
         PojoMetaDataModel structPojo = (PojoMetaDataModel)struct;
         assertNotNull(struct.toString());
-        assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE_TIME);
+        assertPojoMetaDataModelField(getField(structPojo.getFields(), "date"), "date", DataType.DATE);
         assertPojoMetaDataModelField(getField(structPojo.getFields(), "value"), "value", DataType.INTEGER);
     }
     

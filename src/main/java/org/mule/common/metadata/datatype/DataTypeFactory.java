@@ -6,12 +6,14 @@ import java.io.Reader;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 public class DataTypeFactory {
 
@@ -84,18 +86,24 @@ public class DataTypeFactory {
 
 	private static final MetaDataModelEvaluator<Number> INTEGER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {int.class, long.class, short.class}, DataType.INTEGER);
-	
+
 	private static final MetaDataModelEvaluator<Number> DOUBLE_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {double.class, float.class}, DataType.DOUBLE);
 
+    private static final MetaDataModelEvaluator<Number> LONG_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
+            new Class[] {long.class}, DataType.LONG);
+
 	private static final MetaDataModelEvaluator<Number> DECIMAL_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {BigDecimal.class, BigInteger.class}, DataType.DECIMAL);
-	
+
 	private static final MetaDataModelEvaluator<Byte> BYTE_EVALUATOR = new AssignableMetaDataModelEvaluator<Byte>(
 			new Class[] {byte.class, Byte.class}, DataType.BYTE);
 
-	private static final MetaDataModelEvaluator<?> DATE_TIME_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
-			new Class[] {Date.class, GregorianCalendar.class}, DataType.DATE_TIME); // || DateTime.class.isAssignableFrom(c);
+    private static final MetaDataModelEvaluator<?> CALENDAR_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
+            new Class[] {Calendar.class,XMLGregorianCalendar.class}, DataType.CALENDAR); // || DateTime.class.isAssignableFrom(c);
+
+    private static final MetaDataModelEvaluator<?> DATE_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
+            new Class[] {Date.class,java.sql.Date.class}, DataType.DATE); // || DateTime.class.isAssignableFrom(c);
 
 	private static final MetaDataModelEvaluator<?> STREAM_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
 			new Class[] {InputStream.class, OutputStream.class, Reader.class, Writer.class}, DataType.STREAM);
@@ -122,10 +130,12 @@ public class DataTypeFactory {
 		STRING_EVALUATOR,
 		INTEGER_EVALUATOR,
 		DOUBLE_EVALUATOR,
+        LONG_EVALUATOR,
 		DECIMAL_EVALUATOR,
 		NUMBER_EVALUATOR,
 		BYTE_EVALUATOR,
-		DATE_TIME_EVALUATOR,
+        DATE_EVALUATOR,
+        CALENDAR_EVALUATOR,
 		STREAM_EVALUATOR,
 		ENUM_EVALUATOR,
 		LIST_EVALUATOR,

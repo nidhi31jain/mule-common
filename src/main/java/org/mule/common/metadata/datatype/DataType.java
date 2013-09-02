@@ -1,5 +1,7 @@
 package org.mule.common.metadata.datatype;
 
+import org.mule.common.query.expression.Operator;
+
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,8 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import org.mule.common.query.expression.Operator;
 
 public enum DataType
 {
@@ -18,12 +18,15 @@ public enum DataType
     @Deprecated
     NUMBER(Number.class.getName()),
     STRING(String.class.getName()),
+    LONG(Long.class.getName()),
     BYTE(Byte.class.getName()),
     @Deprecated
     STREAM(InputStream.class.getName()), //TODO to be removed
     ENUM(Enum.class.getName()),
     DATE(Date.class.getName()),
+    @Deprecated
     DATE_TIME(Calendar.class.getName()),
+    CALENDAR(Calendar.class.getName()),
     POJO(Object.class.getName()),
     LIST(ArrayList.class.getName()),
     MAP(HashMap.class.getName()),
