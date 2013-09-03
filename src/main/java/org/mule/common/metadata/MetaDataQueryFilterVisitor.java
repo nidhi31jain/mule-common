@@ -43,6 +43,11 @@ public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
     }
 
     @Override
+    public void visitXmlMetaDataModel(XmlMetaDataModel xmlMetaDataModel) {
+    	resultModel = xmlMetaDataModel;
+    }
+    
+    @Override
     public void visitDynamicMapModel(DefinedMapMetaDataModel definedMapMetaDataModel) {
         if (fields == null) return;
         Map<String,MetaDataModel> newMapModel = new HashMap<String, MetaDataModel>();

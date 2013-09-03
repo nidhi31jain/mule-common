@@ -179,7 +179,7 @@ public class MetaDataModelFactory
 		}
 		
 		DataType dataType = factory.getDataType(klass);
-		if(dataType == DataType.POJO){
+		if (dataType == DataType.POJO){
 			return parseBeanType(klass, context, featureFactory);
 		}else{
 			return new DefaultSimpleMetaDataModel(dataType);

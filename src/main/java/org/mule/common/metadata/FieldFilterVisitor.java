@@ -44,6 +44,11 @@ public class FieldFilterVisitor implements MetaDataModelVisitor {
         resultModel = parameterizedMapMetaDataModel;
     }
 
+	@Override
+	public void visitXmlMetaDataModel(XmlMetaDataModel xmlMetaDataModel) {
+		resultModel = xmlMetaDataModel;
+	}
+
     @Override
     public void visitDynamicMapModel(DefinedMapMetaDataModel definedMapMetaDataModel) {
         if (fields == null) return;
