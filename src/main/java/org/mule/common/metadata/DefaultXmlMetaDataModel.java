@@ -37,5 +37,6 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
 
     @Override
     public void accept(MetaDataModelVisitor modelVisitor) {
+    	modelVisitor.visitXmlMetaDataModel(this);
     }
 }

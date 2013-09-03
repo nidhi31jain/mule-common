@@ -19,7 +19,6 @@ public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
         this.resultModel = new DefaultSimpleMetaDataModel(DataType.VOID);
     }
 
-
     @Override
     public void visitPojoModel(PojoMetaDataModel pojoMetaDataModel) {
         resultModel = pojoMetaDataModel;
