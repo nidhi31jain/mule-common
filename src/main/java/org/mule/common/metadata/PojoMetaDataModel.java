@@ -1,18 +1,15 @@
 package org.mule.common.metadata;
 
-import java.util.List;
 import java.util.Set;
 
 /**
  * Represents a POJO type.
  */
-public interface PojoMetaDataModel extends MetaDataModel
+public interface PojoMetaDataModel extends StructuredMetaDataModel
 {
-    public String getClassName();
+     String getClassName();
 
-    public List<MetaDataField> getFields();
-    
-    public Set<String> getParentNames();
+     Set<String> getParentNames();
 
-    public boolean isInterface();
+     boolean isInterface();
 }

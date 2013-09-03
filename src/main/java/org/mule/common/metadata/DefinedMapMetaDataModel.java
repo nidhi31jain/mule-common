@@ -10,13 +10,12 @@
 
 package org.mule.common.metadata;
 
-import java.util.List;
 import java.util.Set;
 
 /**
  * Represents a map with defined string keys.
  */
-public interface DefinedMapMetaDataModel extends MetaDataModel
+public interface DefinedMapMetaDataModel extends StructuredMetaDataModel
 {
 
      String getName();
@@ -27,5 +26,4 @@ public interface DefinedMapMetaDataModel extends MetaDataModel
 
      MetaDataModel getValueMetaDataModel(String key);
 
-     List<MetaDataField> getFields();
 }
