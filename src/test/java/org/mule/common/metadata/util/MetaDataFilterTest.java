@@ -1,8 +1,14 @@
 package org.mule.common.metadata.util;
 
-import junit.framework.Assert;
-import org.junit.Test;
-import org.mule.common.metadata.*;
+import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
+import org.mule.common.metadata.DefaultListMetaDataModel;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.DefaultSimpleMetaDataModel;
+import org.mule.common.metadata.DefinedMapMetaDataModel;
+import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.MetaDataModel;
+import org.mule.common.metadata.MetaDataQueryFilterVisitor;
+import org.mule.common.metadata.QueryResultMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.query.Field;
 
@@ -10,6 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import junit.framework.Assert;
+import org.junit.Test;
 
 
 public class MetaDataFilterTest {
@@ -28,7 +37,7 @@ public class MetaDataFilterTest {
         filters.add(new Field("filterThis","type"));
         filters.add(new Field("thisIsOk","otherType"));
 
-        FieldFilterVisitor visitor = new FieldFilterVisitor(filters);
+        MetaDataQueryFilterVisitor visitor = new MetaDataQueryFilterVisitor(filters);
 
         model.accept(visitor);
 
@@ -76,7 +85,7 @@ public class MetaDataFilterTest {
         filters.add(new Field("filterThis","type"));
         filters.add(new Field("thisIsOk","otherType"));
 
-        FieldFilterVisitor visitor = new FieldFilterVisitor(filters);
+        MetaDataQueryFilterVisitor visitor = new MetaDataQueryFilterVisitor(filters);
 
         listModel.accept(visitor);
 
