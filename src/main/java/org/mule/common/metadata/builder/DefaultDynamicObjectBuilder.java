@@ -1,12 +1,12 @@
 package org.mule.common.metadata.builder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
 import org.mule.common.metadata.DefinedMapMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.datatype.DataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implements EnumMetaDataBuilder<P> {
     private String name;
@@ -44,8 +44,10 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 	@Override
     public DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name) {
         DefaultListMetaDataBuilder<?> builder = new DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<?>>(this);
-        DynamicObjectBuilder<?> dynamicObjectBuilder = builder.ofDynamicObject(name);
+        DefaultDynamicObjectBuilder<DynamicObjectFieldBuilder<?>> dynamicObjectBuilder = (DefaultDynamicObjectBuilder) builder.ofDynamicObject(name);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
+        //Change the parent to this, as list metadata builder is not returned we need to reparent the DynamicObjectBuilder.
+        dynamicObjectBuilder.parentBuilder = this;
         return (DynamicObjectFieldBuilder) dynamicObjectBuilder;
     }
 
