@@ -23,11 +23,11 @@ import org.mule.common.metadata.DefaultPojoMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.PojoMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.field.property.DsqlOrderMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlQueryOperatorsMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlSelectMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlWhereMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 import org.mule.common.metadata.test.pojo.EverythingPojo;
 
 public class DefaultPojoMetaDataModelTestCase

@@ -10,11 +10,13 @@ import org.mule.common.metadata.DefaultMetaDataField;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
-import org.mule.common.metadata.field.property.DsqlOrderMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlQueryOperatorsMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlSelectMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlWhereMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.ExampleFieldProperty;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.GreaterOperator;
 import org.mule.common.query.expression.GreaterOrEqualsOperator;
@@ -29,10 +31,12 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 	private String name;
 	private List<Class<? extends MetaDataFieldProperty>> undesiredFieldProperties;
 	private MetaDataField.FieldAccessType accessType;
-	private MetaDataBuilder builder;
+	private MetaDataBuilder<?> builder;
 	private List<Operator> supportedOperators;
+	private String[] enumValues = null;
+	private String exampleString = null;
 
-	DefaultMetaDataFieldBuilder(String name, MetaDataBuilder builder) {
+	DefaultMetaDataFieldBuilder(String name, MetaDataBuilder<?> builder) {
 		this.name = name;
 		this.builder = builder;
 		this.supportedOperators = new ArrayList<Operator>();
@@ -59,6 +63,14 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 		}
 	}
 
+	public void setEnumValues(String... values) {
+		enumValues = values;
+	}
+	
+	public void setExample(String example) {
+		this.exampleString = example;
+	}
+	
 	public void supportsEquals() {
 		supportedOperators.add(new EqualsOperator());
 	}
@@ -116,6 +128,14 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder {
 			}
 		}
 
+		if (enumValues != null) {
+			finalFieldProperties.add(new ValidStringValuesFieldProperty(enumValues));
+		}
+		
+		if (exampleString != null) {
+			finalFieldProperties.add(new ExampleFieldProperty(exampleString));
+		}
+		
 		if (accessType == null) {
 			accessType = MetaDataField.FieldAccessType.READ_WRITE;
 		}

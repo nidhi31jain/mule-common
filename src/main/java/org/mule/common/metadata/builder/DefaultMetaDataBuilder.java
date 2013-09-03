@@ -31,6 +31,13 @@ public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
         return result;
     }
 
+//    public XmlMetaDataBuilder<?> createXmlObject(String name)
+//    {
+//    	DefaultXmlObjectBuilder result = new DefaultXmlObjectBuilder(name, this);
+//    	root = result;
+//    	return result;
+//    }    
+
     @Override
     public MetaDataModel build()
     {

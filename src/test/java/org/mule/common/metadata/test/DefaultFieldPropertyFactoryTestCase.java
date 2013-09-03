@@ -4,9 +4,12 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.common.metadata.*;
-import org.mule.common.metadata.field.property.DsqlQueryOperatorsMetaDataFieldProperty;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.*;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 
 import java.util.List;
 

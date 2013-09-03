@@ -2,8 +2,7 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public interface MetaDataModel
-{
+public interface MetaDataModel {
 
     DataType getDataType();
 

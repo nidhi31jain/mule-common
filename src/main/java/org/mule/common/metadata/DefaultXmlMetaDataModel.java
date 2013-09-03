@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
@@ -11,30 +8,24 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringSchemaBasedMetaDataModel extends AbstractMetaDataModel implements SchemaBasedMetaDataModel
-{
-
-
+public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements XmlMetaDataModel {
     private List<String> schemas;
     private String rootElement;
     private Charset encoding;
 
-    public StringSchemaBasedMetaDataModel(DataType dataType, List<String> schemas, String rootElement, Charset encoding)
-    {
-        super(dataType);
+    public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding) {
+        super(DataType.XML);
         this.schemas = schemas;
         this.rootElement = rootElement;
         this.encoding = encoding;
     }
 
-    public String getRootElement()
-    {
+    public String getRootElement() {
         return rootElement;
     }
 
     @Override
-    public List<InputStream> getSchemas()
-    {
+    public List<InputStream> getSchemas() {
         List<InputStream> result = new ArrayList<InputStream>();
         for (String schema : schemas)
         {
@@ -45,7 +36,6 @@ public class StringSchemaBasedMetaDataModel extends AbstractMetaDataModel implem
 
 
     @Override
-    public void accept(MetaDataModelVisitor modelVisitor)
-    {
+    public void accept(MetaDataModelVisitor modelVisitor) {
     }
 }

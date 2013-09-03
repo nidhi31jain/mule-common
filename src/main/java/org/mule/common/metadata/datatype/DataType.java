@@ -17,6 +17,9 @@ public enum DataType
     BOOLEAN(Boolean.class.getName()),
     @Deprecated
     NUMBER(Number.class.getName()),
+    INTEGER(Integer.class.getName()),
+    DOUBLE(Double.class.getName()),
+    DECIMAL(BigDecimal.class.getName()),
     STRING(String.class.getName()),
     LONG(Long.class.getName()),
     BYTE(Byte.class.getName()),
@@ -32,12 +35,10 @@ public enum DataType
     MAP(HashMap.class.getName()),
     XML(null),
     CSV(null),
-    JSON(null),
-    INTEGER(Integer.class.getName()),
-    DOUBLE(Double.class.getName()),
-    DECIMAL(BigDecimal.class.getName())
+    JSON(null)
     // TODO: how do we model a UNION type (e.j. Object or Exception)
-;
+    ;
+
     private String defaultImplementationClass;
 
 	private DataType(String defaultImplementationClass) {

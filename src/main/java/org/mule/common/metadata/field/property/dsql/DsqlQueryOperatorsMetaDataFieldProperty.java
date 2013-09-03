@@ -1,4 +1,4 @@
-package org.mule.common.metadata.field.property;
+package org.mule.common.metadata.field.property.dsql;
 
 import org.mule.common.query.expression.Operator;
 

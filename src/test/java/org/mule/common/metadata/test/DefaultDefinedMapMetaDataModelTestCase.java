@@ -3,6 +3,15 @@ package org.mule.common.metadata.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
 import org.mule.common.metadata.DefaultSimpleMetaDataModel;
 import org.mule.common.metadata.DefinedMapMetaDataModel;
@@ -15,23 +24,16 @@ import org.mule.common.metadata.builder.DynamicObjectBuilder;
 import org.mule.common.metadata.builder.ListMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
-import org.mule.common.metadata.field.property.DsqlOrderMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlQueryOperatorsMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlSelectMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.DsqlWhereMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.ExampleFieldProperty;
+import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 import org.mule.common.metadata.test.pojo.EverythingPojo;
 import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.LikeOperator;
 import org.mule.common.query.expression.Operator;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  */
@@ -92,6 +94,33 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		Assert.assertThat(subSubComplexProperty.getFields().size(), CoreMatchers.is(1));
 		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
 
+	}
+	
+	@Test
+	public void whenCreatingModelWithEnumFieldsShouldBeCreatedCorrectly() {
+		final DynamicObjectBuilder<?> container = new DefaultMetaDataBuilder().createDynamicObject("Container");
+		container.addSimpleField("simpleProperty", DataType.STRING)
+		.addEnumField("enumField").setValues("value1", "value2", "value3")
+		.addSimpleField("intField", DataType.INTEGER);
+				
+		final DefinedMapMetaDataModel metaDataModel = container.build();
+		final List<MetaDataField> fields = metaDataModel.getFields();
+		Assert.assertThat(fields.size(), CoreMatchers.is(3));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), CoreMatchers.is(DataType.ENUM));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), CoreMatchers.is(DataType.INTEGER));
+		
+		Assert.assertThat(metaDataModel.getFields().get(1), CoreMatchers.notNullValue());
+		MetaDataField metaDataField = metaDataModel.getFields().get(1);
+		
+		Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), CoreMatchers.notNullValue());
+		ValidStringValuesFieldProperty property = metaDataField.getProperty(ValidStringValuesFieldProperty.class);
+		Assert.assertThat(property.getValidStrings().size(), CoreMatchers.is(3));
+		List<String> validStrings = property.getValidStrings();
+		
+		Assert.assertThat(validStrings.get(0), CoreMatchers.equalTo("value1"));
+		Assert.assertThat(validStrings.get(1), CoreMatchers.equalTo("value2"));
+		Assert.assertThat(validStrings.get(2), CoreMatchers.equalTo("value3"));
 	}
 
 	@Test

@@ -4,9 +4,9 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- *
+ * Represents an XML Object.
  */
-public interface SchemaBasedMetaDataModel extends MetaDataModel
+public interface XmlMetaDataModel extends MetaDataModel
 {
     List<InputStream> getSchemas();
 

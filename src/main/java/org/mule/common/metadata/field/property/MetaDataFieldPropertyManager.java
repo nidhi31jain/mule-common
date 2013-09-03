@@ -1,13 +1,11 @@
 package org.mule.common.metadata.field.property;
 
-import org.mule.common.metadata.field.property.exception.RepeatedFieldPropertyException;
-
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.mule.common.metadata.field.property.exception.RepeatedFieldPropertyException;
 
 /**
  * It ensures that for a given field, the properties of it will never collide.

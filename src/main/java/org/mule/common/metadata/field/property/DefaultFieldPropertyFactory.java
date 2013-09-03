@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 
 /**
  * This object is responsible for retrieving the default properties for a future given field

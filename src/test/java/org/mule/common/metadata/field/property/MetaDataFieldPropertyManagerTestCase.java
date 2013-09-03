@@ -5,6 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 
 import java.util.ArrayList;
 import java.util.List;
