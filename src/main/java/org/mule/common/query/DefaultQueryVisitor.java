@@ -34,7 +34,7 @@ public abstract class DefaultQueryVisitor implements QueryVisitor {
     }
 
     @Override
-    public void visitComparison(String operator, Field field, Value value) {
+    public void visitComparison(String operator, Field field, Value<?> value) {
 
     }
 

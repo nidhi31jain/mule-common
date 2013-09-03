@@ -39,10 +39,10 @@ public class SupportedOperatorsFactoryTest {
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.NUMBER));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.INTEGER));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.LONG));
-        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.CALENDAR));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DATE_TIME));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DOUBLE));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DECIMAL));
-        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DATE_TIME));
+        testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.DATE));
         testCollectionsOfSymbolsWithOperations(symbols, sof.getSupportedOperationsFor(DataType.BYTE));
     }
 

@@ -126,7 +126,7 @@ public class DsqlQueryVisitor extends DefaultQueryVisitor
     }
 
     @Override
-    public void visitComparison(String operator, Field field, Value value)
+    public void visitComparison(String operator, Field field, Value<?> value)
     {
         String name = addQuotesIfNeeded(field.getName());
 		stringBuilder.append(name).append(operator).append(value.toString());

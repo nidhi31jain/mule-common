@@ -27,9 +27,7 @@ public enum DataType
     STREAM(InputStream.class.getName()), //TODO to be removed
     ENUM(Enum.class.getName()),
     DATE(Date.class.getName()),
-    @Deprecated
     DATE_TIME(Calendar.class.getName()),
-    CALENDAR(Calendar.class.getName()),
     POJO(Object.class.getName()),
     LIST(ArrayList.class.getName()),
     MAP(HashMap.class.getName()),

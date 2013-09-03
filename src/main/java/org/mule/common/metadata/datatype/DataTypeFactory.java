@@ -99,11 +99,11 @@ public class DataTypeFactory {
 	private static final MetaDataModelEvaluator<Byte> BYTE_EVALUATOR = new AssignableMetaDataModelEvaluator<Byte>(
 			new Class[] {byte.class, Byte.class}, DataType.BYTE);
 
-    private static final MetaDataModelEvaluator<?> CALENDAR_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
-            new Class[] {Calendar.class,XMLGregorianCalendar.class}, DataType.CALENDAR); // || DateTime.class.isAssignableFrom(c);
+    private static final MetaDataModelEvaluator<?> DATE_TIME_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
+            new Class[] {Calendar.class, XMLGregorianCalendar.class}, DataType.DATE_TIME); // || DateTime.class.isAssignableFrom(c);
 
     private static final MetaDataModelEvaluator<?> DATE_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
-            new Class[] {Date.class,java.sql.Date.class}, DataType.DATE); // || DateTime.class.isAssignableFrom(c);
+            new Class[] {Date.class, java.sql.Date.class}, DataType.DATE); // || DateTime.class.isAssignableFrom(c);
 
 	private static final MetaDataModelEvaluator<?> STREAM_EVALUATOR = new AssignableMetaDataModelEvaluator<Object>(
 			new Class[] {InputStream.class, OutputStream.class, Reader.class, Writer.class}, DataType.STREAM);
@@ -135,7 +135,7 @@ public class DataTypeFactory {
 		NUMBER_EVALUATOR,
 		BYTE_EVALUATOR,
         DATE_EVALUATOR,
-        CALENDAR_EVALUATOR,
+        DATE_TIME_EVALUATOR,
 		STREAM_EVALUATOR,
 		ENUM_EVALUATOR,
 		LIST_EVALUATOR,

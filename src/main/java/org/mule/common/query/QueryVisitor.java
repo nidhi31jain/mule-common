@@ -21,7 +21,7 @@ public interface QueryVisitor {
 
     void visitOR();
 
-    void visitComparison(String operator, Field field, Value value);
+    void visitComparison(String operator, Field field, Value<?> value);
 
     OperatorVisitor operatorVisitor();
 
