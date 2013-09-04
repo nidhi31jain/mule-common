@@ -24,6 +24,7 @@ import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.PojoMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
@@ -110,13 +111,21 @@ public class DefaultPojoMetaDataModelTestCase
         for (MetaDataField metaDataField : defaultPojoMetaDataModel.getFields())
         {
             List<MetaDataFieldProperty> capabilities = metaDataField.getProperties();
-            if (metaDataField.getMetaDataModel().getDataType() != DataType.POJO)
-            {
-                assertThat(capabilities.size(), CoreMatchers.is(4));
+            final DataType dataType = metaDataField.getMetaDataModel().getDataType();
+			if (dataType != DataType.POJO) {
+                assertThat(capabilities.size(), CoreMatchers.is((dataType == DataType.ENUM) ? 5 : 4));
                 assertThat((DsqlSelectMetaDataFieldProperty)capabilities.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
                 assertThat((DsqlWhereMetaDataFieldProperty)capabilities.get(1), CoreMatchers.is(DsqlWhereMetaDataFieldProperty.class));
                 assertThat((DsqlOrderMetaDataFieldProperty)capabilities.get(2), CoreMatchers.is(DsqlOrderMetaDataFieldProperty.class));
                 assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) capabilities.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+                if (dataType == DataType.ENUM) {
+                	final ValidStringValuesFieldProperty validEnumValues = (ValidStringValuesFieldProperty)capabilities.get(4);
+					assertThat(validEnumValues, CoreMatchers.is(ValidStringValuesFieldProperty.class));
+					final List<String> validStrings = validEnumValues.getValidStrings();
+					assertThat(validStrings.size(), CoreMatchers.is(2));
+                	assertTrue(validStrings.contains("FOO"));
+                	assertTrue(validStrings.contains("BAR"));
+                }
             }
         }
     }

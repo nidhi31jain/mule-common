@@ -25,6 +25,7 @@ import org.mule.common.metadata.PojoMetaDataModel;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
+import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
 
 import java.net.Socket;
 import java.util.Date;
@@ -67,6 +68,44 @@ public class MetaDataModelFactoryTestCase
         public Integer obj = new Integer(101);
     }
     
+    public enum EnumTest {
+    	ENUM_FIELD1,
+    	ENUM_FIELD2("EnumValue2"),
+    	ENUM_FIELD3("EnumValue3");
+    	
+    	private String string;
+
+		EnumTest() {}
+    	
+    	EnumTest(String value) {
+    		this.string = value;
+    	}
+    }
+    
+    public class ContainerWithEnum {
+    	public EnumTest enumField1 = EnumTest.ENUM_FIELD1;
+    	public EnumTest enumField2 = EnumTest.ENUM_FIELD2;
+    	public int i = 102;
+		public EnumTest getEnumField1() {
+			return enumField1;
+		}
+		public void setEnumField1(EnumTest enumField1) {
+			this.enumField1 = enumField1;
+		}
+		public EnumTest getEnumField2() {
+			return enumField2;
+		}
+		public void setEnumField2(EnumTest enumField2) {
+			this.enumField2 = enumField2;
+		}
+		public int getI() {
+			return i;
+		}
+		public void setI(int i) {
+			this.i = i;
+		}
+    }
+    
     @Test
     public void testDuplicateInterfaces()
     {
@@ -88,6 +127,43 @@ public class MetaDataModelFactoryTestCase
         assertEquals(2, parents.size());
         assertTrue(parents.contains(S.class.getName()));
         assertTrue(parents.contains(S1.class.getName()));
+    }
+
+    @Test
+    public void testEnumFields()
+    {
+    	MetaDataModelFactory factory = MetaDataModelFactory.getInstance();
+    	
+    	List<MetaDataField> fields = factory.getFieldsForClass(ContainerWithEnum.class, new DefaultFieldPropertyFactory());
+    	assertEquals(3, fields.size());
+
+    	MetaDataField enumField1 = fields.get(0);
+    	assertTrue(enumField1.getProperties().size() == 5);
+    	assertEquals("enumField1", enumField1.getName());
+    	MetaDataModel enumModel1 = enumField1.getMetaDataModel();
+    	assertTrue(enumModel1 instanceof SimpleMetaDataModel);
+    	SimpleMetaDataModel simpleEnumModel1 = enumModel1.as(SimpleMetaDataModel.class);
+    	assertEquals(simpleEnumModel1.getDataType(), DataType.ENUM);
+    	final ValidStringValuesFieldProperty enumProperty1 = enumField1.getProperty(ValidStringValuesFieldProperty.class);
+    	assertNotNull(enumProperty1);
+    	final List<String> validStrings1 = enumProperty1.getValidStrings();
+    	assertTrue(validStrings1.contains("ENUM_FIELD1"));
+    	assertTrue(validStrings1.contains("ENUM_FIELD2"));
+    	assertTrue(validStrings1.contains("ENUM_FIELD3"));
+    	
+    	final MetaDataField enumField2 = fields.get(1);
+    	assertTrue(enumField1.getProperties().size() == 5);
+    	assertEquals("enumField2", enumField2.getName());
+    	MetaDataModel enumModel2 = enumField2.getMetaDataModel();
+    	assertTrue(enumModel2 instanceof SimpleMetaDataModel);
+    	SimpleMetaDataModel simpleEnumModel2 = enumModel2.as(SimpleMetaDataModel.class);
+    	assertEquals(simpleEnumModel2.getDataType(), DataType.ENUM);
+    	final ValidStringValuesFieldProperty enumProperty2 = enumField2.getProperty(ValidStringValuesFieldProperty.class);
+    	assertNotNull(enumProperty2);
+    	final List<String> validStrings2 = enumProperty2.getValidStrings();
+    	assertTrue(validStrings2.contains("ENUM_FIELD1"));
+    	assertTrue(validStrings2.contains("ENUM_FIELD2"));
+    	assertTrue(validStrings2.contains("ENUM_FIELD3"));
     }
     
     @Test
@@ -572,6 +648,3 @@ public class MetaDataModelFactoryTestCase
         return null;
     }
 }
-
-
-

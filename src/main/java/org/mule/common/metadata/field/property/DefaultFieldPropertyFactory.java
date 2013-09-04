@@ -25,4 +25,20 @@ public class DefaultFieldPropertyFactory implements FieldPropertyFactory {
 				SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(metaDataModel.getDataType())));
         return fieldProperties;
     }
+
+	@Override
+	public List<MetaDataFieldProperty> getProperties(Class<?> clazz) {
+		List<MetaDataFieldProperty> fieldProperties = new ArrayList<MetaDataFieldProperty>();
+
+		if (clazz.isEnum()) {
+			final List<String> enumValues = new ArrayList<String>();
+			for (Enum<?> e : (Enum[])clazz.getEnumConstants()) {
+				enumValues.add(e.name());
+			}
+			 
+			fieldProperties.add(new ValidStringValuesFieldProperty(enumValues.toArray(new String[enumValues.size()])));
+		}
+
+		return fieldProperties;
+	}
 }

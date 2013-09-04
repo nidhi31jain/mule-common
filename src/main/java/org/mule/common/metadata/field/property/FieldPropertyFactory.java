@@ -7,8 +7,9 @@ import org.mule.common.metadata.MetaDataModel;
 /**
  *
  */
-public interface FieldPropertyFactory
-{
+public interface FieldPropertyFactory {
 
     List<MetaDataFieldProperty> getProperties(String name, MetaDataModel metaDataModel);
+    
+    List<MetaDataFieldProperty> getProperties(Class<?> clazz);
 }

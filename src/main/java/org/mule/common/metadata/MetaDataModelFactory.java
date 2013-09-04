@@ -14,6 +14,7 @@ import org.mule.common.metadata.MetaDataField.FieldAccessType;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.DataTypeFactory;
 import org.mule.common.metadata.field.property.FieldPropertyFactory;
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.util.TypeResolver;
 
 import java.beans.Introspector;
@@ -304,21 +305,36 @@ public class MetaDataModelFactory
 				} else {
 					propertyDescriptors = Arrays.asList(Introspector.getBeanInfo(klass, Object.class).getPropertyDescriptors());
 				}
+				
 				for (PropertyDescriptor pd : propertyDescriptors) {
+					final Class<?> propertyClass = pd.getPropertyType();
+					final List<MetaDataFieldProperty> classRelatedProperties = featureFactory.getProperties(propertyClass);
 
-						if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
-							Type propertyType = pd.getReadMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, featureFactory.getProperties(pd.getName(), property)));
-						} else if (pd.getReadMethod() != null) {
-							Type propertyType = pd.getReadMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ, featureFactory.getProperties(pd.getName(), property)));
-						} else if (pd.getWriteMethod() != null) {
-							Type propertyType = pd.getWriteMethod().getGenericReturnType();
-							MetaDataModel property = parseType(propertyType, context, featureFactory);
-							fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE, featureFactory.getProperties(pd.getName(), property)));
-						}
+					if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
+						Type propertyType = pd.getReadMethod().getGenericReturnType();
+						MetaDataModel property = parseType(propertyType, context, featureFactory);
+
+						final List<MetaDataFieldProperty> properties = featureFactory.getProperties(pd.getName(), property);
+						properties.addAll(classRelatedProperties);
+
+						fields.add(new DefaultMetaDataField(pd.getName(), property, properties));
+					} else if (pd.getReadMethod() != null) {
+						Type propertyType = pd.getReadMethod().getGenericReturnType();
+						MetaDataModel property = parseType(propertyType, context, featureFactory);
+
+						final List<MetaDataFieldProperty> properties = featureFactory.getProperties(pd.getName(), property);
+						properties.addAll(classRelatedProperties);
+
+						fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.READ, properties));
+					} else if (pd.getWriteMethod() != null) {
+						Type propertyType = pd.getWriteMethod().getGenericReturnType();
+						MetaDataModel property = parseType(propertyType, context, featureFactory);
+
+						final List<MetaDataFieldProperty> properties = featureFactory.getProperties(pd.getName(), property);
+						properties.addAll(classRelatedProperties);
+
+						fields.add(new DefaultMetaDataField(pd.getName(), property, FieldAccessType.WRITE, properties));
+					}
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
