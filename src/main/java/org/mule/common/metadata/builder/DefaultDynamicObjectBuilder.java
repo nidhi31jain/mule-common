@@ -173,4 +173,10 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 		getCurrentField().setExample(example);
 		return this;
 	}
+
+	@Override
+	public EnumMetaDataBuilder<P> setValues(List<String> values) {
+		getCurrentField().setEnumValues(values.toArray(new String[values.size()]));
+		return this;
+	}
 }
