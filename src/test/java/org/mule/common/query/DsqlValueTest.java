@@ -62,6 +62,15 @@ public class DsqlValueTest
 
 
     @Test
+    public void parseDateTimeWithOutTimZoneValue(){
+        MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
+        DsqlQuery parse = muleDsqlParser.parse("select name from account where birth > 2013-09-05T16:39:26.621-03:00");
+        Assert.assertThat(parse.getFilterExpression(), CoreMatchers.is(FieldComparation.class));
+        FieldComparation fieldComparation = (FieldComparation) parse.getFilterExpression();
+        Assert.assertThat(fieldComparation.getValue(), CoreMatchers.is(DateTimeValue.class));
+    }
+
+    @Test
     public void parseDateValue(){
         MuleDsqlParser muleDsqlParser = new MuleDsqlParser();
         DsqlQuery parse = muleDsqlParser.parse("select name from account where birth > 1999-01-01");
