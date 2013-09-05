@@ -6,7 +6,7 @@ package org.mule.common.metadata.builder;
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.ListMetaDataModel;
 
-public class DefaultListMetaDataBuilder<P extends MetaDataBuilder> implements ListMetaDataBuilder<P>
+public class DefaultListMetaDataBuilder<P extends MetaDataBuilder<?>> implements ListMetaDataBuilder<P>
 {
 
     private MetaDataBuilder innerBuilder;
