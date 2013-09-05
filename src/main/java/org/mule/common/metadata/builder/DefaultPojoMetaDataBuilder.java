@@ -8,7 +8,7 @@ import org.mule.common.metadata.PojoMetaDataModel;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.FieldPropertyFactory;
 
-public class DefaultPojoMetaDataBuilder<P extends MetaDataBuilder> implements PojoMetaDataBuilder<P>
+public class DefaultPojoMetaDataBuilder<P extends MetaDataBuilder<?>> implements PojoMetaDataBuilder<P>
 {
 
     private Class<?> pojoClass;
@@ -33,7 +33,7 @@ public class DefaultPojoMetaDataBuilder<P extends MetaDataBuilder> implements Po
 
 
     @Override
-    public PojoMetaDataBuilder usingFieldPropertyFactory(FieldPropertyFactory factory)
+    public PojoMetaDataBuilder<P> usingFieldPropertyFactory(FieldPropertyFactory factory)
     {
         this.factory = factory;
         return this;

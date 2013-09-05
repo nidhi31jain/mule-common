@@ -4,7 +4,7 @@
 package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.DefaultSimpleMetaDataModel;
-import org.mule.common.metadata.MetaDataModel;
+import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
 public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
@@ -19,17 +19,12 @@ public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
     }
 
     @Override
-    public MetaDataModel build()
+    public SimpleMetaDataModel build()
     {
         DefaultSimpleMetaDataModel defaultSimpleMetaDataModel = new DefaultSimpleMetaDataModel(dataType);
         defaultSimpleMetaDataModel.setImplementationClass(implClass == null? dataType.getDefaultImplementationClass() : implClass);
 		return defaultSimpleMetaDataModel;
     }
-
-	@Override
-	public DataType getDataType() {
-		return dataType;
-	}
 
 	public void setImplClass(String implClass) {
 		this.implClass = implClass;

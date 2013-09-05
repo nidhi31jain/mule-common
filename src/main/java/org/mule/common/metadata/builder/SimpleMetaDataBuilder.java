@@ -3,11 +3,9 @@
  */
 package org.mule.common.metadata.builder;
 
-import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.SimpleMetaDataModel;
 
-public interface SimpleMetaDataBuilder extends MetaDataBuilder
-{
 
-	DataType getDataType();
+public interface SimpleMetaDataBuilder extends MetaDataBuilder<SimpleMetaDataModel> {
 
 }

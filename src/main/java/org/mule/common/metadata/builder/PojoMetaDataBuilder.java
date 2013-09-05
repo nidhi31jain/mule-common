@@ -6,10 +6,10 @@ import org.mule.common.metadata.field.property.FieldPropertyFactory;
 /**
  *
  */
-public interface PojoMetaDataBuilder<P extends MetaDataBuilder> extends MetaDataBuilder<PojoMetaDataModel>
+public interface PojoMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDataBuilder<PojoMetaDataModel>
 {
 
-    PojoMetaDataBuilder usingFieldPropertyFactory(FieldPropertyFactory factory);
+    PojoMetaDataBuilder<P> usingFieldPropertyFactory(FieldPropertyFactory factory);
 
     P endPojo();
 }

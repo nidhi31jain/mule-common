@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements XmlMetaDataModel {
+
     private List<String> schemas;
     private String rootElement;
     private Charset encoding;
 
     public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding) {
-        super(DataType.XML);
-        this.schemas = schemas;
-        this.rootElement = rootElement;
-        this.encoding = encoding;
+    	super(DataType.XML);
+    	this.schemas = schemas;
+    	this.rootElement = rootElement;
+    	this.encoding = encoding;
     }
 
     public String getRootElement() {
@@ -27,15 +28,13 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
     @Override
     public List<InputStream> getSchemas() {
         List<InputStream> result = new ArrayList<InputStream>();
-        for (String schema : schemas)
-        {
+        for (String schema : schemas) {
             result.add(new ByteArrayInputStream(schema.getBytes(encoding)));
         }
         return result;
     }
 
-
-    @Override
+	@Override
     public void accept(MetaDataModelVisitor modelVisitor) {
     	modelVisitor.visitXmlMetaDataModel(this);
     }

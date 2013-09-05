@@ -2,12 +2,8 @@ package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.MetaDataModel;
 
-/**
- *
- */
 public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
 {
-
     private MetaDataBuilder<MetaDataModel> root;
 
     public ListMetaDataBuilder<?> createList()
@@ -31,12 +27,12 @@ public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
         return result;
     }
 
-//    public XmlMetaDataBuilder<?> createXmlObject(String name)
-//    {
-//    	DefaultXmlObjectBuilder result = new DefaultXmlObjectBuilder(name, this);
-//    	root = result;
-//    	return result;
-//    }    
+    public XmlMetaDataBuilder createXmlObject(String name)
+    {
+    	DefaultXmlMetaDataBuilder result = new DefaultXmlMetaDataBuilder(name);
+    	root = result;
+    	return result;
+    }    
 
     @Override
     public MetaDataModel build()
