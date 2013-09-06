@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mule.common.metadata.DefaultPojoMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
@@ -67,6 +68,16 @@ public class DefaultPojoMetaDataModelTestCase
     public static class ClassE extends ClassA
     {
 
+    }
+    
+    public static class RecursivePojo {
+    	private RecursivePojo innerPojo;
+    	public RecursivePojo getInnerPojo() { return innerPojo; }
+    }
+
+    public static class RecursivePojo2 {
+    	private RecursivePojo innerPojo;
+    	public RecursivePojo getInnerPojo() { return innerPojo; }
     }
 
     private static String nameA = A.class.getName();
@@ -156,6 +167,28 @@ public class DefaultPojoMetaDataModelTestCase
         return sb.toString();
     }
 
+    @Test
+    public void testStackOverflowWhenCalculatingHashcode(){ 
+    	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
+    	model.hashCode();
+    }
+    
+    @Test
+    public void testTwoPojoMetadataModelsAreEqual(){ 
+    	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
+    	DefaultPojoMetaDataModel anotherModel = new DefaultPojoMetaDataModel(RecursivePojo.class);
+    	assertTrue(model.hashCode() == anotherModel.hashCode());
+    	assertEquals(model, anotherModel);
+    }
+
+    @Test
+    public void testTwoPojoMetadataModelsAreNotEqualIfTheirClassNamesAreNotEqual(){ 
+    	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
+    	DefaultPojoMetaDataModel anotherModel = new DefaultPojoMetaDataModel(RecursivePojo2.class);
+    	Assert.assertFalse(model.hashCode() == anotherModel.hashCode());
+    	Assert.assertFalse(model.equals(anotherModel));
+    }
+    
 }
 
 

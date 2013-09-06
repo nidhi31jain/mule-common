@@ -65,14 +65,10 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((clazzName == null) ? 0 : clazzName.hashCode());
-		result = prime * result
-				+ ((fieldsForClass == null) ? 0 : fieldsForClass.hashCode());
+		result = prime * result + ((clazzName == null) ? 0 : clazzName.hashCode());
 		result = prime * result + (isInterface ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((parentNames == null) ? 0 : parentNames.hashCode());
+		result = prime * result + ((parentNames == null) ? 0 : parentNames.hashCode());
 		return result;
 	}
 
@@ -89,11 +85,6 @@ public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements P
 			if (other.clazzName != null)
 				return false;
 		} else if (!clazzName.equals(other.clazzName))
-			return false;
-		if (fieldsForClass == null) {
-			if (other.fieldsForClass != null)
-				return false;
-		} else if (!fieldsForClass.equals(other.fieldsForClass))
 			return false;
 		if (isInterface != other.isInterface)
 			return false;
