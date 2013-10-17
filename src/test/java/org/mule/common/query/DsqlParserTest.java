@@ -168,6 +168,18 @@ public class DsqlParserTest {
 	public void testWithMuleExpression9() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
 	}
+	
+	@Test
+	@Ignore
+	public void testWithMuleExpressionWithDobleQuotes() {
+		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars['id']]\" order by name desc");
+	}
+
+	@Test
+	@Ignore
+	public void testWithMuleExpressionWithDobleQuotes2() {
+		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars[\\\"id\\\"]]\" order by name desc");
+	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail() {
