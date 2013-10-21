@@ -137,6 +137,10 @@ public class DsqlParserTest {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
 	}
 
+    @Test
+    public void testWithEscapedIdentifiers() {
+        DsqlQuery dsqlQuery = parse("select [select], [desc] from [from] where [where] = 2 order by [asc] asc");
+    }
 
 
 	@Test
@@ -170,14 +174,12 @@ public class DsqlParserTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testWithMuleExpressionWithDobleQuotes() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars['id']]\" order by name desc");
 	}
 
 	@Test
-	@Ignore
-	public void testWithMuleExpressionWithDobleQuotes2() {
+	public void testWithMuleExpressionWithEscapedDobleQuotesInSTring() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars[\\\"id\\\"]]\" order by name desc");
 	}
 
@@ -186,10 +188,9 @@ public class DsqlParserTest {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and ");
 	}
 
-	@Ignore
 	@Test(expected = DsqlParsingException.class)
 	public void testFail2() {
-		DsqlQuery dsqlQuery = parse("dsql:select from");
+	    DsqlQuery dsqlQuery = parse("dsql:select from");
 	}
 
 	@Test(expected = DsqlParsingException.class)
@@ -238,13 +239,11 @@ public class DsqlParserTest {
 	}
 
 	@Test(expected = DsqlParsingException.class)
-	@Ignore
 	public void testWithMuleExpressionShouldFail() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
 	}
 
 	@Test(expected = DsqlParsingException.class)
-	@Ignore
 	public void testFailWhere() {
 		DsqlQuery dsqlQuery = parse("select users, addresses from Account whseree name = 123");
 	}

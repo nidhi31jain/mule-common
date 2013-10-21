@@ -23,7 +23,8 @@ options {
 @parser::members {
 	protected Object recoverFromMismatchedToken(IntStream input,int ttype, BitSet follow) throws RecognitionException {
 	    //System.out.println("recoverFromMismatechedToken");
-		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException("Invalid token at : "+input.toString());
+        MismatchedTokenException ex = new MismatchedTokenException(ttype, input);
+		throw new org.mule.common.query.dsql.parser.exception.DsqlParsingException("Invalid token at " + ex.line + ":" + ex.charPositionInLine);
 	}
 	
 	protected void mismatch(IntStream input, int ttype, BitSet follow) throws RecognitionException {
@@ -54,7 +55,10 @@ select:
       where?
       orderBy?
       limit?
-      offset?;
+      offset?
+      EOF
+      EOF
+      ;
 
 from:
       FROM^
@@ -162,7 +166,9 @@ NESTED_MULE_EXPRESSION :
 	']';
 
 STRING_LITERAL:  
-	'\'' ( ESCAPE_SEQUENCE | ~('\\'|'\'') )* '\'';
+	'\'' ( ESCAPE_SEQUENCE | ~('\\' | '\'') )* '\''
+	| '"' ( ESCAPE_SEQUENCE | ~('\\' | '"') )* '"'
+	;
 
 BOOLEAN_LITERAL: (T_ R_ U_ E_ | F_ A_ L_ S_ E_);
     
@@ -170,13 +176,7 @@ fragment
 ESCAPE_SEQUENCE:   
 	'\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
     |   UNICODE_ESCAPE
-    |   OCTAL_ESCAPE;
-
-fragment
-OCTAL_ESCAPE:   
-	'\\' ('0'..'3') ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7');
+    ;
 
 fragment
 UNICODE_ESCAPE:   
@@ -189,7 +189,8 @@ HEX_DIGIT:
 NUMBER_LITERAL:
 	('0'..'9'|'.')*; 
 
-IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+;
+IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+
+    | '[' ~(']')+ ']';
 ASTERIX : '*';
 OPERATOR : '='|'>'|'<'|'<='|'<>'|'>=';
 

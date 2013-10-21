@@ -11,7 +11,12 @@ public class IdentifierValue extends Value<String>
         super(value);
     }
 
-    public static IdentifierValue fromLiteral(String value){
-         return new IdentifierValue(value);
+    public static IdentifierValue fromLiteral(String value)
+    {
+        if (value.startsWith("[") && value.endsWith("]"))
+        {
+            value =  value.substring(1, value.length() - 1);
+        }
+        return new IdentifierValue(value);
     }
 }
