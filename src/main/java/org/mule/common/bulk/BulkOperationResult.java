@@ -15,33 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used to provide item level information about a bulk operation.
- * This master entity represents the bulk operation as a whole, while the detail
- * entity {@link BulkItem} represents the operation status for each individual data
- * piece
+ * This class is used to provide item level information about a bulk operation. This
+ * master entity represents the bulk operation as a whole, while the detail entity
+ * {@link BulkItem} represents the operation status for each individual data piece
  */
 public final class BulkOperationResult<T> implements Serializable
 {
 
     private static final long serialVersionUID = 8039267004891928585L;
 
-    /**
-     * The operation id
-     */
     private final Serializable id;
-
-    /**
-     * Whether or not the operation was successful. Should be <code>true</code> if
-     * and only if all the child {@link BulkItem} entities were also successful
-     */
     private final boolean successful;
-
-    /**
-     * A sorted list of {@link BulkItem}, one per each item in the original
-     * operation, no matter if the record was successful or not
-     */
     private final List<BulkItem<T>> items;
-    
+
     private BulkOperationResult(Serializable id, boolean successful, List<BulkItem<T>> items)
     {
         this.id = id;
@@ -49,16 +35,27 @@ public final class BulkOperationResult<T> implements Serializable
         this.items = items;
     }
 
+    /**
+     * The operation id
+     */
     public Serializable getId()
     {
         return id;
     }
 
+    /**
+     * Whether or not the operation was successful. Should be <code>true</code> if
+     * and only if all the child {@link BulkItem} entities were also successful
+     */
     public boolean isSuccessful()
     {
         return successful;
     }
 
+    /**
+     * An ordered list of {@link BulkItem}, one per each item in the original
+     * operation, no matter if the record was successful or not
+     */
     public List<BulkItem<T>> getItems()
     {
         return items;
@@ -75,7 +72,7 @@ public final class BulkOperationResult<T> implements Serializable
         private Serializable id;
         private boolean successful = true;
         private List<BulkItemBuilder<T>> items = new ArrayList<BulkItemBuilder<T>>();
-        
+
         private BulkOperationResultBuilder()
         {
         }

@@ -18,37 +18,11 @@ public final class BulkItem<T> implements Serializable
 
     private static final long serialVersionUID = -2402370691833265593L;
 
-    /**
-     * The item id
-     */
     private final Serializable id;
-
-    /**
-     * Wether or not it was successful. Notice that this should be <code>false</code>
-     * if {@link #exception} is not <code>null</code>, however there might not be an
-     * exception but the item could still not be successful for other reasons.
-     */
     private final boolean successful;
-
-    /**
-     * Message to add context on this item. Could be an error description, a warning
-     * or simply some info related to the operation
-     */
     private final String message;
-
-    /**
-     * An optional status code
-     */
     private final String statusCode;
-
-    /**
-     * An exception if the item was failed
-     */
     private final Exception exception;
-
-    /**
-     * The actual data this entity represents
-     */
     private final T payload;
 
     private BulkItem(Serializable id,
@@ -66,31 +40,52 @@ public final class BulkItem<T> implements Serializable
         this.payload = payload;
     }
 
+    /**
+     * The item id
+     */
     public Serializable getId()
     {
         return id;
     }
 
+    /**
+     * Wether or not it was successful. Notice that this should be <code>false</code>
+     * if {@link #exception} is not <code>null</code>, however there might not be an
+     * exception but the item could still not be successful for other reasons.
+     */
     public boolean isSuccessful()
     {
         return successful;
     }
 
+    /**
+     * Message to add context on this item. Could be an error description, a warning
+     * or simply some info related to the operation
+     */
     public String getMessage()
     {
         return message;
     }
 
+    /**
+     * An optional status code
+     */
     public String getStatusCode()
     {
         return statusCode;
     }
 
+    /**
+     * An exception if the item was failed
+     */
     public Exception getException()
     {
         return exception;
     }
 
+    /**
+     * The actual data this entity represents
+     */
     public T getPayload()
     {
         return payload;
