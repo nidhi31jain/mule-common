@@ -3,6 +3,7 @@
 .settings/
 target/
 .idea
+.DS_Store
 *.iml
 lib/
 src/main/java/org/mule/common/query/dsql/*.tokens
