@@ -21,6 +21,10 @@ public class BulkOperationResultBuilderTest
     private final String recordId = "recordId";
     private final String payload = "payload for the win!";
     private final Exception exception = new RuntimeException();
+    private final String customPropertyKey1 = "customKey1";
+    private final String customValue1 = "a value";
+    private final String customPropertyKey2 = "customKey2";
+    private final String customValue2 = "another value";
 
     @Test
     public void buildSuccessful()
@@ -29,17 +33,20 @@ public class BulkOperationResultBuilderTest
         BulkOperationResult<String> bulk = BulkOperationResult.<String> builder()
             .setId(id)
             .setSuccessful(successful)
+            .addCustomProperty(customPropertyKey1, customValue1)
             .addItem(
                 BulkItem.<String> builder()
                     .setStatusCode(statusCode)
                     .setMessage(message)
                     .setRecordId(recordId)
                     .setPayload(payload))
+                    .addCustomProperty(customPropertyKey2, customValue2)
             .build();
 
         Assert.assertTrue(bulk.isSuccessful());
         Assert.assertSame(id, bulk.getId());
         Assert.assertEquals(1, bulk.getItems().size());
+        Assert.assertEquals(customValue1, bulk.getCustomProperty(customPropertyKey1));
 
         BulkItem<String> item = bulk.getItems().get(0);
         Assert.assertTrue(item.isSuccessful());
@@ -48,6 +55,7 @@ public class BulkOperationResultBuilderTest
         Assert.assertSame(recordId, item.getId());
         Assert.assertSame(payload, item.getPayload());
         Assert.assertNull(item.getException());
+        Assert.assertEquals(customValue2, bulk.getCustomProperty(customPropertyKey2));
     }
 
     @Test

@@ -9,6 +9,8 @@
 package org.mule.common.bulk;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents an individual data piece in the context of a bulk operation
@@ -24,13 +26,15 @@ public final class BulkItem<T> implements Serializable
     private final String statusCode;
     private final Exception exception;
     private final T payload;
+    private final Map<String, Serializable> customProperties;
 
     private BulkItem(Serializable id,
                      boolean successful,
                      String message,
                      String statusCode,
                      Exception exception,
-                     T payload)
+                     T payload,
+                     Map<String, Serializable> customProperties)
     {
         this.id = id;
         this.successful = successful;
@@ -38,6 +42,14 @@ public final class BulkItem<T> implements Serializable
         this.statusCode = statusCode;
         this.exception = exception;
         this.payload = payload;
+        if (customProperties != null)
+        {
+            this.customProperties = new HashMap<String, Serializable>(customProperties);
+        }
+        else
+        {
+            this.customProperties = null;
+        }
     }
 
     /**
@@ -91,12 +103,23 @@ public final class BulkItem<T> implements Serializable
         return payload;
     }
 
+    /**
+     * A custom property stored under the given key
+     * 
+     * @param key the key of the custom property
+     * @return a {@link Serializable} value
+     */
+    public Serializable getCustomProperty(String key)
+    {
+        return this.customProperties != null ? this.customProperties.get(key) : null;
+    }
+
     public static <T> BulkItemBuilder<T> builder()
     {
         return new BulkItemBuilder<T>();
     }
 
-    public static class BulkItemBuilder<T>
+    public static class BulkItemBuilder<T> extends AbstractBulkBuilder
     {
 
         private Serializable id;
@@ -142,10 +165,15 @@ public final class BulkItem<T> implements Serializable
             this.payload = payload;
             return this;
         }
+        
+        public BulkItemBuilder<T> addCustomProperty(String key, Serializable value) {
+            this.customProperty(key, value);
+            return this;
+        }
 
         protected BulkItem<T> build()
         {
-            return new BulkItem<T>(id, successful, message, statusCode, exception, payload);
+            return new BulkItem<T>(id, successful, message, statusCode, exception, payload, this.getCustomProperties());
         }
     }
 
