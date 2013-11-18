@@ -21,13 +21,13 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 
     @Override
     public PropertyCustomizableMetaDataBuilder<P> addSimpleField(String name, DataType dataType) {
-        fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultSimpleMetaDataBuilder(dataType)));
+        fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultSimpleMetaDataBuilder(dataType, this)));
         return this;
     }
 
     @Override
     public PropertyCustomizableMetaDataBuilder<P> addSimpleField(String name, DataType dataType, String implClass) {
-    	DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(dataType);
+    	DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(dataType, this);
     	builder.setImplClass(implClass);
 		fields.add(new DefaultMetaDataFieldBuilder(name, builder));
     	return this;
@@ -49,6 +49,14 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
         //Change the parent to this, as list metadata builder is not returned we need to reparent the DynamicObjectBuilder.
         dynamicObjectBuilder.parentBuilder = this;
         return (DynamicObjectFieldBuilder) dynamicObjectBuilder;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public ListMetaDataBuilder<DynamicObjectFieldBuilder<P>> addList(String name) {
+        DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>> builder = new DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>>(this);
+        fields.add(new DefaultMetaDataFieldBuilder(name, builder));
+        return builder;
     }
 
     @SuppressWarnings("unchecked")
@@ -164,13 +172,13 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 
 	@Override
 	public EnumMetaDataBuilder<P> addEnumField(String name) {
-        fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultSimpleMetaDataBuilder(DataType.ENUM)));
+        fields.add(new DefaultMetaDataFieldBuilder(name, new DefaultSimpleMetaDataBuilder(DataType.ENUM, this)));
         return this;
 	}
 
     @Override
     public EnumMetaDataBuilder<P> addEnumField(String name, String implClass) {
-        DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(DataType.ENUM);
+        DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(DataType.ENUM, this);
         builder.setImplClass(implClass);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
         return this;

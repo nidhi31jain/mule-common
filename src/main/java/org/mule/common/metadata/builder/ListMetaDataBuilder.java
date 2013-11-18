@@ -4,6 +4,7 @@
 package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.datatype.DataType;
 
 public interface ListMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDataBuilder<ListMetaDataModel>
 {
@@ -13,6 +14,8 @@ public interface ListMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaD
     DynamicObjectBuilder<ListMetaDataBuilder<P>> ofDynamicObject(String name);
 
     ListMetaDataBuilder<ListMetaDataBuilder<P>> ofList();
+
+    P ofSimpleField(DataType dataType);
 
     P endList();
 }

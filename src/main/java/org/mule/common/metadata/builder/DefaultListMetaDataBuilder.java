@@ -5,6 +5,7 @@ package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.datatype.DataType;
 
 public class DefaultListMetaDataBuilder<P extends MetaDataBuilder<?>> implements ListMetaDataBuilder<P>
 {
@@ -37,6 +38,13 @@ public class DefaultListMetaDataBuilder<P extends MetaDataBuilder<?>> implements
     {
         innerBuilder = new DefaultListMetaDataBuilder<ListMetaDataBuilder<?>>(this);
         return (ListMetaDataBuilder) innerBuilder;
+    }
+
+    @Override
+    public P ofSimpleField(DataType dataType)
+    {
+        innerBuilder = new DefaultSimpleMetaDataBuilder<ListMetaDataBuilder<?>>(dataType, this);
+        return endList();
     }
 
     @Override

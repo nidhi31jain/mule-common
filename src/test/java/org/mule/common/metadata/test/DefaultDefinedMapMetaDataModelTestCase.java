@@ -325,7 +325,6 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		Assert.assertThat(((PojoMetaDataModel) result.getElementModel()).getFields().size(), CoreMatchers.is(17));
 	}
 
-
     @Test
     public void testListOfMetadataModels(){
         DefinedMapMetaDataModel family = new DefaultMetaDataBuilder().createDynamicObject("Family")
@@ -334,6 +333,17 @@ public class DefaultDefinedMapMetaDataModelTestCase {
                 .addSimpleField("Name", DataType.STRING).endDynamicObject()
                 .addSimpleField("Address", DataType.STRING).build();
         Assert.assertThat(family.getFields().size(),CoreMatchers.is(3));
+    }
+
+    @Test
+    public void testListOfSimpleField(){
+        DefinedMapMetaDataModel family = new DefaultMetaDataBuilder().createDynamicObject("Family")
+                .addSimpleField("Name", DataType.STRING)
+                .addList("addresses").ofSimpleField(DataType.STRING).build();
+        Assert.assertThat(family.getFields().size(),CoreMatchers.is(2));
+        MetaDataField metaDataField = family.getFields().get(1);
+        Assert.assertThat(metaDataField.getMetaDataModel().getDataType(),CoreMatchers.is(DataType.LIST));
+        Assert.assertThat(((ListMetaDataModel)metaDataField.getMetaDataModel()).getElementModel().getDataType(),CoreMatchers.is(DataType.STRING));
     }
 
 	@Test

@@ -21,6 +21,8 @@ public interface DynamicObjectBuilder<P extends MetaDataBuilder<?>> extends Meta
 
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name);
 
+    ListMetaDataBuilder<DynamicObjectFieldBuilder<P>> addList(String name);
+
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addDynamicObjectField(String name);
 
     P endDynamicObject();

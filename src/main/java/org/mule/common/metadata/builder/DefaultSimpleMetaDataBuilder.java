@@ -7,15 +7,18 @@ import org.mule.common.metadata.DefaultSimpleMetaDataModel;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
-public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
+public class DefaultSimpleMetaDataBuilder<P extends MetaDataBuilder<?>> implements SimpleMetaDataBuilder
 {
 
     private DataType dataType;
 	private String implClass;
+    private P parentBuilder;
 
-    DefaultSimpleMetaDataBuilder(DataType dataType)
+
+    DefaultSimpleMetaDataBuilder(DataType dataType, P parentBuilder)
     {
         this.dataType = dataType;
+        this.parentBuilder = parentBuilder;
     }
 
     @Override
@@ -30,4 +33,10 @@ public class DefaultSimpleMetaDataBuilder implements SimpleMetaDataBuilder
 		this.implClass = implClass;
 		
 	}
+
+    @Override
+    public P endSimpleField()
+    {
+        return parentBuilder;
+    }
 }
