@@ -25,6 +25,7 @@ import org.mule.common.query.expression.EqualsOperator;
 import org.mule.common.query.expression.LikeOperator;
 import org.mule.common.query.expression.Operator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,9 @@ import org.junit.Test;
 /**
  */
 public class DefaultDefinedMapMetaDataModelTestCase {
+    public enum EnumTest {
+        ENUM_FIELD1, ENUM_FIELD2, ENUM_FIELD3;
+    }
 
 	private DefinedMapMetaDataModel mapMetaDataModel;
 
@@ -111,6 +115,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
 		Assert.assertThat(metaDataModel.getFields().get(1), CoreMatchers.notNullValue());
 		MetaDataField metaDataField = metaDataModel.getFields().get(1);
+        Assert.assertThat("When undefined implementation class, the default must return the same as the DataType", metaDataField.getMetaDataModel().getImplementationClass(), CoreMatchers.is(DataType.ENUM.getDefaultImplementationClass()));
 
 		Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), CoreMatchers.notNullValue());
 		ValidStringValuesFieldProperty property = metaDataField.getProperty(ValidStringValuesFieldProperty.class);
@@ -121,6 +126,41 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		Assert.assertThat(validStrings.get(1), CoreMatchers.equalTo("value2"));
 		Assert.assertThat(validStrings.get(2), CoreMatchers.equalTo("value3"));
 	}
+
+
+    @Test
+    public void whenCreatingModelWithEnumFieldsAndImplementationClassShouldBeCreatedCorrectly() {
+        List<String> values = new ArrayList<String>();
+        for (EnumTest enumTest : EnumTest.values()) {
+            values.add(enumTest.toString());
+        }
+
+
+        final DynamicObjectBuilder<?> container = new DefaultMetaDataBuilder().createDynamicObject("Container");
+        container.addSimpleField("simpleProperty", DataType.STRING)
+                .addEnumField("enumField", EnumTest.class.getName()).setValues(values)
+                .addSimpleField("intField", DataType.INTEGER);
+
+        final DefinedMapMetaDataModel metaDataModel = container.build();
+        final List<MetaDataField> fields = metaDataModel.getFields();
+        Assert.assertThat(fields.size(), CoreMatchers.is(3));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), CoreMatchers.is(DataType.ENUM));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), CoreMatchers.is(DataType.INTEGER));
+
+        Assert.assertThat(metaDataModel.getFields().get(1), CoreMatchers.notNullValue());
+        MetaDataField metaDataField = metaDataModel.getFields().get(1);
+        Assert.assertThat("When defined implementation class, the value must be the specified value", metaDataField.getMetaDataModel().getImplementationClass(), CoreMatchers.is(EnumTest.class.getName()));
+
+        Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), CoreMatchers.notNullValue());
+        ValidStringValuesFieldProperty property = metaDataField.getProperty(ValidStringValuesFieldProperty.class);
+        Assert.assertThat(property.getValidStrings().size(), CoreMatchers.is(3));
+        List<String> validStrings = property.getValidStrings();
+
+        Assert.assertThat(validStrings.get(0), CoreMatchers.equalTo("ENUM_FIELD1"));
+        Assert.assertThat(validStrings.get(1), CoreMatchers.equalTo("ENUM_FIELD2"));
+        Assert.assertThat(validStrings.get(2), CoreMatchers.equalTo("ENUM_FIELD3"));
+    }
 
 	@Test
 	public void whenCreatingModelFromMapsWithListOfMapsFieldsShouldBeCreatedCorrectly() {

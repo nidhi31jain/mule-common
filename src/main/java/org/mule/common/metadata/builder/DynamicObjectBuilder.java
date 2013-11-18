@@ -15,6 +15,8 @@ public interface DynamicObjectBuilder<P extends MetaDataBuilder<?>> extends Meta
     
     EnumMetaDataBuilder<P> addEnumField(String name);
 
+    EnumMetaDataBuilder<P> addEnumField(String name,  String implClass);
+
     DynamicObjectFieldBuilder<P> addPojoField(String name, Class<?> pojo);
 
     DynamicObjectFieldBuilder<DynamicObjectFieldBuilder<P>> addListOfDynamicObjectField(String name);

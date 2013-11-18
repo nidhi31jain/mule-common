@@ -168,6 +168,14 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
         return this;
 	}
 
+    @Override
+    public EnumMetaDataBuilder<P> addEnumField(String name, String implClass) {
+        DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(DataType.ENUM);
+        builder.setImplClass(implClass);
+        fields.add(new DefaultMetaDataFieldBuilder(name, builder));
+        return this;
+    }
+
 	@Override
 	public PropertyCustomizableMetaDataBuilder<P> setExample(String example) {
 		getCurrentField().setExample(example);
