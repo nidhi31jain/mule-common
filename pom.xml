@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.common</groupId>
     <artifactId>mule-common</artifactId>
-    <version>3.5.0-M4-SNAPSHOT</version>
+    <version>3.5.0-cascade-RC2</version>
     <name>Mule Shared API</name>
     <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
@@ -127,7 +127,7 @@
         <connection>scm:git:git://github.com:mulesoft/mule-common.git</connection>
         <developerConnection>scm:git:git@github.com:mulesoft/mule-common.git</developerConnection>
         <url>http://github.com/mulesoft/mule-common</url>
-        <tag>HEAD</tag>
+        <tag>mule-common-3.5.0-cascade-RC2</tag>
     </scm>
 
 </project>
