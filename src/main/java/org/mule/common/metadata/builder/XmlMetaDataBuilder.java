@@ -12,4 +12,6 @@ public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDa
 	public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams);
 	
 	public DefaultXmlMetaDataBuilder<P> setEncoding(Charset xmlCharset);
+	
+	public DefaultXmlMetaDataBuilder<P> setExample(String xmlExample);
 }

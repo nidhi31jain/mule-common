@@ -27,7 +27,7 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 
     @Override
     public PropertyCustomizableMetaDataBuilder<P> addSimpleField(String name, DataType dataType, String implClass) {
-    	DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(dataType, this);
+    	DefaultSimpleMetaDataBuilder<?> builder = new DefaultSimpleMetaDataBuilder(dataType, this);
     	builder.setImplClass(implClass);
 		fields.add(new DefaultMetaDataFieldBuilder(name, builder));
     	return this;
@@ -51,8 +51,6 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
         return (DynamicObjectFieldBuilder) dynamicObjectBuilder;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
     public ListMetaDataBuilder<DynamicObjectFieldBuilder<P>> addList(String name) {
         DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>> builder = new DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>>(this);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
@@ -178,7 +176,7 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 
     @Override
     public EnumMetaDataBuilder<P> addEnumField(String name, String implClass) {
-        DefaultSimpleMetaDataBuilder builder = new DefaultSimpleMetaDataBuilder(DataType.ENUM, this);
+        DefaultSimpleMetaDataBuilder<?> builder = new DefaultSimpleMetaDataBuilder(DataType.ENUM, this);
         builder.setImplClass(implClass);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));
         return this;

@@ -11,14 +11,19 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.common.query.dsql.grammar.DsqlLexer;
 import org.mule.common.query.dsql.grammar.DsqlParser;
 import org.mule.common.query.dsql.grammar.DsqlParser.select_return;
 import org.mule.common.query.dsql.parser.MuleDsqlParser;
 import org.mule.common.query.dsql.parser.exception.DsqlParsingException;
-import org.mule.common.query.expression.*;
+import org.mule.common.query.expression.BinaryLogicalExpression;
+import org.mule.common.query.expression.Direction;
+import org.mule.common.query.expression.EqualsOperator;
+import org.mule.common.query.expression.Expression;
+import org.mule.common.query.expression.FieldComparation;
+import org.mule.common.query.expression.LessOperator;
+import org.mule.common.query.expression.Operator;
 
 public class DsqlParserTest {
 

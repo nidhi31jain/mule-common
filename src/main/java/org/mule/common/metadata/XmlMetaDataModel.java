@@ -10,5 +10,9 @@ public interface XmlMetaDataModel extends MetaDataModel
 {
     List<InputStream> getSchemas();
 
+    String getExample();
+    
+    void setExample(String xmlExample);
+    
     String getRootElement();
 }

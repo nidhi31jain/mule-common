@@ -13,6 +13,7 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
     private List<String> schemas;
     private String rootElement;
     private Charset encoding;
+	private String example;
 
     public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding) {
     	super(DataType.XML);
@@ -38,4 +39,14 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
     public void accept(MetaDataModelVisitor modelVisitor) {
     	modelVisitor.visitXmlMetaDataModel(this);
     }
+
+	@Override
+	public String getExample() {
+		return example;
+	}
+
+	@Override
+	public void setExample(String xmlExample) {
+		this.example = xmlExample;
+	}
 }

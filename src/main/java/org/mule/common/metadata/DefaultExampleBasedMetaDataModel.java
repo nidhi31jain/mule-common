@@ -10,7 +10,7 @@ public class DefaultExampleBasedMetaDataModel extends AbstractMetaDataModel impl
 
     private String example;
 
-    protected DefaultExampleBasedMetaDataModel(DataType dataType, String example)
+    public DefaultExampleBasedMetaDataModel(DataType dataType, String example)
     {
         super(dataType);
         this.example = example;

@@ -18,6 +18,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	public String[] schemas;
 	public InputStream[] schemasStream;
 	public Charset encoding = Charset.forName("UTF-8");
+	public String example;
 	
 	public DefaultXmlMetaDataBuilder(String name) {
 		this.name = name;
@@ -84,6 +85,12 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	@Override
 	public DefaultXmlMetaDataBuilder<P> setEncoding(Charset encoding) {
 		this.encoding = encoding;
+		return this;
+	}
+
+	@Override
+	public DefaultXmlMetaDataBuilder<P> setExample(String xmlExample) {
+		this.example = xmlExample;
 		return this;
 	}
 }
