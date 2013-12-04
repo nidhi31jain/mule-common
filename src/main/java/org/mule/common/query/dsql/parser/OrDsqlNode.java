@@ -8,6 +8,7 @@ public class OrDsqlNode extends DsqlNode {
 		super(t);
 	}
 
+	@Override
 	public void accept(DsqlGrammarVisitor visitor) {
 		visitor.visit(this);
 	}

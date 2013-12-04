@@ -33,9 +33,9 @@ public class DefaultFieldPropertyFactoryTestCase {
         List<MetaDataFieldProperty> metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
         assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(4));
-        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
-        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.is(DsqlWhereMetaDataFieldProperty.class));
-        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.is(DsqlOrderMetaDataFieldProperty.class));
+        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.isA(DsqlSelectMetaDataFieldProperty.class));
+        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.isA(DsqlWhereMetaDataFieldProperty.class));
+        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.isA(DsqlOrderMetaDataFieldProperty.class));
         assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
 
 
@@ -43,9 +43,9 @@ public class DefaultFieldPropertyFactoryTestCase {
         metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
         assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(4));
-        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.is(DsqlSelectMetaDataFieldProperty.class));
-        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.is(DsqlWhereMetaDataFieldProperty.class));
-        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.is(DsqlOrderMetaDataFieldProperty.class));
+        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.isA(DsqlSelectMetaDataFieldProperty.class));
+        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.isA(DsqlWhereMetaDataFieldProperty.class));
+        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.isA(DsqlOrderMetaDataFieldProperty.class));
         assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
     }
 

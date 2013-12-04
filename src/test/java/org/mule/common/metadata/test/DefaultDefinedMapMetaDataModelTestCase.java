@@ -321,7 +321,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 	@Test
 	public void testListOfPojos() {
 		ListMetaDataModel result = new DefaultMetaDataBuilder().createList().ofPojo(EverythingPojo.class).endPojo().build();
-		Assert.assertThat(result.getElementModel(), CoreMatchers.is(PojoMetaDataModel.class));
+		Assert.assertThat((PojoMetaDataModel) result.getElementModel(), CoreMatchers.isA(PojoMetaDataModel.class));
 		Assert.assertThat(((PojoMetaDataModel) result.getElementModel()).getFields().size(), CoreMatchers.is(17));
 	}
 

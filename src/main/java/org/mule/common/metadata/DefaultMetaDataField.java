@@ -4,7 +4,6 @@ import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.field.property.MetaDataFieldPropertyManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultMetaDataField

@@ -51,6 +51,7 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
         return (DynamicObjectFieldBuilder) dynamicObjectBuilder;
     }
 
+    @Override
     public ListMetaDataBuilder<DynamicObjectFieldBuilder<P>> addList(String name) {
         DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>> builder = new DefaultListMetaDataBuilder<DynamicObjectFieldBuilder<P>>(this);
         fields.add(new DefaultMetaDataFieldBuilder(name, builder));

@@ -13,10 +13,12 @@ public class DsqlNode
 		super (t);
 	}
 	
+	@Override
 	public void accept(DsqlGrammarVisitor visitor) {
 		visitor.visit(this);
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<IDsqlNode> getChildren() {
 		return (List<IDsqlNode>) super.getChildren();

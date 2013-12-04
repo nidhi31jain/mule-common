@@ -644,7 +644,8 @@ public class MetaDataModelFactoryTestCase
                 return "java.io.InputStream";
             case POJO:
                 return field.getMetaDataModel().getImplementationClass();
+            default:
+                return null;
         }
-        return null;
     }
 }

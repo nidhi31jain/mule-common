@@ -1,6 +1,7 @@
 package org.mule.common.query;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -38,12 +39,14 @@ public class DsqlParserTest {
 		assertFieldComparation(filterExpression, EqualsOperator.class,"name", "alejo");
 	}
 
+	@SuppressWarnings("unchecked")
     private void assertFieldComparation(Expression filterExpression, Class<? extends Operator> operatorClass, String fieldName, Object value) {
-        assertThat(filterExpression, is(FieldComparation.class));
+        assertThat((FieldComparation) filterExpression, isA(FieldComparation.class));
 		FieldComparation fieldComparation = (FieldComparation) filterExpression;
 		assertThat(fieldComparation.getField().getName(), is(fieldName));
 		assertThat(fieldComparation.getValue().getValue(), is((Object) value));
-		assertThat(fieldComparation.getOperator(), is(operatorClass));
+		Class<Operator> operator = (Class<Operator>) operatorClass;
+		assertThat(fieldComparation.getOperator(), isA(operator));
 	}
 
 	@Test
@@ -61,10 +64,10 @@ public class DsqlParserTest {
         assertThat(dsqlQuery.getOrderByFields().size(), is(1));
         assertThat(dsqlQuery.getOrderByFields().get(0).getName(), is("name"));
 		
-		assertThat(dsqlQuery.getFilterExpression(), is(BinaryLogicalExpression.class));
+		assertThat((BinaryLogicalExpression) dsqlQuery.getFilterExpression(), isA(BinaryLogicalExpression.class));
 		BinaryLogicalExpression andExpression = (BinaryLogicalExpression) dsqlQuery.getFilterExpression();
 		assertFieldComparation(andExpression.getLeft(), EqualsOperator.class, "name", "alejo");
-		assertThat(andExpression.getRight(), is(BinaryLogicalExpression.class));
+		assertThat((BinaryLogicalExpression) andExpression.getRight(), isA(BinaryLogicalExpression.class));
 		
 		BinaryLogicalExpression innerAnd = (BinaryLogicalExpression) andExpression.getRight();
 		assertFieldComparation(innerAnd.getLeft(), EqualsOperator.class, "apellido", "abdala");
@@ -75,182 +78,205 @@ public class DsqlParserTest {
 	@Test
 	public void testParse1b() {
 		DsqlQuery dsqlQuery = parse("select name, surname from users, addresses where (name='alejo' and apellido='abdala') and address='guatemala 1234' order by name desc limit 10 offset 200");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(2));
 	}
 
 	@Test
 	public void testParse2() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and apellido='abdala' or apellido='achaval' and name='mariano' and cp='1234'");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParse3() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and not (age > 25)");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testLike() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name like '%alejo%'");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testExpression() {
 		DsqlQuery dsqlQuery = parse("SELECT AccountNumber,AccountSource,Active__c FROM Account WHERE AccountNumber = '#[flowVars[\\'name\\']]'");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(3));
 	}
 
 	@Test
 	public void testParse4() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and age <> 25");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParse5() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and (age >= 25 or age <= 40)");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParse6() {
 		DsqlQuery dsqlQuery = parse("SELECT AccountSource,AnnualRevenue FROM Account WHERE ((AnnualRevenue > 22222 AND BillingCity > 123) AND AnnualRevenue >= 222222) ORDER BY Active__c LIMIT 112 OFFSET 222");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(2));
 	}
 
 	@Test
 	public void testParseAscending() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' order by name ascending");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParseAscending2() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' order by name asc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParseDescending() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' order by name descending");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testParseDescending2() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[payload.name]' order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression2() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[payload.get(\\'id\\')]' order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
     @Test
     public void testWithEscapedIdentifiers() {
         DsqlQuery dsqlQuery = parse("select [select], [desc] from [from] where [where] = 2 order by [asc] asc");
+        Assert.assertThat(dsqlQuery.getFields().size(), is(2));
     }
 
 
 	@Test
 	public void testWithMuleExpression3() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[flowVars[\"id\"]]' order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression4() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where id > #[flowVars['pepe']] order by name");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression5() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where (id > #[flowVars['pepe']] and id < #[flowVars.get('id')]) order by name");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression6() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[flowVars.get('id')] order by name");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression7() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where id > #[flowVars['pepe']] and id < #[[flowVars.get('[id')]] order by name");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
 	public void testWithMuleExpression9() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[flowVars[\\'id\\']]' order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 	
 	@Test
-	public void testWithMuleExpressionWithDobleQuotes() {
+	public void testWithMuleExpressionWithDoubleQuotes() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars['id']]\" order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test
-	public void testWithMuleExpressionWithEscapedDobleQuotesInSTring() {
+	public void testWithMuleExpressionWithEscapedDoubleQuotesInString() {
 		DsqlQuery dsqlQuery = parse("select * from users, addresses where name=\"#[flowVars[\\\"id\\\"]]\" order by name desc");
+		Assert.assertThat(dsqlQuery.getFields().size(), is(1));
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail() {
-		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='alejo' and ");
+		parse("select * from users, addresses where name='alejo' and ");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail2() {
-	    DsqlQuery dsqlQuery = parse("dsql:select from");
+	    parse("dsql:select from");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail3() {
-		DsqlQuery dsqlQuery = parse("*");
+		parse("*");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail4() {
-		DsqlQuery dsqlQuery = parse("SELECT *");
+		parse("SELECT *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFail5() {
-		DsqlQuery dsqlQuery = parse("select * from users, addresses where ");
+		parse("select * from users, addresses where ");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailSelect() {
-		DsqlQuery dsqlQuery = parse("selecct users, addresses from Account where name = 123");
+		parse("selecct users, addresses from Account where name = 123");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom() {
-		DsqlQuery dsqlQuery = parse("select users, addresses frrom Account where name = 123");
+		parse("select users, addresses frrom Account where name = 123");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom2() {
-		DsqlQuery dsqlQuery = parse("select users, addresses *");
+		parse("select users, addresses *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailFrom3() {
-		DsqlQuery dsqlQuery = parse("select users, addresses ffrom");
+		parse("select users, addresses ffrom");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailMissingFrom() {
-		DsqlQuery dsqlQuery = parse("select users, addresses where");
+		parse("select users, addresses where");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailWhere2() {
-		DsqlQuery dsqlQuery = parse("select users, addresses from Account where *");
+		parse("select users, addresses from Account where *");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testWithMuleExpressionShouldFail() {
-		DsqlQuery dsqlQuery = parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
+		parse("select * from users, addresses where name='#[flowVars[\'id\']]' order by name desc");
 	}
 
 	@Test(expected = DsqlParsingException.class)
 	public void testFailWhere() {
-		DsqlQuery dsqlQuery = parse("select users, addresses from Account whseree name = 123");
+		parse("select users, addresses from Account whseree name = 123");
 	}
 
 	@Test

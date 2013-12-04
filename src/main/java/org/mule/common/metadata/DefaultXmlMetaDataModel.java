@@ -22,6 +22,7 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
     	this.encoding = encoding;
     }
 
+    @Override
     public String getRootElement() {
         return rootElement;
     }

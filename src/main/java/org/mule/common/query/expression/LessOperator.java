@@ -1,7 +1,5 @@
 package org.mule.common.query.expression;
 
-import org.mule.common.query.DefaultOperatorVisitor;
-
 /**
  * Represent a less operator
  */
