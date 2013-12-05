@@ -2,8 +2,6 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-import java.util.List;
-
 public class DefaultListMetaDataModel extends AbstractMetaDataModel implements ListMetaDataModel {
 
 	private MetaDataModel model;

@@ -22,6 +22,7 @@ public class DsqlErrorNode
 		throw new DsqlParsingException();
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<IDsqlNode> getChildren() {
 		return (List<IDsqlNode>) super.getChildren();

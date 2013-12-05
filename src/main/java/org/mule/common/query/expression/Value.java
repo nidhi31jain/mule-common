@@ -18,6 +18,7 @@ public abstract class Value<T>
         return value;
     }
 
+    @Override
     public String toString() {
         return String.valueOf(getValue());
     }

@@ -70,12 +70,14 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 
 	}
 	
+	@Override
 	public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas) {
 		this.schemas = schemas;
 		this.schemasStream = null;
 		return this;
 	}
 	
+	@Override
 	public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams) {
 		this.schemasStream = schemaStreams;
 		this.schemas = null;

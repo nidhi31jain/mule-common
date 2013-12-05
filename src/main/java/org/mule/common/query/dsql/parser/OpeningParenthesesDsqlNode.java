@@ -8,6 +8,7 @@ public class OpeningParenthesesDsqlNode extends DsqlNode {
 		super(t);
 	}
 
+	@Override
 	public void accept(DsqlGrammarVisitor visitor) {
 		visitor.visit(this);
 	}

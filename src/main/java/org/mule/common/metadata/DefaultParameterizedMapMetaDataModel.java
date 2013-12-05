@@ -12,8 +12,6 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-import java.util.Map;
-
 public class DefaultParameterizedMapMetaDataModel extends AbstractMetaDataModel implements ParameterizedMapMetaDataModel
 {
     private MetaDataModel keyMetaDataModel;

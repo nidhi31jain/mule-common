@@ -8,6 +8,7 @@ public class OffsetDsqlNode extends DsqlNode {
 		super(t);
 	}
 
+	@Override
 	public void accept(DsqlGrammarVisitor visitor) {
 		visitor.visit(this);
 	}
