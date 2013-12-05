@@ -1,12 +1,13 @@
 package org.mule.common.metadata.test;
 
-import static org.junit.Assert.*;
-
 import java.util.TreeMap;
 
 import org.junit.Test;
 import org.mule.common.metadata.DefaultMetaDataKey;
 import org.mule.common.metadata.MetaDataKey;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DefaultMetaDataKeyTestCase {
 

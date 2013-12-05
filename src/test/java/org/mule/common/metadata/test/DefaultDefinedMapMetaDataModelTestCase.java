@@ -1,15 +1,12 @@
 package org.mule.common.metadata.test;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import org.mule.common.metadata.DefaultDefinedMapMetaDataModel;
-import org.mule.common.metadata.DefaultSimpleMetaDataModel;
-import org.mule.common.metadata.DefinedMapMetaDataModel;
-import org.mule.common.metadata.ListMetaDataModel;
-import org.mule.common.metadata.MetaDataField;
-import org.mule.common.metadata.MetaDataModel;
-import org.mule.common.metadata.PojoMetaDataModel;
+import static org.mule.common.testutils.MuleMatchers.isExactlyA;
+
+import org.mule.common.metadata.*;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
 import org.mule.common.metadata.builder.DynamicObjectBuilder;
 import org.mule.common.metadata.builder.ListMetaDataBuilder;
@@ -30,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,20 +78,20 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
 		final DefinedMapMetaDataModel metaDataModel = container.build();
 		final List<MetaDataField> fields = metaDataModel.getFields();
-		Assert.assertThat(fields.size(), CoreMatchers.is(2));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("subComplexProperty").getDataType(), CoreMatchers.is(DataType.MAP));
+		Assert.assertThat(fields.size(), is(2));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("subComplexProperty").getDataType(), is(DataType.MAP));
 
 		final DefinedMapMetaDataModel subComplexProperty = (DefinedMapMetaDataModel) metaDataModel.getValueMetaDataModel("subComplexProperty");
-		Assert.assertThat(subComplexProperty.getFields().size(), CoreMatchers.is(2));
+		Assert.assertThat(subComplexProperty.getFields().size(), is(2));
 
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), CoreMatchers.is(DataType.MAP));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), is(DataType.MAP));
 
 		final DefinedMapMetaDataModel subSubComplexProperty = (DefinedMapMetaDataModel) subComplexProperty.getValueMetaDataModel("subSubComplexProperty");
 
-		Assert.assertThat(subSubComplexProperty.getFields().size(), CoreMatchers.is(1));
-		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
+		Assert.assertThat(subSubComplexProperty.getFields().size(), is(1));
+		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), is(DataType.STRING));
 
 	}
 
@@ -108,23 +104,23 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
 		final DefinedMapMetaDataModel metaDataModel = container.build();
 		final List<MetaDataField> fields = metaDataModel.getFields();
-		Assert.assertThat(fields.size(), CoreMatchers.is(3));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), CoreMatchers.is(DataType.ENUM));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), CoreMatchers.is(DataType.INTEGER));
+		Assert.assertThat(fields.size(), is(3));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), is(DataType.ENUM));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), is(DataType.INTEGER));
 
-		Assert.assertThat(metaDataModel.getFields().get(1), CoreMatchers.notNullValue());
+		Assert.assertThat(metaDataModel.getFields().get(1), notNullValue());
 		MetaDataField metaDataField = metaDataModel.getFields().get(1);
-        Assert.assertThat("When undefined implementation class, the default must return the same as the DataType", metaDataField.getMetaDataModel().getImplementationClass(), CoreMatchers.is(DataType.ENUM.getDefaultImplementationClass()));
+        Assert.assertThat("When undefined implementation class, the default must return the same as the DataType", metaDataField.getMetaDataModel().getImplementationClass(), is(DataType.ENUM.getDefaultImplementationClass()));
 
-		Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), CoreMatchers.notNullValue());
+		Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), notNullValue());
 		ValidStringValuesFieldProperty property = metaDataField.getProperty(ValidStringValuesFieldProperty.class);
-		Assert.assertThat(property.getValidStrings().size(), CoreMatchers.is(3));
+		Assert.assertThat(property.getValidStrings().size(), is(3));
 		List<String> validStrings = property.getValidStrings();
 
-		Assert.assertThat(validStrings.get(0), CoreMatchers.equalTo("value1"));
-		Assert.assertThat(validStrings.get(1), CoreMatchers.equalTo("value2"));
-		Assert.assertThat(validStrings.get(2), CoreMatchers.equalTo("value3"));
+		Assert.assertThat(validStrings.get(0), equalTo("value1"));
+		Assert.assertThat(validStrings.get(1), equalTo("value2"));
+		Assert.assertThat(validStrings.get(2), equalTo("value3"));
 	}
 
 
@@ -143,23 +139,23 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
         final DefinedMapMetaDataModel metaDataModel = container.build();
         final List<MetaDataField> fields = metaDataModel.getFields();
-        Assert.assertThat(fields.size(), CoreMatchers.is(3));
-        Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-        Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), CoreMatchers.is(DataType.ENUM));
-        Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), CoreMatchers.is(DataType.INTEGER));
+        Assert.assertThat(fields.size(), is(3));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), is(DataType.STRING));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("enumField").getDataType(), is(DataType.ENUM));
+        Assert.assertThat(metaDataModel.getValueMetaDataModel("intField").getDataType(), is(DataType.INTEGER));
 
-        Assert.assertThat(metaDataModel.getFields().get(1), CoreMatchers.notNullValue());
+        Assert.assertThat(metaDataModel.getFields().get(1), notNullValue());
         MetaDataField metaDataField = metaDataModel.getFields().get(1);
-        Assert.assertThat("When defined implementation class, the value must be the specified value", metaDataField.getMetaDataModel().getImplementationClass(), CoreMatchers.is(EnumTest.class.getName()));
+        Assert.assertThat("When defined implementation class, the value must be the specified value", metaDataField.getMetaDataModel().getImplementationClass(), is(EnumTest.class.getName()));
 
-        Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), CoreMatchers.notNullValue());
+        Assert.assertThat(metaDataField.getProperty(ValidStringValuesFieldProperty.class), notNullValue());
         ValidStringValuesFieldProperty property = metaDataField.getProperty(ValidStringValuesFieldProperty.class);
-        Assert.assertThat(property.getValidStrings().size(), CoreMatchers.is(3));
+        Assert.assertThat(property.getValidStrings().size(), is(3));
         List<String> validStrings = property.getValidStrings();
 
-        Assert.assertThat(validStrings.get(0), CoreMatchers.equalTo("ENUM_FIELD1"));
-        Assert.assertThat(validStrings.get(1), CoreMatchers.equalTo("ENUM_FIELD2"));
-        Assert.assertThat(validStrings.get(2), CoreMatchers.equalTo("ENUM_FIELD3"));
+        Assert.assertThat(validStrings.get(0), equalTo("ENUM_FIELD1"));
+        Assert.assertThat(validStrings.get(1), equalTo("ENUM_FIELD2"));
+        Assert.assertThat(validStrings.get(2), equalTo("ENUM_FIELD3"));
     }
 
 	@Test
@@ -171,21 +167,21 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
 		final DefinedMapMetaDataModel metaDataModel = container.build();
 		final List<MetaDataField> fields = metaDataModel.getFields();
-		Assert.assertThat(fields.size(), CoreMatchers.is(2));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("subListComplexProperty").getDataType(), CoreMatchers.is(DataType.LIST));
+		Assert.assertThat(fields.size(), is(2));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("subListComplexProperty").getDataType(), is(DataType.LIST));
 
 		final DefinedMapMetaDataModel subComplexProperty = (DefinedMapMetaDataModel) ((ListMetaDataModel) metaDataModel.getValueMetaDataModel("subListComplexProperty"))
 				.getElementModel();
-		Assert.assertThat(subComplexProperty.getFields().size(), CoreMatchers.is(2));
+		Assert.assertThat(subComplexProperty.getFields().size(), is(2));
 
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), CoreMatchers.is(DataType.MAP));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), is(DataType.MAP));
 
 		final DefinedMapMetaDataModel subSubComplexProperty = (DefinedMapMetaDataModel) subComplexProperty.getValueMetaDataModel("subSubComplexProperty");
 
-		Assert.assertThat(subSubComplexProperty.getFields().size(), CoreMatchers.is(1));
-		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
+		Assert.assertThat(subSubComplexProperty.getFields().size(), is(1));
+		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), is(DataType.STRING));
 
 	}
 
@@ -199,22 +195,22 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 
 		final DefinedMapMetaDataModel metaDataModel = container.build();
 		final List<MetaDataField> fields = metaDataModel.getFields();
-		Assert.assertThat(fields.size(), CoreMatchers.is(2));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(metaDataModel.getValueMetaDataModel("subListComplexProperty").getDataType(), CoreMatchers.is(DataType.LIST));
+		Assert.assertThat(fields.size(), is(2));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("simpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(metaDataModel.getValueMetaDataModel("subListComplexProperty").getDataType(), is(DataType.LIST));
 
 		final DefinedMapMetaDataModel subComplexProperty = (DefinedMapMetaDataModel) ((ListMetaDataModel) metaDataModel.getValueMetaDataModel("subListComplexProperty"))
 				.getElementModel();
-		Assert.assertThat(subComplexProperty.getFields().size(), CoreMatchers.is(3));
+		Assert.assertThat(subComplexProperty.getFields().size(), is(3));
 
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), CoreMatchers.is(DataType.MAP));
-		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty2").getDataType(), CoreMatchers.is(DataType.STRING));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty").getDataType(), is(DataType.STRING));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSubComplexProperty").getDataType(), is(DataType.MAP));
+		Assert.assertThat(subComplexProperty.getValueMetaDataModel("subSimpleProperty2").getDataType(), is(DataType.STRING));
 
 		final DefinedMapMetaDataModel subSubComplexProperty = (DefinedMapMetaDataModel) subComplexProperty.getValueMetaDataModel("subSubComplexProperty");
 
-		Assert.assertThat(subSubComplexProperty.getFields().size(), CoreMatchers.is(1));
-		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), CoreMatchers.is(DataType.STRING));
+		Assert.assertThat(subSubComplexProperty.getFields().size(), is(1));
+		Assert.assertThat(subSubComplexProperty.getValueMetaDataModel("subSubSimpleProperty").getDataType(), is(DataType.STRING));
 
 	}
 
@@ -222,7 +218,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 	public void whenCreatingMapDefaultImplClassShouldBeSet() {
 		final DynamicObjectBuilder<?> container = new DefaultMetaDataBuilder().createDynamicObject("Container");
 		DefinedMapMetaDataModel model = container.build();
-		Assert.assertThat(model.getImplementationClass(), CoreMatchers.is("java.util.HashMap"));
+		Assert.assertThat(model.getImplementationClass(), is("java.util.HashMap"));
 	}
 
 	@Test
@@ -230,7 +226,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		final ListMetaDataBuilder<?> container = new DefaultMetaDataBuilder().createList();
 		container.ofPojo(Object.class);
 		ListMetaDataModel model = container.build();
-		Assert.assertThat(model.getImplementationClass(), CoreMatchers.is("java.util.ArrayList"));
+		Assert.assertThat(model.getImplementationClass(), is("java.util.ArrayList"));
 	}
 
 	@Test
@@ -252,18 +248,18 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		container.addSimpleField("simpleField", dataType).endDynamicObject();
 		DefinedMapMetaDataModel metaDataModel = container.build();
 
-		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
+		Assert.assertThat(metaDataModel.getFields().size(), is(1));
 		MetaDataField firstField = metaDataModel.getFields().get(0);
-		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
+		Assert.assertThat(firstField.getName(), is("simpleField"));
 		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
 
 		DsqlQueryOperatorsMetaDataFieldProperty supportedOperatorsProperty = firstField.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class);
-		Assert.assertThat(supportedOperatorsProperty.getSupportedOperators(), CoreMatchers.equalTo(SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(dataType)));
+		Assert.assertThat(supportedOperatorsProperty.getSupportedOperators(), equalTo(SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(dataType)));
 
-		Assert.assertThat(firstField.getMetaDataModel().getImplementationClass(), CoreMatchers.is(expectedImplClassName));
+		Assert.assertThat(firstField.getMetaDataModel().getImplementationClass(), is(expectedImplClassName));
 	}
 
 	@Test
@@ -271,9 +267,9 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		DefinedMapMetaDataModel metaDataModel = new DefaultMetaDataBuilder().createDynamicObject("Container").addSimpleField("simpleField", DataType.STRING).isWhereCapable(true).build();
 
 
-		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
+		Assert.assertThat(metaDataModel.getFields().size(), is(1));
 		MetaDataField firstField = metaDataModel.getFields().get(0);
-		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
+		Assert.assertThat(firstField.getName(), is("simpleField"));
 		Assert.assertTrue(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlOrderMetaDataFieldProperty.class));
@@ -286,9 +282,9 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		container.addSimpleField("simpleField", DataType.STRING).isWhereCapable(true).withSpecificOperations().supportsEquals().supportsLike();
 		DefinedMapMetaDataModel metaDataModel = container.build();
 
-		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
+		Assert.assertThat(metaDataModel.getFields().size(), is(1));
 		MetaDataField firstField = metaDataModel.getFields().get(0);
-		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
+		Assert.assertThat(firstField.getName(), is("simpleField"));
 		Assert.assertTrue(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
@@ -297,7 +293,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 		DsqlQueryOperatorsMetaDataFieldProperty property = firstField.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class);
 		List<Operator> supportedOperators = property.getSupportedOperators();
 
-		Assert.assertThat(supportedOperators.size(), CoreMatchers.is(2));
+		Assert.assertThat(supportedOperators.size(), is(2));
 		Assert.assertTrue(supportedOperators.contains(new EqualsOperator()));
 		Assert.assertTrue(supportedOperators.contains(new LikeOperator()));
 	}
@@ -309,9 +305,9 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 				.isWhereCapable(false) //
 				.build();
 
-		Assert.assertThat(metaDataModel.getFields().size(), CoreMatchers.is(1));
+		Assert.assertThat(metaDataModel.getFields().size(), is(1));
 		MetaDataField firstField = metaDataModel.getFields().get(0);
-		Assert.assertThat(firstField.getName(), CoreMatchers.is("simpleField"));
+		Assert.assertThat(firstField.getName(), is("simpleField"));
 		Assert.assertFalse(firstField.hasProperty(DsqlWhereMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class));
 		Assert.assertTrue(firstField.hasProperty(DsqlSelectMetaDataFieldProperty.class));
@@ -321,8 +317,8 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 	@Test
 	public void testListOfPojos() {
 		ListMetaDataModel result = new DefaultMetaDataBuilder().createList().ofPojo(EverythingPojo.class).endPojo().build();
-		Assert.assertThat((PojoMetaDataModel) result.getElementModel(), CoreMatchers.isA(PojoMetaDataModel.class));
-		Assert.assertThat(((PojoMetaDataModel) result.getElementModel()).getFields().size(), CoreMatchers.is(17));
+        Assert.assertThat( result.getElementModel(),  isExactlyA(DefaultPojoMetaDataModel.class));
+		Assert.assertThat(((PojoMetaDataModel) result.getElementModel()).getFields().size(), is(17));
 	}
 
     @Test
@@ -332,7 +328,7 @@ public class DefaultDefinedMapMetaDataModelTestCase {
                 .addListOfDynamicObjectField("Members")
                 .addSimpleField("Name", DataType.STRING).endDynamicObject()
                 .addSimpleField("Address", DataType.STRING).build();
-        Assert.assertThat(family.getFields().size(),CoreMatchers.is(3));
+        Assert.assertThat(family.getFields().size(), is(3));
     }
 
     @Test
@@ -340,10 +336,10 @@ public class DefaultDefinedMapMetaDataModelTestCase {
         DefinedMapMetaDataModel family = new DefaultMetaDataBuilder().createDynamicObject("Family")
                 .addSimpleField("Name", DataType.STRING)
                 .addList("addresses").ofSimpleField(DataType.STRING).build();
-        Assert.assertThat(family.getFields().size(),CoreMatchers.is(2));
+        Assert.assertThat(family.getFields().size(), is(2));
         MetaDataField metaDataField = family.getFields().get(1);
-        Assert.assertThat(metaDataField.getMetaDataModel().getDataType(),CoreMatchers.is(DataType.LIST));
-        Assert.assertThat(((ListMetaDataModel)metaDataField.getMetaDataModel()).getElementModel().getDataType(),CoreMatchers.is(DataType.STRING));
+        Assert.assertThat(metaDataField.getMetaDataModel().getDataType(), is(DataType.LIST));
+        Assert.assertThat(((ListMetaDataModel)metaDataField.getMetaDataModel()).getElementModel().getDataType(), is(DataType.STRING));
     }
 
 	@Test

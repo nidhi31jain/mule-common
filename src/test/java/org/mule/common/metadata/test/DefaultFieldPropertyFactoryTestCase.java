@@ -1,6 +1,5 @@
 package org.mule.common.metadata.test;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.common.metadata.*;
@@ -13,8 +12,10 @@ import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProper
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mule.common.testutils.MuleMatchers.isExactlyA;
 
 /**
  */
@@ -32,21 +33,21 @@ public class DefaultFieldPropertyFactoryTestCase {
         MetaDataModel mdm = new DefaultSimpleMetaDataModel(DataType.STRING);
         List<MetaDataFieldProperty> metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
-        assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(4));
-        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.isA(DsqlSelectMetaDataFieldProperty.class));
-        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.isA(DsqlWhereMetaDataFieldProperty.class));
-        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.isA(DsqlOrderMetaDataFieldProperty.class));
-        assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+        assertThat(metaDataFieldPropertyList.size(), is(4));
+        assertThat(metaDataFieldPropertyList.get(0), isExactlyA(DsqlSelectMetaDataFieldProperty.class));
+        assertThat(metaDataFieldPropertyList.get(1), isExactlyA(DsqlWhereMetaDataFieldProperty.class));
+        assertThat(metaDataFieldPropertyList.get(2), isExactlyA(DsqlOrderMetaDataFieldProperty.class));
+        assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), is(false));
 
 
         mdm = new DefaultSimpleMetaDataModel(DataType.NUMBER);
         metaDataFieldPropertyList = defaultFieldFeatureFactory.getProperties("SomeFieldName", mdm);
         assertNotNull("the capabilities list should not be empty", metaDataFieldPropertyList);
-        assertThat(metaDataFieldPropertyList.size(), CoreMatchers.is(4));
-        assertThat((DsqlSelectMetaDataFieldProperty) metaDataFieldPropertyList.get(0), CoreMatchers.isA(DsqlSelectMetaDataFieldProperty.class));
-        assertThat((DsqlWhereMetaDataFieldProperty) metaDataFieldPropertyList.get(1), CoreMatchers.isA(DsqlWhereMetaDataFieldProperty.class));
-        assertThat((DsqlOrderMetaDataFieldProperty) metaDataFieldPropertyList.get(2), CoreMatchers.isA(DsqlOrderMetaDataFieldProperty.class));
-        assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+        assertThat(metaDataFieldPropertyList.size(), is(4));
+        assertThat(metaDataFieldPropertyList.get(0), isExactlyA(DsqlSelectMetaDataFieldProperty.class));
+        assertThat(metaDataFieldPropertyList.get(1), isExactlyA(DsqlWhereMetaDataFieldProperty.class));
+        assertThat(metaDataFieldPropertyList.get(2), isExactlyA(DsqlOrderMetaDataFieldProperty.class));
+        assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) metaDataFieldPropertyList.get(3)).getSupportedOperators().isEmpty(), is(false));
     }
 
 }

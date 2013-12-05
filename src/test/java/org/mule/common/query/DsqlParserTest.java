@@ -27,6 +27,8 @@ import org.mule.common.query.expression.LessOperator;
 import org.mule.common.query.expression.Operator;
 
 public class DsqlParserTest {
+    // Debug toggle to show ASTs being parsed by the tests
+    private static final boolean PRINT_AST = false;
 
 	@Test
 	public void testEasyParse() {
@@ -425,26 +427,28 @@ public class DsqlParserTest {
     }
 
 	public DsqlQuery parse(final String string) {
-		CharStream antlrStringStream = new ANTLRStringStream(string);
-		DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
-		CommonTokenStream dsqlTokens = new CommonTokenStream();
-		dsqlTokens.setTokenSource(dsqlLexer);
+        if (PRINT_AST) {
+            try {
+                CharStream antlrStringStream = new ANTLRStringStream(string);
+                DsqlLexer dsqlLexer = new DsqlLexer(antlrStringStream);
+                CommonTokenStream dsqlTokens = new CommonTokenStream();
+                dsqlTokens.setTokenSource(dsqlLexer);
 
-		DsqlParser dsqlParser = new DsqlParser(dsqlTokens);
-		try {
-			select_return select = dsqlParser.select();
-			CommonTree tree = (CommonTree) select.getTree();
-			printTree(tree);
+                DsqlParser dsqlParser = new DsqlParser(dsqlTokens);
+                select_return select = dsqlParser.select();
 
-			MuleDsqlParser parser = new MuleDsqlParser();
-			DsqlQueryVisitor visitor = new DsqlQueryVisitor();
-			DsqlQuery parse = parser.parse(string);
-			parse.accept(visitor);
-			System.out.println(visitor.dsqlQuery());
-			return parse;
-		} catch (RecognitionException e) {
-			throw new DsqlParsingException(e);
-		}
+                CommonTree tree = (CommonTree) select.getTree();
+                printTree(tree);
+
+            } catch (RecognitionException e) {
+                throw new DsqlParsingException(e);
+            }
+        }
+        MuleDsqlParser parser = new MuleDsqlParser();
+        DsqlQueryVisitor visitor = new DsqlQueryVisitor();
+        DsqlQuery parse = parser.parse(string);
+        parse.accept(visitor);
+        return parse;
 	}
 
 	private void printTree(CommonTree tree) {

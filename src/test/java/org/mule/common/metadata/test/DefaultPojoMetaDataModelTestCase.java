@@ -10,14 +10,15 @@
 
 package org.mule.common.metadata.test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mule.common.testutils.MuleMatchers.isExactlyA;
 
 import java.util.List;
 import java.util.Set;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mule.common.metadata.DefaultPojoMetaDataModel;
@@ -118,22 +119,22 @@ public class DefaultPojoMetaDataModelTestCase
     public void fullPojoTest()
     {
         DefaultPojoMetaDataModel defaultPojoMetaDataModel = new DefaultPojoMetaDataModel(EverythingPojo.class);
-        assertThat(defaultPojoMetaDataModel.getFields().size(), CoreMatchers.is(17));
+        assertThat(defaultPojoMetaDataModel.getFields().size(), is(17));
         for (MetaDataField metaDataField : defaultPojoMetaDataModel.getFields())
         {
             List<MetaDataFieldProperty> capabilities = metaDataField.getProperties();
             final DataType dataType = metaDataField.getMetaDataModel().getDataType();
 			if (dataType != DataType.POJO) {
-                assertThat(capabilities.size(), CoreMatchers.is((dataType == DataType.ENUM) ? 5 : 4));
-                assertThat((DsqlSelectMetaDataFieldProperty)capabilities.get(0), CoreMatchers.isA(DsqlSelectMetaDataFieldProperty.class));
-                assertThat((DsqlWhereMetaDataFieldProperty)capabilities.get(1), CoreMatchers.isA(DsqlWhereMetaDataFieldProperty.class));
-                assertThat((DsqlOrderMetaDataFieldProperty)capabilities.get(2), CoreMatchers.isA(DsqlOrderMetaDataFieldProperty.class));
-                assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) capabilities.get(3)).getSupportedOperators().isEmpty(), CoreMatchers.is(false));
+                assertThat(capabilities.size(), is((dataType == DataType.ENUM) ? 5 : 4));
+                assertThat(capabilities.get(0), isExactlyA(DsqlSelectMetaDataFieldProperty.class));
+                assertThat(capabilities.get(1), isExactlyA(DsqlWhereMetaDataFieldProperty.class));
+                assertThat(capabilities.get(2), isExactlyA(DsqlOrderMetaDataFieldProperty.class));
+                assertThat("Operators should not be empty", ((DsqlQueryOperatorsMetaDataFieldProperty) capabilities.get(3)).getSupportedOperators().isEmpty(), is(false));
                 if (dataType == DataType.ENUM) {
                 	final ValidStringValuesFieldProperty validEnumValues = (ValidStringValuesFieldProperty)capabilities.get(4);
-					assertThat(validEnumValues, CoreMatchers.isA(ValidStringValuesFieldProperty.class));
+					assertThat(validEnumValues, isExactlyA(ValidStringValuesFieldProperty.class));
 					final List<String> validStrings = validEnumValues.getValidStrings();
-					assertThat(validStrings.size(), CoreMatchers.is(2));
+					assertThat(validStrings.size(), is(2));
                 	assertTrue(validStrings.contains("FOO"));
                 	assertTrue(validStrings.contains("BAR"));
                 }

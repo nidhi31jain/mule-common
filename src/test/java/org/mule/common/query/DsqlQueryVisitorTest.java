@@ -11,7 +11,7 @@ import org.junit.Test;
 public class DsqlQueryVisitorTest {
 
     @Test
-    public void testBasicQueryvisitor(){
+    public void testBasicQueryVisitor(){
         QueryBuilder queryBuilder = new DefaultQueryBuilder();
         queryBuilder.addField(new Field("name","string"));
         queryBuilder.addField(new Field("lastName", "string"));
@@ -27,7 +27,7 @@ public class DsqlQueryVisitorTest {
     }
 
     @Test
-    public void testFiltersQueryvisitor(){
+    public void testFiltersQueryVisitor(){
         QueryBuilder queryBuilder = new DefaultQueryBuilder();
         queryBuilder.addField(new Field("name","string"));
         queryBuilder.addType(new Type("Account"));
@@ -63,7 +63,6 @@ public class DsqlQueryVisitorTest {
         } catch (QueryBuilderException e) {
 
         }
-        System.out.println(visitor.dsqlQuery());
         Assert.assertEquals("SELECT name FROM Account WHERE ((age <> 18 OR grade > 0) AND grade > 0)",visitor.dsqlQuery());
     }
 

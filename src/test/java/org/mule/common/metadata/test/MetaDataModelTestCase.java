@@ -10,7 +10,6 @@
 
 package org.mule.common.metadata.test;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.DefaultParameterizedMapMetaDataModel;
@@ -21,6 +20,8 @@ import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
 
 public class MetaDataModelTestCase
 {
@@ -65,15 +66,15 @@ public class MetaDataModelTestCase
     public void whenStringUsedAsTypeForSimpleMetadataModelItShouldBeReturned()
     {
         DefaultSimpleMetaDataModel defaultSimpleMetaDataModel = new DefaultSimpleMetaDataModel(DataType.STRING);
-        Assert.assertThat(defaultSimpleMetaDataModel.getDataType(), CoreMatchers.is(DataType.STRING));
+        Assert.assertThat(defaultSimpleMetaDataModel.getDataType(), is(DataType.STRING));
     }
 
     @Test()
     public void testPojoMetadataModelReturnClassName()
     {
         DefaultPojoMetaDataModel defaultPojoMetaDataModel = new DefaultPojoMetaDataModel(DataType.class);
-        Assert.assertThat(defaultPojoMetaDataModel.getClassName(), CoreMatchers.is(DataType.class.getName()));
-        Assert.assertThat(defaultPojoMetaDataModel.isInterface(), CoreMatchers.is(false));
+        Assert.assertThat(defaultPojoMetaDataModel.getClassName(), is(DataType.class.getName()));
+        Assert.assertThat(defaultPojoMetaDataModel.isInterface(), is(false));
     }
 
     @Test()
@@ -81,7 +82,7 @@ public class MetaDataModelTestCase
     {
         MetaDataModel elementModel = new DefaultPojoMetaDataModel(DataType.class);
         ListMetaDataModel defaultListMetaDataModel = new DefaultListMetaDataModel(elementModel);
-        Assert.assertThat(defaultListMetaDataModel.getElementModel(), CoreMatchers.is(elementModel));
+        Assert.assertThat(defaultListMetaDataModel.getElementModel(), is(elementModel));
     }
 
     @Test()
@@ -90,8 +91,8 @@ public class MetaDataModelTestCase
         MetaDataModel key = new DefaultPojoMetaDataModel(DataType.class);
         MetaDataModel value = new DefaultPojoMetaDataModel(DataType.class);
         DefaultParameterizedMapMetaDataModel defaultParameterizedMapMetaDataModel = new DefaultParameterizedMapMetaDataModel(key, value);
-        Assert.assertThat(defaultParameterizedMapMetaDataModel.getKeyMetaDataModel(), CoreMatchers.is(key));
-        Assert.assertThat(defaultParameterizedMapMetaDataModel.getValueMetaDataModel(), CoreMatchers.is(value));
+        Assert.assertThat(defaultParameterizedMapMetaDataModel.getKeyMetaDataModel(), is(key));
+        Assert.assertThat(defaultParameterizedMapMetaDataModel.getValueMetaDataModel(), is(value));
     }
 }
 

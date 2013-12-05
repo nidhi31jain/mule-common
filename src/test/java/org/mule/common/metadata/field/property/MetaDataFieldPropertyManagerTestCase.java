@@ -1,6 +1,5 @@
 package org.mule.common.metadata.field.property;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.common.metadata.datatype.DataType;
@@ -13,6 +12,7 @@ import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProper
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -41,20 +41,20 @@ public class MetaDataFieldPropertyManagerTestCase {
 
     @Test
     public void testHasProperty(){
-        assertThat("The empty manager should not have any property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
+        assertThat("The empty manager should not have any property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(false));
         MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
         emptyPropertyManager.addProperty(aProperty);
-        assertThat("The empty manager should have a property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
+        assertThat("The empty manager should have a property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
         emptyPropertyManager.removeProperty(aProperty);
-        assertThat("The empty manager should not have a property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
+        assertThat("The empty manager should not have a property at this point", emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(false));
 
-        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlSelectMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlWhereMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlOrderMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat("The full manager should not have the property", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
+        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlSelectMetaDataFieldProperty.class), is(true));
+        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlWhereMetaDataFieldProperty.class), is(true));
+        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlOrderMetaDataFieldProperty.class), is(true));
+        assertThat("The full manager should have the property", fullPropertyManager.hasProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), is(true));
+        assertThat("The full manager should not have the property", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(false));
         fullPropertyManager.addProperty(aProperty);
-        assertThat("The full manager should have the property at this point", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
+        assertThat("The full manager should have the property at this point", fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
     }
 
     @Test
@@ -62,66 +62,66 @@ public class MetaDataFieldPropertyManagerTestCase {
         assertNull("The empty manager should not have any property at this point", emptyPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class));
         MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
         emptyPropertyManager.addProperty(aProperty);
-        assertThat("The empty manager should have a property at this point", emptyPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(aProperty));
+        assertThat("The empty manager should have a property at this point", emptyPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class), is(aProperty));
         emptyPropertyManager.removeProperty(aProperty);
         assertNull("The empty manager should not have a property at this point", emptyPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class));
 
-        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlSelectMetaDataFieldProperty.class), CoreMatchers.is(properties.get(0)));
-        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlWhereMetaDataFieldProperty.class), CoreMatchers.is(properties.get(1)));
-        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlOrderMetaDataFieldProperty.class), CoreMatchers.is(properties.get(2)));
-        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), CoreMatchers.is(properties.get(3)));
+        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlSelectMetaDataFieldProperty.class), is(properties.get(0)));
+        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlWhereMetaDataFieldProperty.class), is(properties.get(1)));
+        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlOrderMetaDataFieldProperty.class), is(properties.get(2)));
+        assertThat("The full manager should have the property", fullPropertyManager.getProperty(DsqlQueryOperatorsMetaDataFieldProperty.class), is(properties.get(3)));
         assertNull("The full manager should not have the property", fullPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class));
         fullPropertyManager.addProperty(aProperty);
-        assertThat("The full manager should have the property at this point", fullPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(aProperty));
+        assertThat("The full manager should have the property at this point", fullPropertyManager.getProperty(SomePropertyMetaDataFieldProperty.class), is(aProperty));
     }
 
     @Test
     public void testAddingProperties(){
         MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
 
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(0));
-        assertThat("The property should be added", emptyPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
-        assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat(emptyPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
-        assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
+        assertThat(emptyPropertyManager.getProperties().size(), is(0));
+        assertThat("The property should be added", emptyPropertyManager.addProperty(aProperty), is(true));
+        assertThat(emptyPropertyManager.getProperties().size(), is(1));
+        assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
+        assertThat(emptyPropertyManager.addProperty(aProperty), is(true));
+        assertThat(emptyPropertyManager.getProperties().size(), is(1));
+        assertThat(emptyPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
 
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
-        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(false));
-        assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
-        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
-        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), CoreMatchers.is(true));
+        assertThat(fullPropertyManager.getProperties().size(), is(4));
+        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(false));
+        assertThat(fullPropertyManager.addProperty(aProperty), is(true));
+        assertThat(fullPropertyManager.getProperties().size(), is(5));
+        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
+        assertThat(fullPropertyManager.addProperty(aProperty), is(true));
+        assertThat(fullPropertyManager.getProperties().size(), is(5));
+        assertThat(fullPropertyManager.hasProperty(SomePropertyMetaDataFieldProperty.class), is(true));
     }
 
     @Test
     public void testRemoveProperties(){
         MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
 
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(0));
-        assertThat(emptyPropertyManager.removeProperty(aProperty), CoreMatchers.is(false));
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(0));
-        assertThat(emptyPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(1));
-        assertThat(emptyPropertyManager.removeProperty(aProperty), CoreMatchers.is(true));
+        assertThat(emptyPropertyManager.getProperties().size(), is(0));
+        assertThat(emptyPropertyManager.removeProperty(aProperty), is(false));
+        assertThat(emptyPropertyManager.getProperties().size(), is(0));
+        assertThat(emptyPropertyManager.addProperty(aProperty), is(true));
+        assertThat(emptyPropertyManager.getProperties().size(), is(1));
+        assertThat(emptyPropertyManager.removeProperty(aProperty), is(true));
 
 
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
-        assertThat(fullPropertyManager.removeProperty(aProperty), CoreMatchers.is(false));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(4));
-        assertThat(fullPropertyManager.addProperty(aProperty), CoreMatchers.is(true));
-        assertThat(fullPropertyManager.getProperties().size(), CoreMatchers.is(5));
-        assertThat(fullPropertyManager.removeProperty(aProperty), CoreMatchers.is(true));
+        assertThat(fullPropertyManager.getProperties().size(), is(4));
+        assertThat(fullPropertyManager.removeProperty(aProperty), is(false));
+        assertThat(fullPropertyManager.getProperties().size(), is(4));
+        assertThat(fullPropertyManager.addProperty(aProperty), is(true));
+        assertThat(fullPropertyManager.getProperties().size(), is(5));
+        assertThat(fullPropertyManager.removeProperty(aProperty), is(true));
     }
 
     @Test
     public void testGetPropertiesModifications(){
         MetaDataFieldProperty aProperty =new SomePropertyMetaDataFieldProperty();
 
-        assertThat(emptyPropertyManager.getProperties().size(), CoreMatchers.is(0));
+        assertThat(emptyPropertyManager.getProperties().size(), is(0));
         try {
             emptyPropertyManager.getProperties().add(aProperty);
             fail("The field properties list should not be modifiable");

@@ -1,6 +1,5 @@
 package org.mule.common.metadata.test;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
@@ -12,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -102,9 +102,9 @@ public class DefaultMetaDataFieldTestCase {
         DefaultMetaDataField defaultMetaDataFieldWithAccessType = new DefaultMetaDataField("aName", metaDataModel, MetaDataField.FieldAccessType.READ);
 
         assertThat("The default constructor of DefaultMetaDataField without properties as parameters, must not have empty properties",
-                defaultMetaDataField.getProperties().isEmpty(), CoreMatchers.is(false));
+                defaultMetaDataField.getProperties().isEmpty(), is(false));
         assertThat("The default constructor of DefaultMetaDataField with access type and without properties as parameters, must not have empty properties",
-                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), CoreMatchers.is(false));
+                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), is(false));
     }
 
     private void testConstructorWithEmptyProperties(MetaDataModel metaDataModel) {
@@ -113,9 +113,9 @@ public class DefaultMetaDataFieldTestCase {
         DefaultMetaDataField defaultMetaDataFieldWithAccessType = new DefaultMetaDataField("aName", metaDataModel, MetaDataField.FieldAccessType.READ, emptyFieldProperties);
 
         assertThat("The default constructor of DefaultMetaDataField with an empty properties list, must not return any property",
-                defaultMetaDataField.getProperties().isEmpty(), CoreMatchers.is(true));
+                defaultMetaDataField.getProperties().isEmpty(), is(true));
         assertThat("The default constructor of DefaultMetaDataField with access type and an empty properties list, must not return any property",
-                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), CoreMatchers.is(true));
+                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), is(true));
     }
 
     private void testConstructorWithFullProperties(MetaDataModel metaDataModel) {
@@ -127,9 +127,9 @@ public class DefaultMetaDataFieldTestCase {
         DefaultMetaDataField defaultMetaDataFieldWithAccessType = new DefaultMetaDataField("aName", metaDataModel, MetaDataField.FieldAccessType.READ, fullFieldProperties);
 
         assertThat("The default constructor of DefaultMetaDataField with a full properties list, must return a property",
-                defaultMetaDataField.getProperties().isEmpty(), CoreMatchers.is(false));
+                defaultMetaDataField.getProperties().isEmpty(), is(false));
         assertThat("The default constructor of DefaultMetaDataField with access type and a full properties list, must return a property",
-                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), CoreMatchers.is(false));
+                defaultMetaDataFieldWithAccessType.getProperties().isEmpty(), is(false));
 
         assertEquals(defaultMetaDataField.getProperty(NewDummyFieldProperty.class), newDummyFieldProperty);
         assertEquals(defaultMetaDataFieldWithAccessType.getProperty(NewDummyFieldProperty.class), newDummyFieldProperty);
