@@ -10,25 +10,46 @@
 
 package org.mule.common.metadata;
 
-public class DefaultMetaData implements MetaData
-{
-    
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public class DefaultMetaData implements MetaData {
+
     private MetaDataModel payload;
-    
-    public DefaultMetaData(MetaDataModel payload)
-    {
+    private Map<MetaDataPropertyScope, Map<String, MetaDataModel>> properties;
+
+
+    public DefaultMetaData(MetaDataModel payload) {
         this.payload = payload;
+        this.properties = new HashMap<MetaDataPropertyScope, Map<String, MetaDataModel>>();
+        initProperties();
     }
-    
+
+    private void initProperties() {
+        MetaDataPropertyScope[] values = MetaDataPropertyScope.values();
+        for (MetaDataPropertyScope value : values) {
+            properties.put(value, new HashMap<String, MetaDataModel>());
+        }
+    }
+
     @Override
-    public MetaDataModel getPayload()
-    {
+    public MetaDataModel getPayload() {
         return payload;
     }
 
     @Override
-    public int hashCode()
-    {
+    public Map<String, MetaDataModel> getProperties(MetaDataPropertyScope scope) {
+        return Collections.unmodifiableMap(properties.get(scope));
+    }
+
+    @Override
+    public void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel) {
+        properties.get(scope).put(name, propertyModel);
+    }
+
+    @Override
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((payload == null) ? 0 : payload.hashCode());
@@ -36,23 +57,19 @@ public class DefaultMetaData implements MetaData
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
         if (!(obj instanceof DefaultMetaData)) return false;
         DefaultMetaData other = (DefaultMetaData) obj;
-        if (payload == null)
-        {
+        if (payload == null) {
             if (other.payload != null) return false;
-        }
-        else if (!payload.equals(other.payload)) return false;
+        } else if (!payload.equals(other.payload)) return false;
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "DefaultMetaData: { payload: " + ((payload != null) ? payload.toString() : "null") + " }";
     }
 }

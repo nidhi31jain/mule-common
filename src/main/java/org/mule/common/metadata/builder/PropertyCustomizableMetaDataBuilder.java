@@ -10,4 +10,8 @@ public interface PropertyCustomizableMetaDataBuilder<P extends MetaDataBuilder<?
 	CustomizingWhereMetaDataFieldBuilder<P> isWhereCapable(boolean capable);
 	
 	PropertyCustomizableMetaDataBuilder<P> setExample(String example);
+
+    PropertyCustomizableMetaDataBuilder<P> setLabel(String label);
+
+    PropertyCustomizableMetaDataBuilder<P> setDescription(String description);
 }

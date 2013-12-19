@@ -12,6 +12,8 @@ import org.mule.common.metadata.builder.DynamicObjectBuilder;
 import org.mule.common.metadata.builder.ListMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
+import org.mule.common.metadata.field.property.DescriptionMetaDataFieldProperty;
+import org.mule.common.metadata.field.property.LabelMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -361,5 +364,18 @@ public class DefaultDefinedMapMetaDataModelTestCase {
 				.addSimpleField("anotherSimpleField", DataType.STRING) //
 				.build();
 	}
+
+
+    @Test
+    public void whenSettingLabelAndDescriptionWithBuilderTheyShouldBeSet(){
+        DefinedMapMetaDataModel user = new DefaultMetaDataBuilder().createDynamicObject("User")
+                .addSimpleField("name", DataType.STRING)
+                .setLabel("Name")
+                .setDescription("The name")
+                .build();
+        MetaDataField metaDataField = user.getFields().get(0);
+        Assert.assertThat(metaDataField.getProperty(LabelMetaDataFieldProperty.class).getLabel(), CoreMatchers.is("Name"));
+        Assert.assertThat(metaDataField.getProperty(DescriptionMetaDataFieldProperty.class).getDescription(), CoreMatchers.is("The name"));
+    }
 
 }

@@ -10,7 +10,12 @@
 
 package org.mule.common.metadata;
 
-public interface MetaData
-{
-	MetaDataModel getPayload();
+import java.util.Map;
+
+public interface MetaData {
+    MetaDataModel getPayload();
+
+    Map<String, MetaDataModel> getProperties(MetaDataPropertyScope scope);
+
+    void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel);
 }

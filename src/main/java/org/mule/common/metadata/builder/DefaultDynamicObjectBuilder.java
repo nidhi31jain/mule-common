@@ -189,7 +189,19 @@ public class DefaultDynamicObjectBuilder<P extends MetaDataBuilder<?>> implement
 		return this;
 	}
 
-	@Override
+    @Override
+    public PropertyCustomizableMetaDataBuilder<P> setLabel(String label) {
+        getCurrentField().setLabel(label);
+        return this;
+    }
+
+    @Override
+    public PropertyCustomizableMetaDataBuilder<P> setDescription(String description) {
+        getCurrentField().setDescription(description);
+        return this;
+    }
+
+    @Override
 	public EnumMetaDataBuilder<P> setValues(List<String> values) {
 		getCurrentField().setEnumValues(values.toArray(new String[values.size()]));
 		return this;
