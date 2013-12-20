@@ -28,7 +28,7 @@ public class DefaultMetaData implements MetaData
         initProperties();
     }
 
-    public DefaultMetaData(DefaultMetaData oldMetadata, MetaDataModel payload)
+    public DefaultMetaData(MetaData oldMetadata, MetaDataModel payload)
     {
         this(payload);
         addAll(oldMetadata, MetaDataPropertyScope.FLOW);
@@ -37,7 +37,7 @@ public class DefaultMetaData implements MetaData
         addAll(oldMetadata, MetaDataPropertyScope.OUTBOUND);
     }
 
-    private void addAll(DefaultMetaData oldMetadata, MetaDataPropertyScope propertyScope)
+    private void addAll(MetaData oldMetadata, MetaDataPropertyScope propertyScope)
     {
         properties.get(propertyScope).putAll(oldMetadata.getProperties(propertyScope));
     }
