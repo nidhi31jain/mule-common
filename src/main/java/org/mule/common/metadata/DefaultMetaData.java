@@ -31,13 +31,13 @@ public class DefaultMetaData implements MetaData
     public DefaultMetaData(MetaData oldMetadata, MetaDataModel payload)
     {
         this(payload);
-        addAll(oldMetadata, MetaDataPropertyScope.FLOW);
-        addAll(oldMetadata, MetaDataPropertyScope.SESSION);
-        addAll(oldMetadata, MetaDataPropertyScope.INBOUND);
-        addAll(oldMetadata, MetaDataPropertyScope.OUTBOUND);
+        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.FLOW);
+        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.SESSION);
+        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.INBOUND);
+        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.OUTBOUND);
     }
 
-    private void addAll(MetaData oldMetadata, MetaDataPropertyScope propertyScope)
+    public void copyAllPropertiesWithScope(MetaData oldMetadata, MetaDataPropertyScope propertyScope)
     {
         properties.get(propertyScope).putAll(oldMetadata.getProperties(propertyScope));
     }
