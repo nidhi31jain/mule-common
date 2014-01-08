@@ -10,21 +10,28 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DefaultMetaData implements MetaData
 {
 
     private MetaDataModel payload;
-    private Map<MetaDataPropertyScope, Map<String, MetaDataModel>> properties;
+    private Map<MetaDataPropertyScope, MetaDataProperties> properties;
 
 
     public DefaultMetaData(MetaDataModel payload)
     {
         this.payload = payload;
-        this.properties = new HashMap<MetaDataPropertyScope, Map<String, MetaDataModel>>();
+        this.properties = new HashMap<MetaDataPropertyScope, MetaDataProperties>();
         initProperties();
     }
 
@@ -39,7 +46,7 @@ public class DefaultMetaData implements MetaData
 
     public void copyAllPropertiesWithScope(MetaData oldMetadata, MetaDataPropertyScope propertyScope)
     {
-        properties.get(propertyScope).putAll(oldMetadata.getProperties(propertyScope));
+        doGetProperties(propertyScope).addAll(oldMetadata.getProperties(propertyScope));
     }
 
     private void initProperties()
@@ -47,7 +54,7 @@ public class DefaultMetaData implements MetaData
         MetaDataPropertyScope[] values = MetaDataPropertyScope.values();
         for (MetaDataPropertyScope value : values)
         {
-            properties.put(value, new HashMap<String, MetaDataModel>());
+            properties.put(value, new MetaDataProperties());
         }
     }
 
@@ -58,15 +65,21 @@ public class DefaultMetaData implements MetaData
     }
 
     @Override
-    public Map<String, MetaDataModel> getProperties(MetaDataPropertyScope scope)
+    public MetaDataProperties getProperties(MetaDataPropertyScope scope)
     {
-        return Collections.unmodifiableMap(properties.get(scope));
+        return doGetProperties(scope);
     }
 
     @Override
-    public void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel)
+    public void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel, MetaDataFieldProperty... properties)
     {
-        properties.get(scope).put(name, propertyModel);
+
+        doGetProperties(scope).addProperty(new DefaultMetaDataField(name, propertyModel, Arrays.asList(properties)));
+    }
+
+    private MetaDataProperties doGetProperties(MetaDataPropertyScope scope)
+    {
+        return this.properties.get(scope);
     }
 
     @Override

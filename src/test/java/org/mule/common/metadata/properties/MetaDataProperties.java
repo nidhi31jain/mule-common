@@ -29,18 +29,13 @@ public class MetaDataProperties {
         defaultMetaData.addProperty(MetaDataPropertyScope.OUTBOUND, KEEP_ALIVE, new DefaultSimpleMetaDataModel(DataType.BOOLEAN));
         defaultMetaData.addProperty(MetaDataPropertyScope.SESSION, PASSWORD, new DefaultSimpleMetaDataModel(DataType.STRING));
 
-        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.FLOW).get(ACCOUNT_NUMBER), CoreMatchers.notNullValue());
-        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.INBOUND).get(HOST), CoreMatchers.notNullValue());
-        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.OUTBOUND).get(KEEP_ALIVE), CoreMatchers.notNullValue());
-        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.SESSION).get(PASSWORD), CoreMatchers.notNullValue());
+        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.FLOW).getFieldByName(ACCOUNT_NUMBER), CoreMatchers.notNullValue());
+        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.INBOUND).getFieldByName(HOST), CoreMatchers.notNullValue());
+        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.OUTBOUND).getFieldByName(KEEP_ALIVE), CoreMatchers.notNullValue());
+        Assert.assertThat(defaultMetaData.getProperties(MetaDataPropertyScope.SESSION).getFieldByName(PASSWORD), CoreMatchers.notNullValue());
 
     }
 
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void whenTryingToAddPropertyThroughGetPropertiesMethodShouldFail(){
-        DefinedMapMetaDataModel user = new DefaultMetaDataBuilder().createDynamicObject("User").addSimpleField("name", DataType.STRING).build();
-        DefaultMetaData defaultMetaData = new DefaultMetaData(user);
-        defaultMetaData.getProperties(MetaDataPropertyScope.FLOW).put("user", new DefaultSimpleMetaDataModel(DataType.BOOLEAN));
-    }
+
 }
