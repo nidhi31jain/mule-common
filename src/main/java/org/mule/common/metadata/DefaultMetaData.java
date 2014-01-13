@@ -69,7 +69,14 @@ public class DefaultMetaData implements MetaData
     public void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel, MetaDataFieldProperty... properties)
     {
 
-        doGetProperties(scope).addProperty(new DefaultMetaDataField(name, propertyModel, Arrays.asList(properties)));
+        doGetProperties(scope).add(new DefaultMetaDataField(name, propertyModel, Arrays.asList(properties)));
+    }
+
+    @Override
+    public void removeProperty(MetaDataPropertyScope scope, String name)
+    {
+
+        doGetProperties(scope).removeFieldByName(name);
     }
 
     private MetaDataProperties doGetProperties(MetaDataPropertyScope scope)

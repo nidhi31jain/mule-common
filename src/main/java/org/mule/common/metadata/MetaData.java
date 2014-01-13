@@ -20,4 +20,6 @@ public interface MetaData
     MetaDataProperties getProperties(MetaDataPropertyScope scope);
 
     void addProperty(MetaDataPropertyScope scope, String name, MetaDataModel propertyModel, MetaDataFieldProperty... properties);
+
+    void removeProperty(MetaDataPropertyScope scope, String name);
 }

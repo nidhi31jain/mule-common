@@ -28,7 +28,7 @@ public class MetaDataProperties
         return fields;
     }
 
-    public void addProperty(MetaDataField field)
+    public void add(MetaDataField field)
     {
         fields.add(field);
     }
@@ -62,5 +62,21 @@ public class MetaDataProperties
         }
         return null;
     }
+
+
+    public boolean removeFieldByName(String name)
+    {
+
+        for (MetaDataField field : fields)
+        {
+            if (field.getName().equals(name))
+            {
+                this.fields.remove(field);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
