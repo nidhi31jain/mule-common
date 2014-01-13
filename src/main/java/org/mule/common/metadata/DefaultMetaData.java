@@ -13,13 +13,8 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class DefaultMetaData implements MetaData
 {
@@ -54,7 +49,7 @@ public class DefaultMetaData implements MetaData
         MetaDataPropertyScope[] values = MetaDataPropertyScope.values();
         for (MetaDataPropertyScope value : values)
         {
-            properties.put(value, new MetaDataProperties());
+            getProperties().put(value, new MetaDataProperties());
         }
     }
 
@@ -79,7 +74,7 @@ public class DefaultMetaData implements MetaData
 
     private MetaDataProperties doGetProperties(MetaDataPropertyScope scope)
     {
-        return this.properties.get(scope);
+        return this.getProperties().get(scope);
     }
 
     @Override
@@ -125,6 +120,15 @@ public class DefaultMetaData implements MetaData
     public String toString()
     {
         return "DefaultMetaData: { payload: " + ((payload != null) ? payload.toString() : "null") + " }";
+    }
+
+    private Map<MetaDataPropertyScope, MetaDataProperties> getProperties()
+    {
+        if (properties == null)
+        {
+            initProperties();
+        }
+        return properties;
     }
 }
 
