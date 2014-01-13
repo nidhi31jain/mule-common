@@ -14,6 +14,7 @@ public enum DataType
 {
     @Deprecated
     VOID(Void.class.getName()), //TODO to be removed
+    UNKNOWN(Object.class.getName()),
     BOOLEAN(Boolean.class.getName()),
     @Deprecated
     NUMBER(Number.class.getName()),

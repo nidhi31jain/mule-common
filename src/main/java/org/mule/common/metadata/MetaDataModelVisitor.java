@@ -16,4 +16,6 @@ public interface MetaDataModelVisitor {
     void visitDynamicMapModel(DefinedMapMetaDataModel definedMapMetaDataModel);
     
     void visitXmlMetaDataModel(XmlMetaDataModel xmlMetaDataModel);
+
+    void visitUnknownMetaDataModel(UnknownMetaDataModel unknownMetaDataModel);
 }

@@ -45,7 +45,13 @@ public class MetaDataQueryFilterVisitor implements MetaDataModelVisitor {
     public void visitXmlMetaDataModel(XmlMetaDataModel xmlMetaDataModel) {
     	resultModel = xmlMetaDataModel;
     }
-    
+
+    @Override
+    public void visitUnknownMetaDataModel(UnknownMetaDataModel unknownMetaDataModel)
+    {
+        resultModel = unknownMetaDataModel;
+    }
+
     @Override
     public void visitDynamicMapModel(DefinedMapMetaDataModel definedMapMetaDataModel) {
         if (fields == null) return;

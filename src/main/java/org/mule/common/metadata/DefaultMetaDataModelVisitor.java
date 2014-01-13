@@ -35,4 +35,10 @@ public abstract class DefaultMetaDataModelVisitor implements MetaDataModelVisito
     public void visitXmlMetaDataModel(XmlMetaDataModel xmlMetaDataModel)
     {
     }
+
+    @Override
+    public void visitUnknownMetaDataModel(UnknownMetaDataModel unknownMetaDataModel)
+    {
+
+    }
 }
