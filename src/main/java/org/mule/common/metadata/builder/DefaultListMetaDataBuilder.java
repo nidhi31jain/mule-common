@@ -17,6 +17,7 @@ public class DefaultListMetaDataBuilder<P extends MetaDataBuilder<?>> implements
     DefaultListMetaDataBuilder(P parentBuilder)
     {
         this.parentBuilder = parentBuilder;
+        this.innerBuilder = new UnknownMetaDataBuilder();
     }
 
     @Override

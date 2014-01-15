@@ -13,6 +13,7 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.MetaDataField.FieldAccessType;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.DataTypeFactory;
+import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.FieldPropertyFactory;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.util.TypeResolver;
@@ -64,10 +65,14 @@ public class MetaDataModelFactory
         return result;
     }
 
+    public MetaDataModel getMetadataModel(Type type) {
+        return parseType(type,new ParsingContext(), new DefaultFieldPropertyFactory());
+    }
+
 	/**
 	 * Parses given type and answers schema object corresponding to that type.
 	 */
-	public MetaDataModel parseType(Type type, ParsingContext context, FieldPropertyFactory featureFactory) {
+	protected MetaDataModel parseType(Type type, ParsingContext context, FieldPropertyFactory featureFactory) {
 		
 		if (type instanceof Class<?>) {
 			return parseClass((Class<?>)type, context, featureFactory);
