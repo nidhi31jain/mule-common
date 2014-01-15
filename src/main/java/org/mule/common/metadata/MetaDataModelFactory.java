@@ -67,7 +67,7 @@ public class MetaDataModelFactory
 	/**
 	 * Parses given type and answers schema object corresponding to that type.
 	 */
-	protected MetaDataModel parseType(Type type, ParsingContext context, FieldPropertyFactory featureFactory) {
+	public MetaDataModel parseType(Type type, ParsingContext context, FieldPropertyFactory featureFactory) {
 		
 		if (type instanceof Class<?>) {
 			return parseClass((Class<?>)type, context, featureFactory);
