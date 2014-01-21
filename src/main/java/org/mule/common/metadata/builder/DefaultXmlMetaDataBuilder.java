@@ -1,14 +1,13 @@
 package org.mule.common.metadata.builder;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.mule.common.metadata.DefaultXmlMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
 
@@ -28,7 +27,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	public XmlMetaDataModel build() {
 		XmlMetaDataModel model = null;
 		if (schemas != null) {
-			model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), name, encoding);
+			model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), example, name, encoding);
 		} else if (schemasStream != null) {
 
 			List<String> result = new ArrayList<String>();
@@ -36,37 +35,29 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	            result.add(getStringFromInputStream(schemaStream, encoding));
 	        }
 
-			model = new DefaultXmlMetaDataModel(result, name, encoding);
+			model = new DefaultXmlMetaDataModel(result, example, name, encoding);
 		}
 		
 		return model;
 	}
 
 	private static String getStringFromInputStream(InputStream is, Charset encoding) {
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-
-			br = new BufferedReader(new InputStreamReader(is, encoding));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return sb.toString();
+	    try
+	    {
+	        if(encoding != null)
+	        {
+	            return IOUtils.toString(is, encoding.toString());
+	        }
+	        else
+	        {
+	            return IOUtils.toString(is);
+	        }
+	    }
+	    catch(IOException ex)
+	    {
+	        // This is not likely to happen as we are reading from memory (Strings)
+	        throw new RuntimeException("Failed to turn input stream into string with encoding [" + encoding + "]", ex);
+	    }
 
 	}
 	
