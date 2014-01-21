@@ -27,7 +27,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	public XmlMetaDataModel build() {
 		XmlMetaDataModel model = null;
 		if (schemas != null) {
-			model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), example, name, encoding);
+			model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), name, encoding, example);
 		} else if (schemasStream != null) {
 
 			List<String> result = new ArrayList<String>();
@@ -35,7 +35,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 	            result.add(getStringFromInputStream(schemaStream, encoding));
 	        }
 
-			model = new DefaultXmlMetaDataModel(result, example, name, encoding);
+			model = new DefaultXmlMetaDataModel(result, name, encoding, example);
 		}
 		
 		return model;
