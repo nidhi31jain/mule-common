@@ -16,8 +16,13 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
 	private String example;
 
     public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding) {
+        this(schemas, rootElement, encoding, null);
+    }
+    
+    public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding, String example) {
     	super(DataType.XML);
     	this.schemas = schemas;
+    	this.example = example;
     	this.rootElement = rootElement;
     	this.encoding = encoding;
     }
