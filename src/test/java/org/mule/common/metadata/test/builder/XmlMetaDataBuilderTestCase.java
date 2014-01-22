@@ -18,9 +18,14 @@ import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultXmlMetaDataBuilder;
 import org.mule.common.metadata.builder.MetaDataBuilder;
+import org.mule.common.metadata.property.DescriptionMetaDataProperty;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
+
+import javax.xml.namespace.QName;
 
 public class XmlMetaDataBuilderTestCase
 {
@@ -32,21 +37,49 @@ public class XmlMetaDataBuilderTestCase
         final Charset encoding = Charset.forName("UTF-8");
         final String[] schemas = {"$schema(0)$"};
         final String example = "$example$";
-        
-        DefaultXmlMetaDataBuilder<MetaDataBuilder<?>> metaDataBuilder = new DefaultXmlMetaDataBuilder<MetaDataBuilder<?>>(rootName);
+
+        DefaultXmlMetaDataBuilder<MetaDataBuilder<?>> metaDataBuilder = new DefaultXmlMetaDataBuilder<MetaDataBuilder<?>>(new QName(rootName));
         metaDataBuilder.setEncoding(encoding);
         metaDataBuilder.addSchemaStringList(schemas).setExample(example);
         XmlMetaDataModel model = metaDataBuilder.build();
-        Assert.assertThat(model.getRootElement(), is(rootName));
+        Assert.assertThat(model.getRootElement(), is(new QName(rootName)));
         Assert.assertThat(model.getExample(), is(example));
         Assert.assertThat(model.getSchemas().size(), is(schemas.length));
-        for(int i=0; i < schemas.length; i++)
+        for (int i = 0; i < schemas.length; i++)
         {
             Assert.assertThat(IOUtils.toString(model.getSchemas().get(i), encoding.toString()), is(schemas[i]));
         }
     }
 
-    
+
+    @Test()
+    public void whenLabelAndDescriptionAreSetInTheBuilderTheyShouldBePresentInTheResult() throws IOException
+    {
+        final String rootName = "$root-name$";
+        final Charset encoding = Charset.forName("UTF-8");
+        final String[] schemas = {"$schema(0)$"};
+        final String example = "$example$";
+        final String label = "Label";
+        final String description = "Description";
+
+        DefaultXmlMetaDataBuilder<MetaDataBuilder<?>> metaDataBuilder = new DefaultXmlMetaDataBuilder<MetaDataBuilder<?>>(new QName(rootName));
+        metaDataBuilder.setEncoding(encoding);
+        metaDataBuilder.setLabel(label);
+        metaDataBuilder.setDescription(description);
+        metaDataBuilder.addSchemaStringList(schemas).setExample(example);
+        XmlMetaDataModel model = metaDataBuilder.build();
+        Assert.assertThat(model.getRootElement(), is(new QName(rootName)));
+        Assert.assertThat(model.getExample(), is(example));
+        Assert.assertThat(model.getSchemas().size(), is(schemas.length));
+        Assert.assertThat(model.getProperty(LabelMetaDataProperty.class).getLabel(), is(label));
+        Assert.assertThat(model.getProperty(DescriptionMetaDataProperty.class).getDescription(), is(description));
+        for (int i = 0; i < schemas.length; i++)
+        {
+            Assert.assertThat(IOUtils.toString(model.getSchemas().get(i), encoding.toString()), is(schemas[i]));
+        }
+    }
+
+
 }
 
 

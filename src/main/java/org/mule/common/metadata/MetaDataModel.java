@@ -2,7 +2,10 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public interface MetaDataModel {
+import java.util.List;
+
+public interface MetaDataModel
+{
 
     DataType getDataType();
 
@@ -10,5 +13,15 @@ public interface MetaDataModel {
 
     void accept(MetaDataModelVisitor modelVisitor);
 
-	String getImplementationClass();
+    String getImplementationClass();
+
+    List<MetaDataModelProperty> getProperties();
+
+    boolean addProperty(MetaDataModelProperty metaDataFieldProperty);
+
+    boolean removeProperty(MetaDataModelProperty metaDataFieldProperty);
+
+    boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataFieldProperty);
+
+    <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataFieldProperty);
 }

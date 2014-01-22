@@ -2,6 +2,8 @@ package org.mule.common.metadata.field.property;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import org.mule.common.metadata.MetaDataPropertyManager;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
 import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
@@ -22,13 +24,13 @@ public class MetaDataFieldPropertyManagerTestCase {
     private class SomePropertyMetaDataFieldProperty implements MetaDataFieldProperty{
     }
 
-    private MetaDataFieldPropertyManager emptyPropertyManager;
-    private MetaDataFieldPropertyManager fullPropertyManager;
+    private MetaDataPropertyManager<MetaDataFieldProperty> emptyPropertyManager;
+    private MetaDataPropertyManager<MetaDataFieldProperty> fullPropertyManager;
     private List<MetaDataFieldProperty> properties;
 
     @Before
     public void setUp(){
-        emptyPropertyManager = new MetaDataFieldPropertyManager(new ArrayList<MetaDataFieldProperty>());
+        emptyPropertyManager = new MetaDataPropertyManager<MetaDataFieldProperty>(new ArrayList<MetaDataFieldProperty>());
 
         properties = new ArrayList<MetaDataFieldProperty>();
         properties.add(new DsqlSelectMetaDataFieldProperty());
@@ -36,7 +38,7 @@ public class MetaDataFieldPropertyManagerTestCase {
         properties.add(new DsqlOrderMetaDataFieldProperty());
         properties.add(new DsqlQueryOperatorsMetaDataFieldProperty(
                 SupportedOperatorsFactory.getInstance().getSupportedOperationsFor(DataType.STRING)));
-        fullPropertyManager = new MetaDataFieldPropertyManager(properties);
+        fullPropertyManager = new MetaDataPropertyManager<MetaDataFieldProperty>(properties);
     }
 
     @Test

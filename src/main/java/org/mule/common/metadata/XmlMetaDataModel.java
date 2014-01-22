@@ -3,6 +3,8 @@ package org.mule.common.metadata;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * Represents an XML Object.
  */
@@ -14,5 +16,5 @@ public interface XmlMetaDataModel extends MetaDataModel
     
     void setExample(String xmlExample);
     
-    String getRootElement();
+    QName getRootElement();
 }

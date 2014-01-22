@@ -73,4 +73,34 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
 		return definedMapMetaDataModel.getImplementationClass();
 	}
 
+    @Override
+    public List<MetaDataModelProperty> getProperties()
+    {
+        return definedMapMetaDataModel.getProperties();
+    }
+
+    @Override
+    public boolean addProperty(MetaDataModelProperty metaDataFieldProperty)
+    {
+        return definedMapMetaDataModel.addProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public boolean removeProperty(MetaDataModelProperty metaDataFieldProperty)
+    {
+        return definedMapMetaDataModel.removeProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataFieldProperty)
+    {
+        return definedMapMetaDataModel.hasProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataFieldProperty)
+    {
+        return definedMapMetaDataModel.getProperty(metaDataFieldProperty);
+    }
+
 }

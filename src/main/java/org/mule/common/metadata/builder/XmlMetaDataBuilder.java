@@ -14,4 +14,10 @@ public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDa
 	public DefaultXmlMetaDataBuilder<P> setEncoding(Charset xmlCharset);
 	
 	public DefaultXmlMetaDataBuilder<P> setExample(String xmlExample);
+
+    public DefaultXmlMetaDataBuilder<P> setLabel(String label);
+
+    public DefaultXmlMetaDataBuilder<P> setDescription(String description);
+
+
 }

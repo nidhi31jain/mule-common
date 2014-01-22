@@ -12,8 +12,8 @@ import org.mule.common.metadata.builder.DynamicObjectBuilder;
 import org.mule.common.metadata.builder.ListMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.datatype.SupportedOperatorsFactory;
-import org.mule.common.metadata.field.property.DescriptionMetaDataFieldProperty;
-import org.mule.common.metadata.field.property.LabelMetaDataFieldProperty;
+import org.mule.common.metadata.property.DescriptionMetaDataProperty;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
 import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlOrderMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFieldProperty;
@@ -374,8 +374,8 @@ public class DefaultDefinedMapMetaDataModelTestCase {
                 .setDescription("The name")
                 .build();
         MetaDataField metaDataField = user.getFields().get(0);
-        Assert.assertThat(metaDataField.getProperty(LabelMetaDataFieldProperty.class).getLabel(), CoreMatchers.is("Name"));
-        Assert.assertThat(metaDataField.getProperty(DescriptionMetaDataFieldProperty.class).getDescription(), CoreMatchers.is("The name"));
+        Assert.assertThat(metaDataField.getProperty(LabelMetaDataProperty.class).getLabel(), CoreMatchers.is("Name"));
+        Assert.assertThat(metaDataField.getProperty(DescriptionMetaDataProperty.class).getDescription(), CoreMatchers.is("The name"));
     }
 
 }

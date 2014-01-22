@@ -4,6 +4,8 @@
 package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.DefaultMetaDataField;
+import org.mule.common.metadata.property.DescriptionMetaDataProperty;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.field.property.*;
@@ -158,12 +160,12 @@ public class DefaultMetaDataFieldBuilder implements MetaDataFieldBuilder
 
         if (description != null)
         {
-            finalFieldProperties.add(new DescriptionMetaDataFieldProperty(description));
+            finalFieldProperties.add(new DescriptionMetaDataProperty(description));
         }
 
         if (label != null)
         {
-            finalFieldProperties.add(new LabelMetaDataFieldProperty(label));
+            finalFieldProperties.add(new LabelMetaDataProperty(label));
         }
 
         if (enumValues != null)

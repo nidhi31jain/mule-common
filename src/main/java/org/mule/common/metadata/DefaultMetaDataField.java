@@ -2,7 +2,6 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
-import org.mule.common.metadata.field.property.MetaDataFieldPropertyManager;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class DefaultMetaDataField
 	private String name;
 	private MetaDataModel model;
 	private FieldAccessType accessType;
-    private MetaDataFieldPropertyManager metaDataFieldPropertyManager;
+    private MetaDataPropertyManager<MetaDataFieldProperty> metaDataFieldPropertyManager;
 
 	public DefaultMetaDataField(final String name, final MetaDataModel model) {
 		this(name, model, FieldAccessType.READ_WRITE, (new DefaultFieldPropertyFactory()).getProperties(null, model));
@@ -30,7 +29,7 @@ public class DefaultMetaDataField
 		this.name = name;
 		this.model = model;
 		this.accessType = accessType;
-        this.metaDataFieldPropertyManager = new MetaDataFieldPropertyManager(fieldProperties);
+        this.metaDataFieldPropertyManager = new MetaDataPropertyManager<MetaDataFieldProperty>(fieldProperties);
 	}
 
 	@Override

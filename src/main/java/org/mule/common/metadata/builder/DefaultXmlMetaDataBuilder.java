@@ -8,82 +8,126 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+
 import org.mule.common.metadata.DefaultXmlMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
+import org.mule.common.metadata.property.DescriptionMetaDataProperty;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
+import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 
-public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P> {
+import javax.xml.namespace.QName;
 
-	public String name;
-	public String[] schemas;
-	public InputStream[] schemasStream;
-	public Charset encoding = Charset.forName("UTF-8");
-	public String example;
-	
-	public DefaultXmlMetaDataBuilder(String name) {
-		this.name = name;
-	}
-	
-	@Override
-	public XmlMetaDataModel build() {
-		XmlMetaDataModel model = null;
-		if (schemas != null) {
-			model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), name, encoding, example);
-		} else if (schemasStream != null) {
+public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P>
+{
 
-			List<String> result = new ArrayList<String>();
-	        for (InputStream schemaStream : schemasStream) {
-	            result.add(getStringFromInputStream(schemaStream, encoding));
-	        }
+    public QName name;
+    public String[] schemas;
+    public InputStream[] schemasStream;
+    public Charset encoding = Charset.forName("UTF-8");
+    public String example;
+    private String label;
+    private String description;
 
-			model = new DefaultXmlMetaDataModel(result, name, encoding, example);
-		}
-		
-		return model;
-	}
+    public DefaultXmlMetaDataBuilder(QName name)
+    {
+        this.name = name;
+    }
 
-	private static String getStringFromInputStream(InputStream is, Charset encoding) {
-	    try
-	    {
-	        if(encoding != null)
-	        {
-	            return IOUtils.toString(is, encoding.toString());
-	        }
-	        else
-	        {
-	            return IOUtils.toString(is);
-	        }
-	    }
-	    catch(IOException ex)
-	    {
-	        // This is not likely to happen as we are reading from memory (Strings)
-	        throw new RuntimeException("Failed to turn input stream into string with encoding [" + encoding + "]", ex);
-	    }
+    @Override
+    public XmlMetaDataModel build()
+    {
+        XmlMetaDataModel model = null;
+        if (schemas != null)
+        {
+            model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+        }
+        else if (schemasStream != null)
+        {
 
-	}
-	
-	@Override
-	public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas) {
-		this.schemas = schemas;
-		this.schemasStream = null;
-		return this;
-	}
-	
-	@Override
-	public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams) {
-		this.schemasStream = schemaStreams;
-		this.schemas = null;
-		return this;
-	}
+            List<String> result = new ArrayList<String>();
+            for (InputStream schemaStream : schemasStream)
+            {
+                result.add(getStringFromInputStream(schemaStream, encoding));
+            }
 
-	@Override
-	public DefaultXmlMetaDataBuilder<P> setEncoding(Charset encoding) {
-		this.encoding = encoding;
-		return this;
-	}
+            model = new DefaultXmlMetaDataModel(result, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+        }
 
-	@Override
-	public DefaultXmlMetaDataBuilder<P> setExample(String xmlExample) {
-		this.example = xmlExample;
-		return this;
-	}
+        if (label != null)
+        {
+            model.addProperty(new LabelMetaDataProperty(label));
+        }
+
+        if (description != null)
+        {
+            model.addProperty(new DescriptionMetaDataProperty(description));
+        }
+
+        return model;
+    }
+
+    private static String getStringFromInputStream(InputStream is, Charset encoding)
+    {
+        try
+        {
+            if (encoding != null)
+            {
+                return IOUtils.toString(is, encoding.toString());
+            }
+            else
+            {
+                return IOUtils.toString(is);
+            }
+        }
+        catch (IOException ex)
+        {
+            // This is not likely to happen as we are reading from memory (Strings)
+            throw new RuntimeException("Failed to turn input stream into string with encoding [" + encoding + "]", ex);
+        }
+
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas)
+    {
+        this.schemas = schemas;
+        this.schemasStream = null;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams)
+    {
+        this.schemasStream = schemaStreams;
+        this.schemas = null;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setEncoding(Charset encoding)
+    {
+        this.encoding = encoding;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setExample(String xmlExample)
+    {
+        this.example = xmlExample;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setLabel(String label)
+    {
+        this.label = label;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setDescription(String description)
+    {
+        this.description = description;
+        return this;
+    }
 }

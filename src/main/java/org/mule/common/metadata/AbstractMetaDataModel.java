@@ -2,68 +2,129 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
-public abstract class AbstractMetaDataModel implements MetaDataModel {
+import java.util.List;
 
-	private String implementationClass;
-	private DataType dataType;
+public abstract class AbstractMetaDataModel implements MetaDataModel
+{
 
-	protected AbstractMetaDataModel(DataType dataType) {
-		this.dataType = dataType;
-	}
+    private String implementationClass;
+    private DataType dataType;
+    private MetaDataPropertyManager<MetaDataModelProperty> metaDataModelPropertiesManager;
 
-	@Override
-	public DataType getDataType() {
-		return dataType;
-	}
+    protected AbstractMetaDataModel(DataType dataType)
+    {
+        this.dataType = dataType;
+        this.metaDataModelPropertiesManager = new MetaDataPropertyManager<MetaDataModelProperty>();
+    }
 
-	@Override
-	public <T extends MetaDataModel> T as(Class<T> clazz) {
-		if ((clazz.isAssignableFrom(this.getClass()))) {
-			return clazz.cast(this);
-		}
-		return null;
-	}
+    @Override
+    public DataType getDataType()
+    {
+        return dataType;
+    }
 
-	@Override
-	public String getImplementationClass() {
-		return implementationClass != null ? implementationClass
-				: inferImplementationClass();
-	}
+    @Override
+    public <T extends MetaDataModel> T as(Class<T> clazz)
+    {
+        if ((clazz.isAssignableFrom(this.getClass())))
+        {
+            return clazz.cast(this);
+        }
+        return null;
+    }
 
-	private String inferImplementationClass() {
-		return dataType.getDefaultImplementationClass();
-	}
+    protected void addAllProperties(MetaDataModelProperty[] properties)
+    {
+        for (MetaDataModelProperty property : properties)
+        {
+            addProperty(property);
+        }
+    }
 
-	public void setImplementationClass(String implementationClass) {
-		this.implementationClass = implementationClass;
-	}
+    @Override
+    public List<MetaDataModelProperty> getProperties()
+    {
+        return this.metaDataModelPropertiesManager.getProperties();
+    }
 
-	@Override
-	public String toString() {
-		return "DefaultMetaDataModel:{ dataType:" + dataType != null ? dataType
-				.toString() : "null" + " }";
-	}
+    @Override
+    public boolean addProperty(MetaDataModelProperty metaDataFieldProperty)
+    {
+        return this.metaDataModelPropertiesManager.addProperty(metaDataFieldProperty);
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dataType == null) ? 0 : dataType.hashCode());
-		return result;
-	}
+    @Override
+    public boolean removeProperty(MetaDataModelProperty metaDataFieldProperty)
+    {
+        return this.metaDataModelPropertiesManager.removeProperty(metaDataFieldProperty);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof AbstractMetaDataModel))
-			return false;
-		AbstractMetaDataModel other = (AbstractMetaDataModel) obj;
-		if (dataType != other.dataType)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataFieldProperty)
+    {
+        return this.metaDataModelPropertiesManager.hasProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataFieldProperty)
+    {
+        return this.metaDataModelPropertiesManager.getProperty(metaDataFieldProperty);
+    }
+
+    @Override
+    public String getImplementationClass()
+    {
+        return implementationClass != null ? implementationClass
+                                           : inferImplementationClass();
+    }
+
+    private String inferImplementationClass()
+    {
+        return dataType.getDefaultImplementationClass();
+    }
+
+    public void setImplementationClass(String implementationClass)
+    {
+        this.implementationClass = implementationClass;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "DefaultMetaDataModel:{ dataType:" + dataType != null ? dataType
+                .toString() : "null" + " }";
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                 + ((dataType == null) ? 0 : dataType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (!(obj instanceof AbstractMetaDataModel))
+        {
+            return false;
+        }
+        AbstractMetaDataModel other = (AbstractMetaDataModel) obj;
+        if (dataType != other.dataType)
+        {
+            return false;
+        }
+        return true;
+    }
 }
