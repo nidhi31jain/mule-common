@@ -10,22 +10,32 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.key.property.MetaDataKeyProperty;
+import org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty;
+
+import java.util.List;
+
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
 	private String displayName;
-    private boolean isFromCapable = true;
+    private MetaDataPropertyManager<MetaDataKeyProperty> metaDataKeyPropertiesManager;
 
 	public DefaultMetaDataKey(String id, String displayName) {
-		this.id = id;
-		this.displayName = displayName;
-        this.isFromCapable = true;
-	}
+        this.id = id;
+        this.displayName = displayName;
+        metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>();
+        metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
+    }
 
+    @Deprecated
     public DefaultMetaDataKey(String id, String displayName, boolean isFromCapable) {
         this.id = id;
         this.displayName = displayName;
-        this.isFromCapable = isFromCapable;
+        metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>();
+        if (isFromCapable){
+            metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
+        }
     }
 
 	@Override
@@ -38,7 +48,32 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 		return displayName;
 	}
 
-	@Override
+    @Override
+    public List<MetaDataKeyProperty> getProperties() {
+        return this.metaDataKeyPropertiesManager.getProperties();
+    }
+
+    @Override
+    public boolean addProperty(MetaDataKeyProperty metaDataKeyProperty) {
+        return this.metaDataKeyPropertiesManager.addProperty(metaDataKeyProperty);
+    }
+
+    @Override
+    public boolean removeProperty(MetaDataKeyProperty metaDataKeyProperty) {
+        return this.metaDataKeyPropertiesManager.removeProperty(metaDataKeyProperty);
+    }
+
+    @Override
+    public boolean hasProperty(Class<? extends MetaDataKeyProperty> metaDataKeyProperty) {
+        return this.metaDataKeyPropertiesManager.hasProperty(metaDataKeyProperty);
+    }
+
+    @Override
+    public <T extends MetaDataKeyProperty> T getProperty(Class<T> metaDataKeyProperty) {
+        return this.metaDataKeyPropertiesManager.getProperty(metaDataKeyProperty);
+    }
+
+    @Override
 	public String toString() {
 		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " }";
 	}
@@ -79,8 +114,12 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 		return id.compareTo(otherMetadataKey.getId());
 	}
 
+    /**
+     * @deprecated use {@link #hasProperty(Class)}  instead
+     */
+    @Deprecated
     @Override
     public boolean isFromCapable() {
-        return isFromCapable;
+        return metaDataKeyPropertiesManager.hasProperty(DsqlFromMetaDataKeyProperty.class);
     }
 }

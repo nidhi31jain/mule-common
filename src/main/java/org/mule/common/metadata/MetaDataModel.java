@@ -17,11 +17,11 @@ public interface MetaDataModel
 
     List<MetaDataModelProperty> getProperties();
 
-    boolean addProperty(MetaDataModelProperty metaDataFieldProperty);
+    boolean addProperty(MetaDataModelProperty metaDataModelProperty);
 
-    boolean removeProperty(MetaDataModelProperty metaDataFieldProperty);
+    boolean removeProperty(MetaDataModelProperty metaDataModelProperty);
 
-    boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataFieldProperty);
+    boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataModelProperty);
 
-    <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataFieldProperty);
+    <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataModelProperty);
 }

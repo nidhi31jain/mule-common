@@ -48,27 +48,27 @@ public abstract class AbstractMetaDataModel implements MetaDataModel
     }
 
     @Override
-    public boolean addProperty(MetaDataModelProperty metaDataFieldProperty)
+    public boolean addProperty(MetaDataModelProperty metaDataModelProperty)
     {
-        return this.metaDataModelPropertiesManager.addProperty(metaDataFieldProperty);
+        return this.metaDataModelPropertiesManager.addProperty(metaDataModelProperty);
     }
 
     @Override
-    public boolean removeProperty(MetaDataModelProperty metaDataFieldProperty)
+    public boolean removeProperty(MetaDataModelProperty metaDataModelProperty)
     {
-        return this.metaDataModelPropertiesManager.removeProperty(metaDataFieldProperty);
+        return this.metaDataModelPropertiesManager.removeProperty(metaDataModelProperty);
     }
 
     @Override
-    public boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataFieldProperty)
+    public boolean hasProperty(Class<? extends MetaDataModelProperty> metaDataModelProperty)
     {
-        return this.metaDataModelPropertiesManager.hasProperty(metaDataFieldProperty);
+        return this.metaDataModelPropertiesManager.hasProperty(metaDataModelProperty);
     }
 
     @Override
-    public <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataFieldProperty)
+    public <T extends MetaDataModelProperty> T getProperty(Class<T> metaDataModelProperty)
     {
-        return this.metaDataModelPropertiesManager.getProperty(metaDataFieldProperty);
+        return this.metaDataModelPropertiesManager.getProperty(metaDataModelProperty);
     }
 
     @Override

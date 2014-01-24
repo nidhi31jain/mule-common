@@ -10,11 +10,25 @@
 
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.key.property.MetaDataKeyProperty;
+
+import java.util.List;
+
 public interface MetaDataKey
 	extends Comparable<MetaDataKey>
 {
     public String getId();
     public String getDisplayName();
+
+    List<MetaDataKeyProperty> getProperties();
+
+    boolean addProperty(MetaDataKeyProperty metaDataKeyProperty);
+
+    boolean removeProperty(MetaDataKeyProperty metaDataKeyProperty);
+
+    boolean hasProperty(Class<? extends MetaDataKeyProperty> metaDataKeyProperty);
+
+    <T extends MetaDataKeyProperty> T getProperty(Class<T> metaDataKeyProperty);
 }
 
 
