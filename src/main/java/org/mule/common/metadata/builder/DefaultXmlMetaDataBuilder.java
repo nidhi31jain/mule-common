@@ -28,6 +28,11 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     private String label;
     private String description;
 
+    public DefaultXmlMetaDataBuilder(String name)
+    {
+        this(new QName(name));
+    }
+    
     public DefaultXmlMetaDataBuilder(QName name)
     {
         this.name = name;
