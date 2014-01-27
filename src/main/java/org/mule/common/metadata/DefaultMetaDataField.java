@@ -3,6 +3,7 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DefaultMetaDataField
@@ -23,6 +24,10 @@ public class DefaultMetaDataField
 
     public DefaultMetaDataField(final String name, final MetaDataModel model, List<MetaDataFieldProperty> fieldProperties) {
         this(name, model, FieldAccessType.READ_WRITE, fieldProperties);
+    }
+
+    public DefaultMetaDataField(final String name, final MetaDataModel model, MetaDataFieldProperty... fieldProperties) {
+        this(name, model, FieldAccessType.READ_WRITE, Arrays.asList(fieldProperties));
     }
 
 	public DefaultMetaDataField(final String name, final MetaDataModel model, final FieldAccessType accessType, List<MetaDataFieldProperty> fieldProperties) {

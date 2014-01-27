@@ -8,7 +8,7 @@ import javax.xml.namespace.QName;
 /**
  * Represents an XML Object.
  */
-public interface XmlMetaDataModel extends MetaDataModel
+public interface XmlMetaDataModel extends StructuredMetaDataModel
 {
     List<InputStream> getSchemas();
 

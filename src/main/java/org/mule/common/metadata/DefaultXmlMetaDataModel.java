@@ -1,7 +1,6 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 
 import java.io.ByteArrayInputStream;
@@ -12,7 +11,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements XmlMetaDataModel
+public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel implements XmlMetaDataModel
 {
 
     private List<String> schemas;
@@ -20,14 +19,40 @@ public class DefaultXmlMetaDataModel extends AbstractMetaDataModel implements Xm
     private Charset encoding;
 
 
+    /**
+     * @param schemas     The schemas
+     * @param rootElement The root element local name
+     * @param encoding    The encoding of the schemas
+     * @deprecated use instead #DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
+     */
+    @Deprecated
     public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding)
     {
         this(schemas, new QName(rootElement), encoding);
     }
 
+    /**
+     * @param schemas     The schemas
+     * @param rootElement The root element QName
+     * @param encoding    The encoding of the schemas
+     * @param properties  Additional properties
+     */
     public DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
     {
-        super(DataType.XML);
+        this(schemas, rootElement, encoding, new XmlMetaDataFieldFactory(schemas, rootElement, encoding).createFields(), properties);
+    }
+
+    /**
+     * This constructor if for internal use only
+     * @param schemas     The schemas
+     * @param rootElement The root element QName
+     * @param encoding    The encoding of the schemas
+     * @param properties  Additional properties
+     * @param fields The fields
+     */
+    DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, List<MetaDataField> fields, MetaDataModelProperty... properties)
+    {
+        super(DataType.XML, fields);
         this.schemas = schemas;
         this.rootElement = rootElement;
         this.encoding = encoding;
