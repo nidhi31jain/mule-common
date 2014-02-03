@@ -96,7 +96,8 @@ public class MetaDataPropertyManager<C extends MetaDataProperty>
         {
             throw new RepeatedPropertyException("Properties must no be repeated");
         }
-        this.properties = properties;
+        //added the array creation to be sure it won't be an unmodifiable collection
+        this.properties = new ArrayList<C>(properties);
     }
 
     /**

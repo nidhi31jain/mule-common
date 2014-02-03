@@ -13,6 +13,7 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.key.property.MetaDataKeyProperty;
 import org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
@@ -22,10 +23,14 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
     private MetaDataPropertyManager<MetaDataKeyProperty> metaDataKeyPropertiesManager;
 
 	public DefaultMetaDataKey(String id, String displayName) {
+        this(id, displayName,  new ArrayList<MetaDataKeyProperty>());
+        metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
+    }
+
+    public DefaultMetaDataKey(String id, String displayName, List<MetaDataKeyProperty> keyProperties) {
         this.id = id;
         this.displayName = displayName;
-        metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>();
-        metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
+        metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>(keyProperties);
     }
 
     @Deprecated
