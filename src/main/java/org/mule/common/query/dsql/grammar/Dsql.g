@@ -97,7 +97,7 @@ date:
     DATE_LITERAL;
 
 number:
-  NUMBER_LITERAL | MULE_EXPRESSION;
+  DOUBLE_LITERAL | INTEGER_LITERAL | MULE_EXPRESSION;
 
 null_type:
   NULL_LITERAL;
@@ -186,7 +186,9 @@ fragment
 HEX_DIGIT: 
 	('0'..'9'|'a'..'f'|'A'..'F');
 
-NUMBER_LITERAL:
+INTEGER_LITERAL:
+	('0'..'9')*;
+DOUBLE_LITERAL:
 	('0'..'9'|'.')*; 
 
 IDENT : ('a'..'z' | 'A'..'Z' | '0'..'9'| '-' | '_' | '.')+
