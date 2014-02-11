@@ -92,9 +92,12 @@ public class DefaultDsqlGrammarVisitor implements DsqlGrammarVisitor {
 	private Value buildValue(IDsqlNode node) {
 		Value value;
 		switch (node.getType()) {
-			case DsqlParser.NUMBER_LITERAL :
+			case DsqlParser.DOUBLE_LITERAL :
 				value = NumberValue.fromLiteral(node.getText());
 				break;
+            case DsqlParser.INTEGER_LITERAL :
+                value = IntegerValue.fromLiteral(node.getText());
+                break;
 			case DsqlParser.BOOLEAN_LITERAL :
 				value = BooleanValue.fromLiteral(node.getText());
 				break;

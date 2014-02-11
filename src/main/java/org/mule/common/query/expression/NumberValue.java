@@ -3,11 +3,11 @@ package org.mule.common.query.expression;
 /**
  * an integer value
  */
-public class NumberValue extends Value<Number>
+public class NumberValue extends Value<Double>
 {
 
 
-    public NumberValue(Number value)
+    public NumberValue(Double value)
     {
         super(value);
     }
