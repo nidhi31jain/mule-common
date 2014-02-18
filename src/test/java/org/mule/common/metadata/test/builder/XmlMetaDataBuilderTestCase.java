@@ -30,12 +30,26 @@ import javax.xml.namespace.QName;
 public class XmlMetaDataBuilderTestCase
 {
 
+   final String schema = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+                    + "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">"
+                    + "<xs:element name=\"shipto\">\n"
+                    + "  <xs:complexType>\n"
+                    + "    <xs:sequence>\n"
+                    + "      <xs:element name=\"name\" type=\"xs:string\"/>\n"
+                    + "      <xs:element name=\"address\" type=\"xs:string\"/>\n"
+                    + "      <xs:element name=\"city\" type=\"xs:int\"/>\n"
+                    + "      <xs:element name=\"country\" type=\"xs:boolean\"/>\n"
+                    + "    </xs:sequence>\n"
+                    + "  </xs:complexType>\n"
+                    + "</xs:element>"
+                    + "</xs:schema>";
+
     @Test()
     public void testDefaultXmlMetaDataBuilderBuildMethod() throws IOException
     {
         final String rootName = "$root-name$";
         final Charset encoding = Charset.forName("UTF-8");
-        final String[] schemas = {"$schema(0)$"};
+        final String[] schemas = {schema};
         final String example = "$example$";
 
         DefaultXmlMetaDataBuilder<MetaDataBuilder<?>> metaDataBuilder = new DefaultXmlMetaDataBuilder<MetaDataBuilder<?>>(new QName(rootName));
@@ -57,7 +71,7 @@ public class XmlMetaDataBuilderTestCase
     {
         final String rootName = "$root-name$";
         final Charset encoding = Charset.forName("UTF-8");
-        final String[] schemas = {"$schema(0)$"};
+        final String[] schemas = {schema};
         final String example = "$example$";
         final String label = "Label";
         final String description = "Description";

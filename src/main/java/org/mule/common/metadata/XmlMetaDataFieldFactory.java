@@ -99,7 +99,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         }
         catch (XmlException e)
         {
-            //What to do ????
+           throw new MetaDataGenerationException(e);
         }
         return metaDataFields;
     }

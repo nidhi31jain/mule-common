@@ -2,6 +2,7 @@ package org.mule.common.metadata.test;
 
 import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
+import org.mule.common.metadata.MetaDataGenerationException;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
@@ -210,11 +211,18 @@ public class XmlMetaDataModelTest
         Assert.assertThat(person.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(XmlMetaDataModel.class));
         Assert.assertThat(person.getFields().get(1).getProperty(QNameMetaDataProperty.class).getName(), CoreMatchers.is(new QName("http://datypic.com/ord", "items", "ns0")));
         Assert.assertThat(person.getFields().get(1).getName(), CoreMatchers.is("ns0:items"));
-        Assert.assertThat(((XmlMetaDataModel)person.getFields().get(1).getMetaDataModel()).getFields().size(), CoreMatchers.is(1));
-        Assert.assertThat(((XmlMetaDataModel)person.getFields().get(1).getMetaDataModel()).getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(XmlMetaDataModel.class));
-        Assert.assertThat(((XmlMetaDataModel)person.getFields().get(1).getMetaDataModel()).getFields().get(0).getName(), CoreMatchers.is("ns1:product"));
-        Assert.assertThat(((XmlMetaDataModel)person.getFields().get(1).getMetaDataModel()).getFields().get(0).getProperty(QNameMetaDataProperty.class).getName(), CoreMatchers.is(new QName("http://datypic.com/prod", "product", "ns1")));
+        Assert.assertThat(((XmlMetaDataModel) person.getFields().get(1).getMetaDataModel()).getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(((XmlMetaDataModel) person.getFields().get(1).getMetaDataModel()).getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(XmlMetaDataModel.class));
+        Assert.assertThat(((XmlMetaDataModel) person.getFields().get(1).getMetaDataModel()).getFields().get(0).getName(), CoreMatchers.is("ns1:product"));
+        Assert.assertThat(((XmlMetaDataModel) person.getFields().get(1).getMetaDataModel()).getFields().get(0).getProperty(QNameMetaDataProperty.class).getName(), CoreMatchers.is(new QName("http://datypic.com/prod", "product", "ns1")));
 
+    }
+
+    @Test(expected = MetaDataGenerationException.class)
+    public void whenSchemaIsCorruptedExceptionShouldBeThrown()
+    {
+        QName rootElementName = new QName("http://datypic.com/ord", "order");
+        XmlMetaDataModel person = new DefaultMetaDataBuilder().createXmlObject(rootElementName).addSchemaStringList("bla....").build();
     }
 
 
