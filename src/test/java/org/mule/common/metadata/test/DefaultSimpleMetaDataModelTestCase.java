@@ -30,7 +30,7 @@ public class DefaultSimpleMetaDataModelTestCase
     public static final List<DataType> simpleDataTypes = Collections.unmodifiableList(Arrays.asList(
         new DataType[] { DataType.BOOLEAN, DataType.BYTE, DataType.DATE, DataType.DATE_TIME,
         DataType.ENUM, DataType.NUMBER, DataType.STREAM, DataType.STRING, DataType.VOID, DataType.DATE_TIME, DataType.LONG,
-        DataType.INTEGER, DataType.DOUBLE, DataType.DECIMAL}));
+        DataType.INTEGER, DataType.DOUBLE, DataType.DECIMAL, DataType.FLOAT, DataType.SHORT, DataType.URL}));
     
     public static final List<DataType> complexDataTypes;
     static
