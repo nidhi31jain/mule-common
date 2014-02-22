@@ -21,7 +21,9 @@ public enum DataType
     INTEGER(Integer.class.getName()),
     DOUBLE(Double.class.getName()),
     DECIMAL(BigDecimal.class.getName()),
+    FLOAT(Float.class.getName()),
     STRING(String.class.getName()),
+    SHORT(Short.class.getName()),
     LONG(Long.class.getName()),
     BYTE(Byte.class.getName()),
     @Deprecated
