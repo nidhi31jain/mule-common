@@ -36,7 +36,8 @@ public enum DataType
     MAP(HashMap.class.getName()),
     XML(null),
     CSV(null),
-    JSON(null)
+    JSON(null),
+    URL(java.net.URL.class.getName()),
     // TODO: how do we model a UNION type (e.j. Object or Exception)
     ;
 
