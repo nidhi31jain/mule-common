@@ -12,9 +12,27 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel
 {
+
+    public static final Set<DataType> complexTypes;
+
+    static {
+        complexTypes = new HashSet<DataType>();
+
+        complexTypes.add(DataType.POJO);
+        complexTypes.add(DataType.MAP);
+        complexTypes.add(DataType.UNKNOWN);
+        complexTypes.add(DataType.LIST);
+        complexTypes.add(DataType.XML);
+        complexTypes.add(DataType.CSV);
+        complexTypes.add(DataType.JSON);
+    }
+
     /**
      * Used for Define Simple Types
      * @param dataType
@@ -22,7 +40,8 @@ public class DefaultSimpleMetaDataModel
     public DefaultSimpleMetaDataModel(DataType dataType)
     {
         super(dataType);
-        if (dataType == DataType.POJO || dataType == DataType.MAP || dataType == DataType.UNKNOWN || dataType == DataType.LIST || dataType == DataType.XML || dataType == DataType.CSV || dataType == DataType.JSON)
+
+        if (complexTypes.contains(dataType))
         {
             throw new IllegalArgumentException("Invalid DataType for SimpleMetadataModel " + dataType);
         }

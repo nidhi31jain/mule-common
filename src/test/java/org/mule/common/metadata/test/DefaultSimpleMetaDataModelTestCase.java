@@ -19,25 +19,25 @@ import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
 public class DefaultSimpleMetaDataModelTestCase
 {
-    public static final List<DataType> simpleDataTypes = Collections.unmodifiableList(Arrays.asList(
-        new DataType[] { DataType.BOOLEAN, DataType.BYTE, DataType.DATE, DataType.DATE_TIME,
-        DataType.ENUM, DataType.NUMBER, DataType.STREAM, DataType.STRING, DataType.VOID, DataType.DATE_TIME, DataType.LONG,
-        DataType.INTEGER, DataType.DOUBLE, DataType.DECIMAL, DataType.FLOAT, DataType.SHORT, DataType.URL}));
-    
-    public static final List<DataType> complexDataTypes;
+    public static final List<DataType> simpleDataTypes;
+
     static
     {
-        List<DataType> complexTypes = new ArrayList<DataType>(Arrays.asList(DataType.values()));
-        complexTypes.removeAll(simpleDataTypes);
-        complexDataTypes = Collections.unmodifiableList(complexTypes); 
+        simpleDataTypes = new ArrayList<DataType>(DataType.values().length);
+
+        for (DataType dataType : DataType.values())
+        {
+            if (!DefaultSimpleMetaDataModel.complexTypes.contains(dataType))
+            {
+                simpleDataTypes.add(dataType);
+            }
+        }
     }
 
     @Test
@@ -54,7 +54,7 @@ public class DefaultSimpleMetaDataModelTestCase
     @Test
     public void testComplexDataTypes()
     {
-        for (DataType dt : complexDataTypes)
+        for (DataType dt : DefaultSimpleMetaDataModel.complexTypes)
         {
             try
             {
