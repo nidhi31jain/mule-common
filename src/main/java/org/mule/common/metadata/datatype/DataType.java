@@ -37,7 +37,6 @@ public enum DataType
     XML(null),
     CSV(null),
     JSON(null),
-    URL(java.net.URL.class.getName()),
     // TODO: how do we model a UNION type (e.j. Object or Exception)
     ;
 
