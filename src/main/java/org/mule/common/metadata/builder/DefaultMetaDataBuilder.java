@@ -4,6 +4,33 @@ import org.mule.common.metadata.MetaDataModel;
 
 import javax.xml.namespace.QName;
 
+/**
+ * This is a builder created for easily describe metadata types from Devkit.
+ * From this object you can create models for Lists, Pojos, Dynamic Objects and Xml Objects.
+ * <br/>
+ * <br/>
+ * Following there is an example usage of it for describing a <strong>Pojo Class</strong>:
+ * <pre>
+ * {@code MetaDataModel authorModel = new DefaultMetaDataBuilder().createPojo(Author.class).build();}
+ * </pre>
+ * An example for <strong>Pojo List</strong>:
+ * <pre>
+ * {@code MetaDataModel bookListModel = new DefaultMetaDataBuilder().createList().ofPojo(Book.class).build();}
+ * </pre>
+ * And an example for <strong>Dynamic Objects</strong>:
+ * <pre>
+ * {@code MetaDataModel bookModel = new DefaultMetaDataBuilder().createDynamicObject("Book")
+ *                                                      .addSimpleField("title",DataType.STRING)
+ *                                                      .addSimpleField("synopsis",DataType.STRING)
+ *                                                      .addDynamicObjectField("author")
+ *                                                          .addSimpleField("firstName",DataType.STRING)
+ *                                                          .addSimpleField("lastName",DataType.STRING)
+ *                                                      .endDynamicObject()
+ *                                                      .build();
+ *     }
+ * </pre>
+ *
+ */
 public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
 {
 
