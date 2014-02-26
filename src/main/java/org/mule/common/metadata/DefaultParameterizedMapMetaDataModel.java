@@ -12,6 +12,10 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+/**
+ * <p>Map metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
+ */
 public class DefaultParameterizedMapMetaDataModel extends AbstractMetaDataModel implements ParameterizedMapMetaDataModel
 {
     private MetaDataModel keyMetaDataModel;

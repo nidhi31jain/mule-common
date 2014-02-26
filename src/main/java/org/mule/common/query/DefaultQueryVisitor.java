@@ -7,7 +7,13 @@ import org.mule.common.query.expression.Value;
 import java.util.List;
 
 /**
- * Extend this class to create your own query visitor
+ * <p><strong>This is used for translating DSQL to your native query language</strong></p>
+ *
+ * <p>Extend this class to create your own query visitor. This is useful to walk the {@link DsqlQuery} structure and translate it to a native one without doing such a mess.</p>
+ *
+ * <p>The main idea behind this visitor is to build your native query incrementally on each visit method accordingly. For a practical example look at {@link DsqlQueryVisitor}.</p>
+ *
+ * <p>For the <strong>DSQL</strong> operators translation there's other visitor {@link DefaultOperatorVisitor} you must extend.</p>
  */
 
 public abstract class DefaultQueryVisitor implements QueryVisitor {

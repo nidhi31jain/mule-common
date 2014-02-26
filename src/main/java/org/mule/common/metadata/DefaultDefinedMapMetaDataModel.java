@@ -15,7 +15,8 @@ import org.mule.common.metadata.datatype.DataType;
 import java.util.*;
 
 /**
- * Model for representing dynamic maps with string keys
+ * <p>Dynamic Object metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
  */
 
 public class DefaultDefinedMapMetaDataModel 

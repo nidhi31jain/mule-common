@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * DsqlQueryVisitor
+ * <p>This visitor translate an <strong>DSQL</strong> query represented as {@link DsqlQuery} to its {@code String} representation.</p>
  */
 public class DsqlQueryVisitor extends DefaultQueryVisitor
 {

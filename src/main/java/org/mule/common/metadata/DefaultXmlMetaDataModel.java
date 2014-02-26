@@ -11,6 +11,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+/**
+ * <p>XML metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
+ */
 public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel implements XmlMetaDataModel
 {
 

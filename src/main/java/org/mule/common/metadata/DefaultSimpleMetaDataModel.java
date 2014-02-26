@@ -12,9 +12,14 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * <p>Simple type metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
+ */
 public class DefaultSimpleMetaDataModel 
 	extends AbstractMetaDataModel implements SimpleMetaDataModel
 {

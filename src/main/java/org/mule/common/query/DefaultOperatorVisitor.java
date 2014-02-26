@@ -2,6 +2,9 @@ package org.mule.common.query;
 
 import org.mule.common.query.expression.OperatorVisitor;
 
+/**
+ * <p>Operator visitor intended to translate <strong>DSQL</strong> query operators to your native ones. The behaviour is similar to {@link DefaultQueryVisitor}. With the difference that translation must be atomic (ie, the visit methods must return an string). </p>
+ */
 public class DefaultOperatorVisitor implements OperatorVisitor {
 	public static final String LIKE = " like ";
 	public static final String GREATER_OR_EQUALS = " >= ";

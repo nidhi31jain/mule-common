@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the query model for Mule DsqlQuery Builder
- *
+ * <p>Representation of the <strong>DSQL</strong> query.</p>
+ * <p>It is <strong>highly recommended</strong> for translating it define your own {@link DefaultQueryVisitor} and {@link DefaultOperatorVisitor}.</p>
  * @author Mulesoft, Inc
  */
 public class DsqlQuery implements Query{

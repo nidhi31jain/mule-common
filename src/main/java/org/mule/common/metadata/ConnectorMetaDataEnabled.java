@@ -5,6 +5,9 @@ import java.util.List;
 import org.mule.common.Capability;
 import org.mule.common.Result;
 
+/**
+ * Interface made for enable metadata on a mule connector.
+ */
 public interface ConnectorMetaDataEnabled extends Capability
 {
     /**

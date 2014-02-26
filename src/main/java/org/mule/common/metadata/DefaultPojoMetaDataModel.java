@@ -7,6 +7,10 @@ import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.DefaultFieldPropertyFactory;
 import org.mule.common.metadata.field.property.FieldPropertyFactory;
 
+/**
+ * <p>Pojo metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
+ */
 public class DefaultPojoMetaDataModel extends AbstractMetaDataModel implements PojoMetaDataModel {
 
     private String clazzName;
