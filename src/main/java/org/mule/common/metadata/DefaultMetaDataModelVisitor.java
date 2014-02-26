@@ -3,6 +3,9 @@
  */
 package org.mule.common.metadata;
 
+/**
+ * Default visitor for go over {@link MetaDataModel} structure.
+ */
 public abstract class DefaultMetaDataModelVisitor implements MetaDataModelVisitor
 {
 

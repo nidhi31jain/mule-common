@@ -2,6 +2,10 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+/**
+ * <p>List metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
+ */
 public class DefaultListMetaDataModel extends AbstractMetaDataModel implements ListMetaDataModel {
 
 	private MetaDataModel model;

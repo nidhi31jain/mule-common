@@ -16,6 +16,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Default implementation for encapsulate the {@link MetaDataModel}.
+ */
 public class DefaultMetaData implements MetaData
 {
 
@@ -23,6 +26,9 @@ public class DefaultMetaData implements MetaData
     private Map<MetaDataPropertyScope, MetaDataProperties> properties;
 
 
+    /**
+     * Default Constructor. Should be used on most use cases.
+     */
     public DefaultMetaData(MetaDataModel payload)
     {
         this.payload = payload;
@@ -30,6 +36,9 @@ public class DefaultMetaData implements MetaData
         initProperties();
     }
 
+    /**
+     * Copy constructor. Shouldn't use this use default instead.
+     */
     public DefaultMetaData(MetaData oldMetadata, MetaDataModel payload)
     {
         this(payload);

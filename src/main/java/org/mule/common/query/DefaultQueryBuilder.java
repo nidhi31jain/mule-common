@@ -4,7 +4,7 @@ import org.mule.common.query.expression.Direction;
 import org.mule.common.query.expression.Expression;
 
 /**
- * Basic DsqlQuery builder
+ * This is used to build {@link DsqlQuery} incrementally. Intended to be used only by Studio.
  */
 public class DefaultQueryBuilder extends QueryBuilder {
 

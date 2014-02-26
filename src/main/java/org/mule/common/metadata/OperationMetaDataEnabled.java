@@ -12,6 +12,9 @@ package org.mule.common.metadata;
 
 import org.mule.common.Capability;
 
+/**
+ * Interface made for operation metadata support.
+ */
 public interface OperationMetaDataEnabled extends MetaDataDescriptor, Capability
 {
 }

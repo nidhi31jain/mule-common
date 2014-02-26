@@ -50,6 +50,10 @@ public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
         return result;
     }
 
+    /**
+     * <p>Begins building dynamic object. When its description is finished must end it with {@code endDynamicObject()} to continue the building.</p>
+     * <p>Its description must be complete.</p>
+     */
     public DynamicObjectBuilder<?> createDynamicObject(String name)
     {
         DefaultDynamicObjectBuilder result = new DefaultDynamicObjectBuilder(name, this);

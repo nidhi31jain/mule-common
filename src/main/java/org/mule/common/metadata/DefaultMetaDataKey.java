@@ -16,17 +16,32 @@ import org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>{@link MetaDataKey} default implementation. This should be used to describe the service entities/types names and display name.</p>
+ */
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
 	private String displayName;
     private MetaDataPropertyManager<MetaDataKeyProperty> metaDataKeyPropertiesManager;
 
+    /**
+     * Simple {@link DefaultMetaDataKey} constructor. You should use this for most use cases.
+     * @param id The XML name for the entity.
+     * @param displayName The name that will be displayed on Studio UI.
+     */
 	public DefaultMetaDataKey(String id, String displayName) {
         this(id, displayName,  new ArrayList<MetaDataKeyProperty>());
         metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
     }
 
+    /**
+     * <p>This is an advanced constructor. You should use the {@code DefaultMetaDataKey(String id, String displayName)} for most use cases.</p>
+     * <p>This is intended for advanced scenarios like <strong>DSQL</strong> or <strong>Grouping types</strong>.</p>
+     * @param id The XML name for the entity.
+     * @param displayName The name that will be displayed on Studio UI.
+     * @param keyProperties Properties used for advanced scenarios. Some of them are {@link DsqlFromMetaDataKeyProperty} or {@link org.mule.common.metadata.key.property.TypeDescribingProperty}.
+     */
     public DefaultMetaDataKey(String id, String displayName, List<MetaDataKeyProperty> keyProperties) {
         this.id = id;
         this.displayName = displayName;

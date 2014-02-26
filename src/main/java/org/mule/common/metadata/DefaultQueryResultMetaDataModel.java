@@ -6,7 +6,8 @@ import java.util.Set;
 import org.mule.common.metadata.datatype.DataType;
 
 /**
- * Model for representing query metadata
+ * <p>Query metadata representation</p>
+ * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
  */
 
 public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel

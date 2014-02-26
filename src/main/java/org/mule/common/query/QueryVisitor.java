@@ -7,7 +7,11 @@ import org.mule.common.query.expression.Value;
 import java.util.List;
 
 /**
- * An interface to implement a query visitor
+ *
+ * <p><strong>Shouldn't implement this interface. Always extend {@link DefaultQueryVisitor}</strong></p>
+ *
+ * <p>This is a visitor interface for go over the {@link DsqlQuery} structure and easily translate it to a native one.</p>
+ *
  */
 public interface QueryVisitor {
 
