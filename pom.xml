@@ -179,15 +179,14 @@
 
     <distributionManagement>
         <repository>
-            <id>mule-releases</id>
-            <name>Mule Release Repository</name>
-            <url>dav:https://dav.codehaus.org/repository/mule/</url>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>mule-snapshots</id>
-            <name>Mule Snapshot Repository</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/mule/</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>mule-ee-snapshots</id>
+            <name>MuleSoft CI Snapshots</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/ci-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
