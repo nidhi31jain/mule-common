@@ -10,7 +10,6 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.key.property.CategoryKeyProperty;
 import org.mule.common.metadata.key.property.MetaDataKeyProperty;
 import org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty;
 
@@ -19,13 +18,14 @@ import java.util.List;
 
 /**
  * <p>{@link MetaDataKey} default implementation. This should be used to describe the service entities/types names and display name.</p>
- * @see {@link #equals(Object)}
- * @see {@link #hashCode()}
- * */
+ */
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
-	private String id;
+    private static final String DEFAULT_CATEGORY = "DEFAULT";
+
+    private String id;
 	private String displayName;
+    private String category;
     private MetaDataPropertyManager<MetaDataKeyProperty> metaDataKeyPropertiesManager;
 
     /**
@@ -48,6 +48,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
     public DefaultMetaDataKey(String id, String displayName, List<MetaDataKeyProperty> keyProperties) {
         this.id = id;
         this.displayName = displayName;
+        this.category = DEFAULT_CATEGORY;
         metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>(keyProperties);
     }
 
@@ -55,6 +56,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
     public DefaultMetaDataKey(String id, String displayName, boolean isFromCapable) {
         this.id = id;
         this.displayName = displayName;
+        this.category = DEFAULT_CATEGORY;
         metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>();
         if (isFromCapable){
             metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
@@ -70,6 +72,15 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 	public String getDisplayName() {
 		return displayName;
 	}
+
+    @Override
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public List<MetaDataKeyProperty> getProperties() {
@@ -98,60 +109,42 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
     @Override
 	public String toString() {
-		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " }";
+		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " category:" + category+ " }";
+	}
+
+	@Override
+	public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof DefaultMetaDataKey)) return false;
+
+        DefaultMetaDataKey that = (DefaultMetaDataKey) obj;
+
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
 	}
 
     /**
-     * As this class is a bridge between DevKit and Studio for DataSense purposes, sometimes keys may have the same
-     * {@link #id} but might represent different objects.
-     * <p>Those cases arises when, for the same connector, the list of retrieved keys have grouping types, and therefore
-     * the IDs can be repeated but for different categories (AKA {@link CategoryKeyProperty}).</p>
-     * <p>Thus, a special type of {@link #equals(Object)} has to be implemented, where the category
-     * {@link CategoryKeyProperty} plays a more important role than the others properties
-     * within the {@link #metaDataKeyPropertiesManager}</p>
+     * For keys comparison, the first criteria to match will be the {@link #category} of both keys, where, if it's not
+     * possible to discriminate the order, the {@link #id} will take place.
      *
-     * @param o the reference object with which to compare.
-     * @return true if this object is the same as the obj argument; false otherwise.
-     * @see {@link #hashCode()}
+     * @param otherMetadataKey the key to be compared with
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DefaultMetaDataKey)) return false;
-
-        DefaultMetaDataKey that = (DefaultMetaDataKey) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-
-        CategoryKeyProperty thisCategoryKeyProperty = this.getProperty(CategoryKeyProperty.class);
-        CategoryKeyProperty thatCategoryKeyProperty = that.getProperty(CategoryKeyProperty.class);
-        if (thisCategoryKeyProperty != null ? !thisCategoryKeyProperty.equals(thatCategoryKeyProperty) : thatCategoryKeyProperty != null){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * As this class is a bridge between DevKit and Studio for DataSense purposes, sometimes keys may have the same
-     * {@link #id} but might represent different objects.
-     * <p>Those cases arises when, for the same connector, the list of retrieved keys have grouping types, and therefore
-     * the IDs can be repeated but for different categories (AKA {@link CategoryKeyProperty}).</p>
-     * <p>Thus, a special type of {@link #hashCode()} has to be implemented, where the category
-     * {@link CategoryKeyProperty} plays a more important role than the others properties
-     * within the {@link #metaDataKeyPropertiesManager}</p>
-     *
-     * @return a hash code value for this object.
-     * @see {@link #equals(Object)}
-     */
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (this.getProperty(CategoryKeyProperty.class) != null ? this.getProperty(CategoryKeyProperty.class).hashCode() : 0);
-        return result;
-    }
-
 	@Override
 	public int compareTo(MetaDataKey otherMetadataKey) {
+        int res = category.compareTo(otherMetadataKey.getCategory());
+        if (res != 0){
+            return res;
+        }
 		return id.compareTo(otherMetadataKey.getId());
 	}
 
