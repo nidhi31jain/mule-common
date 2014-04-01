@@ -47,7 +47,7 @@ public class DefaultMetaDataKeyTestCase {
 		MetaDataKey key2 = new DefaultMetaDataKey("Ab", "Key #B");
 		MetaDataKey key3 = new DefaultMetaDataKey("Ac", "Key #C");
 
-        MetaDataKey key4 = new DefaultMetaDataKey("Aa", "Key #A");
+        DefaultMetaDataKey key4 = new DefaultMetaDataKey("Aa", "Key #A");
         key4.setCategory("DEFAULT");
 
         /**
@@ -95,7 +95,7 @@ public class DefaultMetaDataKeyTestCase {
 	public void testMetadataKeyEquality() {
 		MetaDataKey key1 = new DefaultMetaDataKey("Aaa", "Key #A");
 		MetaDataKey key2 = new DefaultMetaDataKey("Aaa", "Key #B");
-        MetaDataKey key3 = new DefaultMetaDataKey("A", "Key #A");
+        DefaultMetaDataKey key3 = new DefaultMetaDataKey("A", "Key #A");
         key3.setCategory(DEFAULT_CATEGORY);
 
 		assertTrue(key1.equals(key2));

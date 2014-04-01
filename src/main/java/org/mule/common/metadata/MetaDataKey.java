@@ -28,7 +28,6 @@ public interface MetaDataKey
     public String getId();
     public String getDisplayName();
     public String getCategory();
-    public void setCategory(String category);
 
     List<MetaDataKeyProperty> getProperties();
 

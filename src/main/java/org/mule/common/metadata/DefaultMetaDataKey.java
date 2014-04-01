@@ -78,7 +78,6 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
         return category;
     }
 
-    @Override
     public void setCategory(String category) {
         this.category = category;
     }
