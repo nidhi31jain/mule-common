@@ -1,5 +1,10 @@
 package org.mule.common.metadata.key.property;
 
+/**
+ * As {@link org.mule.common.metadata.DefaultMetaDataKey} will have a field for specifying the category, this class
+ * should not be used any longer.
+ */
+@Deprecated
 public class CategoryKeyProperty implements MetaDataKeyProperty {
     private String name;
 

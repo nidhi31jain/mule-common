@@ -15,8 +15,9 @@ import org.mule.common.metadata.key.property.MetaDataKeyProperty;
 import java.util.List;
 
 /**
- * <p>This represent a service entity/type. The <strong>Id</strong> is the XML identifier name for the entity and
- * <strong>Display Name</strong> is used for Studio UI for improve the user experience.
+ * <p>This represent a service entity/type. The <strong>Id</strong> is the XML identifier name for the entity,
+ * <strong>Display Name</strong> is used for Studio UI for improve the user experience, and <strong>Category</strong>
+ * (despite not being shown by Studio UI) is mandatory for grouping types.
  * Properties are used for advanced scenarios like grouping entities/types or <strong>DSQL</strong>.</p>
  * <p>Shouldn't implement this interface as it can change and break compatibility.
  * Instead please use the {@link DefaultMetaDataKey} implementation.</p>
@@ -26,6 +27,8 @@ public interface MetaDataKey
 {
     public String getId();
     public String getDisplayName();
+    public String getCategory();
+    public void setCategory(String category);
 
     List<MetaDataKeyProperty> getProperties();
 

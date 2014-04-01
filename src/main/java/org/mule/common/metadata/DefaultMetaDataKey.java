@@ -21,8 +21,11 @@ import java.util.List;
  */
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
-	private String id;
+    private static final String DEFAULT_CATEGORY = "DEFAULT";
+
+    private String id;
 	private String displayName;
+    private String category;
     private MetaDataPropertyManager<MetaDataKeyProperty> metaDataKeyPropertiesManager;
 
     /**
@@ -45,6 +48,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
     public DefaultMetaDataKey(String id, String displayName, List<MetaDataKeyProperty> keyProperties) {
         this.id = id;
         this.displayName = displayName;
+        this.category = DEFAULT_CATEGORY;
         metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>(keyProperties);
     }
 
@@ -52,6 +56,7 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
     public DefaultMetaDataKey(String id, String displayName, boolean isFromCapable) {
         this.id = id;
         this.displayName = displayName;
+        this.category = DEFAULT_CATEGORY;
         metaDataKeyPropertiesManager = new MetaDataPropertyManager<MetaDataKeyProperty>();
         if (isFromCapable){
             metaDataKeyPropertiesManager.addProperty(new DsqlFromMetaDataKeyProperty());
@@ -67,6 +72,16 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 	public String getDisplayName() {
 		return displayName;
 	}
+
+    @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     @Override
     public List<MetaDataKeyProperty> getProperties() {
@@ -95,42 +110,42 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
     @Override
 	public String toString() {
-		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " }";
+		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " category:" + category+ " }";
 	}
-
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		DefaultMetaDataKey other = (DefaultMetaDataKey) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+        if (this == obj) return true;
+        if (!(obj instanceof DefaultMetaDataKey)) return false;
+
+        DefaultMetaDataKey that = (DefaultMetaDataKey) obj;
+
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
 	}
 
+    /**
+     * For keys comparison, the first criteria to match will be the {@link #category} of both keys, where, if it's not
+     * possible to discriminate the order, the {@link #id} will take place.
+     *
+     * @param otherMetadataKey the key to be compared with
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
 	@Override
 	public int compareTo(MetaDataKey otherMetadataKey) {
+        int res = category.compareTo(otherMetadataKey.getCategory());
+        if (res != 0){
+            return res;
+        }
 		return id.compareTo(otherMetadataKey.getId());
 	}
 
