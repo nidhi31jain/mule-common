@@ -10,7 +10,6 @@
 
 package org.mule.common.metadata;
 
-import org.mule.common.metadata.key.property.CategoryKeyProperty;
 import org.mule.common.metadata.key.property.MetaDataKeyProperty;
 import org.mule.common.metadata.key.property.dsql.DsqlFromMetaDataKeyProperty;
 
@@ -19,9 +18,7 @@ import java.util.List;
 
 /**
  * <p>{@link MetaDataKey} default implementation. This should be used to describe the service entities/types names and display name.</p>
- * @see {@link #equals(Object)}
- * @see {@link #hashCode()}
- * */
+ */
 public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 
 	private String id;
@@ -101,54 +98,36 @@ public class DefaultMetaDataKey implements MetaDataKey, TypeMetaDataModel {
 		return "DefaultMetaDataKey:{ displayName:" + displayName + " id:" + id + " }";
 	}
 
-    /**
-     * As this class is a bridge between DevKit and Studio for DataSense purposes, sometimes keys may have the same
-     * {@link #id} but might represent different objects.
-     * <p>Those cases arises when, for the same connector, the list of retrieved keys have grouping types, and therefore
-     * the IDs can be repeated but for different categories (AKA {@link CategoryKeyProperty}).</p>
-     * <p>Thus, a special type of {@link #equals(Object)} has to be implemented, where the category
-     * {@link CategoryKeyProperty} plays a more important role than the others properties
-     * within the {@link #metaDataKeyPropertiesManager}</p>
-     *
-     * @param o the reference object with which to compare.
-     * @return true if this object is the same as the obj argument; false otherwise.
-     * @see {@link #hashCode()}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DefaultMetaDataKey)) return false;
 
-        DefaultMetaDataKey that = (DefaultMetaDataKey) o;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-
-        CategoryKeyProperty thisCategoryKeyProperty = this.getProperty(CategoryKeyProperty.class);
-        CategoryKeyProperty thatCategoryKeyProperty = that.getProperty(CategoryKeyProperty.class);
-        if (thisCategoryKeyProperty != null ? !thisCategoryKeyProperty.equals(thatCategoryKeyProperty) : thatCategoryKeyProperty != null){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * As this class is a bridge between DevKit and Studio for DataSense purposes, sometimes keys may have the same
-     * {@link #id} but might represent different objects.
-     * <p>Those cases arises when, for the same connector, the list of retrieved keys have grouping types, and therefore
-     * the IDs can be repeated but for different categories (AKA {@link CategoryKeyProperty}).</p>
-     * <p>Thus, a special type of {@link #hashCode()} has to be implemented, where the category
-     * {@link CategoryKeyProperty} plays a more important role than the others properties
-     * within the {@link #metaDataKeyPropertiesManager}</p>
-     *
-     * @return a hash code value for this object.
-     * @see {@link #equals(Object)}
-     */
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (this.getProperty(CategoryKeyProperty.class) != null ? this.getProperty(CategoryKeyProperty.class).hashCode() : 0);
-        return result;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DefaultMetaDataKey other = (DefaultMetaDataKey) obj;
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public int compareTo(MetaDataKey otherMetadataKey) {
