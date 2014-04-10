@@ -42,10 +42,11 @@ public class DefaultMetaData implements MetaData
     public DefaultMetaData(MetaData oldMetadata, MetaDataModel payload)
     {
         this(payload);
-        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.FLOW);
-        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.SESSION);
-        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.INBOUND);
-        copyAllPropertiesWithScope(oldMetadata, MetaDataPropertyScope.OUTBOUND);
+        for (MetaDataPropertyScope value : MetaDataPropertyScope.values())
+        {
+            copyAllPropertiesWithScope(oldMetadata, value);
+        }
+
     }
 
     public void copyAllPropertiesWithScope(MetaData oldMetadata, MetaDataPropertyScope propertyScope)
@@ -90,7 +91,13 @@ public class DefaultMetaData implements MetaData
 
     private MetaDataProperties doGetProperties(MetaDataPropertyScope scope)
     {
-        return this.getProperties().get(scope);
+        MetaDataProperties metaDataProperties = this.getProperties().get(scope);
+        if (metaDataProperties == null) //this should only happen when loading old serialized objects
+        {
+            metaDataProperties = new MetaDataProperties();
+            this.getProperties().put(scope, metaDataProperties);
+        }
+        return metaDataProperties;
     }
 
     @Override
