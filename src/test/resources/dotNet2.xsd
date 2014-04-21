@@ -1,0 +1,2880 @@
+<s:schema xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s4="http://schemas.paladyne.com/securitymaster/global/8.0/"
+          xmlns:s5="http://microsoft.com/wsdl/types/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+          xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+          xmlns:s3="http://schemas.paladynesys.com/global/statusUpdate/1.8"
+          xmlns:tns="http://paladyne.com/securitymaster/global/8.0/"
+          xmlns:s2="http://schemas.paladynesys.com/global/response/1.0"
+          xmlns:s1="http://schemas.paladynesys.com/global/request/1.8"
+          xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+          xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified"
+          targetNamespace="http://schemas.paladynesys.com/global/request/1.8">
+    <s:element name="request" type="s1:GlobalRequest"/>
+    <s:complexType name="GlobalRequest">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="securityData" type="s1:ArrayOfSecurity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="groupData" type="s1:ArrayOfSecurityGroup"/>
+            <s:element minOccurs="0" maxOccurs="1" name="counterpartyData" type="s1:Counterparty"/>
+            <s:element minOccurs="0" maxOccurs="1" name="coraxData" type="s1:CoraxEvent"/>
+            <s:element minOccurs="0" maxOccurs="1" name="marketData" type="s1:ArrayOfChoice1"/>
+            <s:element minOccurs="0" maxOccurs="1" name="transactionData" type="s1:ArrayOfTransaction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeManagementData" type="s1:ArrayOfBasket"/>
+            <s:element minOccurs="0" maxOccurs="1" name="referenceData" type="s1:ArrayOfChoice2"/>
+            <s:element minOccurs="0" maxOccurs="1" name="sources" type="s1:ArrayOfString"/>
+            <s:element minOccurs="0" maxOccurs="1" name="sentBy" type="s1:UserId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="responses" type="s1:ArrayOfResponseAddress"/>
+        </s:sequence>
+        <s:attribute name="id" type="s:string"/>
+        <s:attribute name="messageId" type="s:string"/>
+        <s:attribute name="correlationId" type="s:string"/>
+        <s:attribute name="simulatorRequestId" type="s:string"/>
+        <s:attribute name="client" type="s:int" use="required"/>
+        <s:attribute default="0001-01-01T00:00:00" name="date" type="s:dateTime"/>
+        <s:attribute name="targetSystem" type="s:string"/>
+        <s:attribute name="targetSystemVersion" type="s:string"/>
+        <s:attribute default="100" name="priority" type="s:int"/>
+    </s:complexType>
+    <s:complexType name="ArrayOfSecurity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="Security" nillable="true" type="s1:Security"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Security">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="dataId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ParentId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecClass" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LegalEntity" type="s1:LegalEntity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s1:CountryId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Exchange" type="s1:Exchange"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Underlying" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueTicker" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="CreateDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ChangeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ChangedBy" type="s1:UserId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AuxCurrency" type="s1:SecurityAuxCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AuxCountry" type="s1:SecurityAuxCountry"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AuxCustomValues" type="s1:SecurityAuxCustomValues"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Tabs">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityUDFTab" nillable="true"
+                                   type="s1:SecurityUDFTab"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="counterpartyData" type="s1:Counterparty"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="fundInfo" type="s1:SecurityFundInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="forwardInfo" type="s1:SecurityForwardInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="creditIndexInfo" type="s1:SecurityCreditIndexInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="rateInfo" type="s1:SecurityRateInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="dealInfo" type="s1:SecurityDealInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="warrantInfo" type="s1:SecurityWarrantInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="equityInfo" type="s1:SecurityEquityInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="futureInfo" type="s1:SecurityFutureInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="bondInfo" type="s1:SecurityBondInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="basketInfo" type="s1:SecurityBasketInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="commodityInfo" type="s1:SecurityCommodityInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="indexInfo" type="s1:SecurityIndexInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="optionInfo" type="s1:SecurityOptionInfo"/>
+            </s:choice>
+            <s:element minOccurs="0" maxOccurs="1" name="MiscInfo" type="s1:SecurityMisc"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PortfolioInfo" type="s1:SecurityPortfolio"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PortfolioSpecific" type="s1:SecurityPortfolioSpecific"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BarriersInfo" type="s1:SecurityBarriers"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Relations" type="s1:SecurityRelationCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecurityGroupEntries">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGroupEntryInfo" nillable="true"
+                                   type="s1:SecurityGroupEntryInfo"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="GenericSchedules">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGenericSchedule" nillable="true"
+                                   type="s1:SecurityGenericSchedule"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="BenchmarkSecurity" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s1:SecurityNoteCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemData" type="s1:SystemData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="EntityId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="EntityIdBase">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="id" type="s1:TypeValuePair"/>
+        </s:sequence>
+        <s:attribute name="code" type="s:string"/>
+    </s:complexType>
+    <s:complexType name="TypeValuePair">
+        <s:simpleContent>
+            <s:extension base="s:string">
+                <s:attribute name="type" type="s:string"/>
+            </s:extension>
+        </s:simpleContent>
+    </s:complexType>
+    <s:complexType name="InvestmentTypeGroupId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="InvestmentTypeId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CodeTypeId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CoraxEventCodeId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="CodeName" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="CodeDescription" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="CoraxEventType" type="s1:EntityId"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="Processing" type="s:boolean"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="Structured" type="s:boolean"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="Collect" type="s:boolean"/>
+                    <s:element minOccurs="0" maxOccurs="1" default="-32768" name="Duration" type="s:short"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="Mandatory" type="s:boolean"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="GenerateIntoFuture" type="s:boolean"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="ValidForDerivatives" type="s:boolean"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="AutoPost" type="s:boolean"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CurrencyId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CountryId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Region" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CounterpartyId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CustomAttributeTagId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="DataType" type="s:string"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ClientId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="GroupId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="Client" type="s1:ClientId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CustomAttributeId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="IsHistorical" type="s:boolean"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="Group" type="s1:GroupId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="TagValues">
+                        <s:complexType>
+                            <s:sequence>
+                                <s:element minOccurs="0" maxOccurs="unbounded" name="TagValue" nillable="true"
+                                           type="s1:TagValue"/>
+                            </s:sequence>
+                        </s:complexType>
+                    </s:element>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="TagValue">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomAttributeTag" type="s1:CustomAttributeTagId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Value"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeFundId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ExchangeId">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:EntityIdBase"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="LegalEntity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Parent" type="s1:LegalEntity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s1:CountryId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IncorporationCountry" type="s1:CountryId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RiskCountry" type="s1:CountryId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DomicileState" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IncorporateState" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsBankruptcy" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAcquired" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="LegalEntityID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Tabs">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityUDFTab" nillable="true"
+                                   type="s1:SecurityUDFTab"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="Codes" type="s1:LegalEntityCodeCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Industries" type="s1:LegalEntityIndustryCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Ratings" type="s1:LegalEntityRatingCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemData" type="s1:SystemData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityUDFTab">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TabId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Panes">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityUDFPane" nillable="true"
+                                   type="s1:SecurityUDFPane"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:sequence>
+        <s:attribute name="Name" type="s:string"/>
+    </s:complexType>
+    <s:complexType name="SecurityUDFPane">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Fields">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="UDF" nillable="true" type="s1:UDF"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="Rows" type="s1:SecurityComplexUDFItemCollection"/>
+        </s:sequence>
+        <s:attribute name="Name" type="s:string"/>
+        <s:attribute name="Code" type="s:string"/>
+        <s:attribute name="IsPlain" type="s:boolean" use="required"/>
+    </s:complexType>
+    <s:complexType name="UDF">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FieldID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DisplayName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DataType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="Length" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Value"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityComplexUDFItemCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfSecurityComplexUDFItem">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityComplexUDFItem"
+                               type="s1:SecurityComplexUDFItem"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfSecurityComplexUDFItem" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:simpleType name="HistoricalMode">
+        <s:restriction base="s:string">
+            <s:enumeration value="AllData"/>
+            <s:enumeration value="ActualDataOnly"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="SecurityComplexUDFItem">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Values">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="UDF" nillable="true" type="s1:UDF"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="LegalEntityCodeCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfLegalEntityCode">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="LegalEntityCode" type="s1:LegalEntityCode"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfLegalEntityCode" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="LegalEntityCode">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-9223372036854775808" name="IssuerId" type="s:long"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeType" type="s1:CodeTypeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecIdCodeType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CoreCode" type="s:string"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="LegalEntityIndustryCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfLegalEntityIndustry">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="LegalEntityIndustry"
+                               type="s1:LegalEntityIndustry"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfLegalEntityIndustry" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="LegalEntityIndustry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s1:LegalEntityIndustryCode"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="LegalEntityIndustryCode">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeID" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ParentCode" type="s1:LegalEntityIndustryCode"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeLevel" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LevelName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCustom" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="LegalEntityRatingCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfLegalEntityRating">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="LegalEntityRating"
+                               type="s1:LegalEntityRating"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfLegalEntityRating" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="LegalEntityRating">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRatingCode" type="s1:IssueRatingCode"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ShortIssueRatingCode" type="s1:IssueRatingCode"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="IssueRatingCode">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRatingCodeId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AgencyType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SystemData">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RowTimestamp" type="s:base64Binary"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Exchange">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExchangeId" type="s1:ExchangeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s1:CountryId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityData">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Security" type="s1:Security"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecurityRef" type="s1:SecurityRef"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityRef">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="UserId">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="Id" type="s1:TypeValuePair"/>
+            <s:element minOccurs="0" maxOccurs="1" name="windowsName" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityAuxCurrency">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OrigIssueCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RiskCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DividendCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="TradeCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CrossCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PriceCurrency" type="s1:CurrencyId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityAuxCountry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="StateID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueLocMunicp" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueMarket" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Issue_Market" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRiskCountry" type="s1:CountryId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRegCountry" type="s1:CountryId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityAuxCustomValues">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ValPoint"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Strike"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefRegTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="InvestmentType" type="s1:InvestmentTypeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="InvestmentTypeGroup" type="s1:InvestmentTypeGroupId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomIndustry" type="s1:LegalEntityIndustryCode"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TradeMultiplier"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ExternalExchange" type="s1:Exchange"/>
+            <s:element minOccurs="0" maxOccurs="1" name="TradingStatus" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsUpdatable" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="PriceRange" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RegType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsRFC" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsListed" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="RoundLot"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Margin"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Counterparty">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:CounterpartyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="Expy" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s1:CountryId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityFundInfo">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsUIT" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="UitUnitsOut"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="UitTermDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FundTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FundType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ShareClass" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Dividends" type="s1:DividendCollection"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="DividendCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfDividend">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="Dividend" type="s1:Dividend"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfDividend" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="Dividend">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="AnnounceDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="RecordDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExDivDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="PayDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FiscalPeriodEndDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="DivGrossAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="AnnualAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="NetDividend"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TaxAmount"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsStock" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ActionID" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityForwardInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExpyDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Strike"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ContractSize"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Rate"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Amount"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="InverseRateMarker" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DayCount" type="s1:DayCount"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="DayCount">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DayCountId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ConventionTypeId" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsEOM" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityCreditIndexInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="IndexFactor"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="Series" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="Version" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstPaymentDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="MaturityDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Frequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DayCount" type="s1:DayCount"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BusinessDayConvention" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CreditIndexType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsOnTheRun" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Constituents" type="s1:CreditIndexConstituentsCollection"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="CreditIndexConstituentsCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfCreditIndexConstituents">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="CreditIndexConstituents"
+                               type="s1:CreditIndexConstituents"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfCreditIndexConstituents" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="CreditIndexConstituents">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PairRed" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="Weight" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="RecordDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentClause" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LegalEntity" type="s1:LegalEntity"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityRateInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RateTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SwapTenor" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="TenorType" type="s1:TenorType"/>
+            <s:element minOccurs="1" maxOccurs="1" name="TenorValue" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="FrequencyType" type="s1:TenorType"/>
+            <s:element minOccurs="1" maxOccurs="1" name="FrequencyValue" type="s:int"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TenorType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Day"/>
+            <s:enumeration value="Weeks"/>
+            <s:enumeration value="Months"/>
+            <s:enumeration value="Years"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="SecurityDealInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueIssDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueMaturityDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Notional"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsBasket" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ResetFrequency" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FrequencyReset" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="AccrFrequency" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FrequencyAccr" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstResetDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SwapType" type="s1:EntityId"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="dealSWP" type="s1:SecurityDealSWPInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="dealIRS" type="s1:SecurityDealIRSInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="dealCFD" type="s1:SecurityDealCFDInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="dealCDS" type="s1:SecurityDealCDSInfo"/>
+            </s:choice>
+            <s:element minOccurs="0" maxOccurs="1" name="SwapMiscInfo" type="s1:DealMisc"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Legs">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="DealLeg" nillable="true"
+                                   type="s1:DealLeg"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityDealSWPInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VegaNotional"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VolatilityStrike"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VarianceStrike"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VolatilityCap"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="NumberDaysOfObservation" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="PastRealized"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityDealIRSInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="RecoveryRate"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SwapTenor" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityDealCFDInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="LongDividend"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ShortDividend"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityDealCDSInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="RecoveryRate"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentClause" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Tier" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ImpliedRating" type="s1:IssueRatingCode"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="UpfrontPoints"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsBuy" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsBPSRunning" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractStatus" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SettlementMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ISDADefinition" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OriginalCDSDealer" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Cancellable" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="UndrawnFacility" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335"
+                       name="TrancheDetachmentPoint" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335"
+                       name="TrancheAttachmentPoint" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsSnac" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="DealMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ResetSettlmentPeriod" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMarkCost" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPriceExplicit" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsSettlOnReset" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCoraxOnPayDate" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsResetNotionals" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="DealLeg">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DealLegID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DealDescription" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="LastPaymentDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FinancingTypeID" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FinancingType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LegType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Leg_Type" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="isVariable" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RelatedBond" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Notional"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityWarrantInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="SharesOut"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Strike"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExpyDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="CvrRatio"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCashSettl" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPipe" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ExerciseType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="SharesOut"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="SharesOutDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="LastSplitDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="LastDivPayDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DividendFreqID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DivFreq" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsDividend" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="NextDivDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="NextDivExDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IPODate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="NextDivAmount"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VotingRights"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RegType" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RegistrType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FTSEIndustry" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsNetRule" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsHardBorrow" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsDelisted" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsWhenIssued" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PipeInfo" type="s1:SecurityEquityPipeInfo"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Splits" type="s1:SplitCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Dividends" type="s1:DividendCollection"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="equityPfd" type="s1:SecurityEquityPfdInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="equityOrd" type="s1:SecurityEquityOrdInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="equityEtf" type="s1:SecurityEquityEtfInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="equityAdr" type="s1:SecurityEquityAdrInfo"/>
+            </s:choice>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityPipeInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="StrikePrice"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="Maturity" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RegistrationType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SplitCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfSplit">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="Split" type="s1:Split"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfSplit" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="Split">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="SplitDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="SplitFactor"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="VendorValue"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="true" name="IsFactor" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SplitTerm" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsStockDividend" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityPfdInfo">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPrimary" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityOrdInfo">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPrimary" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityEtfInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ReceiptsPerUnit" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ConstitueNum" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="EtfToIndexRatio"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ReleaseDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="CashAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="NetAssetValue"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityEquityAdrInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ADRRatio"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="RatioUpdateDate"
+                       type="s:dateTime"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityFutureInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DerivativeTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DerivativeType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ContractSize"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PriceBasis" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="StrikePrice"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstNoticeDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExpyDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="DeliverDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ContractDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFwdCommodity" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefXZeroID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RefXZero" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TickValue"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TickSize"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstTradeDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstDeliveryDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCashSettled" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SecDescription" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssuePrice"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssuePar"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueRedemptionVal"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="IssueStatusID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueStatus" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMTN" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPipe" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPreferred" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsDefault" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueAnnounceDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueIssDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueDatedDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueFirstSettleDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueFirstCouponDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueMaturityDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPerpetual" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsGuaranteed" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFactored" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPartlyPaid" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RegTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RegType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPut" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCall" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsSink" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueSeries" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SettlementDays" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsNetRule" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BusinessDayConvention" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="BusinessDayOffset" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CalculationType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Is144ARegistrationRights" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DeliveryType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRegistar" type="s1:BondIssueRegistar"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRelate" type="s1:BondIssueRelate"/>
+            <s:element minOccurs="0" maxOccurs="1" name="MiscInfo" type="s1:BondIssueMisc"/>
+            <s:element minOccurs="0" maxOccurs="1" name="HybridMiscInfo" type="s1:HybridMisc"/>
+            <s:element minOccurs="0" maxOccurs="1" name="MkwSchedule" type="s1:BondMkwSchedule"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Coupon" type="s1:BondCoupon"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ScheduleResets" type="s1:BondScheduleResetCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SFSchedules" type="s1:BondSfScheduleCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PutCallSchedules" type="s1:BondScheduleCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRatings" type="s1:BondIssueRatingCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FactorSchedules" type="s1:BondScheduleFactorCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SoftSchedules" type="s1:BondSoftScheduleCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FinancingSpecificInfo" type="s1:HybridFinancingSpecific"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="bondCorpInfo" type="s1:SecurityBondCorpInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="bondSovereingInfo" type="s1:SecurityBondSovereignInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="creditContractInfo"
+                           type="s1:SecurityBondCreditContractInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="bondAssetBackedInfo"
+                           type="s1:SecurityBondAssetBackedInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="bankDebtInfo" type="s1:SecurityBondBankDebtInfo"/>
+            </s:choice>
+            <s:element minOccurs="0" maxOccurs="1" name="Dividends" type="s1:DividendCollection"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondIssueRegistar">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueTotalAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueOrigAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsIssueOrigDisc" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueAddAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueOverallotAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueAmtOutstand"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="IssueAmtOutDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IssueOrigSpread"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPriceClean" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="MinIncrement"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="MinPiece"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondIssueRelate">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFungible" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FungibleDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsReopening" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ReopenDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsStrip" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="StripTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="StripType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OriginalIssue" type="s1:SecurityData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondIssueMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefEndMonthID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="EndMonth" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefMethodID_Interval" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IntervalMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="IntervalDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefMethodID_PayDelay" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PayDelayMetod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DelayDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="NoticeDays" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAccrThruSettl" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsIndexAdjust" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAccrWithInterest" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCpnOnCalendar" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAccrBizDays" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAccrSuppress" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefAmortizTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AmortizType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="IndexPriceOnIssue"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RefPaymentOptID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentOpt" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPrincipalOnly" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsInterestOnly" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="AutoGenerateSchedule" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="MinDaysNotification" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssuerIndustry" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="HybridMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemRateLevel" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LagType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="NextBaseRateDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="NumberOfContracts" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstCFDDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PositionResetFrequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateResetFrequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="InitRateOverride" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="PositionDayOffset" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="TermPeriod" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsAutoGenerate" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsBullet" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondMkwSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCash" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondCoupon">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="CouponClassID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CouponClass" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FirstCpnTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FirstCpnType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Rate"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPIK" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FrequencyID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Frequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DayCount" type="s1:DayCount"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s1:CurrencyId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsSimple" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="LastCpnDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="PaymentDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="TypeResetDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateFixingMethod" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PIKInfo" type="s1:BondCouponPIKInfo"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PIKSchedules" type="s1:BondCouponPIKScheduleCollection"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsEstimated" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FrnCouponInfo" type="s1:BondFrnCouponInfo"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondCouponPIKInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="RateTenorID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateTenor" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="SuppressAccruedInterest" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="CustomizeCouponDates" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="DefaultPortion"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondCouponPIKScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondCouponPIKSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondCouponPIKSchedule"
+                               type="s1:BondCouponPIKSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondCouponPIKSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondCouponPIKSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="BusinessDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="CalendarDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="RecordDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="CouponDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Portion"
+                       type="s:decimal"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondFrnCouponInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="BaseRateDayOffset" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="RateEffDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Cap"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Floor"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsStepUp" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ResetFrequencyID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ResetFrequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BaseSecurity" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ResetFormula" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="NextResetDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Multiplier"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateSpreadType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FloatDaysPrior" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondScheduleResetCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondScheduleReset">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondScheduleReset"
+                               type="s1:BondScheduleReset"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondScheduleReset" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondScheduleReset">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ResetDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ResetRate"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondSfScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondSfSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondSfSchedule" type="s1:BondSfSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondSfSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondSfSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="Amount" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondSchedule" type="s1:BondSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RedemType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondIssueRatingCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondIssueRating">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondIssueRating" type="s1:BondIssueRating"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondIssueRating" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondIssueRating">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="IssueRatingCodeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IssueRatingCode" type="s1:IssueRatingCode"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ShortIssueRatingCode" type="s1:IssueRatingCode"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondScheduleFactorCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondScheduleFactor">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondScheduleFactor"
+                               type="s1:BondScheduleFactor"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondScheduleFactor" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondScheduleFactor">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Factor"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BondSoftScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondSoftSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondSoftSchedule" type="s1:BondSoftSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondSoftSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondSoftSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="PremiumTrigValue"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCash" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="TriggerValueID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="TriggerValue" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="TrigPriceDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="TrigTradingDays" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="HybridFinancingSpecific">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PriceDayOffset" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="ReceiveUnderlyingsDividends" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="ReceiveUnderlyingsRate" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondCorpInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DebtTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DebtType" type="s1:EntityId"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="convertibleInfo" type="s1:SecurityBondConvertibleInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="cumulativePfdInfo"
+                           type="s1:SecurityBondCumulativePfdInfo"/>
+            </s:choice>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondConvertibleInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConvCurrency" type="s1:CurrencyId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ConvTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ConvType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsDilution" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="ConvRatio" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="ConvPrice" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="FxAtIssue"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsRefix" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ConvStartDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMandatory" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsReverse" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="UnderlyingSecClass" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SecClassUnderlying" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="PremiumAtIssue"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ConvertibleUntil"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CocoSchedules" type="s1:BondCocoScheduleCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ConvertiblePfdInfo" type="s1:SecurityBondCumulativePfdInfo"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondCocoScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondCocoSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondCocoSchedule" type="s1:BondCocoSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondCocoSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondCocoSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TriggerPct"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCash" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDatePay" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDatePay" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Amount"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="TriggerValueID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="TriggerValue" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="SecurityBondCumulativePfdInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="AnnualDivided"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCumulative" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="SharesOut"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondSovereignInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SoverClassID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SoverClass" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DebtTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DebtType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SoverMiscInfo" type="s1:BondSoverMisc"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondSoverMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="PreRefundDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="PreRefundPrice"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="MuniStateTaxable" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="AltMinimunTax" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="FederalTaxable" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsRefunded" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OptionalCall" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondCreditContractInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DebtTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DebtType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="isPar" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Spread"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="isStif" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="true" name="IsStockLoan" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsRepo" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RepoType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CreditContractMiscInfo" type="s1:CreditContractMisc"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="CreditContractMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccrualDetailType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsMain" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondAssetBackedInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CollateralType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DealName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DebtTypeId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="MortgageIndustry" type="s1:LegalEntityIndustryCode"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsTBA" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-9223372036854775808" name="PoolNum" type="s:long"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="LastFactor"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="AvgCoupon" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="AvgLife" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="LifeFloor" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="LifeCap" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="CPRLifeRate"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="PSALifeRate"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-1.7976931348623157E+308" name="TotalDealAmt"
+                       type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="LastFactorDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="AvgMaturityDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="FirstPayDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="OrigMaturityTerm" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="AvgMaturityTerm" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DelayDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="OriginalWAL"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBondBankDebtInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="GlobalCommit"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="InitPayDown"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="CommitReduction"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="FacilityAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="AvailableAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TrancheAmt"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Frequency" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LoanType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BaseIndexName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="CreditDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PurposeType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsFloating" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsFacility" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsSecured" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsBridgeLoan" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsSynthetic" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsDelayedDraw" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsDIP" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="IsLCCreditLinked" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="LCCSublimit"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Funded"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Unfunded"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="TerminationDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentOption" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="PaymentOptionDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="CurrentCommitment"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomInfo" type="s1:BankDebtCustom"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BankDebtDealInformation" type="s1:BankDebtDeal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RepaymentSchedules" type="s1:BondScheduleRepaymentCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DefaultPeriods" type="s1:BankDebtDefaultPeriodCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="NonAccrualPeriods"
+                       type="s1:BankDebtNonAccrualPeriodCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Spreads" type="s1:ScheduleSpreadCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateLimits" type="s1:ScheduleRateLimitCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentSchedules" type="s1:BankDebtPaymentScheduleCollection"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DebtType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BankDebtCustom">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DistressSettlementDays" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ParNearParDays" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="CatchUpAccrual" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BankDebtDeal">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="MinAssignment"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="AgreementDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="StreetName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AgentContact" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AgentPhone" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AgentEmail" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Underwriter" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="AgentBank" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PrimarySponsor" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LienType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RelatedSecurity" type="s1:SecurityData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BondScheduleRepaymentCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBondScheduleRepayment">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BondScheduleRepayment"
+                               type="s1:BondScheduleRepayment"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBondScheduleRepayment" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BondScheduleRepayment">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Amount"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BankDebtDefaultPeriodCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBankDebtDefaultPeriod">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BankDebtDefaultPeriod"
+                               type="s1:BankDebtDefaultPeriod"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBankDebtDefaultPeriod" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BankDebtDefaultPeriod">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="DefaultRate"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Reason" type="s:string"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BankDebtNonAccrualPeriodCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBankDebtNonAccrualPeriod">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BankDebtNonAccrualPeriod"
+                               type="s1:BankDebtNonAccrualPeriod"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBankDebtNonAccrualPeriod" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BankDebtNonAccrualPeriod">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="ScheduleSpreadCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfScheduleSpread">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="ScheduleSpread" type="s1:ScheduleSpread"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfScheduleSpread" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="ScheduleSpread">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExpirationDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="SpreadValue"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateOption" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RelatedRate" type="s1:Security"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="ScheduleRateLimitCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfScheduleRateLimit">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="ScheduleRateLimit"
+                               type="s1:ScheduleRateLimit"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfScheduleRateLimit" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="ScheduleRateLimit">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Limit"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateOption" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateLimit" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RateType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RelatedRate" type="s1:Security"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="BankDebtPaymentScheduleCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfBankDebtPaymentSchedule">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="BankDebtPaymentSchedule"
+                               type="s1:BankDebtPaymentSchedule"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfBankDebtPaymentSchedule" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="BankDebtPaymentSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="DueDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Amount"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ScheduleDate" type="s:dateTime"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="SecurityBasketInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="DerivativeTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DerivativeType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityCommodityInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="CommodityTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CommodityType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityIndexInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="IndexTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Rate" type="s1:SecurityData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityOptionInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MiscInfo" type="s1:SecurityOptionMiscInfo"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RedemType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="StrikePrice"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ExpDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ExerciseType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="ContractSize"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="FloatingStrike" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="OptFutStartDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="OptionTypeID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OptionType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="TickValue"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCashSettled" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityOptionMiscInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ReferenceDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FrequencyTenorType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="FrequencyTenorValue" type="s:int"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityMisc">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="CBQTYMultiplier"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="ForceMV" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Eligible13F" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityPortfolio">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Analyst" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityPortfolioSpecific">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccrualMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="MarketValueModel" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="PositionAggregationMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RTPricingModel" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="MarketValueModel_DisplayMVModel" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="NoFXPNL" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="DirtyPrice" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityBarriers">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="RebateAmount"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="AssetPrice"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="LowerBarrier"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="UpperBarrier"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DayCount" type="s1:DayCount"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="PayoutAmount"
+                       type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="PayoutCurrency" type="s1:PayoutCurrencyType"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="PayoutCurrencyType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Domestic"/>
+            <s:enumeration value="Foreign"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="SecurityRelationCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfSecurityRelation">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityRelation" type="s1:SecurityRelation"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfSecurityRelation" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="SecurityRelation">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="securityData" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityInfo" type="s1:RelatedSecurity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RelationType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Weight"
+                       type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-79228162514264337593543950335" name="Price"
+                       type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="RelatedSecurity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityGroupEntryInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="InDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="OutDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Attribute" type="s1:CustomAttributeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomFields">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="UDF" nillable="true" type="s1:UDF"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityGroupMemberInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:SecurityGroupEntryInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="SecurityGenericSchedule">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Terms" type="s1:SecurityGenericScheduleTermCollection"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityGenericScheduleTermCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfSecurityGenericScheduleTerm">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGenericScheduleTerm"
+                               type="s1:SecurityGenericScheduleTerm"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfSecurityGenericScheduleTerm" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="SecurityGenericScheduleTerm">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="StartDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EndDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Fields">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGenericScheduleField"
+                                   nillable="true" type="s1:SecurityGenericScheduleField"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="IsActual" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityGenericScheduleField">
+        <s:simpleContent>
+            <s:extension base="s:decimal">
+                <s:attribute name="Name" type="s:string"/>
+                <s:attribute name="Code" type="s:string"/>
+            </s:extension>
+        </s:simpleContent>
+    </s:complexType>
+    <s:complexType name="SecurityNoteCollection">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:HistoricalCollectionContainerOfSecurityNote">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityNote" type="s1:SecurityNote"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="HistoricalCollectionContainerOfSecurityNote" abstract="true">
+        <s:attribute name="Mode" type="s1:HistoricalMode" use="required"/>
+    </s:complexType>
+    <s:complexType name="SecurityNote">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Content" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ChangeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="CreateDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ChangedBy" type="s1:UserId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="SecMasterID" type="s:int"/>
+        </s:sequence>
+        <s:attribute default="false" name="IsActual" type="s:boolean"/>
+    </s:complexType>
+    <s:complexType name="ArrayOfSecurityGroup">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGroup" nillable="true"
+                       type="s1:SecurityGroup"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityGroup">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubgroupId" type="s1:CustomAttributeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Securities" type="s1:ArrayOfSecurityGroupMemberInfo"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfSecurityGroupMemberInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="SecurityGroupMemberInfo" nillable="true"
+                       type="s1:SecurityGroupMemberInfo"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="CoraxEvent">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="CoraxEventID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="EventCode" type="s1:CoraxEventCodeId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Descr" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ReportedDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="ControlDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Reviewed" type="s:boolean"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Completed" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ActionID" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="Deleted" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityData" type="s1:SecurityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="GenericScheduleInfo" type="s1:SecurityGenericSchedule"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomHistoricalInfo" type="s1:SecurityUDFPane"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SplitInfo" type="s1:Split"/>
+            <s:element minOccurs="0" maxOccurs="1" name="DividendInfo" type="s1:Dividend"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ScheduleResetInfo" type="s1:BondScheduleReset"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ScheduleFactorInfo" type="s1:BondScheduleFactor"/>
+            <s:element minOccurs="0" maxOccurs="1" name="NxtValues">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="unbounded" name="CoraxEventNxt" nillable="true"
+                                   type="s1:CoraxEventNxt"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemData" type="s1:SystemData"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="CoraxEventNxt">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OldValue" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="NewValue" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="CodeType" type="s1:CodeTypeId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="EffectiveDate"
+                       type="s:dateTime"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfChoice1">
+        <s:choice minOccurs="0" maxOccurs="unbounded">
+            <s:element minOccurs="1" maxOccurs="1" name="securityMarketData" nillable="true"
+                       type="s1:SecurityMarketDataItem"/>
+            <s:element minOccurs="1" maxOccurs="1" name="treasuryCurve" nillable="true" type="s1:TreasuryCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="volatilitySurface" nillable="true"
+                       type="s1:VolatilitySurface"/>
+            <s:element minOccurs="1" maxOccurs="1" name="yieldCurve" nillable="true" type="s1:YieldCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="forwardCurve" nillable="true" type="s1:ForwardCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="quoteCurve" nillable="true" type="s1:QuoteCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="creditCurve" nillable="true" type="s1:CreditCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dividendCurve" nillable="true" type="s1:DividendCurve"/>
+            <s:element minOccurs="1" maxOccurs="1" name="liborBasisCurve" nillable="true" type="s1:LiborBasisCurve"/>
+        </s:choice>
+    </s:complexType>
+    <s:complexType name="SecurityMarketDataItem">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:MarketDataItem">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityType" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="date" type="s:dateTime"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="fields" type="s1:ArrayOfSecurityMarketDataItemField"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="MarketDataItem" abstract="true">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="dataId" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="CurveOfSimpleTenorCurvePoint" abstract="true">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:MarketDataItem">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="points" nillable="true"
+                               type="s1:ArrayOfSimpleTenorCurvePoint"/>
+                    <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="date" type="s:dateTime"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ArrayOfSimpleTenorCurvePoint">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="point" nillable="true"
+                       type="s1:SimpleTenorCurvePoint"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SimpleTenorCurvePoint">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:TenorCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="TenorCurvePoint" abstract="true">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurvePoint">
+                <s:attribute name="tenorType" type="s1:TenorType" use="required"/>
+                <s:attribute name="tenorValue" type="s:int" use="required"/>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CurvePoint" abstract="true">
+        <s:attribute name="value" type="s:decimal" use="required"/>
+    </s:complexType>
+    <s:complexType name="YieldCurvePoint">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:TenorCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="security" type="s1:YieldCurveSecurity"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="YieldCurveSecurity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityType" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="dayConvention" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="frequency" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="spotLag" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="maturityDate" type="s:dateTime"/>
+        </s:sequence>
+        <s:attribute name="tenorType" type="s1:TenorType" use="required"/>
+        <s:attribute name="tenorValue" type="s:int" use="required"/>
+    </s:complexType>
+    <s:complexType name="TreasuryCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="LiborBasisCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="DividendCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ForwardCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="from" type="s1:CurrencyId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="to" type="s1:CurrencyId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CreditCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="legalEntity" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="currency" type="s1:CurrencyId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="QuoteCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfSimpleTenorCurvePoint"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CurveOfYieldCurvePoint" abstract="true">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:MarketDataItem">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="points" nillable="true"
+                               type="s1:ArrayOfYieldCurvePoint"/>
+                    <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="date" type="s:dateTime"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ArrayOfYieldCurvePoint">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="point" nillable="true" type="s1:YieldCurvePoint"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="YieldCurve">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:CurveOfYieldCurvePoint">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="currency" type="s1:CurrencyId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="VolatilitySurface">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:MarketDataItem">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="points" nillable="true"
+                               type="s1:ArrayOfVolatilitySurfacePoint"/>
+                </s:sequence>
+                <s:attribute name="surfaceType" type="s1:SurfaceType" use="required"/>
+                <s:attribute name="deltaType" type="s1:DeltaType" use="required"/>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ArrayOfVolatilitySurfacePoint">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="point" nillable="true"
+                       type="s1:VolatilitySurfacePoint"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="VolatilitySurfacePoint">
+        <s:attribute default="0001-01-01T00:00:00" name="date" type="s:dateTime"/>
+        <s:attribute name="strikePrice" type="s:double" use="required"/>
+        <s:attribute name="volatility" type="s:double" use="required"/>
+        <s:attribute name="isTenor" type="s:boolean" use="required"/>
+        <s:attribute name="tenorType" type="s1:TenorType" use="required"/>
+        <s:attribute name="tenorValue" type="s:int" use="required"/>
+        <s:attribute name="quoteType" type="s1:QuoteType" use="required"/>
+        <s:attribute name="strikeType" type="s1:StrikeType" use="required"/>
+    </s:complexType>
+    <s:simpleType name="QuoteType">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Put"/>
+            <s:enumeration value="Call"/>
+            <s:enumeration value="RiskReversal"/>
+            <s:enumeration value="Butterfly"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="StrikeType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Absolute"/>
+            <s:enumeration value="ATM"/>
+            <s:enumeration value="Delta"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="SurfaceType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Equity"/>
+            <s:enumeration value="FX"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="DeltaType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Spot"/>
+            <s:enumeration value="Forward"/>
+            <s:enumeration value="Future"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfSecurityMarketDataItemField">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="field" nillable="true"
+                       type="s1:SecurityMarketDataItemField"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityMarketDataItemField">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="currency" type="s1:CurrencyId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="value" nillable="true" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="attributes"
+                       type="s1:ArrayOfSecurityMarketDataItemFieldAttribute"/>
+        </s:sequence>
+        <s:attribute name="type" type="s:string"/>
+    </s:complexType>
+    <s:complexType name="ArrayOfSecurityMarketDataItemFieldAttribute">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="attribute" nillable="true"
+                       type="s1:SecurityMarketDataItemFieldAttribute"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SecurityMarketDataItemFieldAttribute">
+        <s:simpleContent>
+            <s:extension base="s:string">
+                <s:attribute name="type" type="s:string"/>
+            </s:extension>
+        </s:simpleContent>
+    </s:complexType>
+    <s:complexType name="ArrayOfTransaction">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="transaction" type="s1:Transaction"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Transaction">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:TransactionAction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="cancel" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="tradeEntry" type="s1:TransactionEntry"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TransactionAction">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Add"/>
+            <s:enumeration value="Update"/>
+            <s:enumeration value="Delete"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfUDF">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="UDF" nillable="true" type="s1:UDF"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TransactionEntry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="accessType" type="s1:TradeAccessType"/>
+            <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="settleDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="actualSettleDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="price" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="crossFx" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="priceCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="bookCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleAccruedAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="suppressAccrual" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fees" type="s1:FeesAndCommissions"/>
+            <s:element minOccurs="0" maxOccurs="1" name="altName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="closingRule" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="security" type="s1:TradeSecurity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fund" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="strategy" type="s1:TradeStrategy"/>
+            <s:element minOccurs="0" maxOccurs="1" name="custodian" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="account" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="broker" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="analyst" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="portfolioManager" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="trader" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="marketType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="originalQuantity" type="s:decimal"/>
+            <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="bankDebtTradeInfo" type="s1:TradeBankDebtInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="swapTradeInfo" type="s1:TradeSwapInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="bondTradeInfo" type="s1:TradeBondInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="forwardTradeInfo" type="s1:TradeForwardInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="futureTradeInfo" type="s1:TradeFutureInfo"/>
+                <s:element minOccurs="0" maxOccurs="1" name="repoTradeInfo" type="s1:TradeRepoInfo"/>
+            </s:choice>
+            <s:element minOccurs="0" maxOccurs="1" name="allocationEntryId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ticketId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="orderId" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="boxType" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeBoxType" type="s1:TradeBoxType"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TradeAccessType">
+        <s:list>
+            <s:simpleType>
+                <s:restriction base="s:string">
+                    <s:enumeration value="Public"/>
+                    <s:enumeration value="Private"/>
+                    <s:enumeration value="Reorg"/>
+                </s:restriction>
+            </s:simpleType>
+        </s:list>
+    </s:simpleType>
+    <s:complexType name="TradeCurrency">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeDateFx" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleDateFx" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="FeesAndCommissions">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeTax" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeCommissionsAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeCommissionsRate" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="commissionsType" type="s1:CommissionType"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="commissionsImplied" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="commissionsReason" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0" name="tradeOtherFees" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" default="false" name="otherFeesImplied" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="notImpliedExpenses" type="s1:ArrayOfSingleExpense"/>
+            <s:element minOccurs="0" maxOccurs="1" name="impliedExpenses" type="s1:ArrayOfSingleExpense"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="CommissionType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Flat"/>
+            <s:enumeration value="CentsPerShare"/>
+            <s:enumeration value="BasisPoints"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfSingleExpense">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="expense" type="s1:SingleExpense"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="SingleExpense">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeExpenseAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="expenseAccount" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeSecurity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="currency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="pricingFactor" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s1:TradeSecurity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="relatedSecurities" type="s1:ArrayOfTradeSecurity"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfTradeSecurity">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="TradeSecurity" nillable="true"
+                       type="s1:TradeSecurity"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeStrategy">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:ReferenceData">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="isActive" type="s:boolean"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="portfolioManager" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="analyst" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="riskCategory" type="s1:RiskCategory"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ReferenceData">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="RiskGroup">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:ReferenceData"/>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="RiskCategory">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:ReferenceData">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="riskGroup" type="s1:RiskGroup"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="TradeBankDebtInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="parNearPar" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="globalCommitment" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="globalOutstanding" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="contractType" type="s1:TradeBankDebtContractType"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TradeBankDebtContractType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Funded"/>
+            <s:enumeration value="Unfunded"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="TradeSwapInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="overrideFinancing" type="s1:TradeSecurity"/>
+            <s:element minOccurs="0" maxOccurs="1" name="closeLeg" type="s:boolean"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeBondInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="yield" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeForwardInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="spotDate" type="s:dateTime"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeFutureInfo">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="forwardDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="yield" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="TradeRepoInfo">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="closeDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dayCount" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="interestRate" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TradeBoxType">
+        <s:restriction base="s:string">
+            <s:enumeration value="GeneralBox"/>
+            <s:enumeration value="VsTheBox"/>
+            <s:enumeration value="Long"/>
+            <s:enumeration value="Short"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfBasket">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="basket" type="s1:Basket"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Basket">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:BasketAction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="portfolioManager" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="orders" type="s1:ArrayOfOrder"/>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="1" name="extendedData" type="s1:BasketInfo"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeMarketType" type="s1:EntityId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="BasketAction">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Add"/>
+            <s:enumeration value="Update"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfOrder">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="order" nillable="true" type="s1:Order"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Order">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessType" type="s1:TradeAccessType"/>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:OrderAction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="analyst" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="executedBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="note" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="portfolioManager" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="security" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityType" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="securityCouponRate" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="securityDatedDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="securityMaturityDate" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="securityLotSize" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="securityPricingFactor" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="side" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s1:OrderState"/>
+            <s:element minOccurs="0" maxOccurs="1" name="targetPrice" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="targetQuantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="leavesQuantity" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tickets" type="s1:ArrayOfTicket"/>
+            <s:element minOccurs="0" maxOccurs="1" name="orderType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="1" name="extendedData" type="s1:OrderInfo"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="OrderAction">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Add"/>
+            <s:enumeration value="Update"/>
+            <s:enumeration value="Cancel"/>
+            <s:enumeration value="Book"/>
+            <s:enumeration value="Unbook"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="OrderState">
+        <s:restriction base="s:string">
+            <s:enumeration value="Active"/>
+            <s:enumeration value="Booked"/>
+            <s:enumeration value="Buffered"/>
+            <s:enumeration value="Completed"/>
+            <s:enumeration value="DoneForDay"/>
+            <s:enumeration value="Expired"/>
+            <s:enumeration value="New"/>
+            <s:enumeration value="Cancelled"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfTicket">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="ticket" nillable="true" type="s1:Ticket"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Ticket">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="acceptedQuantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:OrderAction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="allocationData" type="s1:AllocationData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="borrowAvailabilityData" type="s1:BorrowAvailabilityData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="broker" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="brokerContact" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="executions" type="s1:ArrayOfExecution"/>
+            <s:element minOccurs="0" maxOccurs="1" name="expirationDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fees" type="s1:FeesAndCommissions"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="note" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ticketType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="settleDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s1:OrderState"/>
+            <s:element minOccurs="0" maxOccurs="1" name="targetPrice" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="averagePrice" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="quotedPrice" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradePrincipalAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="targetQuantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="timeInForce" type="s1:TicketTimeInForce"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="trader" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="1" name="yield" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfDaysAccrued" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="accruedAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="settleTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="electronicOrders" type="s1:ArrayOfElectronicOrder"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="AllocationData">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="allocationEntries" type="s1:ArrayOfAllocationEntry"/>
+            <s:element minOccurs="0" maxOccurs="1" name="allocationSchema" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="allocationMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="preAllocationMethod" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="funds" type="s1:ArrayOfTradeFundId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="defaultStrategy" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="defaultCustodian" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="relationSchema" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="roundLot" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfAllocationEntry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="allocationEntry" nillable="true"
+                       type="s1:AllocationEntry"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="AllocationEntry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fund" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fundCurrency" type="s1:TradeCurrency"/>
+            <s:element minOccurs="0" maxOccurs="1" name="strategy" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="custodian" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="account" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="tradeBoxType" type="s1:TradeBoxType"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ratio" type="s:double"/>
+            <s:element minOccurs="0" maxOccurs="1" name="quantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="targetRatio" type="s:double"/>
+            <s:element minOccurs="1" maxOccurs="1" name="targetQuantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradePrincipalAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="commissionsAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="taxAndFeeAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="settleTotalAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="accruedAmount" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="tradeType" type="s1:TradeType"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="TradeType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Undefined"/>
+            <s:enumeration value="Buy"/>
+            <s:enumeration value="Sell"/>
+            <s:enumeration value="Short"/>
+            <s:enumeration value="BuyToCover"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfTradeFundId">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="fund" nillable="true" type="s1:TradeFundId"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BorrowAvailabilityData">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="autoAccept" type="s:boolean"/>
+            <s:element minOccurs="0" maxOccurs="1" name="borrowEntries" type="s1:ArrayOfBorrowEntry"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfBorrowEntry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="borrowEntry" nillable="true" type="s1:BorrowEntry"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="BorrowEntry">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="locateId" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:decimal"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfExecution">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="execution" nillable="true" type="s1:Execution"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="Execution">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:ExecutionAction"/>
+            <s:element minOccurs="0" maxOccurs="1" name="broker" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="executedBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="price" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="quotedPrice" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="sourceType" type="s1:ExecutionSourceType"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="1" name="venue" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="ExecutionAction">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Add"/>
+            <s:enumeration value="Update"/>
+            <s:enumeration value="Delete"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="ExecutionSourceType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Undefined"/>
+            <s:enumeration value="Manual"/>
+            <s:enumeration value="Electronic"/>
+            <s:enumeration value="ElectronicGroup"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="TicketTimeInForce">
+        <s:restriction base="s:string">
+            <s:enumeration value="Day"/>
+            <s:enumeration value="GoodTillCancel"/>
+            <s:enumeration value="GoodTillDate"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="ArrayOfElectronicOrder">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="electronicOrder" nillable="true"
+                       type="s1:ElectronicOrder"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ElectronicOrder">
+        <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="changeDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="changedBy" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="createDate" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="createdBy" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="clientOrderId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="eBroker" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="eBrokerOrderId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s1:ElectronicOrderAction"/>
+            <s:element minOccurs="1" maxOccurs="1" name="actionMillisecondsTimeout" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="securityIdType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s1:ElectronicOrderState"/>
+            <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="destinationExchange" type="s1:EntityId"/>
+            <s:element minOccurs="1" maxOccurs="1" name="effectiveTimeGMT" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="side" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="electronicOrderType" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="executionFlags" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="expirationTimeGMT" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="handlingFlags" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="note" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="limitPrice" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="stopPrice" type="s:decimal"/>
+            <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:decimal"/>
+            <s:element minOccurs="0" maxOccurs="1" name="shortLocaleSource" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="shortLocaleCode" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="timeInForce" type="s1:EntityId"/>
+            <s:element minOccurs="0" maxOccurs="1" name="cbiData" type="s1:ArrayOfUDF"/>
+            <s:element minOccurs="0" maxOccurs="1" name="userDefinedFields" type="s1:ArrayOfUDF"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="ElectronicOrderAction">
+        <s:restriction base="s:string">
+            <s:enumeration value="None"/>
+            <s:enumeration value="Create"/>
+            <s:enumeration value="Replace"/>
+            <s:enumeration value="Cancel"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="ElectronicOrderState">
+        <s:restriction base="s:string">
+            <s:enumeration value="Active"/>
+            <s:enumeration value="Buffered"/>
+            <s:enumeration value="Canceled"/>
+            <s:enumeration value="DoneForDay"/>
+            <s:enumeration value="Expired"/>
+            <s:enumeration value="FailedToSend"/>
+            <s:enumeration value="Filled"/>
+            <s:enumeration value="ForciblyCanceled"/>
+            <s:enumeration value="Rejected"/>
+            <s:enumeration value="Stopped"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:complexType name="OrderInfo"/>
+    <s:complexType name="CreditDefaultIndexOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:OrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" name="notional" type="s:decimal"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="dealSpread" type="s:decimal"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="FactoredBondOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:OrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="originalFace" type="s:decimal"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="currentFactor" type="s:decimal"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="factorDate" type="s:dateTime"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="FxForwardOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:OrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="forwardCurrency" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="proceedsCurrency" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="fixingDate" type="s:dateTime"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="nonDeliverable" type="s:boolean"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="SwapBasedOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:OrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="counterparty" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="security" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityName" type="s:string"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="currency" type="s1:TradeCurrency"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="securityTemplate" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="swapType" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="CreditDefaultSwapOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:SwapBasedOrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="referenceEntity" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="referenceObligation" type="s1:EntityId"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="accrualStartDate" type="s:dateTime"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="effectiveDate" type="s:dateTime"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="maturityDate" type="s:dateTime"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="transactionType" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="productType" type="s1:EntityId"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="recoveryRate" type="s:decimal"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="seniority" type="s1:EntityId"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="docClause" type="s1:EntityId"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="dealSpread" type="s:decimal"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="creditSpread" type="s:decimal"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="UnspecifiedSwapOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:SwapBasedOrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" name="endDate" type="s:dateTime"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ContractForDifferenceOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:SwapBasedOrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="underlying" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="InterestRateSwapOrderInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:SwapBasedOrderInfo">
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" name="endDate" type="s:dateTime"/>
+                    <s:element minOccurs="0" maxOccurs="1" name="benchmark" type="s1:EntityId"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="BasketInfo"/>
+    <s:complexType name="ConvertibleArbitrageBasketInfo">
+        <s:complexContent mixed="false">
+            <s:extension base="s1:BasketInfo">
+                <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" name="delta" type="s:decimal"/>
+                    <s:element minOccurs="1" maxOccurs="1" name="autoBalance" type="s:boolean"/>
+                </s:sequence>
+            </s:extension>
+        </s:complexContent>
+    </s:complexType>
+    <s:complexType name="ArrayOfChoice2">
+        <s:choice minOccurs="0" maxOccurs="unbounded">
+            <s:element minOccurs="1" maxOccurs="1" name="RiskCategory" nillable="true" type="s1:RiskCategory"/>
+            <s:element minOccurs="1" maxOccurs="1" name="TradeStrategy" nillable="true" type="s1:TradeStrategy"/>
+            <s:element minOccurs="1" maxOccurs="1" name="RiskGroup" nillable="true" type="s1:RiskGroup"/>
+        </s:choice>
+    </s:complexType>
+    <s:complexType name="ArrayOfString">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="system" type="s:string"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ArrayOfResponseAddress">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="responseAddress" type="s1:ResponseAddress"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="ResponseAddress">
+        <s:simpleContent>
+            <s:extension base="s:string">
+                <s:attribute name="msmqCorrelationID" type="s:string"/>
+            </s:extension>
+        </s:simpleContent>
+    </s:complexType>
+</s:schema>

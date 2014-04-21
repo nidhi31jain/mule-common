@@ -1,5 +1,11 @@
 package org.mule.common.metadata.builder;
 
+import org.mule.common.metadata.DefaultXmlMetaDataModel;
+import org.mule.common.metadata.XmlMetaDataModel;
+import org.mule.common.metadata.property.DescriptionMetaDataProperty;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
+import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -7,22 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
-import org.mule.common.metadata.DefaultXmlMetaDataModel;
-import org.mule.common.metadata.XmlMetaDataModel;
-import org.mule.common.metadata.property.DescriptionMetaDataProperty;
-import org.mule.common.metadata.property.LabelMetaDataProperty;
-import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
-
 import javax.xml.namespace.QName;
+
+import org.apache.commons.io.IOUtils;
 
 public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P>
 {
 
     public QName name;
     public String[] schemas;
-    public InputStream[] schemasStream;
+    public List<InputStream> schemasStream = new ArrayList<InputStream>();
     public Charset encoding = Charset.forName("UTF-8");
     public String example;
     private String label;
@@ -103,7 +103,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     @Override
     public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams)
     {
-        this.schemasStream = schemaStreams;
+        this.schemasStream.addAll(Arrays.asList(schemaStreams));
         this.schemas = null;
         return this;
     }

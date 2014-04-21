@@ -7,7 +7,6 @@ import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ import javax.xml.namespace.QName;
 import org.apache.xmlbeans.SchemaGlobalElement;
 import org.apache.xmlbeans.SchemaProperty;
 import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.SchemaTypeSystem;
+import org.apache.xmlbeans.SchemaTypeLoader;
 import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -89,8 +88,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         final Map<SchemaType, XmlMetaDataModel> visitedTypes = new HashMap<SchemaType, XmlMetaDataModel>();
         try
         {
-            SchemaGlobalElement[] schemaGlobalElements = loadGlobalElements();
-            SchemaGlobalElement rootElement = searchRootElement(schemaGlobalElements);
+            SchemaGlobalElement rootElement = findRootElement(rootElementName);
             if (rootElement != null)
             {
                 SchemaType type = rootElement.getType();
@@ -99,7 +97,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         }
         catch (XmlException e)
         {
-           throw new MetaDataGenerationException(e);
+            throw new MetaDataGenerationException(e);
         }
         return metaDataFields;
     }
@@ -231,26 +229,21 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
     }
 
 
-    private SchemaGlobalElement[] loadGlobalElements() throws XmlException
+    private SchemaGlobalElement findRootElement(QName rootElementName) throws XmlException
     {
-        XmlOptions options = new XmlOptions();
-        options.setCompileDownloadUrls();
+        final XmlOptions options = new XmlOptions();
         options.setCompileNoUpaRule();
         options.setCompileNoValidation();
         /* Load the schema */
-        XmlObject[] schemaRepresentation;
-        SchemaTypeSystem sts;
-        schemaRepresentation = new XmlObject[schemas.size()];
-        int i = 0;
-        for (String schema : schemas)
+        final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
+        for (int i = 0; i < schemas.size(); i++)
         {
-            schemaRepresentation[i] = XmlObject.Factory.parse(schema);
-            i++;
+            schemaRepresentation[i] = XmlObject.Factory.parse(schemas.get(i));
         }
-        sts = XmlBeans.compileXsd(schemaRepresentation, XmlBeans.getBuiltinTypeSystem(), options);
-        SchemaGlobalElement[] globalElements = sts.globalElements();
-        return globalElements;
+        final SchemaTypeLoader schemaTypeLoader = XmlBeans.loadXsd(schemaRepresentation, options);
+        return schemaTypeLoader.findElement(rootElementName);
     }
+
 
 
     private boolean hasSimpleContentOnly(SchemaType type)

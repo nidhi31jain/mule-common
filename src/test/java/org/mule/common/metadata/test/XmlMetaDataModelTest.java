@@ -6,10 +6,12 @@ import org.mule.common.metadata.MetaDataGenerationException;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
+import org.mule.common.metadata.builder.XmlMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.property.QNameMetaDataProperty;
 import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -225,5 +227,36 @@ public class XmlMetaDataModelTest
         XmlMetaDataModel person = new DefaultMetaDataBuilder().createXmlObject(rootElementName).addSchemaStringList("bla....").build();
     }
 
+    @Test
+    public void whenSchemaHasSchemaTypeDeclarationItShouldNotFail()
+    {
 
+        QName rootElementName = new QName("http://paladyne.com/securitymaster/global/8.0/", "ExecuteAdvancedSearchTemplateResponse");
+
+        XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
+
+        List<String> schemas = Arrays.asList("dotNet1.xsd", "dotNet2.xsd", "dotNet3.xsd", "dotNet4.xsd", "dotNet5.xsd", "dotNet6.xsd");
+        for (String schema : schemas)
+        {
+            xmlMetaDataBuilder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
+        Assert.assertThat(model, CoreMatchers.notNullValue());
+    }
+
+    @Test
+    public void whenSchemaHeadersDeclarationItShouldNotFail()
+    {
+        QName rootElementName = new QName("urn:enterprise.soap.sforce.com", "describeGlobalResponse");
+
+        XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
+
+        List<String> schemas = Arrays.asList("salesforce1.xsd", "salesforce2.xsd", "salesforce3.xsd");
+        for (String schema : schemas)
+        {
+            xmlMetaDataBuilder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
+        Assert.assertThat(model, CoreMatchers.notNullValue());
+    }
 }

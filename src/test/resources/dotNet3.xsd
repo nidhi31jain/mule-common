@@ -1,0 +1,87 @@
+<s:schema xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s4="http://schemas.paladyne.com/securitymaster/global/8.0/"
+          xmlns:s5="http://microsoft.com/wsdl/types/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+          xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+          xmlns:s3="http://schemas.paladynesys.com/global/statusUpdate/1.8"
+          xmlns:tns="http://paladyne.com/securitymaster/global/8.0/"
+          xmlns:s2="http://schemas.paladynesys.com/global/response/1.0"
+          xmlns:s1="http://schemas.paladynesys.com/global/request/1.8"
+          xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+          xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified"
+
+          targetNamespace="http://schemas.paladynesys.com/global/response/1.0">
+    <s:complexType name="GlobalResponse">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="responseData" type="s2:EntityResponseType"/>
+        </s:sequence>
+    </s:complexType>
+    <s:complexType name="EntityResponseType">
+        <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="PostingStatusID" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" default="Success" name="Status" type="s2:EntityResponseTypeStatus"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ResponseText" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="TopLevelEntityId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="Any" name="TopLevelEntityType"
+                       type="s2:EntityResponseTypeEntityType"/>
+            <s:element minOccurs="0" maxOccurs="1" name="LocalEntityId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="Any" name="LocalEntityType"
+                       type="s2:EntityResponseTypeEntityType"/>
+            <s:element minOccurs="0" maxOccurs="1" default="0001-01-01T00:00:00" name="Date" type="s:dateTime"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="-2147483648" name="ClientId" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="SourceSystem" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FullActionName" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" default="Posting" name="CurrentAction"
+                       type="s2:EntityResponseTypeActionType"/>
+        </s:sequence>
+    </s:complexType>
+    <s:simpleType name="EntityResponseTypeStatus">
+        <s:restriction base="s:string">
+            <s:enumeration value="Finished"/>
+            <s:enumeration value="Success"/>
+            <s:enumeration value="Warning"/>
+            <s:enumeration value="DataError"/>
+            <s:enumeration value="SystemError"/>
+            <s:enumeration value="Info"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="EntityResponseTypeEntityType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Any"/>
+            <s:enumeration value="Security"/>
+            <s:enumeration value="RelatedSecurity"/>
+            <s:enumeration value="UnderlyingSecurity"/>
+            <s:enumeration value="IndustrySector"/>
+            <s:enumeration value="IndustryGroup"/>
+            <s:enumeration value="IndustryType"/>
+            <s:enumeration value="Industry"/>
+            <s:enumeration value="Issuer"/>
+            <s:enumeration value="IssuerRelation"/>
+            <s:enumeration value="SecurityRelation"/>
+            <s:enumeration value="VariableRate"/>
+            <s:enumeration value="Rate"/>
+            <s:enumeration value="Transaction"/>
+            <s:enumeration value="Portfolio"/>
+            <s:enumeration value="Strategy"/>
+            <s:enumeration value="Corax"/>
+            <s:enumeration value="MarketData"/>
+            <s:enumeration value="SyncRequest"/>
+            <s:enumeration value="DataService"/>
+            <s:enumeration value="Investment"/>
+            <s:enumeration value="Rating"/>
+            <s:enumeration value="Deal"/>
+            <s:enumeration value="UserDefinedField"/>
+            <s:enumeration value="Order"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:simpleType name="EntityResponseTypeActionType">
+        <s:restriction base="s:string">
+            <s:enumeration value="Posting"/>
+            <s:enumeration value="Updating"/>
+            <s:enumeration value="Processing"/>
+            <s:enumeration value="Customizing"/>
+            <s:enumeration value="Validating"/>
+        </s:restriction>
+    </s:simpleType>
+    <s:element name="response" type="s2:GlobalResponse"/>
+</s:schema>
