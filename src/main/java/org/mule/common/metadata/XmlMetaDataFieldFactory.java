@@ -21,6 +21,10 @@ import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.impl.common.SystemCache;
+import org.apache.xmlbeans.impl.schema.BuiltinSchemaTypeSystem;
+import org.apache.xmlbeans.impl.schema.SchemaTypeLoaderImpl;
+import org.apache.xmlbeans.impl.schema.SchemaTypeSystemCompiler;
 
 /**
  * Field Factory For XML Structured
@@ -236,14 +240,14 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         options.setCompileNoValidation();
         /* Load the schema */
         final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
+        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[] {BuiltinSchemaTypeSystem.get()}, null, getClass().getClassLoader());
         for (int i = 0; i < schemas.size(); i++)
         {
-            schemaRepresentation[i] = XmlObject.Factory.parse(schemas.get(i));
+            schemaRepresentation[i] = contextTypeLoader.parse(schemas.get(i), null, null);
         }
-        final SchemaTypeLoader schemaTypeLoader = XmlBeans.loadXsd(schemaRepresentation, options);
+        final SchemaTypeLoader schemaTypeLoader = SchemaTypeSystemCompiler.compile(null, null, schemaRepresentation, null, contextTypeLoader, null, options);
         return schemaTypeLoader.findElement(rootElementName);
     }
-
 
 
     private boolean hasSimpleContentOnly(SchemaType type)
