@@ -238,6 +238,8 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         final XmlOptions options = new XmlOptions();
         options.setCompileNoUpaRule();
         options.setCompileNoValidation();
+        options.setCompileDownloadUrls();
+
         /* Load the schema */
         final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
         final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[] {BuiltinSchemaTypeSystem.get()}, null, getClass().getClassLoader());
