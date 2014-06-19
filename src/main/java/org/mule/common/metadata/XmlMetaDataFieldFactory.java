@@ -3,6 +3,7 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.property.QNameMetaDataProperty;
 import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
+import org.mule.common.metadata.util.XmlSchemaUtils;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -16,15 +17,8 @@ import javax.xml.namespace.QName;
 import org.apache.xmlbeans.SchemaGlobalElement;
 import org.apache.xmlbeans.SchemaProperty;
 import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.SchemaTypeLoader;
-import org.apache.xmlbeans.XmlBeans;
+import org.apache.xmlbeans.SchemaTypeSystem;
 import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.impl.common.SystemCache;
-import org.apache.xmlbeans.impl.schema.BuiltinSchemaTypeSystem;
-import org.apache.xmlbeans.impl.schema.SchemaTypeLoaderImpl;
-import org.apache.xmlbeans.impl.schema.SchemaTypeSystemCompiler;
 
 /**
  * Field Factory For XML Structured
@@ -217,37 +211,9 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
     }
 
 
-    //Helper methods
-
-
-    private SchemaGlobalElement searchRootElement(SchemaGlobalElement[] schemaGlobalElements)
-    {
-        for (SchemaGlobalElement schemaGlobalElement : schemaGlobalElements)
-        {
-            if (schemaGlobalElement.getName().equals(rootElementName))
-            {
-                return schemaGlobalElement;
-            }
-        }
-        return null;
-    }
-
-
     private SchemaGlobalElement findRootElement(QName rootElementName) throws XmlException
     {
-        final XmlOptions options = new XmlOptions();
-        options.setCompileNoUpaRule();
-        options.setCompileNoValidation();
-        options.setCompileDownloadUrls();
-
-        /* Load the schema */
-        final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
-        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[] {BuiltinSchemaTypeSystem.get()}, null, getClass().getClassLoader());
-        for (int i = 0; i < schemas.size(); i++)
-        {
-            schemaRepresentation[i] = contextTypeLoader.parse(schemas.get(i), null, null);
-        }
-        final SchemaTypeLoader schemaTypeLoader = SchemaTypeSystemCompiler.compile(null, null, schemaRepresentation, null, contextTypeLoader, null, options);
+        final SchemaTypeSystem schemaTypeLoader = XmlSchemaUtils.getSchemaTypeSystem(schemas);
         return schemaTypeLoader.findElement(rootElementName);
     }
 
