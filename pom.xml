@@ -7,6 +7,48 @@
     <name>Mule Shared API</name>
     <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
+    <organization>
+        <name>MuleSoft, Inc.</name>
+        <url>http://www.mulesoft.com</url>
+    </organization>
+    
+    <name>Mule ESB Metadata shared APIs</name>
+    <description>
+        Shared API to exchange metadata and connectivity information.
+
+        Includes the callback model used by the ESB.
+        Mule is the world's most widely used open source Enterprise Service
+        Bus (ESB). Designed to support high-performance, multi-protocol transactions
+        between heterogeneous systems and services, Mule provides the basis for
+        service oriented architecture (SOA).
+    </description>
+    <url>http://mulesoft.org</url>
+    <licenses>
+        <license>
+            <name>CPAL v1.0</name>
+            <url>http://www.mulesoft.com/CPAL</url>
+        </license>
+    </licenses>
+    <mailingLists>
+        <!-- Refer to http://www.mulesoft.org/display/MULE/Mailing+Lists -->
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>rrinaudo</id>
+            <name>Ramiro Rinaudo</name>
+            <url>http://mulesoft.org</url>
+            <organization>MuleSoft</organization>
+        </developer>
+    </developers>
+    <contributors>
+        <!-- Refer to https://github.com/mulesoft/mule/graphs/contributors -->
+    </contributors>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://www.mulesoft.org/jira/browse/MULE</url>
+    </issueManagement>
+
+
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -18,6 +60,8 @@
         <wagon.webdev.version>1.0-beta-2</wagon.webdev.version>
         <grammar.java.dir>${basedir}/src/main/java/org/mule/common/query/dsql</grammar.java.dir>
     </properties>
+
+
 
     <dependencies>
     	<!-- Same version as Mule! -->
