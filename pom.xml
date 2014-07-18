@@ -5,14 +5,12 @@
     <artifactId>mule-common</artifactId>
     <version>3.6.0-M1-SNAPSHOT</version>
     <name>Mule Shared API</name>
-    <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
     <organization>
         <name>MuleSoft, Inc.</name>
         <url>http://www.mulesoft.com</url>
     </organization>
     
-    <name>Mule ESB Metadata shared APIs</name>
     <description>
         Shared API to exchange metadata and connectivity information.
 
@@ -104,6 +102,11 @@
             <type>jar</type>
             <version>1.3</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
