@@ -6,10 +6,7 @@ import java.lang.String;
 
 import org.json.JSONObject;
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.common.metadata.parser.json.JSONArrayType;
-import org.mule.common.metadata.parser.json.JSONObjectType;
-import org.mule.common.metadata.parser.json.JSONType;
-import org.mule.common.metadata.parser.json.SchemaEnv;
+import org.mule.common.metadata.parser.json.*;
 
 /**
  * Created by studio on 18/07/2014.
@@ -20,7 +17,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
     protected static final String OBJECT_ELEMENT_NAME = "object";
     public static final String ARRAY_ELEMENT_NAME = "array";
 
-    public JSONSchemaMetaDataFieldFactory(String jsonSchemaString) {
+    public JSONSchemaMetaDataFieldFactory(String jsonSchemaString) throws SchemaException {
         JSONObject jsonSchemaObject = new JSONObject(jsonSchemaString);
         SchemaEnv schemaEnv = new SchemaEnv(null, jsonSchemaObject);
         if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals("array")) {
