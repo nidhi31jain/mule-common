@@ -32,7 +32,7 @@ public class JSONObjectType extends AbstractType {
 		try {
 		    //Add root to the types
 		    if(env.getParent()==null){
-		        env.addType("/", this);
+		        env.addType("#", this);
 		    }
 		    //
 		    if(!obj.has("type") && !obj.has("properties")) { 

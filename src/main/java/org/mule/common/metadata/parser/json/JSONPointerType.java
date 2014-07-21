@@ -22,16 +22,30 @@ public class JSONPointerType implements JSONType {
     public JSONType resolve() throws SchemaException {
 
         java.lang.String[] splitRef = ref.split("#");
+
+        if(splitRef.length==0){//Case "$ref"="#"
+            return env.lookupType("#");
+        }
+
         java.lang.String baseURI = splitRef[0];
         java.lang.String jsonPointer = splitRef[1];
         java.lang.String[] tokens = jsonPointer.split("/");
 
+        if(tokens.length==0){//Case "$ref"=id + "#"
+            return env.lookupType("#");
+        }
+
+        JSONType referenceType = null;
+
         // See if it has already been resolved if base URI is empty or matches this schema's id
-        JSONType referenceType = env.lookupType(jsonPointer);
+        JSONObject contextJsonObject = env.getContextJsonObject();
+        if(baseURI.equals("") || (contextJsonObject.has("id") && baseURI.equals(contextJsonObject.get("id")))){
+            referenceType = env.lookupType(jsonPointer);
+        }
 
         // If it has not, try to resolve it within the context document
         if (referenceType == null) {
-            JSONObject jsonObjectToken = env.getContextJsonObject();
+            JSONObject jsonObjectToken = contextJsonObject;
 
             for (int i = 1; i < tokens.length; i++) {
                 if (jsonObjectToken.has(tokens[i])) {
