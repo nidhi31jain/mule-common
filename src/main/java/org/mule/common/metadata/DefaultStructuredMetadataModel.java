@@ -9,7 +9,7 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
 
     private List<MetaDataField> fields;
 
-    protected DefaultStructuredMetadataModel(DataType dataType) throws Exception {
+    public DefaultStructuredMetadataModel(DataType dataType) throws Exception {
         super(dataType);
 
     }

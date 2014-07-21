@@ -38,8 +38,9 @@ public interface JSONType {
 	public boolean isJSONPrimitive();
 	public boolean isJSONArray();
 	public boolean isJSONObject();
-	
-	public static class Everything extends AbstractType { 
+    public boolean isJSONPointer();
+
+    public static class Everything extends AbstractType {
 		public boolean contains(Object obj) { 
 			return obj != null;
 		}
@@ -58,7 +59,12 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 	
 	public static class Empty extends AbstractType { 
 		public boolean contains(Object obj) { 
@@ -80,7 +86,12 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 
 	public static class String extends AbstractType { 
 		public boolean contains(Object obj) { 
@@ -116,7 +127,12 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 
 	public static class Integer extends AbstractType { 
 		public boolean contains(Object obj) { 
@@ -151,7 +167,12 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 
 	public static class Double extends AbstractType { 
 		public boolean contains(Object obj) { 
@@ -186,7 +207,12 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 
     public static class Number extends AbstractType {
         public boolean contains(Object obj) {
@@ -219,6 +245,11 @@ public interface JSONType {
         }
         @Override
         public boolean isJSONObject() {
+            return false;
+        }
+
+        @Override
+        public boolean isJSONPointer() {
             return false;
         }
     }
@@ -256,6 +287,11 @@ public interface JSONType {
         public boolean isJSONObject() {
             return false;
         }
-	}
+
+        @Override
+        public boolean isJSONPointer() {
+            return false;
+        }
+    }
 }
 

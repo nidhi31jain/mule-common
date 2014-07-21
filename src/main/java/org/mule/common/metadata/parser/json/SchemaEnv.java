@@ -148,7 +148,7 @@ public class SchemaEnv {
 				    specifiedType = new JSONType.String();
 				}else if(json.has("$ref")){
 				    String reference = json.getString("$ref");
-				    specifiedType = new JSONPointer(this, reference);
+				    specifiedType = new JSONPointerType(this, reference);
 				}else if(json.has("anyOf") || json.has("allOf") || json.has("oneOf")){
 				    specifiedType = new JSONType.Everything();
 				}else{ 

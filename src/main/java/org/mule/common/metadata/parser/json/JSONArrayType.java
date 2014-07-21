@@ -99,4 +99,9 @@ public class JSONArrayType extends AbstractType {
     public boolean isJSONObject() {
         return false;
     }
+
+    @Override
+    public boolean isJSONPointer() {
+        return false;
+    }
 }

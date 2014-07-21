@@ -35,4 +35,9 @@ public class OptionalType implements JSONType {
         // TODO Auto-generated method stub
         return false;
     }
+
+    @Override
+    public boolean isJSONPointer() {
+        return false;
+    }
 }

@@ -100,4 +100,9 @@ public class JSONFileType extends AbstractType {
     public boolean isJSONObject() {
         return false;
     }
+
+    @Override
+    public boolean isJSONPointer() {
+        return false;
+    }
 }

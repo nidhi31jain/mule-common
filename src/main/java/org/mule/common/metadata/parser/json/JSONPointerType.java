@@ -9,12 +9,12 @@ import java.net.URL;
 
 import org.json.JSONObject;
 
-public class JSONPointer implements JSONType {
+public class JSONPointerType implements JSONType {
 
     private java.lang.String ref;
     private SchemaEnv env;
 
-    public JSONPointer(SchemaEnv env, java.lang.String reference) {
+    public JSONPointerType(SchemaEnv env, java.lang.String reference) {
         this.ref = reference;
         this.env = env;
     }
@@ -56,6 +56,7 @@ public class JSONPointer implements JSONType {
 
         }
 
+        // If it cannot find it within the files try to get it on the internet
         if (referenceType == null) {
             URL url;
             try {
@@ -124,6 +125,11 @@ public class JSONPointer implements JSONType {
     @Override
     public boolean isJSONObject() {
         return false;
+    }
+
+    @Override
+    public boolean isJSONPointer() {
+        return true;
     }
 
 }

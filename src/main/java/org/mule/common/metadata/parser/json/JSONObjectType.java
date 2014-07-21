@@ -224,6 +224,11 @@ public class JSONObjectType extends AbstractType {
         return true;
     }
 
+    @Override
+    public boolean isJSONPointer() {
+        return false;
+    }
+
 
     public java.lang.String getId() {
         return id;

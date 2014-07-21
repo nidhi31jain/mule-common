@@ -19,11 +19,11 @@ import java.io.*;
  */
 public class JSONResourceType extends AbstractType {
 
-	private String resource;
+	private java.lang.String resource;
 	private JSONType fileType;
 	private SchemaEnv env;
 
-	public JSONResourceType(SchemaEnv env, String resource) {
+	public JSONResourceType(SchemaEnv env, java.lang.String resource) {
 		this.env = env;
         this.resource = resource;
 		fileType = null;
@@ -53,7 +53,7 @@ public class JSONResourceType extends AbstractType {
                 builder.append(buffer, 0, read);
             }
 
-            String jsonString = builder.toString();
+            java.lang.String jsonString = builder.toString();
             JSONObject obj = new JSONObject(jsonString);
             fileType = new JSONObjectType(env, obj);
 
@@ -96,6 +96,11 @@ public class JSONResourceType extends AbstractType {
     @Override
     public boolean isJSONObject() {
         // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isJSONPointer() {
         return false;
     }
 }
