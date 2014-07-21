@@ -52,7 +52,7 @@ public class JSONFileType extends AbstractType {
                 builder.append(buffer, 0, read);
             }
 
-            String jsonString = builder.toString();
+            java.lang.String jsonString = builder.toString();
             JSONObject obj = new JSONObject(jsonString);
             fileType = new JSONObjectType(env, obj);
 
@@ -88,19 +88,16 @@ public class JSONFileType extends AbstractType {
 
     @Override
     public boolean isJSONPrimitive() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isJSONArray() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isJSONObject() {
-        // TODO Auto-generated method stub
         return false;
     }
 }

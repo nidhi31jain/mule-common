@@ -11,20 +11,20 @@ import org.json.JSONObject;
 
 public class JSONPointer implements JSONType {
 
-    private String ref;
+    private java.lang.String ref;
     private SchemaEnv env;
 
-    public JSONPointer(SchemaEnv env, String reference) {
+    public JSONPointer(SchemaEnv env, java.lang.String reference) {
         this.ref = reference;
         this.env = env;
     }
 
     public JSONType resolve(JSONObject contextJsonObject) throws SchemaException {
 
-        String[] splitRef = ref.split("#");
-        String baseURI = splitRef[0];
-        String jsonPointer = splitRef[1];
-        String[] tokens = jsonPointer.split("/");
+        java.lang.String[] splitRef = ref.split("#");
+        java.lang.String baseURI = splitRef[0];
+        java.lang.String jsonPointer = splitRef[1];
+        java.lang.String[] tokens = jsonPointer.split("/");
 
         // See if it has already been resolved if base URI is empty or matches this schema's id
         JSONType referenceType = env.lookupType(jsonPointer);
@@ -74,8 +74,8 @@ public class JSONPointer implements JSONType {
 
         HttpURLConnection conn;
         BufferedReader rd;
-        String line;
-        String result = "";
+        java.lang.String line;
+        java.lang.String result = "";
         try {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -102,7 +102,7 @@ public class JSONPointer implements JSONType {
     }
 
     @Override
-    public String explain(Object obj) {
+    public java.lang.String explain(Object obj) {
         return null;
     }
 

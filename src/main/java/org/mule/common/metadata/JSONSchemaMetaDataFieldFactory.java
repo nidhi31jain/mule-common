@@ -1,8 +1,10 @@
 package org.mule.common.metadata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.lang.String;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.mule.common.metadata.datatype.DataType;
@@ -13,6 +15,18 @@ import org.mule.common.metadata.parser.json.*;
  */
 public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
+    private static final Map<JSONType, DataType> typeMapping = new HashMap<JSONType, DataType>();
+    static{
+        typeMapping.put(new JSONType.Everything(), DataType.UNKNOWN);
+        typeMapping.put(new JSONType.Boolean(), DataType.BOOLEAN);
+        typeMapping.put(new JSONType.Double(), DataType.DOUBLE);
+        typeMapping.put(new JSONType.Empty(), DataType.VOID);
+        typeMapping.put(new JSONType.Integer(), DataType.INTEGER);
+        typeMapping.put(new JSONType.String(), DataType.STRING);
+        typeMapping.put(new JSONType.Number(), DataType.NUMBER);
+    }
+
+
     private JSONType jsonSchemaType;
     protected static final String OBJECT_ELEMENT_NAME = "object";
     public static final String ARRAY_ELEMENT_NAME = "array";
@@ -20,7 +34,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
     public JSONSchemaMetaDataFieldFactory(String jsonSchemaString) throws SchemaException {
         JSONObject jsonSchemaObject = new JSONObject(jsonSchemaString);
         SchemaEnv schemaEnv = new SchemaEnv(null, jsonSchemaObject);
-        if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals("array")) {
+        if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals(ARRAY_ELEMENT_NAME)) {
             jsonSchemaType = new JSONArrayType(schemaEnv, jsonSchemaObject);
         } else {
             jsonSchemaType = new JSONObjectType(schemaEnv, jsonSchemaObject);
@@ -57,7 +71,6 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
         DefaultStructuredMetadataModel model = buildJSONMetaDataModel(type);
         metadata.add(new DefaultMetaDataField(name, model));
-        // loadFields(type, metadata);
 
     }
 
@@ -65,7 +78,6 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
         DefaultStructuredMetadataModel model;
         model = new DefaultStructuredMetadataModel(DataType.JSON, new JSONSchemaMetaDataFieldFactory(type));
-        // loadFields(type, model.getFields());
 
         return model;
     }
@@ -78,14 +90,14 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         }
     }
 
-    private void processJSONSchemaArray(JSONArrayType property, String name, List<MetaDataField> metadata) {
+    private void processJSONSchemaArray(JSONArrayType property, String name, List<MetaDataField> metadata) throws Exception {
         JSONType itemsType = property.getItemsType();
 
         if (itemsType.isJSONPrimitive()) { // Case List<String>
             DataType dataType = getDataType(itemsType);
             metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(dataType))));
         } else {
-            DefaultStructuredMetadataModel model = buildJSONMetaDataModel(itemsType);
+            DefaultStructuredMetadataModel model = buildJSONMetaDataModel((JSONObjectType)itemsType);
             metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(model)));
         }
 
@@ -96,17 +108,13 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         metadata.add(new DefaultMetaDataField(name, new DefaultSimpleMetaDataModel(dataType)));
     }
 
-    private IMetadataType getType(JSONType type) {
-        if (type.getClass().equals(JSONType.Integer.class)) {
-            return SimpleMetadataFieldType.Integer;
-        } else if (type.getClass().equals(JSONType.String.class)) {
-            return SimpleMetadataFieldType.String;
-        } else if (type.getClass().equals(JSONType.Double.class)) {
-            return SimpleMetadataFieldType.Number;
-        } else if (type.getClass().equals(JSONType.Boolean.class)) {
-            return SimpleMetadataFieldType.Boolean;
+    private DataType getDataType(JSONType jsonType) {
+
+        DataType dataType = typeMapping.get(jsonType);
+        if(dataType!=null){
+            return dataType;
         }
-        return SimpleMetadataFieldType.String;
+        return DataType.STRING;
     }
 
 }

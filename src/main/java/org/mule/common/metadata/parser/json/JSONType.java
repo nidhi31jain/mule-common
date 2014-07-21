@@ -188,6 +188,41 @@ public interface JSONType {
         }
 	}
 
+    public static class Number extends AbstractType {
+        public boolean contains(Object obj) {
+            if(obj == null) { return false; }
+            if(obj instanceof java.lang.Double) { return true; }
+            try {
+                java.lang.Double.parseDouble(obj.toString());
+                return true;
+            } catch(NumberFormatException e) {
+                return false;
+            }
+        }
+        public java.lang.String explain(Object obj) {
+            if(obj == null) { return format("REJECT: null value"); }
+            if(obj instanceof java.lang.Double) { return null; }
+            try {
+                java.lang.Double.parseDouble(obj.toString());
+                return null;
+            } catch(NumberFormatException e) {
+                return format("REJECT: %s", e.getMessage());
+            }
+        }
+        @Override
+        public boolean isJSONPrimitive() {
+            return true;
+        }
+        @Override
+        public boolean isJSONArray() {
+            return false;
+        }
+        @Override
+        public boolean isJSONObject() {
+            return false;
+        }
+    }
+
 	public static class Boolean extends AbstractType { 
 		public boolean contains(Object obj) { 
 			if(obj == null) { return false; }

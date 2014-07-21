@@ -25,7 +25,7 @@ public class SchemaEnv {
 		types.put("integer", new JSONType.Integer());
 		types.put("double", new JSONType.Double());
 		types.put("boolean", new JSONType.Boolean());
-		types.put("number", new JSONType.Double());
+		types.put("number", new JSONType.Number());
 	}
 	
 	public SchemaEnv(File dir) { 
