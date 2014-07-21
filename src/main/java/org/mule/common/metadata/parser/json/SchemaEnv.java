@@ -15,6 +15,10 @@ public class SchemaEnv {
    	private SchemaEnv parent;
 	private Map<String,JSONType> types;
 
+    public JSONObject getContextJsonObject() {
+        return contextJsonObject;
+    }
+
     private JSONObject contextJsonObject;
 
 	public SchemaEnv() { 

@@ -16,7 +16,8 @@ import org.mule.common.metadata.parser.json.*;
 public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
     private static final Map<JSONType, DataType> typeMapping = new HashMap<JSONType, DataType>();
-    static{
+
+    static {
         typeMapping.put(new JSONType.Everything(), DataType.UNKNOWN);
         typeMapping.put(new JSONType.Boolean(), DataType.BOOLEAN);
         typeMapping.put(new JSONType.Double(), DataType.DOUBLE);
@@ -26,6 +27,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         typeMapping.put(new JSONType.Number(), DataType.NUMBER);
     }
 
+    Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypes = null;
 
     private JSONType jsonSchemaType;
     protected static final String OBJECT_ELEMENT_NAME = "object";
@@ -46,11 +48,20 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         jsonSchemaType = type;
     }
 
+    public JSONSchemaMetaDataFieldFactory(JSONObjectType type, Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypesParameter) {
+        jsonSchemaType = type;
+        visitedTypes = visitedTypesParameter;
+    }
 
     public List<MetaDataField> createFields() throws Exception {
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
+
+        if (visitedTypes == null) {
+            visitedTypes = new HashMap<JSONObjectType, DefaultStructuredMetadataModel>();
+        }
+
         if (jsonSchemaType.isJSONObject()) {
-            loadFields((JSONObjectType) jsonSchemaType, metaDataFields);
+            loadFields((JSONObjectType) jsonSchemaType, metaDataFields, visitedTypes);
         } else {
             processJSONSchemaElement(jsonSchemaType, ARRAY_ELEMENT_NAME, metaDataFields);
         }
@@ -77,12 +88,17 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
     private DefaultStructuredMetadataModel buildJSONMetaDataModel(JSONObjectType type) throws Exception {
 
         DefaultStructuredMetadataModel model;
-        model = new DefaultStructuredMetadataModel(DataType.JSON, new JSONSchemaMetaDataFieldFactory(type));
-
+        if (visitedTypes.containsKey(type)) {
+            model = visitedTypes.get(type);
+        } else {
+            model = new DefaultStructuredMetadataModel(DataType.JSON);
+            visitedTypes.put(type, model);
+            model.init(new JSONSchemaMetaDataFieldFactory(type, visitedTypes));
+        }
         return model;
     }
 
-    private void loadFields(JSONObjectType type, List<MetaDataField> metadata) throws Exception {
+    private void loadFields(JSONObjectType type, List<MetaDataField> metadata, Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypes) throws Exception {
         String[] properties = type.getProperties();
         for (String key : properties) {
             JSONType propertyType = type.getPropertyType(key);
@@ -97,7 +113,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
             DataType dataType = getDataType(itemsType);
             metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(dataType))));
         } else {
-            DefaultStructuredMetadataModel model = buildJSONMetaDataModel((JSONObjectType)itemsType);
+            DefaultStructuredMetadataModel model = buildJSONMetaDataModel((JSONObjectType) itemsType);
             metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(model)));
         }
 
@@ -111,7 +127,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
     private DataType getDataType(JSONType jsonType) {
 
         DataType dataType = typeMapping.get(jsonType);
-        if(dataType!=null){
+        if (dataType != null) {
             return dataType;
         }
         return DataType.STRING;

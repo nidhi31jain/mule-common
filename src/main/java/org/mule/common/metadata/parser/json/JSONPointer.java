@@ -19,7 +19,7 @@ public class JSONPointer implements JSONType {
         this.env = env;
     }
 
-    public JSONType resolve(JSONObject contextJsonObject) throws SchemaException {
+    public JSONType resolve() throws SchemaException {
 
         java.lang.String[] splitRef = ref.split("#");
         java.lang.String baseURI = splitRef[0];
@@ -31,7 +31,7 @@ public class JSONPointer implements JSONType {
 
         // If it has not, try to resolve it within the context document
         if (referenceType == null) {
-            JSONObject jsonObjectToken = contextJsonObject;
+            JSONObject jsonObjectToken = env.getContextJsonObject();
 
             for (int i = 1; i < tokens.length; i++) {
                 if (jsonObjectToken.has(tokens[i])) {
