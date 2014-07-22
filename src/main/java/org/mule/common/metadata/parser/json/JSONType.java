@@ -47,7 +47,7 @@ public interface JSONType {
 
         @Override
         public boolean isJSONPrimitive() {
-            return false;
+            return true;
         }
 
         @Override

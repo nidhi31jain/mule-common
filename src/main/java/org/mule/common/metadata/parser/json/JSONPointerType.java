@@ -70,7 +70,7 @@ public class JSONPointerType implements JSONType {
 
         }
 
-        // If it cannot find it within the files try to get it on the internet
+        // If it cannot find it within the files try to get it on the internet or as a file:///
         if (referenceType == null) {
             URL url;
             try {

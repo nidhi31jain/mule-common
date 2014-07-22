@@ -6,6 +6,7 @@ import java.util.List;
 import java.lang.String;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.parser.json.*;
@@ -15,16 +16,16 @@ import org.mule.common.metadata.parser.json.*;
  */
 public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
-    private static final Map<JSONType, DataType> typeMapping = new HashMap<JSONType, DataType>();
+    private static final Map<Class<?>, DataType> typeMapping = new HashMap<Class<?>, DataType>();
 
     static {
-        typeMapping.put(new JSONType.Everything(), DataType.UNKNOWN);
-        typeMapping.put(new JSONType.Boolean(), DataType.BOOLEAN);
-        typeMapping.put(new JSONType.Double(), DataType.DOUBLE);
-        typeMapping.put(new JSONType.Empty(), DataType.VOID);
-        typeMapping.put(new JSONType.Integer(), DataType.INTEGER);
-        typeMapping.put(new JSONType.String(), DataType.STRING);
-        typeMapping.put(new JSONType.Number(), DataType.NUMBER);
+        typeMapping.put(JSONType.Everything.class, DataType.UNKNOWN);
+        typeMapping.put(JSONType.Boolean.class, DataType.BOOLEAN);
+        typeMapping.put(JSONType.Double.class, DataType.DOUBLE);
+        typeMapping.put(JSONType.Empty.class, DataType.VOID);
+        typeMapping.put(JSONType.Integer.class, DataType.INTEGER);
+        typeMapping.put(JSONType.String.class, DataType.STRING);
+        typeMapping.put(JSONType.Number.class, DataType.NUMBER);
     }
 
     Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypes = null;
@@ -38,6 +39,8 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         SchemaEnv schemaEnv = new SchemaEnv(null, jsonSchemaObject);
         if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals(ARRAY_ELEMENT_NAME)) {
             jsonSchemaType = new JSONArrayType(schemaEnv, jsonSchemaObject);
+        } else if(jsonSchemaObject.has("type") && jsonSchemaObject.get("type") instanceof JSONArray){//Case root's type is an array.
+            jsonSchemaType = new JSONType.Everything();
         } else {
             jsonSchemaType = new JSONObjectType(schemaEnv, jsonSchemaObject);
         }
@@ -62,7 +65,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
         if (jsonSchemaType.isJSONObject()) {
             loadFields((JSONObjectType) jsonSchemaType, metaDataFields);
-        } else {
+        } else if(jsonSchemaType.isJSONArray()){
             processJSONSchemaElement(jsonSchemaType, ARRAY_ELEMENT_NAME, metaDataFields);
         }
         return metaDataFields;
@@ -113,7 +116,8 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
         if (itemsType.isJSONPrimitive()) { // Case List<String>
             DataType dataType = getDataType(itemsType);
-            metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(dataType))));
+            MetaDataModel model = dataType==DataType.UNKNOWN ? new DefaultUnknownMetaDataModel(): new DefaultSimpleMetaDataModel(dataType);
+            metadata.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(model)));
         }else {
             DefaultStructuredMetadataModel model = null;
             if(itemsType.isJSONPointer()){
@@ -128,7 +132,8 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
     private void processJSONSchemaPrimitive(JSONType property, String name, List<MetaDataField> metadata) {
         DataType dataType = getDataType(property);
-        metadata.add(new DefaultMetaDataField(name, new DefaultSimpleMetaDataModel(dataType)));
+        MetaDataModel model = dataType==DataType.UNKNOWN ? new DefaultUnknownMetaDataModel(): new DefaultSimpleMetaDataModel(dataType);
+        metadata.add(new DefaultMetaDataField(name, model));
     }
 
     private void processJSONPointer(JSONPointerType ptr, String name, List<MetaDataField> metadata) throws Exception {
@@ -137,7 +142,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
     private DataType getDataType(JSONType jsonType) {
 
-        DataType dataType = typeMapping.get(jsonType);
+        DataType dataType = typeMapping.get(jsonType.getClass());
         if (dataType != null) {
             return dataType;
         }
