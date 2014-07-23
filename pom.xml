@@ -5,13 +5,21 @@
     <artifactId>mule-common</artifactId>
     <version>3.6.0-M2-SNAPSHOT</version>
     <name>Mule Shared API</name>
-    <description>Shared Interfaces between Studio and ESB for Metadata and Connectivity access</description>
 
     <organization>
         <name>MuleSoft, Inc.</name>
         <url>http://www.mulesoft.com</url>
     </organization>
     
+    <description>
+        Shared API to exchange metadata and connectivity information.
+
+        Includes the callback model used by the ESB.
+        Mule is the world's most widely used open source Enterprise Service
+        Bus (ESB). Designed to support high-performance, multi-protocol transactions
+        between heterogeneous systems and services, Mule provides the basis for
+        service oriented architecture (SOA).
+    </description>
     <url>http://mulesoft.org</url>
     <licenses>
         <license>
@@ -96,6 +104,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
             <version>${antlr.version}</version>
@@ -106,6 +119,11 @@
                     <!--version>2.7.7</version-->
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
         </dependency>
     </dependencies>
 

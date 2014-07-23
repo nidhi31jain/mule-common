@@ -1,0 +1,8 @@
+{
+	"name": "user",
+	"type": "object",
+	"properties": {
+		"friend": {"type": "user"},
+		"etc": {"type": "string"}
+	}
+}

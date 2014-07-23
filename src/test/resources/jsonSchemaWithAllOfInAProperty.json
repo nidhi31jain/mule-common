@@ -1,0 +1,14 @@
+{
+    "title": "JSON Patch",
+    "description": "A JSON Schema describing a JSON Patch",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "value": {
+            "allOf": [
+                { "type": "string" },
+                { "maxLength": 5 }
+            ]
+        }
+    }
+}

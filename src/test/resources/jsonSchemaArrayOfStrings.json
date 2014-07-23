@@ -1,0 +1,9 @@
+{
+    "title": "JSON Array of Strings",
+    "description": "A JSON Schema describing a JSON Patch",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "array",
+    "items": {
+        "type": "string"
+    }
+}
