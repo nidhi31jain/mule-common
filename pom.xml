@@ -12,16 +12,6 @@
         <url>http://www.mulesoft.com</url>
     </organization>
     
-    <name>Mule ESB Metadata shared APIs</name>
-    <description>
-        Shared API to exchange metadata and connectivity information.
-
-        Includes the callback model used by the ESB.
-        Mule is the world's most widely used open source Enterprise Service
-        Bus (ESB). Designed to support high-performance, multi-protocol transactions
-        between heterogeneous systems and services, Mule provides the basis for
-        service oriented architecture (SOA).
-    </description>
     <url>http://mulesoft.org</url>
     <licenses>
         <license>
