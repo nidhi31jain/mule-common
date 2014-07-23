@@ -6,8 +6,6 @@ import java.util.List;
 import java.lang.String;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.parser.json.*;
 
@@ -16,58 +14,25 @@ import org.mule.common.metadata.parser.json.*;
  */
 public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
 
-    private static final Map<Class<?>, DataType> typeMapping = new HashMap<Class<?>, DataType>();
-
-    static {
-        typeMapping.put(JSONType.Everything.class, DataType.UNKNOWN);
-        typeMapping.put(JSONType.Boolean.class, DataType.BOOLEAN);
-        typeMapping.put(JSONType.Double.class, DataType.DOUBLE);
-        typeMapping.put(JSONType.Empty.class, DataType.VOID);
-        typeMapping.put(JSONType.Integer.class, DataType.INTEGER);
-        typeMapping.put(JSONType.String.class, DataType.STRING);
-        typeMapping.put(JSONType.Number.class, DataType.NUMBER);
-    }
-
     Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypes = null;
 
     private JSONType jsonSchemaType;
-    protected static final String OBJECT_ELEMENT_NAME = "object";
-    public static final String ARRAY_ELEMENT_NAME = "array";
-
-    public JSONSchemaMetaDataFieldFactory(String jsonSchemaString) throws SchemaException {
-        JSONObject jsonSchemaObject = new JSONObject(jsonSchemaString);
-        SchemaEnv schemaEnv = new SchemaEnv(null, jsonSchemaObject);
-        if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals(ARRAY_ELEMENT_NAME)) {
-            jsonSchemaType = new JSONArrayType(schemaEnv, jsonSchemaObject);
-        } else if(jsonSchemaObject.has("type") && jsonSchemaObject.get("type") instanceof JSONArray){//Case root's type is an array.
-            jsonSchemaType = new JSONType.Everything();
-        } else {
-            jsonSchemaType = new JSONObjectType(schemaEnv, jsonSchemaObject);
-        }
-
-    }
 
     public JSONSchemaMetaDataFieldFactory(JSONObjectType type) {
         jsonSchemaType = type;
     }
 
     public JSONSchemaMetaDataFieldFactory(JSONObjectType type, Map<JSONObjectType, DefaultStructuredMetadataModel> visitedTypesParameter) {
-        jsonSchemaType = type;
+        this(type);
         visitedTypes = visitedTypesParameter;
     }
 
     public List<MetaDataField> createFields() throws Exception {
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
-
         if (visitedTypes == null) {
             visitedTypes = new HashMap<JSONObjectType, DefaultStructuredMetadataModel>();
         }
-
-        if (jsonSchemaType.isJSONObject()) {
-            loadFields((JSONObjectType) jsonSchemaType, metaDataFields);
-        } else if(jsonSchemaType.isJSONArray()){
-            processJSONSchemaElement(jsonSchemaType, ARRAY_ELEMENT_NAME, metaDataFields);
-        }
+        loadFields((JSONObjectType) jsonSchemaType, metaDataFields);
         return metaDataFields;
     }
 
@@ -141,12 +106,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
     }
 
     private DataType getDataType(JSONType jsonType) {
-
-        DataType dataType = typeMapping.get(jsonType.getClass());
-        if (dataType != null) {
-            return dataType;
-        }
-        return DataType.STRING;
+        return JSONTypeUtils.getDataType(jsonType);
     }
 
 }

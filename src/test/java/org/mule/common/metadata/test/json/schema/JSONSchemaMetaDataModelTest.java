@@ -2,10 +2,7 @@ package org.mule.common.metadata.test.json.schema;
 
 import org.hamcrest.CoreMatchers;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
@@ -18,6 +15,9 @@ import java.io.InputStream;
  */
 public class JSONSchemaMetaDataModelTest {
 
+    JSONSchemaMetadataModelFactory modelFactory = new JSONSchemaMetadataModelFactory();
+
+
     @Rule
     public ExpectedException schemaException = ExpectedException.none();
 
@@ -26,8 +26,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithDefinitions.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("resource"));
@@ -57,8 +59,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithCircularReferenceWithNameAttribute.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
@@ -77,8 +81,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithCircularReferenceWithRefAttribute.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
@@ -109,8 +115,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithCircularReferenceWithRefAttribute.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
@@ -129,22 +137,15 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAnArrayAndAllOfTagInItemsProperty.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        JSONSchemaMetadataModelFactory factory = new JSONSchemaMetadataModelFactory();
-//        MetaDataModel model2 = factory.buildModel(jsonSchemaString);
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        DefaultListMetaDataModel listModel = new DefaultListMetaDataModel(model);
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultListMetaDataModel.class));
+        DefaultListMetaDataModel model = (DefaultListMetaDataModel) metaDataModel;
 
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        Assert.assertThat(model.getElementModel(), CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
+        Assert.assertThat(model.getElementModel().getDataType(), CoreMatchers.is(DataType.UNKNOWN));
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.LIST));
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
-
-        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultListMetaDataModel.class));
-        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("array"));
-        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.LIST));
-
-        Assert.assertThat(((DefaultListMetaDataModel)model.getFields().get(0).getMetaDataModel()).getElementModel(), CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
-        Assert.assertThat(((DefaultListMetaDataModel)model.getFields().get(0).getMetaDataModel()).getElementModel().getDataType(), CoreMatchers.is(DataType.UNKNOWN));
     }
 
     @Test
@@ -152,8 +153,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAllOfInAProperty.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
 
@@ -168,8 +171,10 @@ public class JSONSchemaMetaDataModelTest {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAPropertyWithAnArrayType.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
 
@@ -180,24 +185,31 @@ public class JSONSchemaMetaDataModelTest {
     }
 
     @Test
-    @Ignore
     public void whenRootTypeIsAnArrayItShouldHaveAnUnknownModelAssociated() throws Exception {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAnArrayType.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
-        DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-        model.init(new JSONSchemaMetaDataFieldFactory(jsonSchemaString));
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(0));
-
-        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
-        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("value"));
-        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.UNKNOWN));
-
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
+        Assert.assertThat(metaDataModel.getDataType(), CoreMatchers.is(DataType.UNKNOWN));
     }
 
+    @Test
+    public void testArrayOfStrings() throws Exception {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaArrayOfStrings.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
 
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultListMetaDataModel.class));
+        DefaultListMetaDataModel model = (DefaultListMetaDataModel) metaDataModel;
+
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.LIST));
+        Assert.assertThat(model.getElementModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getElementModel().getDataType(), CoreMatchers.is(DataType.STRING));
+
+    }
 
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
