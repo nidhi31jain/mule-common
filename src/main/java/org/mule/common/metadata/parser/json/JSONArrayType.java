@@ -17,11 +17,9 @@ public class JSONArrayType extends AbstractType {
 
 	private SchemaEnv env;
 	private JSONType itemsType;
-    private JSONObject contextDefinitionsJsonObject;
 
-	public JSONArrayType(SchemaEnv schemaEnv, JSONObject schema, JSONObject contextDefinitionsJsonObject) throws SchemaException { 
-		this.contextDefinitionsJsonObject = contextDefinitionsJsonObject;
-	    
+	public JSONArrayType(SchemaEnv schemaEnv, JSONObject schema) throws SchemaException {
+
 	    this.env = schemaEnv;
 		itemsType = new JSONType.Everything();
 		
@@ -33,10 +31,6 @@ public class JSONArrayType extends AbstractType {
 			}
 		}
 	}
-	
-    public JSONArrayType(SchemaEnv schemaEnv, JSONObject jsonObjectDefinition) throws SchemaException {
-        this(schemaEnv, jsonObjectDefinition, null);
-    }
 
     public JSONType getItemsType() {
         return itemsType;
