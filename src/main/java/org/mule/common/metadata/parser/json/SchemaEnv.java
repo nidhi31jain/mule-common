@@ -3,14 +3,12 @@ package org.mule.common.metadata.parser.json;
 import java.util.*;
 import java.util.regex.*;
 import java.io.*;
-import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SchemaEnv {
 
-    public static Logger LOG = Logger.getLogger(SchemaEnv.class);
 
    	private SchemaEnv parent;
 	private Map<String,JSONType> types;
@@ -34,7 +32,6 @@ public class SchemaEnv {
 	
 	public SchemaEnv(File dir) { 
 		this();
-        LOG.debug(String.format("parsing sschemas in %s", dir.getAbsolutePath()));
 
 		File[] lst = dir.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
@@ -46,7 +43,6 @@ public class SchemaEnv {
 		
 		for(File jsFile : lst) { 
 			Matcher jsMatcher = jsFilenamePattern.matcher(jsFile.getName());
-            LOG.debug(String.format("Loading schema in %s", jsFile.getName()));
 
 			if(jsMatcher.matches()) { 
 				String typeName = jsMatcher.group(1);
