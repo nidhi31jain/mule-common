@@ -28,46 +28,50 @@ public class JSONPointerType implements JSONType {
         }
 
         java.lang.String baseURI = splitRef[0];
-        java.lang.String jsonPointer = splitRef[1];
-        java.lang.String[] tokens = jsonPointer.split("/");
-
-        if(tokens.length==0){//Case "$ref"=id + "#"
-            return env.lookupType("#");
-        }
-
         JSONType referenceType = null;
 
-        // See if it has already been resolved if base URI is empty or matches this schema's id
-        JSONObject contextJsonObject = env.getContextJsonObject();
-        if(baseURI.equals("") || (contextJsonObject.has("id") && baseURI.equals(contextJsonObject.get("id")))){
-            referenceType = env.lookupType(jsonPointer);
-        }
+        if(splitRef.length>1){
 
-        // If it has not, try to resolve it within the context document
-        if (referenceType == null) {
-            JSONObject jsonObjectToken = contextJsonObject;
+            java.lang.String jsonPointer = splitRef[1];
+            java.lang.String[] tokens = jsonPointer.split("/");
 
-            for (int i = 1; i < tokens.length; i++) {
-                if (jsonObjectToken.has(tokens[i])) {
-                    jsonObjectToken = (JSONObject) jsonObjectToken.get(tokens[i]);
-                } else {
-                    jsonObjectToken = null;
-                    break;
-                }
+            if(tokens.length==0){//Case "$ref"=id + "#"
+                return env.lookupType("#");
             }
-            if (jsonObjectToken != null) {
 
-                referenceType = env.evaluate(jsonObjectToken);
-                env.addType(jsonPointer, referenceType);
+
+            // See if it has already been resolved if base URI is empty or matches this schema's id
+            JSONObject contextJsonObject = env.getContextJsonObject();
+            if(baseURI.equals("") || (contextJsonObject.has("id") && baseURI.equals(contextJsonObject.get("id")))){
+                referenceType = env.lookupType(jsonPointer);
+            }
+
+            // If it has not, try to resolve it within the context document
+            if (referenceType == null) {
+                JSONObject jsonObjectToken = contextJsonObject;
+
+                for (int i = 1; i < tokens.length; i++) {
+                    if (jsonObjectToken.has(tokens[i])) {
+                        jsonObjectToken = (JSONObject) jsonObjectToken.get(tokens[i]);
+                    } else {
+                        jsonObjectToken = null;
+                        break;
+                    }
+                }
+                if (jsonObjectToken != null) {
+
+                    referenceType = env.evaluate(jsonObjectToken);
+                    env.addType(jsonPointer, referenceType);
+                    return referenceType;
+                }
+            } else {
                 return referenceType;
             }
-        } else {
-            return referenceType;
-        }
 
-        // TODO: If it cannot find it within the context document try to look into files in the same directory
-        if (referenceType == null) {
+            // TODO: If it cannot find it within the context document try to look into files in the same directory
+            if (referenceType == null) {
 
+            }
         }
 
         // If it cannot find it within the files try to get it on the internet or as a file:///

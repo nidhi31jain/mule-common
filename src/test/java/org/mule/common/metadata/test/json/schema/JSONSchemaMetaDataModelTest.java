@@ -212,6 +212,37 @@ public class JSONSchemaMetaDataModelTest {
     }
 
     @Test
+    public void testHttpRef() throws Exception {
+        //This test depends on the following remote schema: http://json-schema.org/geo
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithHttpRef.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("warehouseLocation"));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+
+        DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+
+    }
+
+    @Test
     public void integrationTest() throws Exception{
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaIntegration.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
