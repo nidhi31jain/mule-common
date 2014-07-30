@@ -1,10 +1,11 @@
 package org.mule.common.metadata;
 
-import org.json.JSONArray;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import org.mule.common.metadata.*;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.parser.json.*;
+
+import java.net.URL;
 
 /**
  * Created by studio on 22/07/2014.
@@ -18,11 +19,11 @@ public class JSONSchemaMetadataModelFactory {
 
     }
 
-    public AbstractMetaDataModel buildModel(String jsonSchemaString) throws Exception {
+    private MetaDataModel buildModel(String jsonSchemaString, URL jsonSchemaURL) throws Exception {
         JSONObject jsonSchemaObject = new JSONObject(jsonSchemaString);
         if (jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals(ARRAY_ELEMENT_NAME)) {
 
-            JSONArrayType arrayType = new JSONArrayType(new SchemaEnv(null, jsonSchemaObject), jsonSchemaObject);
+            JSONArrayType arrayType = new JSONArrayType(new SchemaEnv(jsonSchemaObject, jsonSchemaURL), jsonSchemaObject);
             JSONType itemsType = arrayType.getItemsType();
 
             if(itemsType.isJSONObject()){
@@ -43,12 +44,21 @@ public class JSONSchemaMetadataModelFactory {
 
         } else if ((jsonSchemaObject.has("type") && jsonSchemaObject.get("type").toString().toLowerCase().equals(OBJECT_ELEMENT_NAME)) || jsonSchemaObject.has("properties")){
             DefaultStructuredMetadataModel model = new DefaultStructuredMetadataModel(DataType.JSON);
-            model.init(new JSONSchemaMetaDataFieldFactory(new JSONObjectType(new SchemaEnv(null, jsonSchemaObject), jsonSchemaObject)));
+            model.init(new JSONSchemaMetaDataFieldFactory(new JSONObjectType(new SchemaEnv(jsonSchemaObject, jsonSchemaURL), jsonSchemaObject)));
             return model;
         }else {//e.g.: Case root's type is an array.
             DefaultUnknownMetaDataModel model = new DefaultUnknownMetaDataModel();
             return model;
         }
 
+    }
+
+    public MetaDataModel buildModel(String jsonSchemaString) throws Exception {
+        return buildModel(jsonSchemaString, null);
+    }
+
+    public  MetaDataModel buildModel(URL url) throws  Exception {
+        String jsonSchemaString = IOUtils.toString(url.openStream());
+        return buildModel(jsonSchemaString, url);
     }
 }

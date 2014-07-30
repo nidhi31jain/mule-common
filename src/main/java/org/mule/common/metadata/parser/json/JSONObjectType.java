@@ -69,6 +69,8 @@ public class JSONObjectType extends AbstractType {
 			
 			if(obj.has("id")){
 			    this.setId(obj.getString("id"));
+                java.lang.String id = this.getId().split("#")[0];
+                env.addType(id, this);
 			}
 			
 			if(obj.has("properties")) { 

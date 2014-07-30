@@ -9,6 +9,7 @@ import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.parser.json.*;
 
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Created by studio on 21/07/2014.
@@ -218,6 +219,124 @@ public class JSONSchemaMetaDataModelTest {
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
 
         MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("warehouseLocation"));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+
+        DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+
+    }
+
+    @Ignore
+    @Test
+    public void testAbsoluteFileRef() throws Exception {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRef.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("warehouseLocation"));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+
+        DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+
+    }
+
+    @Ignore
+    @Test
+    public void testAbsoluteFileRefAndNavigationInsideFile() throws Exception {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRefAndNavigationInsideFile.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("warehouseLocation"));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+
+        DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+
+    }
+
+    @Test
+     public void testRelativeFileRef() throws Exception {
+        URL jsonSchemaResource = getClass().getClassLoader().getResource("jsonSchemaWithRelativeFileRef.json");
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaResource);
+
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+        Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("warehouseLocation"));
+        Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+
+        DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
+        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+
+    }
+
+    @Test
+    public void testRelativeFileRefAndNavigationInsideFile() throws Exception {
+        URL jsonSchemaResource = getClass().getClassLoader().getResource("jsonSchemaWithRelativeFileRefAndNavigationInsideFile.json");
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaResource);
+
 
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
 

@@ -1,5 +1,6 @@
 package org.mule.common.metadata.parser.json;
 
+import java.net.URL;
 import java.util.*;
 import java.util.regex.*;
 import java.io.*;
@@ -10,8 +11,9 @@ import org.json.JSONObject;
 public class SchemaEnv {
 
 
-   	private SchemaEnv parent;
-	private Map<String,JSONType> types;
+    private SchemaEnv parent;
+    private Map<String,JSONType> types;
+    private URL contextJsonURL = null; //This field is meant to work as a reference to support relative paths.
 
     public JSONObject getContextJsonObject() {
         return contextJsonObject;
@@ -64,6 +66,11 @@ public class SchemaEnv {
 	    this(p);
 	    this.contextJsonObject = contextJsonObject;
 	}
+
+    public SchemaEnv(JSONObject contextJsonObject, URL contextJsonURL){
+        this(null, contextJsonObject);
+        this.contextJsonURL = contextJsonURL;
+    }
 
 	public JSONType lookupType(String name) { 
 		if(types.containsKey(name)) { 
@@ -184,6 +191,8 @@ public class SchemaEnv {
     public SchemaEnv getParent() {
         return parent;
     }
-	
-	
+
+    public URL getContextJsonURL() {
+        return contextJsonURL;
+    }
 }
