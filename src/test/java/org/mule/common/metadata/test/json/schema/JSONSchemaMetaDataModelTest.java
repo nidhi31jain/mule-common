@@ -244,7 +244,7 @@ public class JSONSchemaMetaDataModelTest {
     }
 
     @Ignore
-    @Test
+    @Test //Only for local tests
     public void testAbsoluteFileRef() throws Exception {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRef.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
@@ -274,7 +274,7 @@ public class JSONSchemaMetaDataModelTest {
     }
 
     @Ignore
-    @Test
+    @Test //Only for local tests
     public void testAbsoluteFileRefAndNavigationInsideFile() throws Exception {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRefAndNavigationInsideFile.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);

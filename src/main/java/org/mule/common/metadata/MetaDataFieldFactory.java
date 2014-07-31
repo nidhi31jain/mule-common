@@ -8,6 +8,6 @@ import java.util.List;
 public interface MetaDataFieldFactory
 {
 
-    List<MetaDataField> createFields() throws Exception;
+    List<MetaDataField> createFields();
 
 }

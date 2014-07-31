@@ -9,12 +9,12 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
 
     private List<MetaDataField> fields;
 
-    public DefaultStructuredMetadataModel(DataType dataType) throws Exception {
+    public DefaultStructuredMetadataModel(DataType dataType)  {
         super(dataType);
 
     }
 
-    public void init(MetaDataFieldFactory fieldFactory) throws Exception {
+    public void init(MetaDataFieldFactory fieldFactory){
         fields = fieldFactory.createFields();
     }
 

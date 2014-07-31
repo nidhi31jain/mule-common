@@ -1,5 +1,6 @@
 package org.mule.common.metadata;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         visitedTypes = visitedTypesParameter;
     }
 
-    public List<MetaDataField> createFields() throws Exception {
+    public List<MetaDataField> createFields(){
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
         if (visitedTypes == null) {
             visitedTypes = new HashMap<JSONObjectType, DefaultStructuredMetadataModel>();
@@ -36,7 +37,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         return metaDataFields;
     }
 
-    private void processJSONSchemaElement(JSONType property, String name, List<MetaDataField> metadata) throws Exception {
+    private void processJSONSchemaElement(JSONType property, String name, List<MetaDataField> metadata)  {
         if (property.isJSONObject()) {
             processJSONSchemaObject((JSONObjectType) property, name, metadata);
         } else if (property.isJSONPrimitive()) {
@@ -48,14 +49,14 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         }
     }
 
-    private void processJSONSchemaObject(JSONObjectType type, String name, List<MetaDataField> metadata) throws Exception {
+    private void processJSONSchemaObject(JSONObjectType type, String name, List<MetaDataField> metadata){
 
         DefaultStructuredMetadataModel model = buildJSONMetaDataModel(type);
         metadata.add(new DefaultMetaDataField(name, model));
 
     }
 
-    private DefaultStructuredMetadataModel buildJSONMetaDataModel(JSONObjectType type) throws Exception {
+    private DefaultStructuredMetadataModel buildJSONMetaDataModel(JSONObjectType type) {
 
         DefaultStructuredMetadataModel model;
         if (visitedTypes.containsKey(type)) {
@@ -68,7 +69,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         return model;
     }
 
-    private void loadFields(JSONObjectType type, List<MetaDataField> metadata) throws Exception {
+    private void loadFields(JSONObjectType type, List<MetaDataField> metadata)  {
         String[] properties = type.getProperties();
         for (String key : properties) {
             JSONType propertyType = type.getPropertyType(key);
@@ -76,7 +77,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         }
     }
 
-    private void processJSONSchemaArray(JSONArrayType property, String name, List<MetaDataField> metadata) throws Exception {
+    private void processJSONSchemaArray(JSONArrayType property, String name, List<MetaDataField> metadata){
         JSONType itemsType = property.getItemsType();
 
         if (itemsType.isJSONPrimitive()) { // Case List<String>
@@ -101,7 +102,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory {
         metadata.add(new DefaultMetaDataField(name, model));
     }
 
-    private void processJSONPointer(JSONPointerType ptr, String name, List<MetaDataField> metadata) throws Exception {
+    private void processJSONPointer(JSONPointerType ptr, String name, List<MetaDataField> metadata) {
         processJSONSchemaElement(ptr.resolve(), name, metadata);
     }
 
