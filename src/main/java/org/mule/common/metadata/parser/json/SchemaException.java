@@ -1,6 +1,6 @@
 package org.mule.common.metadata.parser.json;
 
-public class SchemaException extends Exception {
+public class SchemaException extends RuntimeException {
 
 	public SchemaException() {
 	}

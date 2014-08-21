@@ -243,11 +243,15 @@ public class JSONSchemaMetaDataModelTest {
 
     }
 
-    @Ignore
-    @Test //Only for local tests
+
+    @Test
     public void testAbsoluteFileRef() throws Exception {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRef.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+
+        final URL warehouse = getClass().getClassLoader().getResource("warehouseLocationSchemaDefinition.json");
+
+        jsonSchemaString = jsonSchemaString.replaceAll("warehouseLocationSchemaPath",warehouse.toExternalForm());
 
         MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
@@ -263,21 +267,22 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel)model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(1));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("storage"));
+        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.STRING));
+
 
     }
 
-    @Ignore
-    @Test //Only for local tests
+
+    @Test
     public void testAbsoluteFileRefAndNavigationInsideFile() throws Exception {
         InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchemaWithAbsoluteFileRefAndNavigationInsideFile.json");
         String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+        final URL warehouse = getClass().getClassLoader().getResource("warehouseLocationSchemaDefinition.json");
+
+        jsonSchemaString = jsonSchemaString.replaceAll("warehouseLocationSchemaPath",warehouse.toExternalForm());
 
         MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
@@ -304,7 +309,7 @@ public class JSONSchemaMetaDataModelTest {
     }
 
     @Test
-     public void testRelativeFileRef() throws Exception {
+    public void testRelativeFileRef() throws Exception {
         URL jsonSchemaResource = getClass().getClassLoader().getResource("jsonSchemaWithRelativeFileRef.json");
         MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaResource);
 

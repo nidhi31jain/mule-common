@@ -46,7 +46,7 @@ public class JSONObjectType extends AbstractType {
 		        if(!type.toString().toLowerCase().equals("object")) { 
 		            //Check if the type is an array of types. In this case set string as the type of a field named "text".
 		            if (type instanceof JSONArray){
-		                properties.put("text", new JSONType.String());
+		                properties.put("text", new StringType());
 		            }else{
 		                throw new SchemaException(java.lang.String.format("Cannot convert expression %s into JSONObjectType", obj.toString()));
 		            }
