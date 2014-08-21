@@ -2,8 +2,11 @@ package org.mule.common.metadata.parser.json;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -23,7 +26,7 @@ public class JSONPointerType implements JSONType
         this.env = env;
     }
 
-    public JSONType resolve() throws SchemaException
+    public JSONType resolve()
     {
 
         if (HASH.equals(ref))
@@ -58,17 +61,30 @@ public class JSONPointerType implements JSONType
         SchemaEnv environment = env;
         if (!baseURI.isEmpty())
         {
+            JSONObject remoteSchema;
             URL url;
             try
             {
                 url = new URL(baseURI);
-                JSONObject remoteSchema = getRemoteSchema(url);
+                remoteSchema = getRemoteSchema(url);
                 environment = new SchemaEnv(env, remoteSchema);
-
             }
             catch (MalformedURLException e)
             {
-                throw new SchemaException(e);
+                //Try to get schema from a file in relative path
+                URL contextJsonURL = env.getContextJsonURL();
+                URL urlFile;
+                try
+                {
+                    urlFile = new URL(contextJsonURL, baseURI);
+                    remoteSchema = getRemoteSchema(urlFile);
+                    environment = new SchemaEnv(env, remoteSchema);
+                }
+                catch (MalformedURLException e1)
+                {
+                    throw new SchemaException(e1);
+                }
+
             }
         }
 
@@ -112,30 +128,67 @@ public class JSONPointerType implements JSONType
     }
 
 
-    public JSONObject getRemoteSchema(URL url) throws SchemaException
+    public JSONObject getRemoteSchema(URL url)
     {
-        BufferedReader rd = null;
-        try
-        {
-            final URLConnection urlConnection = url.openConnection();
-            rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            final String result = IOUtils.toString(rd);
-            return new JSONObject(result);
-        }
-        catch (IOException e)
-        {
-            throw new SchemaException(e);
-        }
-        catch (Exception e)
-        {
-            throw new SchemaException(e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(rd);
-        }
 
+        java.lang.String urlProtocol = url.getProtocol();
+        if (urlProtocol.equals("file"))
+        {
+
+            try
+            {
+                if (url.toURI().isAbsolute())
+                {
+                    InputStream input = null;
+                    try
+                    {
+                        input = url.openStream();
+                        java.lang.String fileSchemaString = IOUtils.toString(input);
+                        JSONObject refSchemaObject = new JSONObject(fileSchemaString);
+                        return refSchemaObject;
+                    }
+                    catch (IOException e)
+                    {
+                        throw new SchemaException(e);
+                    }
+                    finally
+                    {
+                        IOUtils.closeQuietly(input);
+                    }
+                }
+            }
+            catch (URISyntaxException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        else if (urlProtocol.equals("http"))
+        {
+
+            BufferedReader rd = null;
+            try
+            {
+                final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                final String result = IOUtils.toString(rd);
+                return new JSONObject(result);
+            }
+            catch (IOException e)
+            {
+                throw new SchemaException(e);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(rd);
+            }
+
+
+        }
+        return null;
     }
+
 
     @Override
     public boolean contains(Object obj)

@@ -1,5 +1,6 @@
 package org.mule.common.metadata.parser.json;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,6 +16,8 @@ public class SchemaEnv
 
     private SchemaEnv parent;
     private Map<String, JSONType> types;
+    private URL contextJsonURL = null;
+    //This field is meant to work as a reference to support relative paths.
     private JSONObject contextJsonObject;
 
     public SchemaEnv()
@@ -29,7 +32,6 @@ public class SchemaEnv
         types.put("number", new JSONType.NumberType());
     }
 
-
     public SchemaEnv(SchemaEnv p)
     {
         this();
@@ -42,10 +44,17 @@ public class SchemaEnv
         this.contextJsonObject = contextJsonObject;
     }
 
+    public SchemaEnv(JSONObject contextJsonObject, URL contextJsonURL)
+    {
+        this(null, contextJsonObject);
+        this.contextJsonURL = contextJsonURL;
+    }
+
     public JSONObject getContextJsonObject()
     {
         return contextJsonObject;
     }
+
 
     public JSONType lookupType(String name)
     {
@@ -104,7 +113,7 @@ public class SchemaEnv
             {
                 JSONObject json = (JSONObject) obj;
 
-                boolean optional = json.has("optional") && json.getBoolean("optional");
+                boolean optional = json.has("optional") ? json.getBoolean("optional") : false;
                 JSONType specifiedType = null;
 
                 if (json.has("type"))
@@ -164,7 +173,7 @@ public class SchemaEnv
                 }
                 else
                 {
-                    throw new SchemaException("Schema object  doesn't contain a 'types' property." + "\n At : " + json.toString());
+                    throw new SchemaException("Schema object doesn't contain a 'types' property.");
                 }
 
                 return optional ? new OptionalType(specifiedType) : specifiedType;
@@ -214,5 +223,8 @@ public class SchemaEnv
         return parent;
     }
 
-
+    public URL getContextJsonURL()
+    {
+        return contextJsonURL;
+    }
 }
