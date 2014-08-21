@@ -11,8 +11,7 @@ public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataMo
     private List<MetaDataField> fields;
 
 
-    protected AbstractStructuredMetaDataModel(DataType dataType, MetaDataFieldFactory fieldFactory)
-    {
+    protected AbstractStructuredMetaDataModel(DataType dataType, MetaDataFieldFactory fieldFactory) throws Exception {
         super(dataType);
         this.fields = fieldFactory.createFields();
     }

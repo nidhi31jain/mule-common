@@ -1,8 +1,10 @@
 package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.MetaDataModel;
+import org.mule.common.metadata.datatype.DataType;
 
 import javax.xml.namespace.QName;
+import java.io.FileInputStream;
 
 public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
 {
@@ -40,6 +42,7 @@ public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
         root = result;
         return result;
     }
+
 
     public XmlMetaDataBuilder createXmlObject(QName name)
     {
