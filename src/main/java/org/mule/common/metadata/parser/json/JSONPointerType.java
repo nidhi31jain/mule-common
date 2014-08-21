@@ -3,146 +3,179 @@ package org.mule.common.metadata.parser.json;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
-public class JSONPointerType implements JSONType {
+public class JSONPointerType implements JSONType
+{
 
+    public static final String HASH = "#";
     private java.lang.String ref;
     private SchemaEnv env;
 
-    public JSONPointerType(SchemaEnv env, java.lang.String reference) {
+    public JSONPointerType(SchemaEnv env, java.lang.String reference)
+    {
         this.ref = reference;
         this.env = env;
     }
 
-    public JSONType resolve() throws SchemaException {
+    public JSONType resolve() throws SchemaException
+    {
 
-        java.lang.String[] splitRef = ref.split("#");
-
-        if(splitRef.length==0){//Case "$ref"="#"
-            return env.lookupType("#");
-        }
-
-        java.lang.String baseURI = splitRef[0];
-        java.lang.String jsonPointer = splitRef[1];
-        java.lang.String[] tokens = jsonPointer.split("/");
-
-        if(tokens.length==0){//Case "$ref"=id + "#"
-            return env.lookupType("#");
+        if (HASH.equals(ref))
+        {
+            return env.lookupType(HASH);
         }
 
         JSONType referenceType = null;
-
-        // See if it has already been resolved if base URI is empty or matches this schema's id
-        JSONObject contextJsonObject = env.getContextJsonObject();
-        if(baseURI.equals("") || (contextJsonObject.has("id") && baseURI.equals(contextJsonObject.get("id")))){
-            referenceType = env.lookupType(jsonPointer);
+        String baseURI = "";
+        String jsonPointer = null;
+        if (ref.contains(HASH))
+        {
+            String[] splitRef = ref.split("#");
+            switch (splitRef.length)
+            {
+                case 1:
+                    baseURI = splitRef[0];
+                    jsonPointer = "#";
+                    break;
+                case 2:
+                    baseURI = splitRef[0];
+                    jsonPointer = splitRef[1];
+                    break;
+            }
+        }
+        else
+        {
+            baseURI = ref;
+            jsonPointer = HASH;
         }
 
+        SchemaEnv environment = env;
+        if (!baseURI.isEmpty())
+        {
+            URL url;
+            try
+            {
+                url = new URL(baseURI);
+                JSONObject remoteSchema = getRemoteSchema(url);
+                environment = new SchemaEnv(env, remoteSchema);
+
+            }
+            catch (MalformedURLException e)
+            {
+                throw new SchemaException(e);
+            }
+        }
+
+
+        // See if it has already been resolved if base URI is empty or matches this schema's id
+        JSONObject contextJsonObject = environment.getContextJsonObject();
+        if (baseURI.equals("") || (contextJsonObject.has("id") && baseURI.equals(contextJsonObject.get("id"))))
+        {
+            referenceType = environment.lookupType(jsonPointer);
+        }
         // If it has not, try to resolve it within the context document
-        if (referenceType == null) {
+        if (referenceType == null)
+        {
+            final String[] tokens = jsonPointer.split("/");
             JSONObject jsonObjectToken = contextJsonObject;
 
-            for (int i = 1; i < tokens.length; i++) {
-                if (jsonObjectToken.has(tokens[i])) {
+            for (int i = 1; i < tokens.length; i++)
+            {
+                if (jsonObjectToken.has(tokens[i]))
+                {
                     jsonObjectToken = (JSONObject) jsonObjectToken.get(tokens[i]);
-                } else {
+                }
+                else
+                {
                     jsonObjectToken = null;
                     break;
                 }
             }
-            if (jsonObjectToken != null) {
-
-                referenceType = env.evaluate(jsonObjectToken);
-                env.addType(jsonPointer, referenceType);
+            if (jsonObjectToken != null)
+            {
+                referenceType = environment.evaluate(jsonObjectToken);
+                environment.addType(jsonPointer, referenceType);
                 return referenceType;
             }
-        } else {
+        }
+        else
+        {
             return referenceType;
         }
-
-        // TODO: If it cannot find it within the context document try to look into files in the same directory
-        if (referenceType == null) {
-
-        }
-
-        // If it cannot find it within the files try to get it on the internet or as a file:///
-        if (referenceType == null) {
-            URL url;
-            try {
-                url = new URL(baseURI);
-                JSONObject remoteSchema = getRemoteSchema(url);
-                return env.evaluate(remoteSchema);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-
         return null;
     }
 
-    public JSONObject getRemoteSchema(URL url) {
 
-        HttpURLConnection conn;
-        BufferedReader rd;
-        java.lang.String line;
-        java.lang.String result = "";
-        try {
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while ((line = rd.readLine()) != null) {
-                result += line;
-            }
-            rd.close();
-
-            JSONObject refSchemaObject = new JSONObject(result);
-            return refSchemaObject;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public JSONObject getRemoteSchema(URL url) throws SchemaException
+    {
+        BufferedReader rd = null;
+        try
+        {
+            final URLConnection urlConnection = url.openConnection();
+            rd = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            final String result = IOUtils.toString(rd);
+            return new JSONObject(result);
         }
+        catch (IOException e)
+        {
+            throw new SchemaException(e);
+        }
+        catch (Exception e)
+        {
+            throw new SchemaException(e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(rd);
+        }
+
+    }
+
+    @Override
+    public boolean contains(Object obj)
+    {
+        return false;
+    }
+
+    @Override
+    public java.lang.String explain(Object obj)
+    {
         return null;
     }
 
     @Override
-    public boolean contains(Object obj) {
+    public boolean isOptional()
+    {
         return false;
     }
 
     @Override
-    public java.lang.String explain(Object obj) {
-        return null;
-    }
-
-    @Override
-    public boolean isOptional() {
+    public boolean isJSONPrimitive()
+    {
         return false;
     }
 
     @Override
-    public boolean isJSONPrimitive() {
+    public boolean isJSONArray()
+    {
         return false;
     }
 
     @Override
-    public boolean isJSONArray() {
+    public boolean isJSONObject()
+    {
         return false;
     }
 
     @Override
-    public boolean isJSONObject() {
-        return false;
-    }
-
-    @Override
-    public boolean isJSONPointer() {
+    public boolean isJSONPointer()
+    {
         return true;
     }
 
