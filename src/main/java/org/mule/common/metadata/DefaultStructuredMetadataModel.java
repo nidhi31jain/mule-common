@@ -27,10 +27,44 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
 
     }
 
-
     @Override
     public List<MetaDataField> getFields()
     {
         return fields;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+
+        DefaultStructuredMetadataModel that = (DefaultStructuredMetadataModel) o;
+
+        if (fields != null ? !fields.equals(that.fields) : that.fields != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + (fields != null ? fields.hashCode() : 0);
+        return result;
+
     }
 }
