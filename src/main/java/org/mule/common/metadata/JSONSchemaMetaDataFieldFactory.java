@@ -1,6 +1,5 @@
 package org.mule.common.metadata;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +81,7 @@ public class JSONSchemaMetaDataFieldFactory implements MetaDataFieldFactory
         {
             model = new DefaultStructuredMetadataModel(DataType.JSON);
             visitedTypes.put(type, model);
-            model.init(new JSONSchemaMetaDataFieldFactory(type, visitedTypes));
+            model.loadFieldsFrom(new JSONSchemaMetaDataFieldFactory(type, visitedTypes));
         }
         return model;
     }

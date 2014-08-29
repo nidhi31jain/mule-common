@@ -15,7 +15,13 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
         super(dataType);
     }
 
-    public void init(MetaDataFieldFactory fieldFactory)
+    public DefaultStructuredMetadataModel(DataType dataType, MetaDataFieldFactory fieldFactory)
+    {
+        this(dataType);
+        loadFieldsFrom(fieldFactory);
+    }
+
+    public void loadFieldsFrom(MetaDataFieldFactory fieldFactory)
     {
         fields = fieldFactory.createFields();
     }
