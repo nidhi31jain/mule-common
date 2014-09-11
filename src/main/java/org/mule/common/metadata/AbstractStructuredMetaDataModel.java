@@ -2,11 +2,11 @@ package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
 
+import java.util.Collections;
 import java.util.List;
 
 
-public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataModel implements StructuredMetaDataModel
-{
+public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataModel implements StructuredMetaDataModel {
 
     private List<MetaDataField> fields;
 
@@ -16,15 +16,23 @@ public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataMo
         this.fields = fieldFactory.createFields();
     }
 
-    protected AbstractStructuredMetaDataModel(DataType dataType, List<MetaDataField> fields)
-    {
+    protected AbstractStructuredMetaDataModel(DataType dataType, List<MetaDataField> fields) {
         super(dataType);
         this.fields = fields;
     }
 
     @Override
-    public List<MetaDataField> getFields()
-    {
-        return fields;
+    public List<MetaDataField> getFields() {
+        return Collections.unmodifiableList(fields);
+    }
+
+    @Override
+    public MetaDataField getFieldByName(String name) {
+        for (MetaDataField field : getFields()) {
+            if (field.getName().equals(name)) {
+                return field;
+            }
+        }
+        return null;
     }
 }

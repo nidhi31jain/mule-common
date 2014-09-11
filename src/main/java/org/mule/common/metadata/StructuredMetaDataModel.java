@@ -9,4 +9,6 @@ public interface StructuredMetaDataModel extends MetaDataModel
 {
 
     List<MetaDataField> getFields();
+
+    MetaDataField getFieldByName(String name);
 }

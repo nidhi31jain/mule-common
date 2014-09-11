@@ -19,40 +19,31 @@ import java.util.*;
  * <p>Shouldn't use this directly. Use {@link org.mule.common.metadata.builder.DefaultMetaDataBuilder} instead.</p>
  */
 
-public class DefaultDefinedMapMetaDataModel 
-	extends AbstractMetaDataModel 
-	implements DefinedMapMetaDataModel
-{
-    private List<MetaDataField> fields;
+public class DefaultDefinedMapMetaDataModel extends AbstractStructuredMetaDataModel implements DefinedMapMetaDataModel {
+
     private String name;
 
     @Deprecated
-    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap, String name)
-    {
-        super(DataType.MAP);
-        this.fields = this.convertMapToList(metaDataModelMap);
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap, String name) {
+        super(DataType.MAP, convertMapToList(metaDataModelMap));
         this.name = name;
     }
 
     @Deprecated
-    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap)
-    {
+    public DefaultDefinedMapMetaDataModel(Map<String, ? extends MetaDataModel> metaDataModelMap) {
         this(metaDataModelMap, null);
     }
 
-    public DefaultDefinedMapMetaDataModel(List<MetaDataField> fields, String name)
-    {
-        super(DataType.MAP);
-        this.fields = fields;
-        this.name = name;
-    }
-
-    public DefaultDefinedMapMetaDataModel(List<MetaDataField> fields)
-    {
+    public DefaultDefinedMapMetaDataModel(List<MetaDataField> fields) {
         this(fields, null);
     }
 
-    private List<MetaDataField> convertMapToList(Map<String, ? extends MetaDataModel> metaDataModelMap){
+    public DefaultDefinedMapMetaDataModel(List<MetaDataField> fields, String name) {
+        super(DataType.MAP, fields);
+        this.name = name;
+    }
+
+    private static List<MetaDataField> convertMapToList(Map<String, ? extends MetaDataModel> metaDataModelMap) {
         List<MetaDataField> mappedFields = new ArrayList<MetaDataField>();
         for (Map.Entry<String, ? extends MetaDataModel> entry : metaDataModelMap.entrySet()) {
             mappedFields.add(new DefaultMetaDataField(entry.getKey(), entry.getValue()));
@@ -62,10 +53,9 @@ public class DefaultDefinedMapMetaDataModel
 
 
     @Override
-    public Set<String> getKeys()
-    {
+    public Set<String> getKeys() {
         Set<String> result = new HashSet<String>();
-        for(MetaDataField mdf : this.getFields()){
+        for (MetaDataField mdf : this.getFields()) {
             result.add(mdf.getName());
         }
         return result;
@@ -77,10 +67,9 @@ public class DefaultDefinedMapMetaDataModel
     }
 
     @Override
-    public MetaDataModel getValueMetaDataModel(String key) 
-    {
-        for(MetaDataField mdf : this.getFields()){
-            if (mdf.getName().equals(key)){
+    public MetaDataModel getValueMetaDataModel(String key) {
+        for (MetaDataField mdf : this.getFields()) {
+            if (mdf.getName().equals(key)) {
                 return mdf.getMetaDataModel();
             }
         }
@@ -88,43 +77,32 @@ public class DefaultDefinedMapMetaDataModel
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    @Override
-    public List<MetaDataField> getFields() {
-        return Collections.unmodifiableList(fields);
-    }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((fields == null) ? 0 : fields.hashCode());
+        result = prime * result + ((getFields() == null) ? 0 : getFields().hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!super.equals(obj)) return false;
         if (!(obj instanceof DefaultDefinedMapMetaDataModel)) return false;
         DefaultDefinedMapMetaDataModel other = (DefaultDefinedMapMetaDataModel) obj;
-        if (fields == null)
-        {
-            if (other.fields != null) return false;
-        }
-        else if (!fields.equals(other.fields)) return false;
-        if (name == null)
-        {
+        if (getFields() == null) {
+            if (other.getFields() != null) return false;
+        } else if (!getFields().equals(other.getFields())) return false;
+        if (name == null) {
             if (other.name != null) return false;
-        }
-        else if (!name.equals(other.name)) return false;
+        } else if (!name.equals(other.name)) return false;
         return true;
     }
 

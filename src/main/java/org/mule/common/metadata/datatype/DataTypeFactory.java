@@ -85,13 +85,13 @@ public class DataTypeFactory {
 			new Class[] {int.class, long.class, short.class ,double.class, float.class, Number.class}, DataType.NUMBER);
 
 	private static final MetaDataModelEvaluator<Number> INTEGER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
-			new Class[] {int.class, long.class, short.class}, DataType.INTEGER);
+			new Class[] {int.class, long.class, short.class, Integer.class}, DataType.INTEGER);
 
 	private static final MetaDataModelEvaluator<Number> DOUBLE_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
-			new Class[] {double.class, float.class}, DataType.DOUBLE);
+			new Class[] {double.class, float.class, Double.class}, DataType.DOUBLE);
 
     private static final MetaDataModelEvaluator<Number> LONG_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
-            new Class[] {long.class}, DataType.LONG);
+            new Class[] {long.class, Long.class}, DataType.LONG);
 
 	private static final MetaDataModelEvaluator<Number> DECIMAL_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {BigDecimal.class, BigInteger.class}, DataType.DECIMAL);
