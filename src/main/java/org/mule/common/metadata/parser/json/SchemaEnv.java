@@ -30,6 +30,7 @@ public class SchemaEnv
         types.put("double", new JSONType.DoubleType());
         types.put("boolean", new JSONType.BooleanType());
         types.put("number", new JSONType.NumberType());
+
     }
 
     public SchemaEnv(SchemaEnv p)
@@ -96,42 +97,39 @@ public class SchemaEnv
             }
             else if (obj instanceof String)
             {
-
                 // String objects are merely looked up in this environment, and returned
                 // if found (or a SchemaException thrown, if not).
-
-                String name = (String) obj;
-                JSONType type = lookupType(name);
+                final String name = (String) obj;
+                final JSONType type = lookupType(name);
                 if (type == null)
                 {
                     throw new SchemaException(String.format("Unknown type name \"%s\"", name));
                 }
                 return type;
-
             }
             else if (obj instanceof JSONObject)
             {
                 JSONObject json = (JSONObject) obj;
 
-                boolean optional = json.has("optional") ? json.getBoolean("optional") : false;
+                boolean optional = json.has(JSONSchemaConstants.OPTIONAL) ? json.getBoolean(JSONSchemaConstants.OPTIONAL) : false;
                 JSONType specifiedType = null;
 
-                if (json.has("type"))
+                if (json.has(JSONSchemaConstants.TYPE))
                 {
 
-                    Object rawType = json.get("type");
+                    Object rawType = json.get(JSONSchemaConstants.TYPE);
                     if (rawType instanceof JSONArray)
                     {//If the type of the object is an Array of types
                         specifiedType = new JSONType.Everything();
                     }
                     else if (rawType instanceof String)
                     {//If the type of the object is a string, i.e.: array, object
-                        String type = json.getString("type").toLowerCase();
-                        if (type.equals("array"))
+                        String type = json.getString(JSONSchemaConstants.TYPE).toLowerCase();
+                        if (type.equals(JSONSchemaConstants.ARRAY))
                         {
                             specifiedType = new JSONArrayType(new SchemaEnv(this, contextJsonObject), json);
                         }
-                        else if (type.equals("object"))
+                        else if (type.equals(JSONSchemaConstants.OBJECT))
                         {
 
                             // we pass children of this environment, i.e.
@@ -154,20 +152,20 @@ public class SchemaEnv
                         }
                     }
                 }
-                else if (json.has("properties"))
+                else if (json.has(JSONSchemaConstants.PROPERTIES))
                 {
                     specifiedType = new JSONObjectType(new SchemaEnv(this, contextJsonObject), json);
                 }
-                else if (json.has("enum"))
+                else if (json.has(JSONSchemaConstants.ENUM))
                 {
                     specifiedType = new JSONType.StringType();
                 }
-                else if (json.has("$ref"))
+                else if (json.has(JSONSchemaConstants.$_REF))
                 {
-                    String reference = json.getString("$ref");
+                    String reference = json.getString(JSONSchemaConstants.$_REF);
                     specifiedType = new JSONPointerType(this, reference);
                 }
-                else if (json.has("anyOf") || json.has("allOf") || json.has("oneOf"))
+                else if (json.has(JSONSchemaConstants.ANY_OF) || json.has(JSONSchemaConstants.ALL_OF) || json.has(JSONSchemaConstants.ONE_OF))
                 {
                     specifiedType = new JSONType.Everything();
                 }

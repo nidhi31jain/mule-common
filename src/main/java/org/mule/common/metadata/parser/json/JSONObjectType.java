@@ -35,13 +35,13 @@ public class JSONObjectType extends AbstractType {
 		        env.addType("#", this);
 		    }
 		    //
-		    if(!obj.has("type") && !obj.has("properties")) { 
+		    if(!obj.has(JSONSchemaConstants.TYPE) && !obj.has(JSONSchemaConstants.PROPERTIES)) {
 				throw new SchemaException(
 						format("Missing required 'type' or 'properties' property in \n%s", obj.toString()));
 			}
 		    
-		    if(obj.has("type")){
-		        Object type = obj.get("type");
+		    if(obj.has(JSONSchemaConstants.TYPE)){
+		        Object type = obj.get(JSONSchemaConstants.TYPE);
 		        
 		        if(!type.toString().toLowerCase().equals("object")) { 
 		            //Check if the type is an array of types. In this case set string as the type of a field named "text".
@@ -73,13 +73,12 @@ public class JSONObjectType extends AbstractType {
                 env.addType(id, this);
 			}
 			
-			if(obj.has("properties")) { 
-				JSONObject propObj = obj.getJSONObject("properties"); 
+			if(obj.has(JSONSchemaConstants.PROPERTIES)) {
+				JSONObject propObj = obj.getJSONObject(JSONSchemaConstants.PROPERTIES);
 				Iterator<java.lang.String> itr = (Iterator<java.lang.String>)propObj.keys();
 				while(itr.hasNext()) { 
 					java.lang.String propName = itr.next();
 					Object propValue = propObj.get(propName);
-					
 					JSONType propType = env.evaluate(propValue);
                     properties.put(propName, propType);                  
 				}
@@ -111,7 +110,7 @@ public class JSONObjectType extends AbstractType {
 		Set<java.lang.String> seen = new TreeSet<java.lang.String>();
 
 		while(keys.hasNext()) { 
-			java.lang.String key = (java.lang.String)keys.next();
+			java.lang.String key = keys.next();
 			if(seen.contains(key)) { 
 				return false;
 			}
