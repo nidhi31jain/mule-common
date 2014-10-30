@@ -66,16 +66,16 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
 
     public static final String PREFIX = "ns";
 
-    private List<String> schemas;
+    private SchemaProvider schemas;
     private QName rootElementName;
-    private Charset encoding;
+    //private Charset encoding;
     private Map<String, String> namespacePrefix = new HashMap<String, String>();
 
-    public XmlMetaDataFieldFactory(List<String> schemas, QName rootElementName, Charset encoding)
-    {
+
+    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName) {
+
         this.schemas = schemas;
         this.rootElementName = rootElementName;
-        this.encoding = encoding;
     }
 
     @Override
@@ -84,11 +84,10 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
 
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
         final Map<SchemaType, XmlMetaDataModel> visitedTypes = new HashMap<SchemaType, XmlMetaDataModel>();
-        try
-        {
-            SchemaGlobalElement rootElement = findRootElement(rootElementName);
-            if (rootElement != null)
-            {
+
+        try {
+            SchemaGlobalElement rootElement = schemas.findRootElement(rootElementName);
+            if (rootElement != null) {
                 SchemaType type = rootElement.getType();
                 loadFields(type, metaDataFields, visitedTypes);
             }
@@ -183,10 +182,10 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         if (visitedTypes.containsKey(propertyType))
         {
             model = visitedTypes.get(propertyType);
-        }
-        else
-        {
-            model = new DefaultXmlMetaDataModel(schemas, rootElementName, encoding, new ArrayList<MetaDataField>());
+
+        } else {
+            ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
+            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields);
             visitedTypes.put(propertyType, model);
             loadFields(propertyType, model.getFields(), visitedTypes);
         }
@@ -211,15 +210,8 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
     }
 
 
-    private SchemaGlobalElement findRootElement(QName rootElementName) throws XmlException
-    {
-        final SchemaTypeSystem schemaTypeLoader = XmlSchemaUtils.getSchemaTypeSystem(schemas);
-        return schemaTypeLoader.findElement(rootElementName);
-    }
 
-
-    private boolean hasSimpleContentOnly(SchemaType type)
-    {
+    private boolean hasSimpleContentOnly(SchemaType type) {
 
         return hasSimpleContent(type) && isPlainElement(type);
     }

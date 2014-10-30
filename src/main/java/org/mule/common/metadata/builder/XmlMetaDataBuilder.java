@@ -1,6 +1,7 @@
 package org.mule.common.metadata.builder;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import org.mule.common.metadata.XmlMetaDataModel;
@@ -10,6 +11,8 @@ public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDa
 	public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas);
 	
 	public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams);
+
+	public DefaultXmlMetaDataBuilder<P> addSchemaUrlList(URL... schemaStreams);
 	
 	public DefaultXmlMetaDataBuilder<P> setEncoding(Charset xmlCharset);
 	
