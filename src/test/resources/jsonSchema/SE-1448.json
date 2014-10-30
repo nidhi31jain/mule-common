@@ -1,0 +1,875 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "type": "object",
+  "required": false,
+  "properties": {
+    "totalAmount": {"type": "number","required": false},
+    "programProduct": {
+      "type": "array",
+      "required": false,
+      "items": {
+        "type": "object",
+        "required": false,
+        "properties": {
+          "franOwner": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "id": { "type": "number", "required":false, "maxLength": 5 },
+              "name": {"type":"string","required":false},
+              "phoneNumber": {"type":"string","required":false},
+              "franchiseUrl": {"type":"string","required":false},
+              "pricingUrl": {"type":"string","required":false},
+              "contactName": {"type":"string","required":false},
+              "pageID": {"type":"string","required":false, "maxLength": 5}
+            }
+          },
+          "registrationFee": {"type":"number","required":false,"maxLength": 9},
+          "monthlyFee": {"type": "number","required": false,"maxLength": 9},
+          "subsidy": {"type":"number","required":false},
+          "rbCyclesCount": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "days": {"type":"number","required":false, "maxLength": 2},
+              "months": {"type":"string","required":false},
+              "weeks": {"type":"string","required":false}
+            }
+          },
+          "offerId": {"type":"number","required":false, "maxLength":10},
+          "messagingPageId": {"type":"string","required": false},
+          "billingTerm": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "days": {"type":"number","required":false, "maxLength": 2},
+              "months": {"type":"string","required":false},
+              "weeks": {"type":"string","required":false}
+            }
+          },
+          "effectiveDate": {"type": "string", "required": false},
+          "expirationDate": {"type": "string", "required": false},
+          "franchiseeId": {"type":"number","required":false, "maxLength": 15},
+          "sku": {"type": "string", "required": false},
+          "couponNumber": {"type": "string", "required": false},
+          "isCoupnAvailable": {"type": "boolean","required": false},
+          "corpWellnessId": {"type": "integer", "required": false, "maxLength": 5},
+          "chargeRegistration": {"type":"boolean","required":false},
+          "coupon": {
+            "type":"object",
+            "required":false,
+            "properties":{
+              "id": {"type":"number","required":false},
+              "programCouponId": {"type":"number","required":false},
+              "discountType": {"type": "object","required": false,"description": "Discount Type Enum"},
+              "discountAmount": {"type":"number","required":false},
+              "discountTerm": {
+                "type":"object",
+                "required":false,
+                "properties":{
+                  "days": {"type":"number","required":false, "maxLength": 2},
+                  "months": {"type":"string","required":false},
+                  "weeks": {"type":"string","required":false}
+                }
+              },
+              "couponCode": {"type":"number","required":false},
+              "isCouponCodeGenerated": {"type":"boolean","required":false}
+            }
+          },
+          "memberType": {"type": "integer", "required": false, "maxLength": 2},
+          "programUsageType": {"type": "integer", "required": false, "maxLength": 2},
+          "channelSponsorPromotion": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "channel": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {"type": "integer", "required":false, "maxLength": 5}
+                }
+              },
+              "promotion": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {"type": "number","required": false}
+                }
+              },
+              "sponsor": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {"type": "integer", "required":false, "maxLength": 5}
+                }
+              },
+              "contentPageId": {"type": "string", "required": false, "description": "CMS page ID"},
+              "contentManagedVariables": {"type": "object", "required": false, "description": "Hashtable of CMS content"},
+              "countryId": {"type": "integer","required":false},
+              "localeName": {"type": "string","required":false},
+              "navigationGraphName": {"type": "string", "required": false, "description" : "Manage WWCOM site pages flow."},
+              "defaultProgramId": {"type":"number","required":false, "description" : "CMS page ID"}
+            }
+          },
+          "subtotalAmount": {"type": "number", "required": false},
+          "netSubtotalAmount": {"type": "number", "required": false},
+          "taxAmount": {"type": "number", "required": false},
+          "discountAmount": {"type": "number", "required": false, "maxLength": 9},
+          "taxType": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "taxTypeId": {"type": "integer", "required": false, "maxLength": 5},
+              "taxTypeDesc": {"type":"string", "required":false},
+              "taxStateColl": {
+                "type":"array",
+                "required":false
+              },
+              "taxAccountingRule": {"type": "string","required": false},
+              "taxMemoLineName": {"type": "string", "required": false},
+              "IsTaxable": {"type": "boolean", "required": false},
+              "IsEmbedded": {"type": "boolean", "required": false},
+              "IsTaxFranchiseFlag": {"type": "boolean", "required": false}
+            }
+          },
+          "taxTypeId": {"type": "integer", "required": false, "maxLength": 5},
+          "roles": {
+            "type": "array",
+            "required": false,
+            "items": {
+              "type": "object",
+              "required": false,
+              "properties": {
+                "id": {"type": "integer", "required":false},
+                "name": {"type": "string", "required":false},
+                "normalizedName": {"type": "string", "required": false}
+              }
+            }
+          },
+          "priorityRole": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "id": {"type": "integer", "required":false},
+              "name": {"type": "string", "required":false},
+              "normalizedName": {"type": "string", "required": false}
+            }
+          },
+          "roleGroup": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "id": {"type": "integer", "required": false, "maxLength": 5},
+              "name": {"type": "string", "required": false},
+              "normalizedName": {"type": "string", "required": false},
+              "programProductType": {"type": "object", "required": false, "description": "enum of product types"},
+              "roles": {
+                "type": "array",
+                "required": false,
+                "items": {
+                  "type": "object",
+                  "required": false,
+                  "properties": {
+                    "id": {"type": "integer", "required":false},
+                    "name": {"type": "string", "required":false},
+                    "normalizedName": {"type": "string", "required": false}
+                  }
+                }
+              }
+            }
+          },
+          "contentPageId": {"type": "string", "required": false, "description": "CMS page ID"},
+          "originalContentPageId": {"type": "string", "required": false, "description": "CMS page ID"},
+          "paymentTypeId": {"type": "integer", "required": false, "maxLength": 5},
+          "sortOrder": {"type": "integer", "required": false, "maxLength": 5},
+          "programProductType": {"type": "object", "required": false, "description": "This will be an enum of product types"},
+          "monthlyPassType": {"type": "object", "required": false, "description": "This will be an enum of Monthly pass types"},
+          "ContentManagedVariables": {"type": "object", "required": false, "description": "Hashtable retrieved from CMS"},
+          "standardRegistrationFee": {"type": "number", "required": false, "maxLength": 9},
+          "mpPurchaseCode": {"type": "string", "required": false},
+          "sendEmailReminder": {"type": "boolean", "required": false},
+          "paymentRequiredFlag": {"type": "boolean", "required": false},
+          "freeDays": {"type": "integer", "required": false, "maxLength": 3},
+          "isContract": {"type": "boolean", "required": false},
+          "contractEndDate": {"type": "string", "required": false, "description" : "Contract End Date"},
+          "saving": {"type": "number", "required": false, "description" : "Savings Amount as Calclulated from SOA"},
+          "isActive": {"type": "boolean", "required": false,"description": "IF start date < today and end date > Today then Active, otherwise it is Inactive"},
+          "groupId": {"type": "string", "required": false},
+          "referred": {"type": "boolean", "required": false},
+          "updateDate": {"type": "string", "required": false},
+          "isReusable": {"type": "boolean", "required": false},
+          "isCumulativeSubsidy": {"type": "boolean", "required": false,"description": "Is cumulative subsidy applicable"},
+          "isSingleUseSubsidy": {"type": "boolean", "required": false, "description": "Is Single use subsidy applicable"},
+          "memberCycleCount": {"type": "number", "required": false},
+          "isWWIProduct": {"type": "boolean", "required": false},
+          "bundleProduct": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "id": {"type": "number","required":false},
+              "name": {"type": "string","required":false},
+              "RegularPrice": {"type": "number","required":false,"maxLength": 11},
+              "DiscountPrice": {"type": "number","required":false,"maxLength": 11},
+              "ProductSKU": {"type": "string","required":false},
+              "ContentPageId": {"type": "string","required":false},
+              "PromotionCode1": {"type": "string","required":false},
+              "PromotionCode2": {"type": "string","required":false},
+              "PromotionCode3": {"type": "string","required":false},
+              "ShippingDiscountPrice": {"type": "number","required":false,"maxLength": 11},
+              "NonContShippingRegularPrice": {"type": "number","required":false,"maxLength": 11},
+              "NonContShippingDiscountPrice": {"type": "number","required":false,"maxLength": 11}
+            }
+          },
+          "isBundled": {"type": "boolean", "required": false},
+          "isDiabetes": {"type": "boolean", "required": false},
+          "canSwitchIntoProgram": {"type": "boolean", "required": false},
+          "canSwitchOutOfProgram": {"type": "boolean", "required": false},
+          "isDefaultProgram": {"type": "boolean", "required": false},
+          "switchProgramId": {"type": "integer", "required": false},
+          "Client": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "ClientId": {"type":"number","required":false},
+              "ClientName": {"type":"string","required":false}
+            }
+          },
+          "newProgram": {
+            "type": "object",
+            "properties": {
+              "franOwner": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 5
+                  },
+                  "name": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "franchiseUrl": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "pricingUrl": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "contactName": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "pageID": {
+                    "type": "string",
+                    "required": false,
+                    "maxLength": 5
+                  }
+                }
+              },
+              "registrationFee": {
+                "type": "number",
+                "required": false,
+                "maxLength": 9
+              },
+              "monthlyFee": {
+                "type": "number",
+                "required": false,
+                "maxLength": 9
+              },
+              "subsidy": {
+                "type": "number",
+                "required": false
+              },
+              "rbCyclesCount": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "days": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 2
+                  },
+                  "months": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "weeks": {
+                    "type": "string",
+                    "required": false
+                  }
+                }
+              },
+              "offerId": {
+                "type": "number",
+                "required": false,
+                "maxLength": 10
+              },
+              "messagingPageId": {
+                "type": "string",
+                "required": false
+              },
+              "billingTerm": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "days": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 2
+                  },
+                  "months": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "weeks": {
+                    "type": "string",
+                    "required": false
+                  }
+                }
+              },
+              "effectiveDate": {
+                "type": "string",
+                "required": false
+              },
+              "expirationDate": {
+                "type": "string",
+                "required": false
+              },
+              "franchiseeId": {
+                "type": "number",
+                "required": false,
+                "maxLength": 15
+              },
+              "sku": {
+                "type": "string",
+                "required": false
+              },
+              "couponNumber": {
+                "type": "string",
+                "required": false
+              },
+              "isCoupnAvailable": {
+                "type": "boolean",
+                "required": false
+              },
+              "corpWellnessId": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 5
+              },
+              "chargeRegistration": {
+                "type": "boolean",
+                "required": false
+              },
+              "coupon": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "programCouponId": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "discountType": {
+                    "type": "object",
+                    "required": false,
+                    "description": "Discount Type Enum"
+                  },
+                  "discountAmount": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "discountTerm": {
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                      "days": {
+                        "type": "number",
+                        "required": false,
+                        "maxLength": 2
+                      },
+                      "months": {
+                        "type": "string",
+                        "required": false
+                      },
+                      "weeks": {
+                        "type": "string",
+                        "required": false
+                      }
+                    }
+                  },
+                  "couponCode": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "isCouponCodeGenerated": {
+                    "type": "boolean",
+                    "required": false
+                  }
+                }
+              },
+              "memberType": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 2
+              },
+              "programUsageType": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 2
+              },
+              "channelSponsorPromotion": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "channel": {
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "required": false,
+                        "maxLength": 5
+                      }
+                    }
+                  },
+                  "promotion": {
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "required": false
+                      }
+                    }
+                  },
+                  "sponsor": {
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "required": false,
+                        "maxLength": 5
+                      }
+                    }
+                  },
+                  "contentPageId": {
+                    "type": "string",
+                    "required": false,
+                    "description": "CMS page ID"
+                  },
+                  "contentManagedVariables": {
+                    "type": "object",
+                    "required": false,
+                    "description": "Hashtable of CMS content"
+                  },
+                  "countryId": {
+                    "type": "integer",
+                    "required": false
+                  },
+                  "localeName": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "navigationGraphName": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Manage WWCOM site pages flow."
+                  },
+                  "defaultProgramId": {
+                    "type": "number",
+                    "required": false,
+                    "description": "CMS page ID"
+                  }
+                }
+              },
+              "subtotalAmount": {
+                "type": "number",
+                "required": false
+              },
+              "netSubtotalAmount": {
+                "type": "number",
+                "required": false
+              },
+              "taxAmount": {
+                "type": "number",
+                "required": false
+              },
+              "discountAmount": {
+                "type": "number",
+                "required": false,
+                "maxLength": 9
+              },
+              "taxType": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "taxTypeId": {
+                    "type": "integer",
+                    "required": false,
+                    "maxLength": 5
+                  },
+                  "taxTypeDesc": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "taxStateColl": {
+                    "type": "array",
+                    "required": false
+                  },
+                  "taxAccountingRule": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "taxMemoLineName": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "IsTaxable": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "IsEmbedded": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "IsTaxFranchiseFlag": {
+                    "type": "boolean",
+                    "required": false
+                  }
+                }
+              },
+              "taxTypeId": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 5
+              },
+              "roles": {
+                "type": "array",
+                "required": false,
+                "items": {
+                  "type": "object",
+                  "required": false,
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "required": false
+                    },
+                    "name": {
+                      "type": "string",
+                      "required": false
+                    },
+                    "normalizedName": {
+                      "type": "string",
+                      "required": false
+                    }
+                  }
+                }
+              },
+              "priorityRole": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "required": false
+                  },
+                  "name": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "normalizedName": {
+                    "type": "string",
+                    "required": false
+                  }
+                }
+              },
+              "roleGroup": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "required": false,
+                    "maxLength": 5
+                  },
+                  "name": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "normalizedName": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "programProductType": {
+                    "type": "object",
+                    "required": false,
+                    "description": "enum of product types"
+                  },
+                  "roles": {
+                    "type": "array",
+                    "required": false,
+                    "items": {
+                      "type": "object",
+                      "required": false,
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "required": false
+                        },
+                        "name": {
+                          "type": "string",
+                          "required": false
+                        },
+                        "normalizedName": {
+                          "type": "string",
+                          "required": false
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "contentPageId": {
+                "type": "string",
+                "required": false,
+                "description": "CMS page ID"
+              },
+              "originalContentPageId": {
+                "type": "string",
+                "required": false,
+                "description": "CMS page ID"
+              },
+              "paymentTypeId": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 5
+              },
+              "sortOrder": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 5
+              },
+              "programProductType": {
+                "type": "object",
+                "required": false,
+                "description": "This will be an enum of product types"
+              },
+              "monthlyPassType": {
+                "type": "object",
+                "required": false,
+                "description": "This will be an enum of Monthly pass types"
+              },
+              "ContentManagedVariables": {
+                "type": "object",
+                "required": false,
+                "description": "Hashtable retrieved from CMS"
+              },
+              "standardRegistrationFee": {
+                "type": "number",
+                "required": false,
+                "maxLength": 9
+              },
+              "mpPurchaseCode": {
+                "type": "string",
+                "required": false
+              },
+              "sendEmailReminder": {
+                "type": "boolean",
+                "required": false
+              },
+              "paymentRequiredFlag": {
+                "type": "boolean",
+                "required": false
+              },
+              "freeDays": {
+                "type": "integer",
+                "required": false,
+                "maxLength": 3
+              },
+              "isContract": {
+                "type": "boolean",
+                "required": false
+              },
+              "contractEndDate": {
+                "type": "string",
+                "required": false,
+                "description": "Contract End Date"
+              },
+              "saving": {
+                "type": "number",
+                "required": false,
+                "description": "Savings Amount as Calclulated from SOA"
+              },
+              "isActive": {
+                "type": "boolean",
+                "required": false,
+                "description": "IF start date < today and end date > Today then Active, otherwise it is Inactive"
+              },
+              "groupId": {
+                "type": "string",
+                "required": false
+              },
+              "referred": {
+                "type": "boolean",
+                "required": false
+              },
+              "updateDate": {
+                "type": "string",
+                "required": false
+              },
+              "isReusable": {
+                "type": "boolean",
+                "required": false
+              },
+              "isCumulativeSubsidy": {
+                "type": "boolean",
+                "required": false,
+                "description": "Is cumulative subsidy applicable"
+              },
+              "isSingleUseSubsidy": {
+                "type": "boolean",
+                "required": false,
+                "description": "Is Single use subsidy applicable"
+              },
+              "memberCycleCount": {
+                "type": "number",
+                "required": false
+              },
+              "isWWIProduct": {
+                "type": "boolean",
+                "required": false
+              },
+              "bundleProduct": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "name": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "RegularPrice": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 11
+                  },
+                  "DiscountPrice": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 11
+                  },
+                  "ProductSKU": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "ContentPageId": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "PromotionCode1": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "PromotionCode2": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "PromotionCode3": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "ShippingDiscountPrice": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 11
+                  },
+                  "NonContShippingRegularPrice": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 11
+                  },
+                  "NonContShippingDiscountPrice": {
+                    "type": "number",
+                    "required": false,
+                    "maxLength": 11
+                  }
+                }
+              },
+              "isBundled": {
+                "type": "boolean",
+                "required": false
+              },
+              "isDiabetes": {
+                "type": "boolean",
+                "required": false
+              },
+              "canSwitchIntoProgram": {
+                "type": "boolean",
+                "required": false
+              },
+              "canSwitchOutOfProgram": {
+                "type": "boolean",
+                "required": false
+              },
+              "isDefaultProgram": {
+                "type": "boolean",
+                "required": false
+              },
+              "switchProgramId": {
+                "type": "integer",
+                "required": false
+              },
+              "Client": {
+                "type": "object",
+                "required": false,
+                "properties": {
+                  "ClientId": {
+                    "type": "number",
+                    "required": false
+                  },
+                  "ClientName": {
+                    "type": "string",
+                    "required": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "serviceResponseCodes": {
+    "type": "object",
+    "required": false,
+    "properties": {
+      "list": {
+        "type": "array",
+        "required": false,
+        "items": {
+          "type": "object",
+          "required": false,
+          "properties": {
+            "code": {"type":"string","required":false},
+            "description": {"type":"string", "required":false}
+          }
+        }
+      }
+    }
+  }
+}

@@ -171,7 +171,7 @@ public class SchemaEnv
                 }
                 else
                 {
-                    throw new SchemaException("Schema object doesn't contain a 'types' property.");
+                    throw new SchemaException("Schema object doesn't contain a 'types' property. \nElement:\n" +obj);
                 }
 
                 return optional ? new OptionalType(specifiedType) : specifiedType;
