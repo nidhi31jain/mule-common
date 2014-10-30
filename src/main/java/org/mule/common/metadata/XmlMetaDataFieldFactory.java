@@ -64,15 +64,14 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
 
     public static final String PREFIX = "ns";
 
-    private List<String> schemas;
+    private SchemaProvider schemas;
     private QName rootElementName;
-    private Charset encoding;
+    //private Charset encoding;
     private Map<String, String> namespacePrefix = new HashMap<String, String>();
 
-    public XmlMetaDataFieldFactory(List<String> schemas, QName rootElementName, Charset encoding) {
+    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName) {
         this.schemas = schemas;
         this.rootElementName = rootElementName;
-        this.encoding = encoding;
     }
 
     @Override
@@ -81,7 +80,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
         final Map<SchemaType, XmlMetaDataModel> visitedTypes = new HashMap<SchemaType, XmlMetaDataModel>();
         try {
-            SchemaGlobalElement rootElement = findRootElement(rootElementName);
+            SchemaGlobalElement rootElement = schemas.findRootElement(rootElementName);
             if (rootElement != null) {
                 SchemaType type = rootElement.getType();
                 loadFields(type, metaDataFields, visitedTypes);
@@ -154,7 +153,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
             model = visitedTypes.get(propertyType);
         } else {
             ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
-            model = new DefaultXmlMetaDataModel(schemas, rootElementName, encoding, fields);
+            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields);
             visitedTypes.put(propertyType, model);
             loadFields(propertyType, fields, visitedTypes);
         }
@@ -171,12 +170,6 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
 
     private boolean prefixIsDeclared(QName name) {
         return name.getPrefix() != null && !name.getPrefix().isEmpty();
-    }
-
-
-    private SchemaGlobalElement findRootElement(QName rootElementName) throws XmlException {
-        final SchemaTypeSystem schemaTypeLoader = XmlSchemaUtils.getSchemaTypeSystem(schemas);
-        return schemaTypeLoader.findElement(rootElementName);
     }
 
 

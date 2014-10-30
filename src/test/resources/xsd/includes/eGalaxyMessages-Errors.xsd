@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:include schemaLocation="eGalaxyMessages-Common.xsd"  />
+	<xsd:element name="Envelope">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Header" type="HeaderType" />
+
+				<xsd:element name="Body">
+					<xsd:complexType>
+						<xsd:choice>
+
+							<!-- body can contain one of the following message (element/group) 
+								types -->
+							<xsd:group ref="ErrorResponseGroupType" /> 
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

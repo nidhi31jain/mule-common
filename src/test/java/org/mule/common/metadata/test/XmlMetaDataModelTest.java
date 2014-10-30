@@ -235,7 +235,7 @@ public class XmlMetaDataModelTest
 
         XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
 
-        List<String> schemas = Arrays.asList("dotNet1.xsd", "dotNet2.xsd", "dotNet3.xsd", "dotNet4.xsd", "dotNet5.xsd", "dotNet6.xsd");
+        List<String> schemas = Arrays.asList("xsd/dotNet1.xsd", "xsd/dotNet2.xsd", "xsd/dotNet3.xsd", "xsd/dotNet4.xsd", "xsd/dotNet5.xsd", "xsd/dotNet6.xsd");
         for (String schema : schemas)
         {
             xmlMetaDataBuilder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
@@ -251,7 +251,7 @@ public class XmlMetaDataModelTest
 
         XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
 
-        List<String> schemas = Arrays.asList("salesforce1.xsd", "salesforce2.xsd", "salesforce3.xsd");
+        List<String> schemas = Arrays.asList("xsd/salesforce1.xsd", "xsd/salesforce2.xsd", "xsd/salesforce3.xsd");
         for (String schema : schemas)
         {
             xmlMetaDataBuilder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
@@ -259,4 +259,21 @@ public class XmlMetaDataModelTest
         XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
         Assert.assertThat(model, CoreMatchers.notNullValue());
     }
+
+    @Test
+    public void whenSchemaUrlIncludeShouldBeSupported()
+    {
+        QName rootElementName = new QName("Envelope");
+
+        XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
+
+        List<String> schemas = Arrays.asList("xsd/includes/eGalaxyMessages-OtherMessages.xsd");
+        for (String schema : schemas)
+        {
+            xmlMetaDataBuilder.addSchemaUrlList(getClass().getClassLoader().getResource(schema));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
+        Assert.assertThat(model, CoreMatchers.notNullValue());
+    }
 }
+

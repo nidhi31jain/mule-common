@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="SessionIDType">
+		<xsd:restriction base="xsd:integer">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="SectionIDType">
+		<xsd:restriction base="xsd:integer">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="CustomerIDType">
+		<xsd:restriction base="xsd:integer">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="EventIDType">
+		<xsd:restriction base="xsd:integer">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="PLUType">
+		<xsd:restriction base="xsd:string">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="StatusINTType">
+		<xsd:restriction base="xsd:integer">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="GalaxyBool">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="YES" />
+			<xsd:enumeration value="NO" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- <xsd:complexType name="StatusComplexType" mixed="true"> -->
+	<xsd:complexType name="StatusComplexType">
+		<xsd:sequence>
+			<xsd:element name="StatusCode" type="xsd:integer" />
+			<xsd:element name="StatusText" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="EventsType">
+		<xsd:sequence>
+			<xsd:element name="Event" type="EventType" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="OrderIDType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="20" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="MoneyType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="ErrorType">
+		<xsd:sequence>
+			<xsd:element name="ErrorCode" type="xsd:integer" />
+			<xsd:element name="ErrorText" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+
+
+	<xsd:complexType name="HeaderType">
+		<xsd:all>
+			<xsd:element name="MessageID" type="xsd:string" />
+			<xsd:element name="MessageType" type="xsd:string" />
+			<xsd:element name="SourceID" type="xsd:string" />
+			<xsd:element name="SiteID" type="xsd:string" minOccurs="0" />
+			<xsd:element name="SessionID" type="SessionIDType" />
+			<xsd:element name="TimeStamp" type="xsd:dateTime" />
+			<xsd:element name="EchoData" type="xsd:string" />
+			<!-- removed as requested by Vince Hewitt <xsd:element name="SystemFields" 
+				type="xsd:string" minOccurs="0"/> -->
+		</xsd:all>
+	</xsd:complexType>
+
+	<xsd:complexType name="AuthenticateRequestType">
+		<xsd:all>
+			<xsd:element name="Username" type="xsd:string" />
+			<xsd:element name="Password" type="xsd:string" />
+			<xsd:element name="PasswordEncrypted" type="GalaxyBool" />
+		</xsd:all>
+	</xsd:complexType>
+
+	<xsd:complexType name="AuthenticateResponseType">
+		<xsd:all>
+			<xsd:element name="SessionID" type="SessionIDType" />
+		</xsd:all>
+	</xsd:complexType>
+
+
+
+	<xsd:group name="ErrorResponseGroupType">
+		<xsd:sequence>
+			<!-- <xsd:element name="Status" type="StatusComplexType" /> -->
+			<xsd:element name="Error" type="ErrorType" />
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ErrorAndStatusResponseGroupType">
+		<xsd:sequence>
+			<!-- <xsd:element name="Status"> <xsd:complexType> <xsd:sequence> <xsd:element 
+				name="Status" type="StatusComplexType" maxOccurs="unbounded" /> </xsd:sequence> 
+				</xsd:complexType> </xsd:element> -->
+			<xsd:element name="Errors">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Error" type="ErrorType" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:group name="QueryEventsInfoGroup">
+		<xsd:sequence>
+			<!-- <xsd:element name="EventRangeBeginDate" type="xsd:dateTime" /> <xsd:element 
+				name="EventRangeEndDate" type="xsd:dateTime" /> -->
+			<xsd:element name="EventRangeBeginDate" type="xsd:string" />
+			<xsd:element name="EventRangeEndDate" type="xsd:string" />
+			<xsd:element name="EventTypeID" type="xsd:integer"
+				minOccurs="0" />
+			<xsd:element name="ResourceID" type="xsd:integer"
+				minOccurs="0" />
+			<xsd:element name="Quantity" type="xsd:integer"
+				minOccurs="0" />
+			<xsd:element name="ReturnAttributes" type="xsd:string"
+				minOccurs="0" />
+
+		</xsd:sequence>
+	</xsd:group>
+
+
+	<xsd:complexType name="QueryEventDatesRequestType">
+		<xsd:sequence>
+			<xsd:group ref="QueryEventsInfoGroup" />
+		</xsd:sequence>
+
+	</xsd:complexType>
+
+	<xsd:complexType name="QueryEventDatesResponseType">
+		<xsd:all>
+			<xsd:element name="EventDateList">
+				<xsd:complexType>
+					<xsd:sequence>
+						<!-- should be date but galaxy doesn't conform to xml standard for 
+							date -->
+						<xsd:element name="EventDate" type="xsd:string"
+							maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+
+
+
+
+	<xsd:complexType name="EventType">
+		<xsd:sequence>
+			<xsd:element name="EventID" type="EventIDType" />
+			<xsd:element name="EventName" type="xsd:string" />
+			<xsd:element name="StartDateTime" type="xsd:string" />
+			<xsd:element name="EndDateTime" type="xsd:string" />
+			<xsd:element name="EventTypeID" type="xsd:integer" />
+			<xsd:element name="OnSaleDateTime" type="xsd:string" />
+			<xsd:element name="OffSaleDateTime" type="xsd:string" />
+			<xsd:element name="ResourceID" type="xsd:integer" />
+			<xsd:element name="UserEventNumber" type="xsd:integer" />
+			<xsd:element name="Available" type="xsd:integer" />
+			<xsd:element name="TotalCapacity" type="xsd:integer" />
+			<xsd:element name="Status" type="StatusINTType" />
+			<xsd:element name="HasRoster" type="xsd:integer" />
+			<xsd:element name="Price" type="MoneyType" />
+			<xsd:element name="DisbursementID" type="xsd:integer" />
+			<xsd:element name="DiscountAmount" type="MoneyType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="TicketsType">
+		<xsd:sequence>
+			<xsd:element name="Ticket">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:group ref="TicketTypeGroup" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="PricingType">
+		<xsd:sequence>
+			<xsd:element name="SalesProgramID" type="xsd:integer" />
+			<xsd:element name="CustomerID" type="CustomerIDType" />
+			<xsd:element name="Tickets" type="TicketsType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:group name="TicketTypeGroup">
+		<xsd:sequence>
+			<xsd:element name="VisualID" type="xsd:string" />
+			<xsd:element name="SerialNo" type="xsd:int" />
+			<xsd:element name="PLU" type="PLUType" />
+			<xsd:element name="Price" type="MoneyType" />
+			<xsd:element name="Events" type="EventsType" maxOccurs="unbounded" />
+			<xsd:element name="ExpirationDate" type="xsd:dateTime" />
+			<xsd:element name="ItemName" type="xsd:string" />
+			<xsd:element name="ItemDescription" type="xsd:string" />
+			<xsd:element name="ItemUserCode" type="xsd:string" />
+			<xsd:element name="AccessCode" type="xsd:string" />
+			<xsd:element name="OrderLineID" type="xsd:string" />
+			<xsd:element name="TaxAmount" type="MoneyType" />
+			<xsd:element name="DateSold" type="xsd:dateTime" />
+			<xsd:element name="EventID" type="EventIDType" />
+			<xsd:element name="EventName" type="xsd:string" />
+			<xsd:element name="EventStartDate" type="xsd:string" />
+			<xsd:element name="EventEndDate" type="xsd:string" />
+			<xsd:element name="EventTypeName" type="xsd:string" />
+			<xsd:element name="ResourceName" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:group>
+
+
+	<xsd:complexType name="QueryEventsRequestType">
+		<xsd:sequence>
+			<xsd:group ref="QueryEventsInfoGroup" />
+			<xsd:element name="Pricing" type="PricingType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- used instead of QueryEventsResponseType -->
+	<xsd:group name="QueryEventsResponseTypeGroup">
+		<xsd:sequence>
+			<xsd:element name="Events" type="EventsType" maxOccurs="unbounded" />
+			<xsd:element name="Pricing" type="PricingType" />
+			<xsd:element name="Error" type="ErrorType" />
+		</xsd:sequence>
+	</xsd:group>
+
+
+
+
+	<xsd:complexType name="EventTicketHoldRequestType">
+		<xsd:sequence>
+			<xsd:element name="EventID" type="EventIDType" />
+			<xsd:element name="SectionID" type="SectionIDType" />
+			<xsd:element name="Qty" type="xsd:integer" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- used instead of EventTicketHoldResponseType -->
+
+	<xsd:group name="EventTicketHoldResponseTypeGroup">
+		<xsd:sequence>
+			<xsd:element name="EventTicketHoldResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="SectionID" type="SectionIDType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:group>
+
+
+	<xsd:complexType name="PassType">
+		<xsd:sequence>
+			<xsd:element name="FirstName" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="MiddleName" type="xsd:string"
+				minOccurs="0" />
+
+			<xsd:element name="LastName" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Street1" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Street2" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Street3" type="xsd:string" minOccurs="0" />
+			<xsd:element name="City" type="xsd:string" minOccurs="0" />
+			<xsd:element name="State" type="xsd:string" minOccurs="0" />
+			<xsd:element name="ZIP" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Country" type="xsd:string" minOccurs="0" />
+			<xsd:element name="DOB" type="xsd:date" minOccurs="0" />
+			<xsd:element name="Email" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Phone" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User01" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User02" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User03" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User04" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User05" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User06" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User07" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User08" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User09" type="xsd:string" minOccurs="0" />
+			<xsd:element name="User10" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Picture">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ImageData"
+							xmlns:dt='urn:schemas-microsoft-com:datatypes' dt:dt='bin.base64' />
+						<xsd:element name="Status" type="StatusINTType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="OrderLinesType">
+		<xsd:sequence>
+			<xsd:element name="OrderLine" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="DetailType" type="xsd:int" />
+						<xsd:element name="Description" type="xsd:string" />
+						<xsd:element name="PLU" type="PLUType" />
+						<xsd:element name="Pass" type="PassType" />
+						<xsd:element name="Qty" type="xsd:integer" />
+						<xsd:element name="Amount" type="MoneyType" />
+						<xsd:element name="CardHolderName" type="xsd:string" />
+						<xsd:element name="Endorsement" type="xsd:string" />
+						<xsd:element name="SearchEndorsementValue" type="xsd:string" />
+						<xsd:element name="PaymentCode" type="xsd:int" minOccurs="0" />
+						<xsd:element name="PaymentDate" type="xsd:dateTime" />
+						<xsd:element name="Total" type="MoneyType" />
+						<xsd:element name="DiscountAmount" type="MoneyType" />
+						<xsd:element name="ExternalDiscountID" type="xsd:string" />
+						<xsd:element name="TaxID" type="xsd:int" minOccurs="0" />
+						<xsd:element name="TaxAmount" type="MoneyType" />
+						<xsd:element name="Taxes">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Tax" maxOccurs="unbounded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="TaxID" type="xsd:integer" />
+												<xsd:element name="UnitAmount" type="MoneyType" />
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="EventID" type="EventIDType" minOccurs="0" />
+						<xsd:element name="EventTypeID" type="xsd:int" minOccurs="0" />
+						<xsd:element name="SectionID" type="SectionIDType" />
+						<xsd:element name="ResourceID" type="xsd:int" minOccurs="0" />
+						<xsd:element name="TicketDate" type="xsd:dateTime" minOccurs="0" />
+						<xsd:element name="EventName" type="xsd:string" minOccurs="0" />
+						<xsd:element name="EventDateTime" type="xsd:string" minOccurs="0" />
+						<xsd:element name="DetailSubType" type="xsd:string" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ContactType">
+		<xsd:sequence>
+			<xsd:element name="JobTitle" type="xsd:string" />
+			<xsd:element name="FirstName" type="xsd:string" />
+			<xsd:element name="MiddleName" type="xsd:string" />
+			<xsd:element name="LastName" type="xsd:string" />
+			<xsd:element name="Street1" type="xsd:string" />
+			<xsd:element name="Street2" type="xsd:string" />
+			<xsd:element name="Street3" type="xsd:string" />
+			<xsd:element name="City" type="xsd:string" />
+			<xsd:element name="State" type="xsd:string" />
+			<xsd:element name="Zip" type="xsd:string" />
+			<xsd:element name="Country" type="xsd:string" />
+			<xsd:element name="Phone" type="xsd:string" />
+			<xsd:element name="Email" type="xsd:string" />
+			<xsd:element name="AllowEmail" type="GalaxyBool" />
+			<xsd:element name="AllowMailings" type="GalaxyBool" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CustomerType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string" />
+			<xsd:element name="Reference" type="xsd:string" />
+			<xsd:element name="Email" type="xsd:string" />
+			<xsd:element name="Street1" type="xsd:string" />
+			<xsd:element name="Street2" type="xsd:string" />
+			<xsd:element name="Street3" type="xsd:string" />
+			<xsd:element name="City" type="xsd:string" />
+			<xsd:element name="State" type="xsd:string" />
+			<xsd:element name="Zip" type="xsd:string" />
+			<xsd:element name="Country" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="OrderRequestType">
+		<xsd:sequence>
+			<xsd:element name="Order" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="SessionID" type="SessionIDType" />
+						<xsd:element name="CustomerID" type="CustomerIDType" />
+						<xsd:element name="OrderID" type="OrderIDType" />
+						<xsd:element name="OrderCommand" type="xsd:string" />
+						<xsd:element name="OrderDate" type="xsd:dateTime" />
+						<xsd:element name="OrderStatus" type="xsd:integer" />
+						<xsd:element name="OrderNote" type="xsd:string" />
+						<xsd:element name="OrderTotal" type="MoneyType" />
+
+						<xsd:element name="OrderContact">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Contact" type="ContactType" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="ShipToContact">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="SameAsOrderContact" type="GalaxyBool"
+										minOccurs="1" />
+									<xsd:element name="Contact" type="ContactType" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="Shipping">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="DeliveryMethod" type="xsd:integer" />
+									<xsd:element name="DeliveryDetails" type="xsd:string" />
+									<xsd:element name="DeliveryMethodID" type="xsd:int" />
+
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="OrderLines" type="OrderLinesType" />
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateTransactionResponseType">
+		<xsd:sequence>
+			<xsd:element name="TransactionData" type="TransactionDataType" />
+			<xsd:element name="Products" type="ProductsType" />
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ProductsType">
+		<xsd:sequence>
+			<xsd:element name="Product" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:group ref="TicketTypeGroup" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="xsd:string" />
+
+	</xsd:complexType>
+
+	<xsd:complexType name="TransactionDataType">
+		<xsd:sequence>
+			<xsd:element name="GenerationType" type="xsd:int" />
+			<xsd:element name="OrderID" type="xsd:string" />
+			<xsd:element name="GalaxyOrderID" type="xsd:string" />
+			<xsd:element name="NodeNo" type="xsd:int" />
+			<xsd:element name="TransactionNo" type="xsd:int" />
+			<xsd:element name="TranDate" type="xsd:dateTime" />
+			<xsd:element name="AgencyID" type="xsd:int" />
+			<xsd:element name="UserID" type="xsd:int" />
+			<xsd:element name="SalesChannelCategoryID" type="xsd:int" />
+			<xsd:element name="CustomerID" type="xsd:int" />
+			<xsd:element name="TransactionType" type="xsd:int" />
+			<xsd:element name="AccountID" type="xsd:int" />
+			<xsd:element name="PrepaymentFOP" type="xsd:int" />
+			<xsd:element name="PrepaidBalance" type="MoneyType" />
+			<xsd:element name="TransactionTotal" type="MoneyType" />
+			<xsd:element name="ExternalTransactionTotal" type="MoneyType" />
+			<xsd:element name="RetailTransactionTotal" type="MoneyType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:group name="OrdersResponseTypeGroup">
+		<xsd:sequence>
+			<xsd:element name="Username" type="xsd:string" />
+			<xsd:element name="Password" type="xsd:string" />
+			<xsd:element name="OrderID" type="OrderIDType" />
+			<xsd:element name="GalaxyOrderID" type="xsd:integer" />
+
+			<xsd:element name="Status" type="StatusINTType" />
+			<xsd:element name="AuthCode" type="xsd:integer" />
+
+			<xsd:element name="ResponseText" type="xsd:string" />
+			<xsd:element name="AVSResultCode" type="xsd:string" />
+			<xsd:element name="CVNResultCode" type="xsd:string" />
+			<xsd:element name="CreateTransactionResponse" type="CreateTransactionResponseType" />
+			<xsd:element name="OrderStatusErrors" type="OrderStatusErrorsType" />
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:complexType name="QueryOrderType">
+		<xsd:sequence>
+			<xsd:element name="Query">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="OrderID" type="xsd:string" />
+					</xsd:sequence>
+
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OrderStatusErrorsType">
+		<xsd:sequence>
+			<xsd:element name="OrderStatusError" type="ErrorType"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="QueryOrderResponseTypeGroup">
+		<xsd:sequence>
+			<xsd:element name="TransactionData" type="TransactionDataType" />
+			<xsd:element name="Customer" type="CustomerType" />
+			<xsd:element name="OrderContact">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Contact" type="ContactType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="BillToContact">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Contact" type="ContactType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ShipToContact">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Contact" type="ContactType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="OrderLines" type="OrderLinesType" />
+			<xsd:element name="Tickets" type="TicketsType" />
+			<xsd:element name="Products" type="ProductsType" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

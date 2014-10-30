@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:include schemaLocation="eGalaxyMessages-Common.xsd" />
+
+	<xsd:element name="Envelope">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Header" type="HeaderType" />
+				<xsd:element name="Body">
+					<xsd:complexType>
+						<xsd:choice>
+						
+							<!-- body can contain one of the following message (element/group) 
+								types -->
+								 
+							<xsd:element name="Authenticate" type="AuthenticateRequestType" />
+							<xsd:element name="AuthenticateResponse" type="AuthenticateResponseType" />
+
+							<xsd:element name="QueryEventDates" type="QueryEventDatesRequestType" />
+							<xsd:element name="QueryEventDatesResponse" type="QueryEventDatesResponseType" />
+
+							<xsd:element name="QueryEvents" type="QueryEventsRequestType" />
+							<xsd:group ref="QueryEventsResponseTypeGroup" />
+							
+							<xsd:element name="QueryOrder" type="QueryOrderType" />
+							<xsd:element name="QueryOrderResponse" type="QueryOrderResponseTypeGroup" />
+							
+							
+							<xsd:element name="EventsTicketHold" type="EventTicketHoldRequestType" />
+							<xsd:group ref="EventTicketHoldResponseTypeGroup" />
+							
+							<xsd:element name="Orders" type="OrderRequestType" />
+							<xsd:group ref="OrdersResponseTypeGroup" />
+							<xsd:group ref="ErrorAndStatusResponseGroupType" /> 
+
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

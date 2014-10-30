@@ -8,6 +8,7 @@ import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     public QName name;
     public String[] schemas;
     public List<InputStream> schemasStream = new ArrayList<InputStream>();
+    public List<URL> schemasUrls = new ArrayList<URL>();
     public Charset encoding = Charset.forName("UTF-8");
     public String example;
     private String label;
@@ -32,7 +34,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     {
         this(new QName(name));
     }
-    
+
     public DefaultXmlMetaDataBuilder(QName name)
     {
         this.name = name;
@@ -56,6 +58,10 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
             }
 
             model = new DefaultXmlMetaDataModel(result, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+        }
+        else if(schemasUrls != null)
+        {
+            model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
         }
 
         if (label != null)
@@ -97,6 +103,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     {
         this.schemas = schemas;
         this.schemasStream = null;
+        this.schemasUrls = null;
         return this;
     }
 
@@ -105,6 +112,15 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     {
         this.schemasStream.addAll(Arrays.asList(schemaStreams));
         this.schemas = null;
+        this.schemasUrls = null;
+        return this;
+    }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> addSchemaUrlList(URL... schemaStreams) {
+        this.schemasUrls.addAll(Arrays.asList(schemaStreams));
+        this.schemas = null;
+        this.schemasStream = null;
         return this;
     }
 
