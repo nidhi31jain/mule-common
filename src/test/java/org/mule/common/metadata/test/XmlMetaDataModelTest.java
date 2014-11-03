@@ -275,5 +275,22 @@ public class XmlMetaDataModelTest
         XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
         Assert.assertThat(model, CoreMatchers.notNullValue());
     }
+
+    @Test
+    public void whenSchemaStringAndBaseUrlIncludeShouldBeSupported()
+    {
+        QName rootElementName = new QName("Envelope");
+
+        XmlMetaDataBuilder xmlMetaDataBuilder = new DefaultMetaDataBuilder().createXmlObject(rootElementName);
+
+        List<String> schemas = Arrays.asList("xsd/includes/eGalaxyMessages-OtherMessages.xsd");
+        for (String schema : schemas)
+        {
+            xmlMetaDataBuilder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
+        }
+        xmlMetaDataBuilder.setSourceUri(getClass().getClassLoader().getResource(schemas.get(0)));
+        XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
+        Assert.assertThat(model, CoreMatchers.notNullValue());
+    }
 }
 

@@ -18,8 +18,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.io.IOUtils;
 
-public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P>
-{
+public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P> {
 
     public QName name;
     public String[] schemas;
@@ -29,14 +28,13 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     public String example;
     private String label;
     private String description;
+    private URL sourceUrl;
 
-    public DefaultXmlMetaDataBuilder(String name)
-    {
+    public DefaultXmlMetaDataBuilder(String name) {
         this(new QName(name));
     }
 
-    public DefaultXmlMetaDataBuilder(QName name)
-    {
+    public DefaultXmlMetaDataBuilder(QName name) {
         this.name = name;
     }
 
@@ -46,7 +44,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
         XmlMetaDataModel model = null;
         if (schemas != null)
         {
-            model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+            model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
         }
         else if (schemasStream != null)
         {
@@ -57,7 +55,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
                 result.add(getStringFromInputStream(schemaStream, encoding));
             }
 
-            model = new DefaultXmlMetaDataModel(result, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+            model = new DefaultXmlMetaDataModel(result, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
         }
         else if(schemasUrls != null)
         {
@@ -98,6 +96,14 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
 
     }
 
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setSourceUri(URL sourceUrl)
+    {
+        this.sourceUrl = sourceUrl;
+        return this;
+    }
+
     @Override
     public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas)
     {
@@ -117,7 +123,8 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     }
 
     @Override
-    public DefaultXmlMetaDataBuilder<P> addSchemaUrlList(URL... schemaStreams) {
+    public DefaultXmlMetaDataBuilder<P> addSchemaUrlList(URL... schemaStreams)
+    {
         this.schemasUrls.addAll(Arrays.asList(schemaStreams));
         this.schemas = null;
         this.schemasStream = null;

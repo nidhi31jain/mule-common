@@ -19,16 +19,24 @@ import org.apache.xmlbeans.impl.schema.SchemaTypeSystemCompiler;
 public class XmlSchemaUtils {
 
     public static SchemaTypeSystem getSchemaTypeSystem(List<String> schemas) throws XmlException {
+        return getSchemaTypeSystem(schemas, null);
+    }
+
+    public static SchemaTypeSystem getSchemaTypeSystem(List<String> schemas, URL source) throws XmlException {
         final XmlOptions options = new XmlOptions();
         options.setCompileNoUpaRule();
         options.setCompileNoValidation();
         options.setCompileDownloadUrls();
+        if (source != null) {
+            options.put(XmlOptions.DOCUMENT_SOURCE_NAME, source.toString());
+            options.put("BASE_URI", PathUtilities.extractDirectoryPath(source.toString()));
+        }
 
         /* Load the schema */
         final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
         final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[]{BuiltinSchemaTypeSystem.get()}, null, XmlMetaDataFieldFactory.class.getClassLoader());
         for (int i = 0; i < schemas.size(); i++) {
-            schemaRepresentation[i] = contextTypeLoader.parse(schemas.get(i), null, null);
+            schemaRepresentation[i] = contextTypeLoader.parse(schemas.get(i), null, options);
         }
         return SchemaTypeSystemCompiler.compile(null, null, schemaRepresentation, null, contextTypeLoader, null, options);
     }
@@ -47,10 +55,14 @@ public class XmlSchemaUtils {
 
         int i = 0;
         for (URL schemaURL : schemas) {
-            XmlObject schemaObject = contextTypeLoader.parse(schemaURL, null, null);
+            XmlObject schemaObject = contextTypeLoader.parse(schemaURL, null, options);
             schemaRepresentation[i] = schemaObject;
             i++;
         }
         return SchemaTypeSystemCompiler.compile(null, null, schemaRepresentation, null, contextTypeLoader, null, options);
     }
+
+
 }
+
+

@@ -7,7 +7,9 @@ import java.nio.charset.Charset;
 import org.mule.common.metadata.XmlMetaDataModel;
 
 public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDataBuilder<XmlMetaDataModel> {
-	
+
+	DefaultXmlMetaDataBuilder<P> setSourceUri(URL sourceUrl);
+
 	public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas);
 	
 	public DefaultXmlMetaDataBuilder<P> addSchemaStreamList(InputStream... schemaStreams);
