@@ -42,7 +42,18 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      */
     public DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
     {
-        this(new StringBasedSchemaProvider(schemas,encoding), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding), rootElement).createFields(), properties);
+        this(new StringBasedSchemaProvider(schemas,encoding,null), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,null), rootElement).createFields(), properties);
+    }
+    /**
+     * @param schemas     The schemas
+     * @param sourceUrl   The url where the relative paths will be taken from
+     * @param rootElement The root element QName
+     * @param encoding    The encoding of the schemas
+     * @param properties  Additional properties
+     */
+    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
+    {
+        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement).createFields(), properties);
     }
 
     /**

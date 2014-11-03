@@ -8,7 +8,7 @@ import org.mule.common.metadata.util.XmlSchemaUtils;
 import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,12 @@ public class StringBasedSchemaProvider implements SchemaProvider {
 
     private List<String> schemas;
     private Charset encoding;
+    private URL baseUri;
 
-    public StringBasedSchemaProvider(List<String> schemas, Charset encoding) {
+    public StringBasedSchemaProvider(List<String> schemas, Charset encoding, URL baseUri) {
         this.schemas = schemas;
         this.encoding = encoding;
+        this.baseUri = baseUri;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class StringBasedSchemaProvider implements SchemaProvider {
 
     @Override
     public SchemaGlobalElement findRootElement(QName rootElementName) throws XmlException {
-        final SchemaTypeSystem schemaTypeLoader = XmlSchemaUtils.getSchemaTypeSystem(schemas);
+        final SchemaTypeSystem schemaTypeLoader = XmlSchemaUtils.getSchemaTypeSystem(schemas, baseUri);
         return schemaTypeLoader.findElement(rootElementName);
     }
 }
