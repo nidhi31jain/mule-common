@@ -11,9 +11,7 @@ import org.mule.common.metadata.parser.json.*;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Created by studio on 21/07/2014.
- */
+
 public class JSONSchemaMetaDataModelTest {
 
     JSONSchemaMetadataModelFactory modelFactory = new JSONSchemaMetadataModelFactory();

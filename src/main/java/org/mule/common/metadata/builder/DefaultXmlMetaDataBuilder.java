@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils;
 public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P> {
 
     public QName name;
-    public String[] schemas;
+    public List<String> schemas = new ArrayList<String>();
     public List<InputStream> schemasStream = new ArrayList<InputStream>();
     public List<URL> schemasUrls = new ArrayList<URL>();
     public Charset encoding = Charset.forName("UTF-8");
@@ -44,7 +44,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
         XmlMetaDataModel model = null;
         if (schemas != null)
         {
-            model = new DefaultXmlMetaDataModel(Arrays.asList(schemas), sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+            model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
         }
         else if (schemasStream != null)
         {
@@ -107,7 +107,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     @Override
     public DefaultXmlMetaDataBuilder<P> addSchemaStringList(String... schemas)
     {
-        this.schemas = schemas;
+        this.schemas.addAll(Arrays.asList(schemas));
         this.schemasStream = null;
         this.schemasUrls = null;
         return this;
