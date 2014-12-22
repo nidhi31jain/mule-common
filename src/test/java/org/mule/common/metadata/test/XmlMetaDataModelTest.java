@@ -11,11 +11,13 @@ import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.property.QNameMetaDataProperty;
 import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -304,6 +306,20 @@ public class XmlMetaDataModelTest
         }
         XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+
+    }
+
+    @Test
+    public void xsdWithTwoFields() throws IOException
+    {
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://www.loyaltylab.com/loyaltyapi/", "RedeemReward"));
+        List<String> schemas = Arrays.asList("xsd/se-1664/in0.xsd","xsd/se-1664/in1.xsd","xsd/se-1664/in2.xsd");
+        for (String schema : schemas)
+        {
+            builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
     }
 }

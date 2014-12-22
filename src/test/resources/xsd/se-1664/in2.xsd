@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><s:schema xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:s2="http://www.instorecard.com/schema/v1/RetailIntegration/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:tns="http://www.loyaltylab.com/loyaltyapi/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" elementFormDefault="qualified" targetNamespace="http://www.instorecard.com/schema/v1/RetailIntegration/">
+      <s:complexType name="ISCLogTransactionType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailStoreID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SalesAssociateID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Shopper" type="s2:ShopperType"/>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="LineItem" type="s2:LineItemType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShopperType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperName" type="s2:PersonNameType"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperAddress" type="s2:AddressType"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperPhoneNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperEMail" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LoyaltyProgramID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyMember" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RegistrationDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EMailOptIn" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PhoneOptIn" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="MailOptIn" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SourceReference" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperStatus" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerShopperCreationDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerRegistered" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UserName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomAttributes" type="s2:CustomAttributeValueType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PersonNameType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="PersonFullName" type="s2:PersonFullNameType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PersonFullNameType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Title" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="FirstName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MiddleName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LastName" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AddressType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="AddressLine1" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AddressLine2" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="City" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="State" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PostalCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CountryCode" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeValueType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="NumericType" type="s2:ArrayOfCustomAttributeTypeNumeric"/>
+          <s:element maxOccurs="1" minOccurs="0" name="DateTimeType" type="s2:ArrayOfCustomAttributeTypeDateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LookupType" type="s2:ArrayOfCustomAttributeTypeLookup"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TextType" type="s2:ArrayOfCustomAttributeTypeText"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MonthDayType" type="s2:ArrayOfCustomAttributeTypeDateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeTypeNumeric">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttribute" type="s2:CustomAttributeTypeNumeric"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeTypeNumeric">
+        <s:attribute name="name" type="s:string"/>
+        <s:attribute name="value" type="s:decimal" use="required"/>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeTypeDateTime">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttribute" type="s2:CustomAttributeTypeDateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeTypeDateTime">
+        <s:attribute name="name" type="s:string"/>
+        <s:attribute name="value" type="s:dateTime" use="required"/>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeTypeLookup">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttribute" type="s2:CustomAttributeTypeLookup"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeTypeLookup">
+        <s:attribute name="name" type="s:string"/>
+        <s:attribute name="value" type="s:string"/>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeTypeText">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttribute" type="s2:CustomAttributeTypeText"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeTypeText">
+        <s:attribute name="name" type="s:string"/>
+        <s:attribute name="value" type="s:string"/>
+      </s:complexType>
+      <s:complexType name="LineItemType">
+        <s:sequence>
+          <s:choice maxOccurs="1" minOccurs="1">
+            <s:element maxOccurs="1" minOccurs="0" name="Sale" type="s2:ISCSaleType"/>
+            <s:element maxOccurs="1" minOccurs="0" name="Return" type="s2:ISCReturnType"/>
+            <s:element maxOccurs="1" minOccurs="0" name="Tender" type="s2:TenderAmountType"/>
+          </s:choice>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ISCSaleType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="LineNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ItemSKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Quantity" type="s2:ISCLogQuantity"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExtendedAmount" type="s2:ISCLogAmountType"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShipDateTime" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ISCLogQuantity">
+        <s:simpleContent>
+          <s:extension base="s:decimal">
+            <s:attribute name="UnitOfMeasureCode" type="s:string"/>
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ISCLogAmountType">
+        <s:simpleContent>
+          <s:extension base="s:decimal">
+            <s:attribute name="Currency" type="s2:ISCLogCurrencyCodeType" use="required"/>
+            <s:attribute name="ForeignAmount" type="s:decimal" use="required"/>
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="ISCLogCurrencyCodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="AUD"/>
+          <s:enumeration value="GBP"/>
+          <s:enumeration value="NZD"/>
+          <s:enumeration value="USD"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ISCReturnType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="LineNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ItemSKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Quantity" type="s2:ISCLogQuantity"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExtendedAmount" type="s2:ISCLogAmountType"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionLink" type="s2:TransactionLinkType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionLinkType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailStoreID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterID" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LineNumber" type="s:string"/>
+        </s:sequence>
+        <s:attribute name="ReasonCode" type="s2:TransactionLinkReasonType" use="required"/>
+      </s:complexType>
+      <s:simpleType name="TransactionLinkReasonType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Return"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TenderAmountType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Amount" type="s2:ISCLogAmountType"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperCreditCard" type="s2:CardCreditDebitType"/>
+        </s:sequence>
+        <s:attribute name="TenderType" type="s2:ISCLogTenderType" use="required"/>
+      </s:complexType>
+      <s:complexType name="CardCreditDebitType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="CardHolderName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExpirationDate" type="s:gYearMonth"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardSecurityCode" type="s:integer"/>
+        </s:sequence>
+        <s:attribute name="CardType" type="s2:CardCreditDebitTypeCardType" use="required"/>
+      </s:complexType>
+      <s:simpleType name="CardCreditDebitTypeCardType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Visa"/>
+          <s:enumeration value="MasterCard"/>
+          <s:enumeration value="American Express"/>
+          <s:enumeration value="Discover"/>
+          <s:enumeration value="Diners Club"/>
+          <s:enumeration value="Japanese Commerce Bank"/>
+          <s:enumeration value="Non-Credit Card Loyalty Card"/>
+          <s:enumeration value="Other"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ISCLogTenderType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Cash"/>
+          <s:enumeration value="CreditDebit"/>
+          <s:enumeration value="Check"/>
+          <s:enumeration value="PurchaseOrder"/>
+          <s:enumeration value="ManufacturerCoupon"/>
+          <s:enumeration value="CoPay"/>
+          <s:enumeration value="Loyalty"/>
+          <s:enumeration value="TravelersCheck"/>
+          <s:enumeration value="Points"/>
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>

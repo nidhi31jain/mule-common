@@ -1,0 +1,2985 @@
+<?xml version="1.0" encoding="UTF-8"?><s:schema xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:s2="http://www.instorecard.com/schema/v1/RetailIntegration/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:tns="http://www.loyaltylab.com/loyaltyapi/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" elementFormDefault="qualified" targetNamespace="http://www.loyaltylab.com/loyaltyapi/">
+      <s:import namespace="http://microsoft.com/wsdl/types/"/>
+      <s:import namespace="http://www.instorecard.com/schema/v1/RetailIntegration/"/>
+      <s:element name="GetShopperEventInstances">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="startDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="endDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperEventInstancesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperEventInstancesResult" type="tns:ArrayOfEventInstance"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfEventInstance">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="EventInstance" nillable="true" type="tns:EventInstance"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EventInstance">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerEventId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EventReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Subject" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Object" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="MasterValue" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EventDate" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthenticationResult" type="tns:AuthenticationResult"/>
+      <s:complexType name="AuthenticationResult">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerGuid" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Authenticated" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Token" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ICSUserID" type="s:int"/>
+        </s:sequence>
+        <s:anyAttribute/>
+      </s:complexType>
+      <s:element name="GiftPointsByPointType">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="fromShopperIdentifier" type="tns:ShopperIdentifier"/>
+            <s:element maxOccurs="1" minOccurs="0" name="toShopperIdentifier" type="tns:ShopperIdentifier"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointsToGift" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="fromShopperText" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="toShopperText" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="fromPointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="toPointType" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ShopperIdentifier">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="IdentifierType" type="tns:IdentifierTypes"/>
+          <s:element maxOccurs="1" minOccurs="0" name="IdentifierValue" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="IdentifierTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="ShopperId"/>
+          <s:enumeration value="EmailAddress"/>
+          <s:enumeration value="LoyaltyCard"/>
+          <s:enumeration value="PhoneNumber"/>
+          <s:enumeration value="RetailerShopperId"/>
+          <s:enumeration value="UserName"/>
+          <s:enumeration value="DeviceId"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GiftPointsByPointTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GiftPointsByPointTypeResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PointGiftingActivityByShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopperIdentifier" type="tns:ShopperIdentifier"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointSharingActivityType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDateTime" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDateTime" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PointGiftingActivityByShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="PointGiftingActivityByShopperResult" type="tns:ArrayOfRedemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRedemption">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Redemption" nillable="true" type="tns:Redemption"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Redemption">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RedemptionId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProcessBatchId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProcessingStatus" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RegisteredCardId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsDeferredAward" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsDeferredAwardRedemption" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardMonetaryValue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FileIsProcessed" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperEmailed" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProcessDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CashCost" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CashLiability" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="GoodsCost" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Revenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsEarned" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastOrderItemDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RewardProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointTypeId" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ShopperSignIn">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="emailAddress" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="password" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShopperSignInResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="ShopperSignInResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Shopper">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EmailAddress" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EmailFrequency" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EmailFrequencyUnit" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EmailFormat" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Password" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LastName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MiddleInitial" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="FirstName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Address1" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Address2" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="City" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="State" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Zip" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PhoneNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MobilePhoneEmail" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProfileCreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProfileUpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PasswordLastChanged" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Origin" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerShopperId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FileImportId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="BulkEmail" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyMember" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PersonStatus" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerRegistered" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="MailOptIn" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PhoneOptIn" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SourceReference" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerShopperCreationDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BulkEmailSource" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BulkEmailSourceDescription" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabCreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="StatusUpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UserName" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RedeemOffer">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="offerId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RedeemOfferResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="RedeemOfferResult" type="tns:ShopperRewardItemRedemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ShopperRewardItemRedemption">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RedemptionId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RewardItemId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGuid" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="DisplayedValue" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RewardItemTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RewardItemTypeDesc" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Code" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Url" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ValueTypeCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ActualValue" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExpirationText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RedemptionExpirationDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IssuedDate" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetStores">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="pageIndex" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pageSize" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetStoresResult" type="tns:ArrayOfStore"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfStore">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Store" nillable="true" type="tns:Store"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Store">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="StoreId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="StoreDisplayName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerStoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManagerLastName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManagerFirstName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Address1" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Address2" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="City" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="State" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Zip" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Phone" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ZipCodeMapId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MapURL" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManagerEmail" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FileImportId" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ImportTransactions">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="transactions" type="tns:ArrayOfISCLogTransactionType"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfISCLogTransactionType">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ISCLogTransactionType" nillable="true" type="s2:ISCLogTransactionType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ImportTransactionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="ImportTransactionsResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePointStateByExternalId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="externalPurchaseId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="newState" type="tns:PointStateEnum"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="PointStateEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="Unknown"/>
+          <s:enumeration value="PendingEarn"/>
+          <s:enumeration value="Available"/>
+          <s:enumeration value="PendingRedeem"/>
+          <s:enumeration value="Redeemed"/>
+          <s:enumeration value="Expired"/>
+          <s:enumeration value="Cancelled"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ChangePointStateByExternalIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="ChangePointStateByExternalIdResult" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePointStateByLoyaltyLabId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="loyaltyLabPurchaseId" type="s1:guid"/>
+            <s:element maxOccurs="1" minOccurs="1" name="newState" type="tns:PointStateEnum"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePointStateByLoyaltyLabIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="ChangePointStateByLoyaltyLabIdResult" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByPointState">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="state" type="tns:PointStateEnum"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByPointStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceByPointStateResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCurrentPointPrice">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="basePrice" type="s:double"/>
+            <s:element maxOccurs="1" minOccurs="1" name="effectiveDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCurrentPointPriceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetCurrentPointPriceResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCurrentPointPrices">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="productsToPrice" type="tns:ArrayOfPointPricingData"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPointPricingData">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="PointPricingData" nillable="true" type="tns:PointPricingData"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PointPricingData">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="effectiveDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="basePrice" type="s:double"/>
+          <s:element maxOccurs="1" minOccurs="1" name="pointPrice" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCurrentPointPricesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCurrentPointPricesResult" type="tns:ArrayOfPointPricingData"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPointPrices">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="RetailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="ProductsToPrice" type="tns:ArrayOfProductToPrice"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProductToPrice">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ProductToPrice" nillable="true" type="tns:ProductToPrice"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProductToPrice">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EffectiveDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="BasePrice" type="s:double"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Multiplier" type="s:double"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointPrice" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsValidInput" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ErrorReason" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPointPricesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetPointPricesResult" type="tns:ArrayOfProductToPrice"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PointsPurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="basePrice" type="s:double"/>
+            <s:element maxOccurs="1" minOccurs="1" name="effectiveDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="newPointState" type="tns:PointStateEnum"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PointsPurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="PointsPurchaseResult" type="tns:PointPurchaseResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PointPurchaseResult">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="Success" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PurchaseId" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsChanged" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsRemaining" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PointsPurchaseWithPointGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="basePrice" type="s:double"/>
+            <s:element maxOccurs="1" minOccurs="1" name="effectiveDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="newPointState" type="tns:PointStateEnum"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointGroupRefTag" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PointsPurchaseWithPointGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="PointsPurchaseWithPointGroupResult" type="tns:PointPurchaseResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AssociatePurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="loyaltyLabPurchaseId" type="s1:guid"/>
+            <s:element maxOccurs="1" minOccurs="0" name="externalPurchaseId" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AssociatePurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AssociatePurchaseResult" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsByLoyaltyProgramId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsByLoyaltyProgramIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperRedemptionsByLoyaltyProgramIdResult" type="tns:ArrayOfRedemptionPointLifeCycleOrderItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRedemptionPointLifeCycleOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="RedemptionPointLifeCycleOrderItem" nillable="true" type="tns:RedemptionPointLifeCycleOrderItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RedemptionPointLifeCycleOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Redemption" type="tns:Redemption"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RedemptionPointState" type="tns:RedemptionPointState"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OrderItem" type="tns:OrderItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RedemptionPointState">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RedemptionId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PointType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsPendingEarn" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsAvailable" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsPendingRedeem" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsRedeemed" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsExpired" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsCancelled" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAnyPointAvailable" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OrderItemId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RegisteredCardId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerOrderId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="1" name="StoreId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerOrderDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Quantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DollarRevenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAnonymous" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerStoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerRegisterId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FileImportId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="OriginalOrderItemId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Latest" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerSequenceNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerShipDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerSalesAssociateId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsEligibleForAward" type="s:boolean"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetShopperRedemptionsByShopperId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsByShopperIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperRedemptionsByShopperIdResult" type="tns:ArrayOfRedemptionPointLifeCycleOrderItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewards">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetRewardsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardsResult" type="tns:ArrayOfRewardItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRewardItem">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="RewardItem" nillable="true" type="tns:RewardItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RewardItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="PointRedemptionCatalogId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointValue" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="SortOrder" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageURL" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductDescription" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BrandName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductName" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetEventDefinitions">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetEventDefinitionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetEventDefinitionsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateEventInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="eventinstance" type="tns:EventInstance"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateEventInstanceResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="CreateAndAwardEventInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="EventInstance" type="tns:EventInstance"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAndAwardEventInstanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateAndAwardEventInstanceResult" type="tns:EventAwards"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EventAwards">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="EventInstance" type="tns:EventInstance"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EventAwardDetails" type="tns:ArrayOfEventAwardDetail"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TotalPointsEarned" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfEventAwardDetail">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="EventAwardDetail" nillable="true" type="tns:EventAwardDetail"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EventAwardDetail">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsEarned" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PointType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RewardItem" type="tns:RewardCode"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CreditAward" type="tns:CreditAward"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RewardCode">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="CodeDisplayText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Name" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Headline" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Description" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Note" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="FinePrint" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ValueTypeCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ActualValue" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Sku" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IssueDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationDate" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CreditAward">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardMonetaryValue" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MergeAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="fromShopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toShopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="note" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="MergeAccountsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeShoppers">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="fromShopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toShopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="note" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeShoppersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="MergeShoppersResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToEmailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="emailAddress" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="communicationID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="forceEmailSend" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToEmailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="SendCommunicationToEmailAddressResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToEmailAddresses">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="emailAddresses" type="tns:ArrayOfString"/>
+            <s:element maxOccurs="1" minOccurs="1" name="communicationID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="forceEmailSend" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendCommunicationToEmailAddressesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="SendCommunicationToEmailAddressesResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperID" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="communicationID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="forceEmailSend" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="SendCommunicationToShopperResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToShoppers">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperIDs" type="tns:ArrayOfString"/>
+            <s:element maxOccurs="1" minOccurs="1" name="communicationID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="forceEmailSend" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendCommunicationToShoppersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="SendCommunicationToShoppersResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodesForShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodesForShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCodesForShopperResult" type="tns:ArrayOfShopperRewardItemRedemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopperRewardItemRedemption">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperRewardItemRedemption" nillable="true" type="tns:ShopperRewardItemRedemption"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCodesWithSkuForShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodesWithSkuForShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCodesWithSkuForShopperResult" type="tns:ArrayOfShopperRewardItemRedemptionExtended"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopperRewardItemRedemptionExtended">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperRewardItemRedemptionExtended" nillable="true" type="tns:ShopperRewardItemRedemptionExtended"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShopperRewardItemRedemptionExtended">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ShopperRewardItemRedemption">
+            <s:sequence>
+              <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetTotalPointsEarnedByShopperId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByShopperIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetTotalPointsEarnedByShopperIdResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByRetailerShopperId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByRetailerShopperIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetTotalPointsEarnedByRetailerShopperIdResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByEmailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="emailAddress" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByEmailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetTotalPointsEarnedByEmailAddressResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByLoyaltyCardNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="loyaltyCardNumber" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalPointsEarnedByLoyaltyCardNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetTotalPointsEarnedByLoyaltyCardNumberResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShoppersByPhoneNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="phoneNumber" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShoppersByPhoneNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShoppersByPhoneNumberResult" type="tns:ArrayOfShopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopper">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Shopper" nillable="true" type="tns:Shopper"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetShoppersByPhoneNumberFragment">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="fragment" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="containsSearch" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShoppersByPhoneNumberFragmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShoppersByPhoneNumberFragmentResult" type="tns:ArrayOfShopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PreviewTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="PurchaseTransaction" nillable="true" type="tns:PurchaseTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PurchaseTransaction">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="ShopperIdentifier" type="tns:ShopperIdentifier"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="StoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SalesAssociateId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LineItems" type="tns:ArrayOfLineItem"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Tenders" type="tns:ArrayOfTender"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Coupons" type="tns:ArrayOfCoupon"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLineItem">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="LineItem" nillable="true" type="tns:LineItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LineItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="SequenceNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Sku" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Quantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Revenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShipDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionLink" type="tns:TransactionLinkType"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionLinkType">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerStoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SequenceNumber" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTender">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Tender" nillable="true" type="tns:Tender"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tender">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Type" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Amount" type="s:decimal"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCoupon">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Coupon" nillable="true" type="tns:Coupon"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Coupon">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Type" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Code" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="MonetaryValue" type="s:decimal"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PreviewTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="PreviewTransactionResult" type="tns:PurchaseAwards"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PurchaseAwards">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="StoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SalesAssociateId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BasketAwards" type="tns:ArrayOfAwardDetail"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LineItems" type="tns:ArrayOfLineItemWithAwards"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Tenders" type="tns:ArrayOfTenderWithAwards"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TotalPointsEarned" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAwardDetail">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="BasketAward" nillable="true" type="tns:AwardDetail"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AwardDetail">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AppliedQuantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AppliedAmount" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PointsEarned" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PointType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RewardItem" type="tns:RewardCode"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CreditAward" type="tns:CreditAward"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLineItemWithAwards">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="LineItem" nillable="true" type="tns:LineItemWithAwards"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LineItemWithAwards">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="SequenceNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Sku" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Quantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Revenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShipDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LineItemAwards" type="tns:ArrayOfAwardDetail1"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAwardDetail1">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="LineItemAward" nillable="true" type="tns:AwardDetail"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTenderWithAwards">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Tender" nillable="true" type="tns:TenderWithAwards"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TenderWithAwards">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Type" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Amount" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TenderAwards" type="tns:ArrayOfAwardDetail2"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAwardDetail2">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="TenderAward" nillable="true" type="tns:AwardDetail"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ImportTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="PurchaseTransaction" nillable="true" type="tns:PurchaseTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="ImportTransactionResult" type="tns:PurchaseAwards"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddShopperToProgram">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="programId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddShopperToProgramResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetTierPrograms">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetTierProgramsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetTierProgramsResult" type="tns:ArrayOfTierDetails"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTierDetails">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="TierDetails" nillable="true" type="tns:TierDetails"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TierDetails">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="TierRanking" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TierName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProgramId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TierEntryValue" type="s:decimal"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddShopperToTier">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="programId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddShopperToTierResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AddShopperToTierResult" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ScoreShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ScoreShopperResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="AdjustShopperPoints">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointChange" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AdjustShopperPointsResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsWithRedemptionCustomAttributeCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointChange" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="customAttributeHead" type="tns:ArrayOfBulkCustomAttributeHead"/>
+            <s:element maxOccurs="1" minOccurs="0" name="redemptionCustomAttributeReferenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="redemptionCustomattributeValue" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="caMustExist" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBulkCustomAttributeHead">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="BulkCustomAttributeHead" nillable="true" type="tns:BulkCustomAttributeHead"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BulkCustomAttributeHead">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Attributes" type="tns:ArrayOfBulkCustomAttributeInfo"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfBulkCustomAttributeInfo">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="BulkCustomAttributeInfo" nillable="true" type="tns:BulkCustomAttributeInfo"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BulkCustomAttributeInfo">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Value" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AdjustShopperPointsWithRedemptionCustomAttributeCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AdjustShopperPointsWithRedemptionCustomAttributeCheckResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointChange" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="customAttributeHead" type="tns:ArrayOfBulkCustomAttributeHead"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AdjustShopperPointsCustomAttributesResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsWithExpirationDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointChange" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="expirationDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsWithExpirationDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AdjustShopperPointsWithExpirationDateResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsWithExpirationDateCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointChange" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="expirationDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="customAttributeHead" type="tns:ArrayOfBulkCustomAttributeHead"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdjustShopperPointsWithExpirationDateCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AdjustShopperPointsWithExpirationDateCustomAttributesResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByBalanceType">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="balanceType" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByBalanceTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceByBalanceTypeResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByPointGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointGroupRefTag" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByPointGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceByPointGroupResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointsExpiring">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointType" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointsExpiringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointsExpiringResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByRetailerID">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperId" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByRetailerIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceByRetailerIDResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByIDResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="email" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByEmailResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateShopperResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateShopperWithCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+            <s:element maxOccurs="1" minOccurs="0" name="attributes" type="tns:ArrayOfAttributeToSet"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAttributeToSet">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="AttributeToSet" nillable="true" type="tns:AttributeToSet"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AttributeToSet">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Value" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateShopperWithCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateShopperWithCustomAttributesResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateShopperWithCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+            <s:element maxOccurs="1" minOccurs="0" name="card" type="tns:RegisteredCard"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RegisteredCard">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RegisteredCardId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CommonName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AlternateCardIdentifier" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationMonth" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ExpirationYear" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LastFour" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SecurityCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardHolderName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="IsPreferred" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FileImportId" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateShopperWithCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateShopperWithCardResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAndScoreShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAndScoreShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateAndScoreShopperResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateUnregisteredShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateUnregisteredShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateUnregisteredShopperResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateShopperResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShopperWithCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+            <s:element maxOccurs="1" minOccurs="0" name="attributes" type="tns:ArrayOfAttributeToSet"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShopperWithCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateShopperWithCustomAttributesResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnEnrollShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnEnrollShopperResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetShopperByRetailerID">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperID" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByRetailerIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByRetailerIDResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByDeviceId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="deviceId" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByDeviceIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByDeviceIdResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByMergedVictimID">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopperID" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByMergedVictimIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByMergedVictimIDResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByUserName">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="userName" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByUserNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByUserNameResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByRegisteredCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="loyaltyCardNum" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="lastName" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperByRegisteredCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperByRegisteredCardResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShoppersByRegisteredCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="loyaltyCardNum" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="lastName" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShoppersByRegisteredCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShoppersByRegisteredCardResult" type="tns:ArrayOfShopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRegisteredCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="card" type="tns:RegisteredCard"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRegisteredCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="CreateRegisteredCardResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRegisteredCards">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRegisteredCardsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperRegisteredCardsResult" type="tns:ArrayOfRegisteredCard"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRegisteredCard">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="RegisteredCard" nillable="true" type="tns:RegisteredCard"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRegisteredCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="registeredCardId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegisteredCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRegisteredCardResult" type="tns:RegisteredCard"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProfilesByShopperId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProfilesByShopperIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetProfilesByShopperIdResult" type="tns:ArrayOfProfile"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProfile">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Profile" nillable="true" type="tns:Profile"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Profile">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProfileId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProfileName" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCustomAttribute">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="referenceID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomAttributeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCustomAttributeResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateCustomAttribute">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="referenceID" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="CAValue" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateCustomAttributeResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="UpdateCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CustomAttributeParameters" type="tns:ArrayOfCustomAttributeParameter"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCustomAttributeParameter">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttributeParameter" nillable="true" type="tns:CustomAttributeParameter"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeParameter">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AttributesToSet" type="tns:ArrayOfAttributeToSet1"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAttributeToSet1">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="AttributeToSet" type="tns:AttributeToSet"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateCustomAttributesResult" type="tns:ArrayOfCustomAttributeUpdateResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCustomAttributeUpdateResult">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttributeUpdateResult" nillable="true" type="tns:CustomAttributeUpdateResult"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeUpdateResult">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Value" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Success" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="FailureReason" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateShopperOfferStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="status" type="tns:OfferStatus"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OfferStatus">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferScore" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Offer" type="tns:Offer"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsClipped" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastUpdate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DisplayRank" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferCategoryList" type="tns:ArrayOfOfferCategory"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Offer">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RecordType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="StartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyStartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyEndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ActualStartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ActualEndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ClipLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Headline" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Terms" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MediaUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BuyUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InfoUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAutoClip" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperRedemptionLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TargetRedemptionLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EmailNotificationThreshold" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FlashTemplateStyleId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreatedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAlwaysAwarded" type="s:boolean"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOfferCategory">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="OfferCategory" nillable="true" type="tns:OfferCategory"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OfferCategory">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferCategoryId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGuid" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Name" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Description" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DisplayRank" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreatedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateShopperOfferStatusResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="ReferFriend">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referred_email" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referring_email" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReferFriendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="ReferFriendResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferedFriends">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferedFriendsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetReferedFriendsResult" type="tns:ArrayOfReferedFriend"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfReferedFriend">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ReferedFriend" nillable="true" type="tns:ReferedFriend"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReferedFriend">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Shopper" type="tns:Shopper"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardReceived" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateCustomQuestionForShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="answerSet" type="tns:ShopperQuestionAnswerSet"/>
+            <s:element maxOccurs="1" minOccurs="0" name="channel" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ShopperQuestionAnswerSet">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Question" type="tns:QuestionnaireQuestion"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Answers" type="tns:ArrayOfShopperAnswer"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="QuestionnaireQuestion">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="QuestionID" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="QuestionText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AnswerForm" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AnswerLayout" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AnswerColumnCount" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Category" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfShopperAnswer">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperAnswer" nillable="true" type="tns:ShopperAnswer"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShopperAnswer">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:QuestionnaireAnswer">
+            <s:sequence>
+              <s:element maxOccurs="1" minOccurs="1" name="ShopperSelected" type="s:boolean"/>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="QuestionnaireAnswer">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="AnswerID" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QuestionID" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AnswerPosition" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AnswerText" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateCustomQuestionForShopperResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetCustomQuestionsForShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="channel" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomQuestionsForShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCustomQuestionsForShopperResult" type="tns:ArrayOfShopperQuestionAnswerSet"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopperQuestionAnswerSet">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperQuestionAnswerSet" nillable="true" type="tns:ShopperQuestionAnswerSet"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RedeemReward">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="pointRedemptionCatalogId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RedeemRewardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="RedeemRewardResult" type="s:boolean"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperOffers">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperOffersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperOffersResult" type="tns:ArrayOfOfferStatus"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfOfferStatus">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="OfferStatus" nillable="true" type="tns:OfferStatus"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetShopperOffersExtended">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperOffersExtendedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperOffersExtendedResult" type="tns:ArrayOfOfferStatusExtended"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfOfferStatusExtended">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="OfferStatusExtended" nillable="true" type="tns:OfferStatusExtended"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OfferStatusExtended">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferScore" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Offer" type="tns:OfferExtended"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsClipped" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastUpdate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DisplayRank" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferCategoryList" type="tns:ArrayOfOfferCategory"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OfferExtended">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OfferId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RecordType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="StartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyStartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyEndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ActualStartDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ActualEndDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ClipLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Headline" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OfferText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Terms" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MediaUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BuyUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InfoUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAutoClip" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperRedemptionLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TargetRedemptionLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EmailNotificationThreshold" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="FlashTemplateStyleId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreatedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAlwaysAwarded" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UseFixedEligibilityList" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RelativeQualificationPeriod" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PostCompletionScoringDays" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="PostCompletionAwardingDays" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="VisibleInShowcase" type="s:boolean"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetShopperPrograms">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperProgramsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperProgramsResult" type="tns:ArrayOfProgram"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProgram">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="Program" nillable="true" type="tns:Program"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Program">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ProgramId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProgramName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProgramIteration" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RecordType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsTiered" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="StartDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="EndDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingStartDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingEndDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingResetDuration" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="QualifyingResetDurationUnit" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardStartDate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AwardDuration" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AwardDurationUnit" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ParticipationLimit" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ParticipationNotificationLevel" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MoreInfoUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SupportEmail" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ConditionTypeId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProgramGraphicUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InvitationGraphicUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AppearanceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LogoPath" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Description" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Headline" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreatedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedByUserId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AutoEnroll" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Benefits" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TermsConditions" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomerServiceInfo" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InternalNote" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ActiveMembersCount" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTransactions">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetTransactionsResult" type="tns:ArrayOfShopperTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopperTransaction">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperTransaction" nillable="true" type="tns:ShopperTransaction"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShopperTransaction">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="LineItem" type="tns:OrderItem"/>
+          <s:element maxOccurs="1" minOccurs="0" name="PurchasedProduct" type="tns:Product"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Product">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerGUID" type="s1:guid"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MasterSKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="GTIN" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ListPrice" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="SalePrice" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerCost" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductDescription" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BuyUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InfoUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BrandName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Keywords" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Isbn" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UpcCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExternalCartUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManufacturerName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManufacturerPartNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BuyNowUrl" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTransactionsWithTenders">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactionsWithTendersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetTransactionsWithTendersResult" type="tns:ArrayOfShopperDetailedTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfShopperDetailedTransaction">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ShopperDetailedTransaction" nillable="true" type="tns:ShopperDetailedTransaction"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShopperDetailedTransaction">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabOrderHeaderId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TransactionId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RegisterId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SalesAssociateId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="StoreId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabStoreId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsAnonymous" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabFileImportId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Details" type="tns:ArrayOfTransactionDetail"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Tenders" type="tns:ArrayOfTransactionTender"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransactionDetail">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="TransactionDetail" nillable="true" type="tns:TransactionDetail"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionDetail">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Product" type="tns:TransactionProduct"/>
+          <s:element maxOccurs="1" minOccurs="0" name="LineItem" type="tns:TransactionLineItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionProduct">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="BrandName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BuyNowUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ExternalCartUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="GTIN" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InfoUrl" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Isbn" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Keywords" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ListPrice" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManufacturerName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ManufacturerPartNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="MasterSKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductDescription" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ProductName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RetailerCost" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="SalePrice" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UpcCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionLineItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="DollarRevenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Quantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="OrderDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SequenceNumber" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ShipDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabOrderDetailId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="OriginalLoyaltyLabOrderDetailId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsEligibleForAward" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedDateTime" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransactionTender">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="TransactionTender" nillable="true" type="tns:TransactionTender"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionTender">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="CardReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CardReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="IsEligibleForAward" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="QualifyingTenderAmount" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="1" name="TenderAmount" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="TenderTypeCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LoyaltyLabOrderTenderId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastModifiedDateTime" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetShopperTransactionsWithCompleteProductInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperTransactionsWithCompleteProductInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperTransactionsWithCompleteProductInfoResult" type="tns:ArrayOfShopperTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactionsByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="startDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="endDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactionsByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetTransactionsByDateResult" type="tns:ArrayOfShopperTransaction"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperid" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="orderItem" type="tns:OrderItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="AddTransactionResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperAuthenticationToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopperEmail" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperAuthenticationTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperAuthenticationTokenResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperAuthenticationTokenByRetailerID">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerShopperID" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperAuthenticationTokenByRetailerIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperAuthenticationTokenByRetailerIDResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCSRAuthenticationToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="email" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCSRAuthenticationTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCSRAuthenticationTokenResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperResult" type="tns:ExtendedShopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ExtendedShopper">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Shopper" type="tns:Shopper"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CurrentPoints" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetProductBySKU">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductBySKUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetProductBySKUResult" type="tns:Product"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRewardRedemption">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointsRedeemed" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="comments" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRewardRedemptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateRewardRedemptionResult" type="tns:Redemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRewardRedemptionByPointGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointsRedeemed" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="comments" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointGroupRefTag" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRewardRedemptionByPointGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateRewardRedemptionByPointGroupResult" type="tns:Redemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperRedemptionsByDateResult" type="tns:ArrayOfRedemption"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlcAvailablePointsByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlcAvailablePointsByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetPlcAvailablePointsByDateResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlcAvailablePointsByDateByPointGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointGroupRefTag" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlcAvailablePointsByDateByPointGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetPlcAvailablePointsByDateByPointGroupResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperPointBalanceByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="GetShopperPointBalanceByDateResult" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsOrderItemsByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="fromDate" type="s:dateTime"/>
+            <s:element maxOccurs="1" minOccurs="1" name="toDate" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShopperRedemptionsOrderItemsByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetShopperRedemptionsOrderItemsByDateResult" type="tns:ArrayOfRedemptionOrderItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRedemptionOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="RedemptionOrderItem" nillable="true" type="tns:RedemptionOrderItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RedemptionOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Redemption" type="tns:Redemption"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OrderItem" type="tns:OrderItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="EnrollShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopper" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnrollShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="EnrollShopperResult" type="tns:Shopper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPurchaseAwardForReturns">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="loyaltyId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="returnTransactions" type="tns:ArrayOfReturnOrderItem"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfReturnOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="ReturnOrderItem" nillable="true" type="tns:ReturnOrderItem"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReturnOrderItem">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ShopperId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="OriginalRetailerOrderId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="OriginalRetailerReceiptDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="Quantity" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DollarRevenue" type="s:decimal"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPurchaseAwardForReturnsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetPurchaseAwardForReturnsResult" type="tns:ReturnsAward"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ReturnsAward">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="OrignalPurchaseAward" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AvailableBalance" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ResultCode" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReversePurchaseAwardForReturns">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="loyaltyId" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="returnTransactions" type="tns:ArrayOfReturnOrderItem"/>
+            <s:element maxOccurs="1" minOccurs="1" name="amount" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReversePurchaseAwardForReturnsResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="CreateRewardRedemptionByPointGroupAndCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointsRedeemed" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="comments" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="pointGroupRefTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="customAttributeParameters" type="tns:ArrayOfCustomAttributeParameter"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateRewardRedemptionByPointGroupAndCustomAttributesResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="UpdateShopperPointsBalanceWithCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="shopperId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="points" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="description" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="customAttributeHeads" type="tns:ArrayOfBulkCustomAttributeHead"/>
+            <s:element maxOccurs="1" minOccurs="1" name="pointTypeId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="expirationDateTime" type="s:dateTime"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateShopperPointsBalanceWithCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateShopperPointsBalanceWithCustomAttributesResult" type="tns:AuditTrailGroup"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AuditTrailGroup">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="AuditTrailGroupId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Action" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Value" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="AuditorType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="AuditorId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Description" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Note" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateRewardProduct">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="rewardProduct" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RewardProduct">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RewardProductId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="SKU" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ItemName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Description" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="RedeemValue" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ImageURL" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="BrandName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="LastUpdate" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="0" name="UPCCode" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="InternalNote" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ImageDownloaded" type="s:boolean"/>
+          <s:element maxOccurs="1" minOccurs="1" name="DollarAmount" type="s:decimal"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateRewardProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="CreateRewardProductResult" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateRewardProduct">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="rewardProduct" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateRewardProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateRewardProductResult" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardProductById">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardProductId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardProductByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardProductByIdResult" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardProductByUniqueSKU">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="sku" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardProductByUniqueSKUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardProductByUniqueSKUResult" type="tns:RewardProduct"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardCatalogByRetailerCatalogId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="retailerRewardCatalogId" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardCatalogByRetailerCatalogIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardCatalogByRetailerCatalogIdResult" type="tns:RewardCatalog"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RewardCatalog">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RewardCatalogId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CatalogName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Status" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RetailerCatalogId" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="NoteText" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CreateDateTime" type="s:dateTime"/>
+          <s:element maxOccurs="1" minOccurs="1" name="UpdateDateTime" type="s:dateTime"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRewardCatalogById">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardCatalogId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardCatalogByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardCatalogByIdResult" type="tns:RewardCatalog"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRewardProductToCatalog">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardProductId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardCatalogId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRewardProductToCatalogResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="RemoveRewardProductFromCatalog">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardProductId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardCatalogId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveRewardProductFromCatalogResponse">
+        <s:complexType/>
+      </s:element>
+      <s:element name="GetRewardCatalogsByRewardProductId">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="rewardProductId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRewardCatalogsByRewardProductIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetRewardCatalogsByRewardProductIdResult" type="tns:ArrayOfRewardCatalog"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRewardCatalog">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="RewardCatalog" nillable="true" type="tns:RewardCatalog"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCustomEntitiesByReferenceTag">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="referenceId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomEntitiesByReferenceTagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCustomEntitiesByReferenceTagResult" type="tns:CustomEntitiesWrapper"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CustomEntitiesWrapper">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="Shopper" type="tns:Shopper"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Redemption" type="tns:Redemption"/>
+          <s:element maxOccurs="1" minOccurs="0" name="RewardProduct" type="tns:RewardProduct"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomEntities" type="tns:ArrayOfAPICustomEntity"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAPICustomEntity">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomEntity" nillable="true" type="tns:APICustomEntity"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="APICustomEntity">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomEntityFields" type="tns:ArrayOfAPICustomEntityField"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAPICustomEntityField">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomEntityField" nillable="true" type="tns:APICustomEntityField"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="APICustomEntityField">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomEntityFieldName" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="CustomEntityFieldValue" nillable="true" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateCustomEntity">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="referenceId" type="s:int"/>
+            <s:element maxOccurs="1" minOccurs="0" name="entities" type="tns:ArrayOfAPICustomEntity1"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAPICustomEntity1">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="APICustomEntity" nillable="true" type="tns:APICustomEntity"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateCustomEntityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="UpdateCustomEntityResult" type="tns:CustomEntityDataUpsertReturn"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CustomEntityDataUpsertReturn">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="EntityDataRows" type="tns:ArrayOfCustomEntityDataUpsertRow"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomEntityDataUpsertRow">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomEntityDataUpsertRow" nillable="true" type="tns:CustomEntityDataUpsertRow"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomEntityDataUpsertRow">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="RowId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Message" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="1" name="ErrorCode" type="s:int"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetReferenceObjectFromUniqueCustomEntity">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="entity" type="tns:APICustomEntity"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferenceObjectFromUniqueCustomEntityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetReferenceObjectFromUniqueCustomEntityResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferenceObjectsFromSearchableCustomEntity">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceTag" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="entity" type="tns:APICustomEntity"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="anyType" nillable="true"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetReferenceObjectsFromSearchableCustomEntityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetReferenceObjectsFromSearchableCustomEntityResult" type="tns:ArrayOfAnyType"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RedeemShopperRewardCerificate">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="shopperIdentifier" type="tns:ShopperIdentifier"/>
+            <s:element maxOccurs="1" minOccurs="0" name="rewardNumber" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RedeemShopperRewardCerificateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="1" name="RedeemShopperRewardCerificateResult" type="tns:RewardRedemptionStatus"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="RewardRedemptionStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="UnknownError"/>
+          <s:enumeration value="Success"/>
+          <s:enumeration value="RewardNumberDoesNotMatchShopper"/>
+          <s:enumeration value="InvalidRewardNumber"/>
+          <s:enumeration value="ExpiredRewardNumber"/>
+          <s:enumeration value="RewardAlreadyRedeemed"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SendShopperPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="email" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendShopperPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="SendShopperPasswordResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="referenceType" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="1" name="referenceId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CustomAttributeValues">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="1" name="ReferenceId" type="s:int"/>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceType" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="CustomAttributeTagValues" type="tns:ArrayOfCustomAttributeTagValue"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCustomAttributeTagValue">
+        <s:sequence>
+          <s:element maxOccurs="unbounded" minOccurs="0" name="CustomAttributeTagValue" type="tns:CustomAttributeTagValue"/>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomAttributeTagValue">
+        <s:sequence>
+          <s:element maxOccurs="1" minOccurs="0" name="ReferenceTag" type="s:string"/>
+          <s:element maxOccurs="1" minOccurs="0" name="Value" type="s:string"/>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCustomAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetCustomAttributesResult" type="tns:CustomAttributeValues"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="username" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="password" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="AuthenticateUserResult" type="tns:AuthenticationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateShopper">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="appKey" type="s:string"/>
+            <s:element maxOccurs="1" minOccurs="0" name="shopperIdentifier" type="tns:ShopperIdentifier"/>
+            <s:element maxOccurs="1" minOccurs="0" name="password" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateShopperResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="AuthenticateShopperResult" type="tns:AuthenticationResult"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateAuthenticationResult">
+        <s:complexType/>
+      </s:element>
+      <s:element name="ValidateAuthenticationResultResponse">
+        <s:complexType/>
+      </s:element>
+    </s:schema>
