@@ -3,10 +3,8 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.property.QNameMetaDataProperty;
 import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
-import org.mule.common.metadata.util.XmlSchemaUtils;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,17 +15,18 @@ import javax.xml.namespace.QName;
 import org.apache.xmlbeans.SchemaGlobalElement;
 import org.apache.xmlbeans.SchemaProperty;
 import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.SchemaTypeSystem;
 import org.apache.xmlbeans.XmlException;
 
 /**
  * Field Factory For XML Structured
  */
-public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
+public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
+{
 
     private static final Map<QName, DataType> typeMapping = new HashMap<QName, DataType>();
 
-    static {
+    static
+    {
         typeMapping.put(XmlConstants.XSD_BYTE, DataType.INTEGER);
         typeMapping.put(XmlConstants.XSD_INT, DataType.INTEGER);
         typeMapping.put(XmlConstants.XSD_INTEGER, DataType.INTEGER);
@@ -69,72 +68,106 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
     //private Charset encoding;
     private Map<String, String> namespacePrefix = new HashMap<String, String>();
 
-    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName) {
+    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName)
+    {
         this.schemas = schemas;
         this.rootElementName = rootElementName;
     }
 
     @Override
-    public List<MetaDataField> createFields() {
+    public List<MetaDataField> createFields()
+    {
 
         List<MetaDataField> metaDataFields = new ArrayList<MetaDataField>();
         final Map<SchemaType, XmlMetaDataModel> visitedTypes = new HashMap<SchemaType, XmlMetaDataModel>();
-        try {
+        try
+        {
             SchemaGlobalElement rootElement = schemas.findRootElement(rootElementName);
-            if (rootElement != null) {
+            if (rootElement != null)
+            {
                 SchemaType type = rootElement.getType();
                 loadFields(type, metaDataFields, visitedTypes);
             }
-        } catch (XmlException e) {
+        }
+        catch (XmlException e)
+        {
             throw new MetaDataGenerationException(e);
         }
         return metaDataFields;
     }
 
-    private void loadFields(SchemaType type, List<MetaDataField> metaDataFields, Map<SchemaType, XmlMetaDataModel> visitedTypes) {
+    private void loadFields(SchemaType type, List<MetaDataField> metaDataFields, Map<SchemaType, XmlMetaDataModel> visitedTypes)
+    {
 
-        SchemaProperty[] properties = type.getProperties();
-        for (SchemaProperty property : properties) {
-            QName name = setPrefixIfNotPresent(property.getName());
-            //
-            SchemaType propertyType = property.getType();
-            if (property.isAttribute()) {
-                DataType dataType = getDataType(propertyType, DataType.STRING);
-                metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultSimpleMetaDataModel(dataType), new QNameMetaDataProperty(name), new AttributeMetaDataFieldProperty(true)));
-            } else if (isList(property)) {
-                if (isSimpleType(propertyType)) {
+        if (isSimpleType(type))
+        {
+            DataType dataType = getDataType(type, DataType.STRING);
+            metaDataFields.add(new DefaultMetaDataField("text()", new DefaultSimpleMetaDataModel(dataType), new QNameMetaDataProperty(new QName("text()"))));
+        }
+        else
+        {
+            SchemaProperty[] properties = type.getProperties();
+            for (SchemaProperty property : properties)
+            {
+                QName name = setPrefixIfNotPresent(property.getName());
+                //
+                SchemaType propertyType = property.getType();
+                if (property.isAttribute())
+                {
                     DataType dataType = getDataType(propertyType, DataType.STRING);
-                    metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(dataType)), new QNameMetaDataProperty(name)));
-                } else {
-                    XmlMetaDataModel model = buildXMLMetaDataModel(visitedTypes, propertyType);
-                    metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultListMetaDataModel(model), new QNameMetaDataProperty(name)));
+                    metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultSimpleMetaDataModel(dataType), new QNameMetaDataProperty(name), new AttributeMetaDataFieldProperty(true)));
                 }
-            } else {
-                if (isSimpleType(propertyType)) {
-                    DataType dataType = getDataType(propertyType, DataType.STRING);
-                    metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultSimpleMetaDataModel(dataType), new QNameMetaDataProperty(name)));
-                } else {
-                    XmlMetaDataModel model = buildXMLMetaDataModel(visitedTypes, propertyType);
-                    metaDataFields.add(new DefaultMetaDataField(toLabel(name), model, new QNameMetaDataProperty(name)));
+                else if (isList(property))
+                {
+                    if (isSimpleType(propertyType))
+                    {
+                        DataType dataType = getDataType(propertyType, DataType.STRING);
+                        metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(dataType)), new QNameMetaDataProperty(name)));
+                    }
+                    else
+                    {
+                        XmlMetaDataModel model = buildXMLMetaDataModel(visitedTypes, propertyType);
+                        metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultListMetaDataModel(model), new QNameMetaDataProperty(name)));
+                    }
+                }
+                else
+                {
+                    if (isSimpleType(propertyType))
+                    {
+                        DataType dataType = getDataType(propertyType, DataType.STRING);
+                        metaDataFields.add(new DefaultMetaDataField(toLabel(name), new DefaultSimpleMetaDataModel(dataType), new QNameMetaDataProperty(name)));
+                    }
+                    else
+                    {
+                        XmlMetaDataModel model = buildXMLMetaDataModel(visitedTypes, propertyType);
+                        metaDataFields.add(new DefaultMetaDataField(toLabel(name), model, new QNameMetaDataProperty(name)));
+                    }
                 }
             }
-
 
         }
 
     }
 
 
-    private QName setPrefixIfNotPresent(QName name) {
-        if (name.getNamespaceURI().isEmpty()) {
+    private QName setPrefixIfNotPresent(QName name)
+    {
+        if (name.getNamespaceURI().isEmpty())
+        {
             return name;
-        } else if (!prefixIsDeclared(name)) {
-            if (namespacePrefix.containsKey(name.getNamespaceURI())) {
+        }
+        else if (!prefixIsDeclared(name))
+        {
+            if (namespacePrefix.containsKey(name.getNamespaceURI()))
+            {
                 return new QName(name.getNamespaceURI(), name.getLocalPart(), namespacePrefix.get(name.getNamespaceURI()));
-            } else {
+            }
+            else
+            {
                 int size = namespacePrefix.size();
                 String prefix;
-                do {
+                do
+                {
                     prefix = PREFIX + size;
                     size++;
                 }
@@ -147,11 +180,15 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
 
     }
 
-    private XmlMetaDataModel buildXMLMetaDataModel(Map<SchemaType, XmlMetaDataModel> visitedTypes, SchemaType propertyType) {
+    private XmlMetaDataModel buildXMLMetaDataModel(Map<SchemaType, XmlMetaDataModel> visitedTypes, SchemaType propertyType)
+    {
         XmlMetaDataModel model;
-        if (visitedTypes.containsKey(propertyType)) {
+        if (visitedTypes.containsKey(propertyType))
+        {
             model = visitedTypes.get(propertyType);
-        } else {
+        }
+        else
+        {
             ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
             model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields);
             visitedTypes.put(propertyType, model);
@@ -160,41 +197,52 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
         return model;
     }
 
-    private String toLabel(QName name) {
-        if (prefixIsDeclared(name)) {
+    private String toLabel(QName name)
+    {
+        if (prefixIsDeclared(name))
+        {
             return name.getPrefix() + ":" + name.getLocalPart();
-        } else {
+        }
+        else
+        {
             return name.getLocalPart();
         }
     }
 
-    private boolean prefixIsDeclared(QName name) {
+    private boolean prefixIsDeclared(QName name)
+    {
         return name.getPrefix() != null && !name.getPrefix().isEmpty();
     }
 
 
-    private boolean hasSimpleContentOnly(SchemaType type) {
+    private boolean hasSimpleContentOnly(SchemaType type)
+    {
 
         return hasSimpleContent(type) && isPlainElement(type);
     }
 
-    private boolean hasSimpleContent(SchemaType type) {
+    private boolean hasSimpleContent(SchemaType type)
+    {
 
         return type.isSimpleType() || type.getContentType() == SchemaType.SIMPLE_CONTENT || type.getContentType() == SchemaType.MIXED_CONTENT
-                || type.getComponentType() == SchemaType.EMPTY_CONTENT;
+               || type.getComponentType() == SchemaType.EMPTY_CONTENT;
     }
 
-    private boolean isList(SchemaProperty property) {
+    private boolean isList(SchemaProperty property)
+    {
         BigInteger maxOccurs = property.getMaxOccurs();
         return maxOccurs == null || property.getMaxOccurs().intValue() > 1;
     }
 
-    private DataType getDataType(SchemaType type, DataType defaultDataType) {
+    private DataType getDataType(SchemaType type, DataType defaultDataType)
+    {
         SchemaType simpleType = getSimpleBaseType(type);
 
-        do {
+        do
+        {
             DataType fieldType = typeMapping.get(simpleType.getName());
-            if (fieldType != null) {
+            if (fieldType != null)
+            {
                 return fieldType;
             }
 
@@ -205,7 +253,8 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
         return defaultDataType;
     }
 
-    private boolean isSimpleType(SchemaType type) {
+    private boolean isSimpleType(SchemaType type)
+    {
         return getDataType(type, null) != null && hasSimpleContentOnly(type);
     }
 
@@ -215,14 +264,17 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory {
      * @param type
      * @return
      */
-    private boolean isPlainElement(SchemaType type) {
+    private boolean isPlainElement(SchemaType type)
+    {
         return (type.getAttributeProperties() == null || type.getAttributeProperties().length == 0)
-                && (type.getElementProperties() == null || type.getElementProperties().length == 0);
+               && (type.getElementProperties() == null || type.getElementProperties().length == 0);
     }
 
-    private static SchemaType getSimpleBaseType(SchemaType type) {
+    private static SchemaType getSimpleBaseType(SchemaType type)
+    {
         SchemaType basic = type;
-        while (basic.getBaseType() != null && !basic.isSimpleType()) {
+        while (basic.getBaseType() != null && !basic.isSimpleType())
+        {
             basic = basic.getBaseType();
         }
 

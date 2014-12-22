@@ -1,0 +1,8 @@
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="http://www.stichting-vera.nl/StUF/sector/vera/0310"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="identifierValue" type="xs:string" />
+
+</xs:schema>
+    
