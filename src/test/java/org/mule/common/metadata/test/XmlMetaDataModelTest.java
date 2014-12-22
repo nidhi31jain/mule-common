@@ -292,5 +292,19 @@ public class XmlMetaDataModelTest
         XmlMetaDataModel model = (XmlMetaDataModel) xmlMetaDataBuilder.build();
         Assert.assertThat(model, CoreMatchers.notNullValue());
     }
+
+    @Test
+    public void simpleValueOnly()
+    {
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://www.stichting-vera.nl/StUF/sector/vera/0310", "identifierValue"));
+        List<String> schemas = Arrays.asList("xsd/simple.xsd");
+        for (String schema : schemas)
+        {
+            builder.addSchemaStreamList(getClass().getClassLoader().getResourceAsStream(schema));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+
+    }
 }
 
