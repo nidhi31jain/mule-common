@@ -8,11 +8,11 @@ import org.mule.common.metadata.MetaDataModelProperty;
  * Property used to reference a key {@link #metaDataKey} from a concrete entity, describing also if the current entity
  * is a derived one or not (see {@link #isDerivedStructure()})
  */
-public class StructureIdentifierMetaDataProperty implements MetaDataModelProperty {
+public class StructureIdentifierMetaDataModelProperty implements MetaDataModelProperty {
     MetaDataKey metaDataKey;
     boolean derivedStructure;
 
-    public StructureIdentifierMetaDataProperty(MetaDataKey metaDataKey, boolean derivedStructure) {
+    public StructureIdentifierMetaDataModelProperty(MetaDataKey metaDataKey, boolean derivedStructure) {
         this.metaDataKey = metaDataKey;
         this.derivedStructure = derivedStructure;
     }
