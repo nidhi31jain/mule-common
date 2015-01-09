@@ -88,6 +88,14 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
                 SchemaType type = rootElement.getType();
                 loadFields(type, metaDataFields, visitedTypes);
             }
+            else
+            {
+                SchemaType rootType = schemas.findRootType(rootElementName);
+                if (rootType != null)
+                {
+                    loadFields(rootType, metaDataFields, visitedTypes);
+                }
+            }
         }
         catch (XmlException e)
         {
