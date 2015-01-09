@@ -322,5 +322,17 @@ public class XmlMetaDataModelTest
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
     }
+
+    @Test
+    public void testSE1664() throws IOException {
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://com.ucas.track.topazadaptor.service/ITopazAdaptorWs.xsd", "com_ucas_track_topazadaptor_wrapper_EmailAddressWs"));
+        List<String> schemas = Arrays.asList("xsd/se-16642/in0.xsd");
+        for (String schema : schemas)
+        {
+            builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(6));
+    }
 }
 
