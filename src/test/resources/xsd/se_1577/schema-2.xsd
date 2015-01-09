@@ -1,0 +1,2317 @@
+ <xs:schema xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:s0="http://epicor.com/webservices/" xmlns:vantageSchema="http://epicor.com/schemas" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" elementFormDefault="qualified" targetNamespace="http://epicor.com/webservices/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://epicor.com/schemas" />
+      <xs:import namespace="http://epicor.com/schemas" />
+      <xs:element name="GetQtyPriceInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQtyPriceInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetQtyPriceInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="hasPriceBreak" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQtyPriceInfoCfgPart">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQtyPriceInfoCfgPartResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetQtyPriceInfoCfgPartResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="hasPriceBreak" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQtyToOrdPrice">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quantityToOrder" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sellingUM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQtyToOrdPriceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetQtyToOrdPriceResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="orderUnitPrice" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" name="docOrderUnitPrice" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQuotedInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetQuotedInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetQuotedInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetReasonInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vReasonType" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vQuoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vOrdered" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vReasonCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetReasonInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetReasonInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vReasonCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRows">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHed" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHedAttch" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQSalesRP" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteCnt" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteCom" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteDtl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteDtlAttch" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteCoPart" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteMsc" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteQty" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQtmmkup" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQtQtyMsc" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHedMsc" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseHedTaxSum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClausePartSubs" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseTaxConnectStatus" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRowsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetRowsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRowsCustomerTracker">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHed" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHedAttch" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQSalesRP" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteCnt" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteCom" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteDtl" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteDtlAttch" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteMsc" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHedMsc" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteQty" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQtmmkup" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQtQtyMsc" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRowsCustomerTrackerResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetRowsCustomerTrackerResult" type="vantageSchema:QuoteCustTrkDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRowsFromSelectedKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetRowsFromSelectedKeysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetRowsFromSelectedKeysResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSalesRepInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="defaultRoleCode" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="salesRepCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="roleCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSalesRepInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetSalesRepInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="roleCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="repRate" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" name="repSplit" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="officePhone" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="homePhone" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="reportsTo" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="emailAddress" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="fax" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="mobilePhone" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="salesRepTitle" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="roleCodeRoleDescription" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSearchRows">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteHed" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQSalesRP" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClauseQuoteDtl" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSearchRowsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetSearchRowsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetShipToInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetShipToInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetShipToInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSmartString">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="revisionNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetSmartStringResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetSmartStringResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smartString" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="createPart" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="promptForPartNum" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="notifyOfExistingPart" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="newPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="createCustPart" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="promptForCustPartNum" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="newCustPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="promptForAutoCreatePart" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTaskSetInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTaskSetInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetTaskSetInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTerrInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vQuoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vTerritoryID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vActiveTaskID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vTaskSetId" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetTerrInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetTerrInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vTaskSetId" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetWSUnitPrice">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetWSUnitPriceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetWSUnitPriceResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="KitCompPartCreate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="revisionNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="smartString" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="newPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="newCustPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="responseAutoCrtPart" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="KitCompPartCreateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="KitCompPartCreateResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="newPartAlreadyExists" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeMktgCamp">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="mktgCampID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeMktgCampResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="OnChangeMktgCampResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeMktgEvnt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mktgEvntSeq" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeMktgEvntResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="OnChangeMktgEvntResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeofBTCustID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="newBillToCustID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeofBTCustIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="OnChangeofBTCustIDResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeofEngineered">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="newReadyToQuote" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OnChangeofEngineeredResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="OnChangeofEngineeredResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OpenCloseQuote">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="closeQuote" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OpenCloseQuoteResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="OpenCloseQuoteResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreOpenCloseQuote">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="closeQuote" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreOpenCloseQuoteResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="PreOpenCloseQuoteResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreRefreshQty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreRefreshQtyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="PreRefreshQtyResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="strquestion" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreSOCreate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipQuoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PreSOCreateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="PreSOCreateResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ouAskMess" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RecalcKitPriceAfterConfig">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="iQuoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="iQuoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RecalcKitPriceAfterConfigResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="RecalcKitPriceAfterConfigResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="recalcKitPricing">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="pCompany" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pQuoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="parentLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="recalcKitPricingResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="recalcKitPricingResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RecalcWorksheet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RecalcWorksheetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="RecalcWorksheetResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveKitComponents">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="iPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RemoveKitComponentsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="RemoveKitComponentsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetOrderDefaults">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="setReqShipDt" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="setOrdQty" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="reqShipDate" nillable="true" type="xs:dateTime" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SetOrderDefaultsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="SetOrderDefaultsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Update">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="QuoteData" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="continueProcessingOnError" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="UpdateResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="errorsOccurred" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="validateOTS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="validateOTSResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="validateOTSResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ValidateTaskSet">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipTaskSetId" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipActiveTaskID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ValidateTaskSetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ValidateTaskSetResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ValReqRefDes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipQuoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipQuoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ValReqRefDesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ValReqRefDesResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="WhatIfGetDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="WhatIfGetDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="WhatIfGetDateResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="schedDate" nillable="true" type="xs:dateTime" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="WhatIfScheduling">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="prodQty" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" name="schedDate" nillable="true" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="schedFinite" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="considerLeadTime" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="WhatIfSchedulingResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="WhatIfSchedulingResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="completionDate" nillable="true" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="isProdQtyAvailable" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AllowUndoReadyToQuote">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AllowUndoReadyToQuoteResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="AllowUndoReadyToQuoteResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ApplyOrderBasedDiscount">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ApplyOrderBasedDiscountResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ApplyOrderBasedDiscountResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="calcConvUOMUnitPrice">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="inQuoteQtyUM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="inPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="inSellingUM" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="inKitParentUnitPrice" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" name="inquantity" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="calcConvUOMUnitPriceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="calcConvUOMUnitPriceResult" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CalcMaterialMarkup">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CalcMaterialMarkupResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CalcMaterialMarkupResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDiscBreakListCode">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDiscBreakListCodeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeDiscBreakListCodeResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDocOrderUnitPrice">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="newDocOrderUnitPrice" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDocOrderUnitPriceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeDocOrderUnitPriceResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDtlContractNum">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipContractNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDtlContractNumResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeDtlContractNumResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDtlRenewalNbr">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipRenewalNbr" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeDtlRenewalNbrResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeDtlRenewalNbrResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeKitPricing">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeKitPricingResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeKitPricingResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeKitQtyPer">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeKitQtyPerResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeKitQtyPerResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeMiscPercent">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="tableName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeMiscPercentResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeMiscPercentResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeOrderQty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeOrderQtyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeOrderQtyResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeOverrideDiscPriceList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeOverrideDiscPriceListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeOverrideDiscPriceListResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangePartNum">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="uomCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangePartNumResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangePartNumResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangePartNumMaster">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="lIsPhantom" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="lIsSalesKit" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="uomCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="rowType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sysRowID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="salesKitView" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="removeKitComponents" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="suppressUserPrompts" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="runChkPrePartInfo" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="getPartXRefInfo" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="checkChangeKitParent" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangePartNumMasterResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangePartNumMasterResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="lIsPhantom" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="lIsSalesKit" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="uomCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vPMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vBMessage" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vSubAvail" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMsgType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="cDeleteComponentsMessage" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="multipleMatch" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="promptToExplodeBOM" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="explodeBOMerrMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteCntCustID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="pcCustID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteCntCustIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeQuoteCntCustIDResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteCoPartPartNum">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteCoPartPartNumResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeQuoteCoPartPartNumResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteHedUseOTS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeQuoteHedUseOTSResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeQuoteHedUseOTSResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeSellingExpQty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeSellingExpQtyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeSellingExpQtyResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeShipToCustID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="iShipToCustID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeShipToCustIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeShipToCustIDResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeStandardPct">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="markupId" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeStandardPctResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ChangeStandardPctResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckBOMErrors">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckBOMErrorsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckBOMErrorsResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errorList" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckCustomerCreditLimit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckCustomerCreditLimitResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CheckCustomerCreditLimitResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="cCreditLimitMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPhaseID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipProjectID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipPhaseID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPhaseIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckPhaseIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPreCustPartInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="xPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="custNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPreCustPartInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckPreCustPartInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPrePartInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="fieldName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPrePartInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckPrePartInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vBMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vPMessage" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vSubAvail" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMsgType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPreQuoteCoPartInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipProposedPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckPreQuoteCoPartInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CheckPreQuoteCoPartInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckProjectID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipProjectID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckProjectIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckProjectIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckQuoteNum">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckQuoteNumResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckQuoteNumResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckQuoteSecurity">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipquoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckQuoteSecurityResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="CheckQuoteSecurityResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckRateGrpCode">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRateGrpCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CheckRateGrpCodeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CheckRateGrpCodeResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CopyLines">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="targetQuoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sourceQuoteLines" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mtlCosts" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="opStds" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CopyLinesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CopyLinesResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateOrder">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateOrderResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateOrderResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="orderNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateOrderSaveOTS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:SaveQuoteOTSParamsDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds1" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateOrderSaveOTSResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateOrderSaveOTSResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="orderNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateQuoteDtlComplements">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="iQuoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateQuoteDtlComplementsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CreateQuoteDtlComplementsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DefaultOrderFields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DefaultOrderFieldsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DefaultOrderFieldsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="creditMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteByID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteByIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="DeleteByIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DuplicateQuote">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="sourceQuote" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sourceLines" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mtlCosts" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="opStds" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DuplicateQuoteResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="DuplicateQuoteResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ETCValidateAddress">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ETCValidateAddressResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="ETCValidateAddressResult" type="vantageSchema:ETCAddrValidationDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="statusFlag" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="errorFlag" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errorMsg" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="exportQuoteToEST">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="exportQuoteToESTResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="exportQuoteToESTResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindFirstPart">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipCustNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindFirstPartResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="FindFirstPartResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opUOM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opMatchType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindPart">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindPartResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="FindPartResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opUOM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opMatchType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindPartAndGetRowID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FindPartAndGetRowIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="FindPartAndGetRowIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opUOM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opMatchType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetByID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetByIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetByIDResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCodeDescList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="tableName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="fieldName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCodeDescListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCodeDescListResult" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCompetitorInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="compNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCompetitorInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetCompetitorInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="faxNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="phoneNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="emailAddress" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="compURL" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetContactInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="custNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="shipToNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="conNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetContactInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetContactInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="perConID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="perConName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="func" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="phoneNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="fax" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="emailAddress" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCurrencyBase">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCurrencyBaseResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetCurrencyBaseResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opCurrencyBase" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustNumFromRowID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustNumFromRowIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetCustNumFromRowIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="opCustNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustomerInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustomerInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCustomerInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustPartInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCustPartInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetCustPartInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetDtlUnitPriceInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="skipDiscLookup" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="preserveAmt" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetDtlUnitPriceInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetDtlUnitPriceInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetExchangeRate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vCurrencyCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vRateGrpCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetExchangeRateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetExchangeRateResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="vExchangeRate" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="vXRateLabel" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetKitComponents">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="iPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="iRevisionNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="iAltMethod" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="iTargetAsm" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="iUseMethodForParts" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="regenerateKit" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errorMsg" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetKitComponentsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetKitComponentsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errorMsg" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClause" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetListResult" type="vantageSchema:QuoteHedListDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetListCustom">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="whereClause" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="customClause" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetListCustomResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetListCustomResult" type="vantageSchema:QuoteHedListDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetListFromSelectedKeys">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteHedListDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="pageSize" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="absolutePage" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetListFromSelectedKeysResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetListFromSelectedKeysResult" type="vantageSchema:QuoteHedListDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="morePages" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMaterialMarkup">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMaterialMarkupResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetMaterialMarkupResult" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mtlMarkupP" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mtlMarkupM" type="xs:decimal" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMfgPartFromRowID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMfgPartFromRowIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetMfgPartFromRowIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="opMfgNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opMfgPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMiscChrgDefaults">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="tableName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMiscChrgDefaultsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetMiscChrgDefaultsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMktgInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetMktgInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetMktgInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewContractQuoteDtl">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="ipQuoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewContractQuoteDtlResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewContractQuoteDtlResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQSalesRP">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQSalesRPResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQSalesRPResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQtmmkup">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQtmmkupResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQtmmkupResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQtQtyMsc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQtQtyMscResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQtQtyMscResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteCnt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="custNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="shipToNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteCntResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteCntResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteCom">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteComResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteComResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteCoPart">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="coPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteCoPartResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteCoPartResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteDtl">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteDtlResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteDtlResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteDtlAttch">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteDtlAttchResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteDtlAttchResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHed">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHedResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteHedResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHedAttch">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHedAttchResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteHedAttchResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHedMsc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteHedMscResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteHedMscResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteMsc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="qtyNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteMscResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteMscResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteQty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewQuoteQtyResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewQuoteQtyResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewSalesKit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewSalesKitResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetNewSalesKitResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPartFromRowID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ipRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPartFromRowIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetPartFromRowIDResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opPartNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="opUOM" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPartXRefInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="sysRowID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="rowType" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="uomCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPartXRefInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetPartXRefInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="partNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="uomCode" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="serialWarning" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="questionString" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="multipleMatch" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPerConInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="custNum" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="shipToNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="conNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="perConID" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPerConInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="GetPerConInfoResult" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="perConName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="func" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="phoneNum" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="fax" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="emailAddress" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPhantomComponents">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="phPartNum" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteNum" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="quoteLine" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPhantomComponentsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetPhantomComponentsResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="errMessage" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPriceListInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="ds" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="1" maxOccurs="1" name="refreshQty" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetPriceListInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetPriceListInfoResult" type="vantageSchema:QuoteDataSetType" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetProjectRoles">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextIn" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetProjectRolesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetProjectRolesResult">
+              <xs:complexType mixed="true">
+                <xs:sequence>
+                  <xs:any />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="callContextOut" type="vantageSchema:CallContextDataSetType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
