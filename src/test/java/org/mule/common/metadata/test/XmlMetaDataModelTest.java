@@ -322,5 +322,18 @@ public class XmlMetaDataModelTest
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
 
     }
+
+
+    @Test
+    public void testSE1577() throws IOException {
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://epicor.com/webservices/", "AllowUndoReadyToQuote"));
+        List<String> schemas = Arrays.asList("xsd/se_1577/schema-1.xsd","xsd/se_1577/schema-2.xsd");
+        for (String schema : schemas)
+        {
+            builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
+        }
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+    }
 }
 
