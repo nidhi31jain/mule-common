@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.common</groupId>
     <artifactId>mule-common</artifactId>
@@ -10,7 +10,7 @@
         <name>MuleSoft, Inc.</name>
         <url>http://www.mulesoft.com</url>
     </organization>
-    
+
     <description>
         Shared API to exchange metadata and connectivity information.
 
@@ -59,18 +59,19 @@
         <wagon.webdev.version>1.0-beta-2</wagon.webdev.version>
         <maven.source.plugin.version>2.3</maven.source.plugin.version>
         <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+        <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <grammar.java.dir>${basedir}/src/main/java/org/mule/common/query/dsql</grammar.java.dir>
+        <skipGpg>true</skipGpg>
     </properties>
 
 
-
     <dependencies>
-    	<!-- Same version as Mule! -->
-		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>1.4</version>
-		</dependency>
+        <!-- Same version as Mule! -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
 
         <!-- Same version as Mule! -->
         <dependency>
@@ -121,7 +122,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
     </dependencies>
 
     <build>
@@ -203,18 +203,35 @@
                 </executions>
             </plugin>
             <plugin>
-                   <groupId>org.apache.maven.plugins</groupId>
-                   <artifactId>maven-javadoc-plugin</artifactId>
-                   <version>${maven.javadoc.plugin.version}</version>
-                   <executions>
-                       <execution>
-                           <id>javadoc-jar</id>
-                           <goals>
-                               <goal>jar</goal>
-                           </goals>
-                       </execution>
-                   </executions>
-             </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven.gpg.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipGpg}</skip>
+                </configuration>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
