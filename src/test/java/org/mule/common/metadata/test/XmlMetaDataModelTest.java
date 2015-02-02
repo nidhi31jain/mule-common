@@ -8,6 +8,7 @@ import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
 import org.mule.common.metadata.builder.XmlMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.property.LabelMetaDataProperty;
 import org.mule.common.metadata.property.QNameMetaDataProperty;
 import org.mule.common.metadata.property.xml.AttributeMetaDataFieldProperty;
 
@@ -21,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mule.common.metadata.property.xml.XsiTypeMetaDataProperty;
 
 /**
  * Test XmlMetaDataModelIntrospection
@@ -336,16 +338,23 @@ public class XmlMetaDataModelTest
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
     }
 
+
     @Test
-    public void testSE1664() throws IOException {
-        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://com.ucas.track.topazadaptor.service/ITopazAdaptorWs.xsd", "com_ucas_track_topazadaptor_wrapper_EmailAddressWs"));
-        List<String> schemas = Arrays.asList("xsd/se-16642/in0.xsd");
+    public void testXsiType() throws IOException {
+        QName rootElement = new QName("emailAddressWs");
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(rootElement);
+        List<String> schemas = Arrays.asList("xsd/xsitype/type.xsd");
         for (String schema : schemas)
         {
             builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
         }
+        QName typeName = new QName("http://com.ucas.track.topazadaptor.service/ITopazAdaptorWs.xsd", "com_ucas_track_topazadaptor_wrapper_EmailAddressWs");
+        builder.setType(typeName);
         XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getRootElement(), CoreMatchers.is(rootElement));
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(6));
+        Assert.assertNotNull(model.getProperty(XsiTypeMetaDataProperty.class));
+        Assert.assertEquals(model.getProperty(XsiTypeMetaDataProperty.class).getName(),typeName);
     }
 }
 

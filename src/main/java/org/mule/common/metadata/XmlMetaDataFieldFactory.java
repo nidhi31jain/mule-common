@@ -63,7 +63,10 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
 
     public static final String PREFIX = "ns";
 
+
+
     private SchemaProvider schemas;
+
     private QName rootElementName;
     //private Charset encoding;
     private Map<String, String> namespacePrefix = new HashMap<String, String>();
@@ -88,14 +91,6 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
                 SchemaType type = rootElement.getType();
                 loadFields(type, metaDataFields, visitedTypes);
             }
-            else
-            {
-                SchemaType rootType = schemas.findRootType(rootElementName);
-                if (rootType != null)
-                {
-                    loadFields(rootType, metaDataFields, visitedTypes);
-                }
-            }
         }
         catch (XmlException e)
         {
@@ -104,7 +99,7 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         return metaDataFields;
     }
 
-    private void loadFields(SchemaType type, List<MetaDataField> metaDataFields, Map<SchemaType, XmlMetaDataModel> visitedTypes)
+    protected void loadFields(SchemaType type, List<MetaDataField> metaDataFields, Map<SchemaType, XmlMetaDataModel> visitedTypes)
     {
 
         if (isSimpleType(type))
@@ -287,5 +282,14 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         }
 
         return basic;
+    }
+
+
+    public QName getRootElementName() {
+        return rootElementName;
+    }
+
+    public SchemaProvider getSchemas() {
+        return schemas;
     }
 }
