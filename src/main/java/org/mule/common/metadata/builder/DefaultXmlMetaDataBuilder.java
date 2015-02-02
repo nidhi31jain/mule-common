@@ -17,10 +17,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.io.IOUtils;
+import org.mule.common.metadata.property.xml.XsiTypeMetaDataProperty;
 
 public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements XmlMetaDataBuilder<P> {
 
     public QName name;
+    public QName type;
     public List<String> schemas = new ArrayList<String>();
     public List<InputStream> schemasStream = new ArrayList<InputStream>();
     public List<URL> schemasUrls = new ArrayList<URL>();
@@ -41,25 +43,30 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     @Override
     public XmlMetaDataModel build()
     {
-        XmlMetaDataModel model = null;
-        if (schemas != null)
-        {
-            model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
-        }
-        else if (schemasStream != null)
-        {
 
+        XmlMetaDataModel model = null;
+
+        if (schemasStream != null) {
             List<String> result = new ArrayList<String>();
-            for (InputStream schemaStream : schemasStream)
-            {
+            for (InputStream schemaStream : schemasStream) {
                 result.add(getStringFromInputStream(schemaStream, encoding));
             }
-
-            model = new DefaultXmlMetaDataModel(result, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+            schemas = result;
         }
-        else if(schemasUrls != null)
-        {
-            model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
+        if (type != null) {
+            if (schemas != null) {
+                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, type, encoding, new TextBasedExampleMetaDataModelProperty(example), new XsiTypeMetaDataProperty(type));
+            }
+            else if (schemasUrls != null) {
+                model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
+            }
+        }
+        else {
+            if (schemas != null) {
+                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+            } else if (schemasUrls != null) {
+                model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
+            }
         }
 
         if (label != null)
@@ -70,6 +77,11 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
         if (description != null)
         {
             model.addProperty(new DescriptionMetaDataProperty(description));
+        }
+
+        if (type!= null)
+        {
+            model.addProperty(new XsiTypeMetaDataProperty(type));
         }
 
         return model;
@@ -158,4 +170,12 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
         this.description = description;
         return this;
     }
+
+    @Override
+    public DefaultXmlMetaDataBuilder<P> setType(QName qName)
+    {
+        this.type = qName;
+        return this;
+    }
+
 }

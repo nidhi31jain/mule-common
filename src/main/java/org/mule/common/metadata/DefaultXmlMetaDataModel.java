@@ -3,11 +3,9 @@ package org.mule.common.metadata;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -58,12 +56,36 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
 
     /**
      * @param schemas     The schemas
+     * @param sourceUrl   The url where the relative paths will be taken from
+     * @param elementName The element QName
+     * @param typeElement The type element QName
+     * @param encoding    The encoding of the schemas
+     * @param properties  Additional properties
+     */
+    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl,QName elementName ,QName typeElement, Charset encoding, MetaDataModelProperty... properties)
+    {
+        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), elementName,  new XmlMetaDataTypeFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), typeElement).createFields(), properties);
+    }
+
+    /**
+     * @param schemas     The schemas
      * @param rootElement The root element QName
      * @param properties  Additional properties
      */
     public DefaultXmlMetaDataModel(List<URL> schemas, QName rootElement,  MetaDataModelProperty... properties)
     {
         this(new UrlBasedSchemaProvider(schemas), rootElement,  new XmlMetaDataFieldFactory(new UrlBasedSchemaProvider(schemas), rootElement).createFields(), properties);
+    }
+
+    /**
+     * @param schemas     The schemas
+     * @param elementName The root element QName
+     * @param typeElement The root type element QName
+     * @param properties  Additional properties
+     */
+    public DefaultXmlMetaDataModel(List<URL> schemas, QName elementName, QName typeElement,  MetaDataModelProperty... properties)
+    {
+        this(new UrlBasedSchemaProvider(schemas), elementName,  new XmlMetaDataTypeFieldFactory(new UrlBasedSchemaProvider(schemas), typeElement).createFields(), properties);
     }
 
     /**

@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 
 import org.mule.common.metadata.XmlMetaDataModel;
 
+import javax.xml.namespace.QName;
+
 public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDataBuilder<XmlMetaDataModel> {
 
 	DefaultXmlMetaDataBuilder<P> setSourceUri(URL sourceUrl);
@@ -23,6 +25,8 @@ public interface XmlMetaDataBuilder<P extends MetaDataBuilder<?>> extends MetaDa
     public DefaultXmlMetaDataBuilder<P> setLabel(String label);
 
     public DefaultXmlMetaDataBuilder<P> setDescription(String description);
+
+    public DefaultXmlMetaDataBuilder<P> setType(QName qname);
 
 
 }

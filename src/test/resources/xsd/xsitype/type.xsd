@@ -1,0 +1,202 @@
+<schema
+        targetNamespace="http://com.ucas.track.topazadaptor.service/ITopazAdaptorWs.xsd"
+        xmlns="http://www.w3.org/2001/XMLSchema"  xmlns:ns1="http://com.ucas.track.topazadaptor.service/ITopazAdaptorWs.xsd">
+    <complexType name="com_ucas_track_topazadaptor_wrapper_PaymentWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="method" type="string"/>
+            <element name="date" type="dateTime"/>
+            <element name="amount" type="double"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_util_CallResult" jdev:packageName="com.ucas.track.topazadaptor.util" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="errMsgId" type="string"/>
+            <element name="errMsgTxt" type="string"/>
+            <element name="errMsgType" type="int"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_ApplicationWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_AppIdWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_ReplyWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="choiceNumber" type="int"/>
+            <element name="replyCode" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="ArrayOfcom_ucas_track_topazadaptor_wrapper_ReplyWs">
+
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_ChoiceAdditionWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="institutionCode" type="string"/>
+            <element name="courseCode" type="string"/>
+            <element name="institutionCampus" type="string"/>
+            <element name="startDate" type="dateTime"/>
+            <element name="pointOfEntry" type="string"/>
+            <element name="homeLivingFlag" type="string"/>
+            <element name="furtherDetails" type="string"/>
+            <element name="choiceNumber" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_AddressWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="tpzAddId" type="long"/>
+            <element name="tpzAddVersion" type="long"/>
+            <element name="addressLine1" type="string"/>
+            <element name="addressLine2" type="string"/>
+            <element name="addressLine3" type="string"/>
+            <element name="addressLine4" type="string"/>
+            <element name="postCode" type="string"/>
+            <element name="primaryAddress" type="boolean"/>
+            <element name="sortCode" type="long"/>
+            <element name="country" type="long"/>
+            <element name="location" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_QualificationWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="qualificationId" type="long"/>
+            <element name="mode" type="string"/>
+            <element name="month" type="int"/>
+            <element name="year" type="int"/>
+            <element name="centerNumber" type="string"/>
+            <element name="awardingBody" type="string"/>
+            <element name="awardingBodyCode" type="string"/>
+            <element name="level" type="string"/>
+            <element name="levelCode" type="string"/>
+            <element name="subject" type="string"/>
+            <element name="subjectCode" type="string"/>
+            <element name="subLevel" type="string"/>
+            <element name="subLevelCode" type="string"/>
+            <element name="result" type="string"/>
+            <element name="predictedGrade" type="string"/>
+            <element name="moduleText" type="ns1:ArrayOfString"/>
+            <element name="version" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="ArrayOfString">
+
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_PersonalStatementWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="personalStatement" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_EmailAddressWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="emailAddress" type="string"/>
+            <element name="verified" type="boolean"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_PhoneAndOptionsWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="homePhone" type="string"/>
+            <element name="mobilePhone" type="string"/>
+            <element name="smsOptIn" type="boolean"/>
+            <element name="emailOptIn" type="boolean"/>
+            <element name="language" type="string"/>
+            <element name="mailOptOut" type="boolean"/>
+            <element name="shareOptIn" type="boolean"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_ChoiceWithdrawalWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="choiceNumber" type="long"/>
+            <element name="tpzChcVersion" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_ChoiceSubstitutionWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="tpzChcVersion" type="long"/>
+            <element name="institutionCode" type="string"/>
+            <element name="courseCode" type="string"/>
+            <element name="institutionCampus" type="string"/>
+            <element name="startDate" type="dateTime"/>
+            <element name="pointOfEntry" type="string"/>
+            <element name="homeLivingFlag" type="string"/>
+            <element name="furtherDetails" type="string"/>
+            <element name="choiceNumber" type="long"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_AdjustmentStatusWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="adjustmentStatus" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_PassportWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="passportIssueDate" type="dateTime"/>
+            <element name="passportExpiryDate" type="dateTime"/>
+            <element name="studentVisaRequiredFlag" type="boolean"/>
+            <element name="passportNumber" type="string"/>
+            <element name="passportPlaceOfIssue" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="com_ucas_track_topazadaptor_wrapper_FurtherDetailsWs" jdev:packageName="com.ucas.track.topazadaptor.wrapper" xmlns:jdev="http://xmlns.oracle.com/jdeveloper/webservices">
+        <all>
+            <element name="personalId" type="long"/>
+            <element name="applicantVersion" type="long"/>
+            <element name="applicationCode" type="long"/>
+            <element name="applicationVersion" type="long"/>
+            <element name="fieldName" type="string"/>
+            <element name="fieldValueText" type="string"/>
+            <element name="fieldValueCode" type="string"/>
+        </all>
+    </complexType>
+</schema>
