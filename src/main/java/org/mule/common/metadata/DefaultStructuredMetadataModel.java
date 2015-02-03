@@ -25,7 +25,7 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
 
     @Override
     public void accept(MetaDataModelVisitor modelVisitor) {
-        //todo we should deprecte visitor of MetadataModel
+        //TODO we should deprecate visitor of MetadataModel
     }
 
     @Override
