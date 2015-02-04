@@ -1,20 +1,20 @@
 package org.mule.common.metadata;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.mule.common.metadata.datatype.DataType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class JSONSampleMetaDataFieldFactory implements MetaDataFieldFactory {
 
-    private JsonObject jsonObject;
+    private ObjectNode jsonObject;
 
-    public JSONSampleMetaDataFieldFactory(JsonObject jsonObject) {
+    public JSONSampleMetaDataFieldFactory(ObjectNode jsonObject) {
         this.jsonObject = jsonObject;
     }
 
@@ -27,24 +27,26 @@ public class JSONSampleMetaDataFieldFactory implements MetaDataFieldFactory {
         return metaDataFields;
     }
 
-    private void processObject(JsonObject object, List<MetaDataField> metaDataFields) {
-        for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+    private void processObject(ObjectNode object, List<MetaDataField> metaDataFields) {
+        Iterator<Map.Entry<String, JsonNode>> fields = object.fields();
+
+        while(fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
             processElement(entry.getKey(), entry.getValue(), metaDataFields);
         }
     }
 
-    private void processElement(String name, JsonElement element, List<MetaDataField> metaDataFields) {
-        if (element.isJsonObject()) {
-            JSONSampleMetaDataFieldFactory fieldFactory = new JSONSampleMetaDataFieldFactory((JsonObject) element);
+    private void processElement(String name, JsonNode element, List<MetaDataField> metaDataFields) {
+        if (element.isObject()) {
+            JSONSampleMetaDataFieldFactory fieldFactory = new JSONSampleMetaDataFieldFactory((ObjectNode) element);
             metaDataFields.add(new DefaultMetaDataField(name, new DefaultStructuredMetadataModel(DataType.JSON, fieldFactory)));
-        } else if (element.isJsonArray()) {
-            JsonElement child = JSONMetaDataHelper.getFirstChild((JsonArray) element);
+        } else if (element.isArray()) {
+            JsonNode child = JSONMetaDataHelper.getFirstChild((ArrayNode) element);
             // If the array is empty we assume String type
-            DataType dataType = child == null ? DataType.STRING : child.isJsonPrimitive() ? JSONMetaDataHelper.getType((JsonPrimitive) child) : DataType.JSON;
-            metaDataFields.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(dataType == DataType.JSON ?  new DefaultStructuredMetadataModel(DataType.JSON, new JSONSampleMetaDataFieldFactory((JsonObject) child)) : new DefaultSimpleMetaDataModel(dataType))));
-        } else if (element.isJsonPrimitive()) {
-            JsonPrimitive primitive = (JsonPrimitive) element;
-            metaDataFields.add(new DefaultMetaDataField(name, new DefaultSimpleMetaDataModel(JSONMetaDataHelper.getType(primitive))));
+            DataType dataType = child == null ? DataType.STRING : !child.isObject() ? JSONMetaDataHelper.getType(child) : DataType.JSON;
+            metaDataFields.add(new DefaultMetaDataField(name, new DefaultListMetaDataModel(dataType == DataType.JSON ?  new DefaultStructuredMetadataModel(DataType.JSON, new JSONSampleMetaDataFieldFactory((ObjectNode) child)) : new DefaultSimpleMetaDataModel(dataType))));
+        } else {
+            metaDataFields.add(new DefaultMetaDataField(name, new DefaultSimpleMetaDataModel(JSONMetaDataHelper.getType(element))));
         }
     }
 

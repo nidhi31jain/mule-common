@@ -43,7 +43,7 @@ public class DefaultMetaDataBuilder implements MetaDataBuilder<MetaDataModel>
 
     public JSONMetaDataBuilder createJsonObject()
     {
-        JSONMetaDataBuilder result = new DefaultJSONMetaDataBuilder();
+        JSONMetaDataBuilder result = new DefaultJsonMetaDataBuilder();
         root = result;
         return result;
     }

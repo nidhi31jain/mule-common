@@ -1,6 +1,9 @@
 package org.mule.common.metadata;
 
-import com.google.gson.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.IOUtils;
 import org.mule.common.metadata.datatype.DataType;
 
@@ -18,15 +21,21 @@ public class JSONSampleMetadataModelFactory  {
     }
 
     public MetaDataModel buildModel(String json) {
-        JsonElement root = new JsonParser().parse(json);
-        if (root.isJsonObject()) {
-            JSONSampleMetaDataFieldFactory fieldFactory = new JSONSampleMetaDataFieldFactory((JsonObject) root);
-            return new DefaultStructuredMetadataModel(DataType.JSON, fieldFactory);
-        } else {
-            JsonElement child = JSONMetaDataHelper.getFirstChild((JsonArray) root);
-            // If the array is empty we assume String type
-            DataType dataType = child == null ? DataType.STRING : child.isJsonPrimitive() ? JSONMetaDataHelper.getType((JsonPrimitive) child) : DataType.JSON;
-            return new DefaultListMetaDataModel(dataType == DataType.JSON ?  new DefaultStructuredMetadataModel(DataType.JSON, new JSONSampleMetaDataFieldFactory((JsonObject) child)) : new DefaultSimpleMetaDataModel(dataType));
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readValue(json, JsonNode.class);
+            if (root.isObject()) {
+                JSONSampleMetaDataFieldFactory fieldFactory = new JSONSampleMetaDataFieldFactory((ObjectNode) root);
+                return new DefaultStructuredMetadataModel(DataType.JSON, fieldFactory);
+            } else {
+                JsonNode child = JSONMetaDataHelper.getFirstChild((ArrayNode) root);
+                // If the array is empty we assume String type
+                DataType dataType = child == null ? DataType.STRING : !child.isObject() ? JSONMetaDataHelper.getType(child) : DataType.JSON;
+                return new DefaultListMetaDataModel(dataType == DataType.JSON ?  new DefaultStructuredMetadataModel(DataType.JSON, new JSONSampleMetaDataFieldFactory((ObjectNode) child)) : new DefaultSimpleMetaDataModel(dataType));
+            }
+
+        } catch (IOException e) {
+            throw new MetaDataGenerationException(e);
         }
     }
 }
