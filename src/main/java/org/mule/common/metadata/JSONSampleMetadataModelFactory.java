@@ -2,10 +2,7 @@ package org.mule.common.metadata;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.IOUtils;
-import org.mule.common.metadata.datatype.DataType;
 
 import java.io.IOException;
 import java.net.URL;

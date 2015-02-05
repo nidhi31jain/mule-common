@@ -18,6 +18,7 @@ public final class JSONMetaDataHelper  {
         } else if (node.isArray()) {
             JsonNode child = JSONMetaDataHelper.getFirstChild((ArrayNode) node);
             if (child == null) {
+                // If the array is empty we assume the data type as String
                 result =  new DefaultListMetaDataModel(new DefaultSimpleMetaDataModel(DataType.STRING));
             } else {
                 result =  new DefaultListMetaDataModel(buildModelFromNode(child));

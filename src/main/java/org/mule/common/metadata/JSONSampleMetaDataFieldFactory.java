@@ -1,9 +1,7 @@
 package org.mule.common.metadata;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.mule.common.metadata.datatype.DataType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +37,4 @@ public class JSONSampleMetaDataFieldFactory implements MetaDataFieldFactory {
     private static void processElement(String name, JsonNode element, List<MetaDataField> metaDataFields) {
         metaDataFields.add(new DefaultMetaDataField(name, JSONMetaDataHelper.buildModelFromNode(element)));
     }
-
-
 }

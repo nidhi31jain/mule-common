@@ -205,7 +205,7 @@ public class JSONSampleMetaDataModelTest {
         String json = new Scanner(jsonSample).useDelimiter("\\A").next();
 
         MetaDataModel metaDataModel = modelFactory.buildModel(json);
-        
+
         Assert.assertThat(metaDataModel.getDataType(), is(DataType.JSON));
         Assert.assertThat(metaDataModel, instanceOf(DefaultStructuredMetadataModel.class));
         Assert.assertThat(((DefaultStructuredMetadataModel)metaDataModel).getFields().size(), is(2));
