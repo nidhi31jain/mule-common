@@ -24,16 +24,7 @@ public class JSONSampleMetadataModelFactory  {
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readValue(json, JsonNode.class);
-            if (root.isObject()) {
-                JSONSampleMetaDataFieldFactory fieldFactory = new JSONSampleMetaDataFieldFactory((ObjectNode) root);
-                return new DefaultStructuredMetadataModel(DataType.JSON, fieldFactory);
-            } else {
-                JsonNode child = JSONMetaDataHelper.getFirstChild((ArrayNode) root);
-                // If the array is empty we assume String type
-                DataType dataType = child == null ? DataType.STRING : !child.isObject() ? JSONMetaDataHelper.getType(child) : DataType.JSON;
-                return new DefaultListMetaDataModel(dataType == DataType.JSON ?  new DefaultStructuredMetadataModel(DataType.JSON, new JSONSampleMetaDataFieldFactory((ObjectNode) child)) : new DefaultSimpleMetaDataModel(dataType));
-            }
-
+            return JSONMetaDataHelper.buildModelFromNode(root);
         } catch (IOException e) {
             throw new MetaDataGenerationException(e);
         }
