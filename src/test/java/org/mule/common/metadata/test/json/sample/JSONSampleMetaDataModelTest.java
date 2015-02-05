@@ -198,4 +198,28 @@ public class JSONSampleMetaDataModelTest {
         Assert.assertThat(root.getName(), is("Root"));
         Assert.assertThat(((DefaultStructuredMetadataModel)root.getMetaDataModel()).getFields().size(), is(2));
     }
+
+    @Test
+    public void testObjectWithArray() throws Exception {
+        InputStream jsonSample = getClass().getClassLoader().getResourceAsStream("jsonSample/objectWithArray.json");
+        String json = new Scanner(jsonSample).useDelimiter("\\A").next();
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(json);
+        
+        Assert.assertThat(metaDataModel.getDataType(), is(DataType.JSON));
+        Assert.assertThat(metaDataModel, instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(((DefaultStructuredMetadataModel)metaDataModel).getFields().size(), is(2));
+
+        // Checking nested list
+        MetaDataModel nestedList = ((DefaultMetaDataField) ((DefaultStructuredMetadataModel) metaDataModel).getFields().get(0)).getMetaDataModel();
+
+        Assert.assertThat(nestedList.getDataType(), is(DataType.LIST));
+        Assert.assertThat(nestedList, instanceOf(DefaultListMetaDataModel.class));
+
+        // Checking nested element
+        MetaDataModel elementModel = ((DefaultListMetaDataModel) nestedList).getElementModel();
+
+        Assert.assertThat(elementModel.getDataType(), is(DataType.INTEGER));
+        Assert.assertThat(elementModel, instanceOf(DefaultSimpleMetaDataModel.class));
+    }
 }

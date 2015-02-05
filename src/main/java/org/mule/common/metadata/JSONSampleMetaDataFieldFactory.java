@@ -37,14 +37,7 @@ public class JSONSampleMetaDataFieldFactory implements MetaDataFieldFactory {
     }
 
     private static void processElement(String name, JsonNode element, List<MetaDataField> metaDataFields) {
-        if (element.isObject()) {
-            metaDataFields.add(new DefaultMetaDataField(name, JSONMetaDataHelper.buildModelFromNode(element)));
-        } else if (element.isArray()) {
-            JsonNode child = JSONMetaDataHelper.getFirstChild((ArrayNode) element);
-            metaDataFields.add(new DefaultMetaDataField(name, JSONMetaDataHelper.buildModelFromNode(child)));
-        } else {
-            metaDataFields.add(new DefaultMetaDataField(name, JSONMetaDataHelper.buildModelFromNode(element)));
-        }
+        metaDataFields.add(new DefaultMetaDataField(name, JSONMetaDataHelper.buildModelFromNode(element)));
     }
 
 
