@@ -42,6 +42,8 @@ public final class JSONMetaDataHelper  {
             return DataType.JSON;
         } else if (node.isArray()) {
             return DataType.LIST;
+        } else if (node.isNull()) {
+            return DataType.STRING;
         }
         return DataType.UNKNOWN;
     }
