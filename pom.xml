@@ -60,17 +60,20 @@
         <maven.source.plugin.version>2.3</maven.source.plugin.version>
         <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
+        <!-- Same version as Mule! -->
+        <commons.io.version>2.4</commons.io.version>
+
         <grammar.java.dir>${basedir}/src/main/java/org/mule/common/query/dsql</grammar.java.dir>
         <skipGpg>true</skipGpg>
     </properties>
 
 
     <dependencies>
-        <!-- Same version as Mule! -->
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>1.4</version>
+            <version>${commons.io.version}</version>
         </dependency>
 
         <!-- Same version as Mule! -->
