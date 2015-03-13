@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class XmlMetaDataTypeFieldFactory extends XmlMetaDataFieldFactory {
 
-    public XmlMetaDataTypeFieldFactory(SchemaProvider schemas, QName typeElementName)
+    public XmlMetaDataTypeFieldFactory(SchemaProvider schemas, QName typeElementName, XmlMetaDataNamespaceManager namespaceManager)
     {
-        super(schemas,typeElementName);
+        super(schemas,typeElementName, namespaceManager);
     }
 
     @Override

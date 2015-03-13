@@ -61,20 +61,21 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         typeMapping.put(XmlConstants.XSD_BASE64, DataType.BYTE);
     }
 
-    public static final String PREFIX = "ns";
-
-
+    // public static final String PREFIX = "ns";
 
     private SchemaProvider schemas;
 
     private QName rootElementName;
-    //private Charset encoding;
-    private Map<String, String> namespacePrefix = new HashMap<String, String>();
+    // private Charset encoding;
+    // private Map<String, String> namespacePrefix = new HashMap<String, String>();
 
-    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName)
+    private XmlMetaDataNamespaceManager namespaceManager;
+
+    public XmlMetaDataFieldFactory(SchemaProvider schemas, QName rootElementName, XmlMetaDataNamespaceManager namespaceManager)
     {
         this.schemas = schemas;
         this.rootElementName = rootElementName;
+        this.namespaceManager = namespaceManager;
     }
 
     @Override
@@ -112,7 +113,9 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
             SchemaProperty[] properties = type.getProperties();
             for (SchemaProperty property : properties)
             {
-                QName name = setPrefixIfNotPresent(property.getName());
+                // QName name = setPrefixIfNotPresent(property.getName());
+                QName name = namespaceManager.assignPrefixIfNotPresent(property.getName());
+
                 //
                 SchemaType propertyType = property.getType();
                 if (property.isAttribute())
@@ -153,35 +156,35 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
     }
 
 
-    private QName setPrefixIfNotPresent(QName name)
-    {
-        if (name.getNamespaceURI().isEmpty())
-        {
-            return name;
-        }
-        else if (!prefixIsDeclared(name))
-        {
-            if (namespacePrefix.containsKey(name.getNamespaceURI()))
-            {
-                return new QName(name.getNamespaceURI(), name.getLocalPart(), namespacePrefix.get(name.getNamespaceURI()));
-            }
-            else
-            {
-                int size = namespacePrefix.size();
-                String prefix;
-                do
-                {
-                    prefix = PREFIX + size;
-                    size++;
-                }
-                while (namespacePrefix.containsKey(prefix));
-                namespacePrefix.put(name.getNamespaceURI(), prefix);
-                return new QName(name.getNamespaceURI(), name.getLocalPart(), prefix);
-            }
-        }
-        return name;
-
-    }
+//    private QName setPrefixIfNotPresent(QName name)
+//    {
+//        if (name.getNamespaceURI().isEmpty())
+//        {
+//            return name;
+//        }
+//        else if (!prefixIsDeclared(name))
+//        {
+//            if (namespacePrefix.containsKey(name.getNamespaceURI()))
+//            {
+//                return new QName(name.getNamespaceURI(), name.getLocalPart(), namespacePrefix.get(name.getNamespaceURI()));
+//            }
+//            else
+//            {
+//                int size = namespacePrefix.size();
+//                String prefix;
+//                do
+//                {
+//                    prefix = PREFIX + size;
+//                    size++;
+//                }
+//                while (namespacePrefix.containsKey(prefix));
+//                namespacePrefix.put(name.getNamespaceURI(), prefix);
+//                return new QName(name.getNamespaceURI(), name.getLocalPart(), prefix);
+//            }
+//        }
+//        return name;
+//
+//    }
 
     private XmlMetaDataModel buildXMLMetaDataModel(Map<SchemaType, XmlMetaDataModel> visitedTypes, SchemaType propertyType)
     {
@@ -193,29 +196,26 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         else
         {
             ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
-            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields);
+            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields, namespaceManager);
             visitedTypes.put(propertyType, model);
             loadFields(propertyType, fields, visitedTypes);
         }
         return model;
     }
 
-    private String toLabel(QName name)
-    {
-        if (prefixIsDeclared(name))
-        {
+    private String toLabel(QName name) {
+        // if (prefixIsDeclared(name))
+        if (namespaceManager.isPrefixDeclared(name)) {
             return name.getPrefix() + ":" + name.getLocalPart();
-        }
-        else
-        {
+        } else {
             return name.getLocalPart();
         }
     }
 
-    private boolean prefixIsDeclared(QName name)
-    {
-        return name.getPrefix() != null && !name.getPrefix().isEmpty();
-    }
+//    private boolean prefixIsDeclared(QName name)
+//    {
+//        return name.getPrefix() != null && !name.getPrefix().isEmpty();
+//    }
 
 
     private boolean hasSimpleContentOnly(SchemaType type)

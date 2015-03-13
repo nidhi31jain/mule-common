@@ -2,6 +2,7 @@ package org.mule.common.metadata.builder;
 
 import org.mule.common.metadata.DefaultXmlMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
+import org.mule.common.metadata.XmlMetaDataNamespaceManager;
 import org.mule.common.metadata.property.DescriptionMetaDataProperty;
 import org.mule.common.metadata.property.LabelMetaDataProperty;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
@@ -31,6 +32,7 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
     private String label;
     private String description;
     private URL sourceUrl;
+    private XmlMetaDataNamespaceManager namespaceManager = new XmlMetaDataNamespaceManager();
 
     public DefaultXmlMetaDataBuilder(String name) {
         this(new QName(name));
@@ -53,19 +55,20 @@ public class DefaultXmlMetaDataBuilder<P extends MetaDataBuilder<?>> implements 
             }
             schemas = result;
         }
+
         if (type != null) {
             if (schemas != null) {
-                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, type, encoding, new TextBasedExampleMetaDataModelProperty(example), new XsiTypeMetaDataProperty(type));
+                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, type, encoding, namespaceManager, new TextBasedExampleMetaDataModelProperty(example), new XsiTypeMetaDataProperty(type));
             }
             else if (schemasUrls != null) {
-                model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
+                model = new DefaultXmlMetaDataModel(schemasUrls, name, namespaceManager, new TextBasedExampleMetaDataModelProperty(example));
             }
         }
         else {
             if (schemas != null) {
-                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, encoding, new TextBasedExampleMetaDataModelProperty(example));
+                model = new DefaultXmlMetaDataModel(schemas, sourceUrl, name, encoding, namespaceManager, new TextBasedExampleMetaDataModelProperty(example));
             } else if (schemasUrls != null) {
-                model = new DefaultXmlMetaDataModel(schemasUrls, name, new TextBasedExampleMetaDataModelProperty(example));
+                model = new DefaultXmlMetaDataModel(schemasUrls, name, namespaceManager, new TextBasedExampleMetaDataModelProperty(example));
             }
         }
 

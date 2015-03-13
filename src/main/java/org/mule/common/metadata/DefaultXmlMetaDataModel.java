@@ -17,8 +17,9 @@ import javax.xml.namespace.QName;
 public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel implements XmlMetaDataModel
 {
 
-    private SchemaProvider schemas;
     private QName rootElement;
+    private SchemaProvider schemas;
+    private XmlMetaDataNamespaceManager namespaceManager;
 
     /**
      * @param schemas     The schemas
@@ -29,7 +30,7 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
     @Deprecated
     public DefaultXmlMetaDataModel(List<String> schemas, String rootElement, Charset encoding)
     {
-        this(schemas, new QName(rootElement), encoding);
+        this(schemas, new QName(rootElement), encoding, new XmlMetaDataNamespaceManager());
     }
 
     /**
@@ -40,18 +41,31 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      */
     public DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
     {
-        this(new StringBasedSchemaProvider(schemas,encoding,null), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,null), rootElement).createFields(), properties);
+        this(new StringBasedSchemaProvider(schemas,encoding,null), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,null), rootElement, new XmlMetaDataNamespaceManager()).createFields(), new XmlMetaDataNamespaceManager(), properties);
+    }
+
+    /**
+     * @param schemas     The schemas
+     * @param rootElement The root element QName
+     * @param encoding    The encoding of the schemas
+     * @param namespaceManager Additional manager to check namespace usage
+     * @param properties  Additional properties
+     */
+    public DefaultXmlMetaDataModel(List<String> schemas, QName rootElement, Charset encoding, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
+    {
+        this(new StringBasedSchemaProvider(schemas,encoding,null), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,null), rootElement, namespaceManager).createFields(), namespaceManager, properties);
     }
     /**
      * @param schemas     The schemas
      * @param sourceUrl   The url where the relative paths will be taken from
      * @param rootElement The root element QName
      * @param encoding    The encoding of the schemas
+     * @param namespaceManager Additional manager to check namespace usage
      * @param properties  Additional properties
      */
-    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl, QName rootElement, Charset encoding, MetaDataModelProperty... properties)
+    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl, QName rootElement, Charset encoding, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement).createFields(), properties);
+        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement,  new XmlMetaDataFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), rootElement, namespaceManager).createFields(), namespaceManager, properties);
     }
 
     /**
@@ -60,32 +74,35 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      * @param elementName The element QName
      * @param typeElement The type element QName
      * @param encoding    The encoding of the schemas
+     * @param namespaceManager Additional manager to check namespace usage
      * @param properties  Additional properties
      */
-    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl,QName elementName ,QName typeElement, Charset encoding, MetaDataModelProperty... properties)
+    public DefaultXmlMetaDataModel(List<String> schemas,URL sourceUrl,QName elementName ,QName typeElement, Charset encoding, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), elementName,  new XmlMetaDataTypeFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), typeElement).createFields(), properties);
+        this(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), elementName,  new XmlMetaDataTypeFieldFactory(new StringBasedSchemaProvider(schemas,encoding,sourceUrl), typeElement, namespaceManager).createFields(), namespaceManager, properties);
     }
 
     /**
      * @param schemas     The schemas
      * @param rootElement The root element QName
+     * @param namespaceManager Additional manager to check namespace usage
      * @param properties  Additional properties
      */
-    public DefaultXmlMetaDataModel(List<URL> schemas, QName rootElement,  MetaDataModelProperty... properties)
+    public DefaultXmlMetaDataModel(List<URL> schemas, QName rootElement,  XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(new UrlBasedSchemaProvider(schemas), rootElement,  new XmlMetaDataFieldFactory(new UrlBasedSchemaProvider(schemas), rootElement).createFields(), properties);
+        this(new UrlBasedSchemaProvider(schemas), rootElement,  new XmlMetaDataFieldFactory(new UrlBasedSchemaProvider(schemas), rootElement, namespaceManager).createFields(), namespaceManager, properties);
     }
 
     /**
      * @param schemas     The schemas
      * @param elementName The root element QName
      * @param typeElement The root type element QName
+     * @param namespaceManager Additional manager to check namespace usage
      * @param properties  Additional properties
      */
-    public DefaultXmlMetaDataModel(List<URL> schemas, QName elementName, QName typeElement,  MetaDataModelProperty... properties)
+    public DefaultXmlMetaDataModel(List<URL> schemas, QName elementName, QName typeElement,  XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(new UrlBasedSchemaProvider(schemas), elementName,  new XmlMetaDataTypeFieldFactory(new UrlBasedSchemaProvider(schemas), typeElement).createFields(), properties);
+        this(new UrlBasedSchemaProvider(schemas), elementName,  new XmlMetaDataTypeFieldFactory(new UrlBasedSchemaProvider(schemas), typeElement, namespaceManager).createFields(), namespaceManager, properties);
     }
 
     /**
@@ -94,12 +111,14 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      * @param rootElement The root element QName
      * @param properties  Additional properties
      * @param fields The fields
+     * @param namespaceManager Additional manager to check namespace usage
      */
-    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  List<MetaDataField> fields, MetaDataModelProperty... properties)
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
         super(DataType.XML, fields);
         this.schemas = schemas;
-        this.rootElement = rootElement;
+        this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
+        this.namespaceManager = namespaceManager;
         addAllProperties(properties);
     }
 
