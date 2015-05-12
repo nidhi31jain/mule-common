@@ -1,61 +1,52 @@
 package org.mule.common.metadata.test.builder;
 
-import org.junit.Test;
-import org.mule.common.metadata.CSVMetaDataModel;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.StructuredMetaDataModel;
 import org.mule.common.metadata.builder.DefaultCSVMetaDataBuilder;
 import org.mule.common.metadata.datatype.DataType;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 public class CSVMetaDataBuilderTestCase
 {
+
     public static final String FIELD_NAME = "name";
     public static final String FIELD_AGE = "age";
-    public static final String FIELD_LAST_NAME = "lastname";
-    public static final String COMMA_DELIMITER = ",";
+
+    public static final int AMOUNT_OF_FIELDS = 2;
 
     @Test()
-    public void csvWithNoDelimiterShouldReturnNull()
+    public void csvWithTwoFields()
     {
-        DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
-        CSVMetaDataModel model = builder.addField(FIELD_NAME, DataType.STRING).addField(FIELD_AGE, DataType.DECIMAL).build();
-        assertThat(model, nullValue());
-    }
-
-    @Test()
-    public void csvWithNoFieldsShouldReturnNull()
-    {
-        DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
-        CSVMetaDataModel model = builder.setDelimiter(COMMA_DELIMITER).build();
-        assertThat(model, nullValue());
-    }
-
-    @Test()
-    public void aCsvModelIsValidWhenDelimiterAndFieldsAreSet()
-    {
-        DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
-        CSVMetaDataModel model = builder.setDelimiter(COMMA_DELIMITER).addField(FIELD_NAME, DataType.STRING).addField(FIELD_AGE, DataType.DECIMAL).build();
+        final DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
+        final ListMetaDataModel model = builder.addField(FIELD_NAME, DataType.STRING).addField(FIELD_AGE, DataType.DECIMAL).build();
         assertThat(model, notNullValue());
-        assertThat(model.getDelimiter(), is(COMMA_DELIMITER));
-        assertThat(model.getFields(), hasSize(2));
+        assertThat(model.getElementModel(), instanceOf(StructuredMetaDataModel.class));
+        final StructuredMetaDataModel structuredModel = (StructuredMetaDataModel) model.getElementModel();
+        //Validate the object structure
+        assertThat(structuredModel.getFields().size(), is(AMOUNT_OF_FIELDS));
+        assertThat(structuredModel.getFields().get(0).getName(), is(FIELD_NAME));
+        assertThat(structuredModel.getFields().get(0).getMetaDataModel().getDataType(), is(DataType.STRING));
+        assertThat(structuredModel.getFields().get(1).getName(), is(FIELD_AGE));
+        assertThat(structuredModel.getFields().get(1).getMetaDataModel().getDataType(), is(DataType.DECIMAL));
     }
 
-    @Test()
-    public void exampleShouldBeTheStored()
+    @Test(expected = IllegalArgumentException.class)
+    public void onlySimpleDataTypesCanBeAddedAsFields()
     {
-        String csv = "name,lastname,age\n" +
-                "alejo,abdala,25\n" +
-                "pablo,cabrera,27\n";
-
         DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
-        CSVMetaDataModel model = builder.setDelimiter(COMMA_DELIMITER).setExample(csv).addField(FIELD_NAME, DataType.STRING).addField(FIELD_LAST_NAME, DataType.STRING).addField(FIELD_AGE, DataType.DECIMAL).build();
-        assertThat(model, notNullValue());
-        assertThat(model.getDelimiter(), is(COMMA_DELIMITER));
-        assertThat(model.getFields(), hasSize(3));
-        assertThat(model.getExample(), is(csv));
+        builder.addField(FIELD_NAME, DataType.MAP).build();
+    }
+
+
+    @Test(expected = IllegalStateException.class)
+    public void atLeastOneFieldShouldBeDeclared()
+    {
+        DefaultCSVMetaDataBuilder builder = new DefaultCSVMetaDataBuilder();
+        builder.build();
     }
 }

@@ -20,7 +20,10 @@ public interface MetaDataModel
 
     /**
      * Used internally for go over the model structure.
+     *
+     * @deprecated Not all types supported any more. Avoid using it
      */
+    @Deprecated()
     void accept(MetaDataModelVisitor modelVisitor);
 
     /**

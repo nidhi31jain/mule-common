@@ -1,23 +1,22 @@
 package org.mule.common.metadata.builder;
 
 
-import org.apache.commons.lang.StringUtils;
-import org.mule.common.DefaultCSVMetaDataModel;
-import org.mule.common.metadata.CSVMetaDataModel;
+import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.DefaultMetaDataField;
+import org.mule.common.metadata.DefaultMetaDataFieldFactory;
 import org.mule.common.metadata.DefaultSimpleMetaDataModel;
+import org.mule.common.metadata.DefaultStructuredMetadataModel;
+import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
+import org.mule.common.metadata.MetaDataFieldFactory;
 import org.mule.common.metadata.datatype.DataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-
 public class DefaultCSVMetaDataBuilder implements CSVMetaDataBuilder
 {
-    private String csv;
-    private String delimiter;
+
     private List<MetaDataField> fields;
 
     public DefaultCSVMetaDataBuilder()
@@ -25,19 +24,6 @@ public class DefaultCSVMetaDataBuilder implements CSVMetaDataBuilder
         fields = new ArrayList<MetaDataField>();
     }
 
-    @Override
-    public CSVMetaDataBuilder setExample(String csv)
-    {
-        this.csv = csv;
-        return this;
-    }
-
-    @Override
-    public CSVMetaDataBuilder setDelimiter(String delimiter)
-    {
-        this.delimiter = delimiter;
-        return this;
-    }
 
     @Override
     public CSVMetaDataBuilder addField(String fieldName, DataType type)
@@ -47,21 +33,13 @@ public class DefaultCSVMetaDataBuilder implements CSVMetaDataBuilder
     }
 
     @Override
-    public CSVMetaDataModel build()
+    public ListMetaDataModel build()
     {
-        CSVMetaDataModel model = null;
-
-        if (isNotBlank(delimiter) && !fields.isEmpty())
+        if (fields.isEmpty())
         {
-            model = new DefaultCSVMetaDataModel(fields);
-            model.setDelimiter(delimiter);
-
-            if(isNotBlank(csv))
-            {
-                model.setExample(csv);
-            }
+            throw new IllegalStateException("At least one field should be declared");
         }
-
-        return model;
+        final DefaultStructuredMetadataModel metadataModel = new DefaultStructuredMetadataModel(DataType.CSV, new DefaultMetaDataFieldFactory(fields));
+        return new DefaultListMetaDataModel(metadataModel);
     }
 }
