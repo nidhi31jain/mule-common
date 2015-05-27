@@ -4,6 +4,7 @@ import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataGenerationException;
 import org.mule.common.metadata.SimpleMetaDataModel;
+import org.mule.common.metadata.StructuredMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
 import org.mule.common.metadata.builder.XmlMetaDataBuilder;
@@ -22,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.mule.common.metadata.property.xml.XsiTypeMetaDataProperty;
 
 /**
@@ -315,7 +317,7 @@ public class XmlMetaDataModelTest
     public void xsdWithTwoFields() throws IOException
     {
         final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://www.loyaltylab.com/loyaltyapi/", "RedeemReward"));
-        List<String> schemas = Arrays.asList("xsd/se-1664/in0.xsd","xsd/se-1664/in1.xsd","xsd/se-1664/in2.xsd");
+        List<String> schemas = Arrays.asList("xsd/se-1664/in0.xsd", "xsd/se-1664/in1.xsd", "xsd/se-1664/in2.xsd");
         for (String schema : schemas)
         {
             builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
@@ -327,9 +329,10 @@ public class XmlMetaDataModelTest
 
 
     @Test
-    public void testSE1577() throws IOException {
+    public void testSE1577() throws IOException
+    {
         final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://epicor.com/webservices/", "AllowUndoReadyToQuote"));
-        List<String> schemas = Arrays.asList("xsd/se_1577/schema-1.xsd","xsd/se_1577/schema-2.xsd");
+        List<String> schemas = Arrays.asList("xsd/se_1577/schema-1.xsd", "xsd/se_1577/schema-2.xsd");
         for (String schema : schemas)
         {
             builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
@@ -340,7 +343,8 @@ public class XmlMetaDataModelTest
 
 
     @Test
-    public void testXsiType() throws IOException {
+    public void testXsiType() throws IOException
+    {
         QName rootElement = new QName("emailAddressWs");
         final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(rootElement);
         List<String> schemas = Arrays.asList("xsd/xsitype/type.xsd");
@@ -354,7 +358,30 @@ public class XmlMetaDataModelTest
         Assert.assertThat(model.getRootElement(), CoreMatchers.is(rootElement));
         Assert.assertThat(model.getFields().size(), CoreMatchers.is(6));
         Assert.assertNotNull(model.getProperty(XsiTypeMetaDataProperty.class));
-        Assert.assertEquals(model.getProperty(XsiTypeMetaDataProperty.class).getName(),typeName);
+        Assert.assertEquals(model.getProperty(XsiTypeMetaDataProperty.class).getName(), typeName);
+    }
+
+
+    @Test
+    public void SimpleContentElementsWithAttributesShouldGenerateObjectElement() throws IOException
+    {
+        QName rootElement = new QName("user");
+        List<String> schemas = Arrays.asList("xsd/simple-content-with-attributes.xsd");
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(rootElement);
+
+        for (String schema : schemas)
+        {
+            builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
+        }
+
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getRootElement(), CoreMatchers.is(rootElement));
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+        final MetaDataField name = model.getFieldByName("name");
+        Assert.assertNotNull("Name field was not found", name);
+        Assert.assertThat(name.getMetaDataModel(), CoreMatchers.instanceOf(StructuredMetaDataModel.class));
+        Assert.assertThat(((StructuredMetaDataModel) name.getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+
     }
 }
 
