@@ -9,11 +9,14 @@ import org.mule.common.metadata.DefaultStructuredMetadataModel;
 import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.property.CSVHasHeadersMetaDataProperty;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -33,7 +36,14 @@ public class DefaultCSVMetaDataBuilder implements CSVMetaDataBuilder
     @Override
     public CSVMetaDataBuilder addField(String fieldName, DataType type)
     {
-        fields.add(new DefaultMetaDataField(fieldName, new DefaultSimpleMetaDataModel(type), MetaDataField.FieldAccessType.READ));
+        return addField(fieldName, type, Collections.<MetaDataFieldProperty>emptyList());
+    }
+
+    @Override
+    public CSVMetaDataBuilder addField(String fieldName, DataType type, List<MetaDataFieldProperty> fieldProperties)
+    {
+        Objects.requireNonNull(fieldProperties, "fieldProperties must not be null");
+        fields.add(new DefaultMetaDataField(fieldName, new DefaultSimpleMetaDataModel(type), MetaDataField.FieldAccessType.READ, fieldProperties));
         return this;
     }
 
