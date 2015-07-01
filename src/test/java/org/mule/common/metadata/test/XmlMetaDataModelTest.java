@@ -3,6 +3,7 @@ package org.mule.common.metadata.test;
 import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.MetaDataGenerationException;
+import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.StructuredMetaDataModel;
 import org.mule.common.metadata.XmlMetaDataModel;
@@ -24,6 +25,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty;
 import org.mule.common.metadata.property.xml.XsiTypeMetaDataProperty;
 
 /**
@@ -313,6 +315,7 @@ public class XmlMetaDataModelTest
 
     }
 
+
     @Test
     public void xsdWithTwoFields() throws IOException
     {
@@ -381,6 +384,24 @@ public class XmlMetaDataModelTest
         Assert.assertNotNull("Name field was not found", name);
         Assert.assertThat(name.getMetaDataModel(), CoreMatchers.instanceOf(StructuredMetaDataModel.class));
         Assert.assertThat(((StructuredMetaDataModel) name.getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+
+    }
+
+    @Test
+    public void validateSchemaTypeIsSetCorrectly() throws IOException
+    {
+        final XmlMetaDataBuilder builder = new DefaultMetaDataBuilder().createXmlObject(new QName("http://epicor.com/webservices/", "AllowUndoReadyToQuote"));
+        List<String> schemas = Arrays.asList("xsd/se_1577/schema-1.xsd", "xsd/se_1577/schema-2.xsd");
+        for (String schema : schemas)
+        {
+            builder.addSchemaStringList(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(schema)));
+        }
+
+        XmlMetaDataModel model = (XmlMetaDataModel) builder.build();
+        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        final MetaDataModel metaDataModel = model.getFields().get(1).getMetaDataModel();
+        Assert.assertTrue(metaDataModel.hasProperty(SchemaTypeMetaDataProperty.class));
+        Assert.assertThat(metaDataModel.getProperty(SchemaTypeMetaDataProperty.class).getTypeQName(), CoreMatchers.is(new QName("http://epicor.com/schemas", "CallContextDataSetType")));
 
     }
 }
