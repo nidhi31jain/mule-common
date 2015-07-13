@@ -51,13 +51,4 @@ public final class JSONMetaDataHelper  {
     public static JsonNode getFirstChild(ArrayNode array) {
         return array.size() > 0 ? array.get(0) : null;
     }
-
-    private static boolean isInteger(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }
