@@ -19,11 +19,13 @@ import static org.mule.common.testutils.MuleMatchers.isExactlyA;
 import java.util.List;
 import java.util.Set;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mule.common.metadata.DefaultPojoMetaDataModel;
 import org.mule.common.metadata.MetaDataField;
 import org.mule.common.metadata.PojoMetaDataModel;
+import org.mule.common.metadata.SimpleMetaDataModel;
 import org.mule.common.metadata.datatype.DataType;
 import org.mule.common.metadata.field.property.MetaDataFieldProperty;
 import org.mule.common.metadata.field.property.ValidStringValuesFieldProperty;
@@ -32,6 +34,7 @@ import org.mule.common.metadata.field.property.dsql.DsqlQueryOperatorsMetaDataFi
 import org.mule.common.metadata.field.property.dsql.DsqlSelectMetaDataFieldProperty;
 import org.mule.common.metadata.field.property.dsql.DsqlWhereMetaDataFieldProperty;
 import org.mule.common.metadata.test.pojo.EverythingPojo;
+import org.mule.common.metadata.test.pojo.ObjectWithClassField;
 
 public class DefaultPojoMetaDataModelTestCase
 {
@@ -70,7 +73,7 @@ public class DefaultPojoMetaDataModelTestCase
     {
 
     }
-    
+
     public static class RecursivePojo {
     	private RecursivePojo innerPojo;
     	public RecursivePojo getInnerPojo() { return innerPojo; }
@@ -169,13 +172,22 @@ public class DefaultPojoMetaDataModelTestCase
     }
 
     @Test
-    public void testStackOverflowWhenCalculatingHashcode(){ 
+    public void testStackOverflowWhenCalculatingHashcode() {
     	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
     	model.hashCode();
     }
-    
+
     @Test
-    public void testTwoPojoMetadataModelsAreEqual(){ 
+    public void classFieldShouldGenerateSimpleField() {
+        final DefaultPojoMetaDataModel pojoMetaDataModel = new DefaultPojoMetaDataModel(ObjectWithClassField.class);
+        final MetaDataField someClass = pojoMetaDataModel.getFieldByName("someClass");
+        Assert.assertThat(someClass.getMetaDataModel(), CoreMatchers.instanceOf(SimpleMetaDataModel.class));
+        SimpleMetaDataModel simpleMetaDataModel = (SimpleMetaDataModel) someClass.getMetaDataModel();
+        Assert.assertThat(simpleMetaDataModel.getDataType(),CoreMatchers.is(DataType.STRING));
+    }
+
+    @Test
+    public void testTwoPojoMetadataModelsAreEqual(){
     	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
     	DefaultPojoMetaDataModel anotherModel = new DefaultPojoMetaDataModel(RecursivePojo.class);
     	assertTrue(model.hashCode() == anotherModel.hashCode());
@@ -183,13 +195,13 @@ public class DefaultPojoMetaDataModelTestCase
     }
 
     @Test
-    public void testTwoPojoMetadataModelsAreNotEqualIfTheirClassNamesAreNotEqual(){ 
+    public void testTwoPojoMetadataModelsAreNotEqualIfTheirClassNamesAreNotEqual(){
     	DefaultPojoMetaDataModel model = new DefaultPojoMetaDataModel(RecursivePojo.class);
     	DefaultPojoMetaDataModel anotherModel = new DefaultPojoMetaDataModel(RecursivePojo2.class);
     	Assert.assertFalse(model.hashCode() == anotherModel.hashCode());
     	Assert.assertFalse(model.equals(anotherModel));
     }
-    
+
 }
 
 

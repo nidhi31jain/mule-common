@@ -79,7 +79,7 @@ public class DataTypeFactory {
 			new Class[] {boolean.class, Boolean.class}, DataType.BOOLEAN);
 
 	private static final MetaDataModelEvaluator<String> STRING_EVALUATOR = new AssignableMetaDataModelEvaluator<String>(
-			new Class[] {String.class, char.class, Character.class}, DataType.STRING);
+			new Class[] {String.class, char.class, Character.class, Class.class}, DataType.STRING);
 
 	private static final MetaDataModelEvaluator<Number> NUMBER_EVALUATOR = new AssignableMetaDataModelEvaluator<Number>(
 			new Class[] {int.class, long.class, short.class ,double.class, float.class, Number.class}, DataType.NUMBER);
