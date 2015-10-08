@@ -211,6 +211,7 @@ public class MetaDataModelFactory
 			if (!typedObjects.containsKey(typeName)) {
 				typedObjects.put(typeName, typedObject);
 			}
+
 		}
 		
 		/**
