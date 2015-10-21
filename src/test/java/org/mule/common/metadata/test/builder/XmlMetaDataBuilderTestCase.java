@@ -11,21 +11,22 @@
 package org.mule.common.metadata.test.builder;
 
 import static org.hamcrest.CoreMatchers.is;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Test;
-
+import static org.hamcrest.CoreMatchers.notNullValue;
 import org.mule.common.metadata.XmlMetaDataModel;
 import org.mule.common.metadata.builder.DefaultXmlMetaDataBuilder;
 import org.mule.common.metadata.builder.MetaDataBuilder;
 import org.mule.common.metadata.property.DescriptionMetaDataProperty;
 import org.mule.common.metadata.property.LabelMetaDataProperty;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+
 import javax.xml.namespace.QName;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.xmlbeans.XmlBeans;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class XmlMetaDataBuilderTestCase
 {
@@ -56,6 +57,7 @@ public class XmlMetaDataBuilderTestCase
         metaDataBuilder.setEncoding(encoding);
         metaDataBuilder.addSchemaStringList(schemas).setExample(example);
         XmlMetaDataModel model = metaDataBuilder.build();
+        Assert.assertThat(XmlBeans.NO_TYPE, notNullValue());
         Assert.assertThat(model.getRootElement(), is(new QName(rootName)));
         Assert.assertThat(model.getExample(), is(example));
         Assert.assertThat(model.getSchemas().size(), is(schemas.length));
