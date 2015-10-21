@@ -8,10 +8,10 @@ import java.util.List;
 
 import org.apache.xmlbeans.SchemaTypeLoader;
 import org.apache.xmlbeans.SchemaTypeSystem;
+import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.impl.schema.BuiltinSchemaTypeSystem;
 import org.apache.xmlbeans.impl.schema.SchemaTypeLoaderImpl;
 import org.apache.xmlbeans.impl.schema.SchemaTypeSystemCompiler;
 
@@ -34,7 +34,7 @@ public class XmlSchemaUtils {
 
         /* Load the schema */
         final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
-        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[]{BuiltinSchemaTypeSystem.get()}, null, XmlMetaDataFieldFactory.class.getClassLoader());
+        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[]{XmlBeans.getBuiltinTypeSystem()}, null, XmlMetaDataFieldFactory.class.getClassLoader());
         for (int i = 0; i < schemas.size(); i++) {
             schemaRepresentation[i] = contextTypeLoader.parse(schemas.get(i), null, options);
         }
@@ -50,7 +50,7 @@ public class XmlSchemaUtils {
 
         /* Load the schema */
         final XmlObject[] schemaRepresentation = new XmlObject[schemas.size()];
-        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[]{BuiltinSchemaTypeSystem.get()}, null,
+        final SchemaTypeLoader contextTypeLoader = SchemaTypeLoaderImpl.build(new SchemaTypeLoader[]{XmlBeans.getBuiltinTypeSystem()}, null,
                 XmlMetaDataFieldFactory.class.getClassLoader());
 
         int i = 0;
