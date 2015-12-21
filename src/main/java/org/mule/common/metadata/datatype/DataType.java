@@ -37,6 +37,7 @@ public enum DataType
     XML(null),
     CSV(null),
     JSON(null),
+    FLATFILE(null),
     // TODO: how do we model a UNION type (e.j. Object or Exception)
     ;
 
