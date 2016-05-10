@@ -222,4 +222,16 @@ public class JSONSampleMetaDataModelTest {
         Assert.assertThat(elementModel.getDataType(), is(DataType.INTEGER));
         Assert.assertThat(elementModel, instanceOf(DefaultSimpleMetaDataModel.class));
     }
+
+    @Test
+    public void testForStudio7981() throws Exception {
+        InputStream jsonSample = getClass().getClassLoader().getResourceAsStream("jsonSample/STUDIO7981.json");
+        String json = new Scanner(jsonSample).useDelimiter("\\A").next();
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(json);
+
+        Assert.assertThat(metaDataModel.getDataType(), is(DataType.JSON));
+        Assert.assertThat(metaDataModel, instanceOf(DefaultStructuredMetadataModel.class));
+        Assert.assertThat(((DefaultStructuredMetadataModel)metaDataModel).getFields().size(), is(1));
+    }
 }

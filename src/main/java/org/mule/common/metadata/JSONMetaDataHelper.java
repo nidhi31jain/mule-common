@@ -34,9 +34,9 @@ public final class JSONMetaDataHelper  {
             return DataType.STRING;
         } else if (node.isBoolean()) {
             return DataType.BOOLEAN;
-        } else if (node.isInt()) {
+        } else if (isInteger(node)) {
             return DataType.INTEGER;
-        } else if (node.isDouble()) {
+        } else if (isDouble(node)) {
             return DataType.DOUBLE;
         } else if (node.isObject()) {
             return DataType.JSON;
@@ -46,6 +46,14 @@ public final class JSONMetaDataHelper  {
             return DataType.STRING;
         }
         return DataType.UNKNOWN;
+    }
+
+    private static boolean isInteger(JsonNode node) {
+        return node.isInt() || node.isBigInteger() || node.isLong() || node.isNumber() || node.isShort();
+    }
+
+    private static boolean isDouble(JsonNode node) {
+        return node.isDouble() || node.isBigDecimal() || node.isFloat() || node.isFloatingPointNumber();
     }
 
     public static JsonNode getFirstChild(ArrayNode array) {
