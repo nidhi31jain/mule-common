@@ -428,6 +428,33 @@ public class JSONSchemaMetaDataModelTest {
         MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
         Assert.assertNotNull(metaDataModel);
     }
+    
+    @Test
+    public void testMinimalJson() {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchema/minimalSchema.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+        
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+        Assert.assertNotNull(metaDataModel);
+        
+        Assert.assertThat(metaDataModel.getDataType(), CoreMatchers.is(DataType.UNKNOWN));
+    }
+    
+    @Test
+    public void testJsonArrayWithEmptyItems() {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchema/emptyItemsSchema.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+        
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+        Assert.assertNotNull(metaDataModel);
+        
+        Assert.assertThat(metaDataModel.getDataType(), CoreMatchers.is(DataType.LIST));
+        
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultListMetaDataModel.class));
+        DefaultListMetaDataModel model = (DefaultListMetaDataModel) metaDataModel;
+        
+        Assert.assertThat(model.getElementModel().getDataType(), CoreMatchers.is(DataType.UNKNOWN));
+    }
 
     static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
