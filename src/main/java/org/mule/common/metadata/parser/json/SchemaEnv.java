@@ -171,7 +171,8 @@ public class SchemaEnv
                 }
                 else
                 {
-                    throw new SchemaException("Schema object doesn't contain a 'types' property. \nElement:\n" +obj);
+                    // an empty schema is valid for everything
+                    specifiedType = new JSONType.Everything();
                 }
 
                 return optional ? new OptionalType(specifiedType) : specifiedType;
