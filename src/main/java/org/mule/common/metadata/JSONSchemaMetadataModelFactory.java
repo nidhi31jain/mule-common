@@ -58,6 +58,12 @@ public class JSONSchemaMetadataModelFactory
                 final JSONSchemaMetaDataFieldFactory fieldFactory = new JSONSchemaMetaDataFieldFactory(new JSONObjectType(new SchemaEnv(jsonSchemaObject, jsonSchemaURL), jsonSchemaObject));
                 return new DefaultStructuredMetadataModel(DataType.JSON, fieldFactory);
             }
+            else if (new SchemaEnv().evaluate(jsonSchemaObject).isJSONPrimitive())
+            {
+                final JSONType simpleType = new SchemaEnv().evaluate(jsonSchemaObject);
+                final DataType dataType = JSONTypeUtils.getDataType(simpleType);
+                return dataType == DataType.UNKNOWN ? new DefaultUnknownMetaDataModel() : new DefaultSimpleMetaDataModel(dataType);
+            }
             else
             {
                 //e.g.: Case root's type is an array.

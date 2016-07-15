@@ -1,0 +1,13 @@
+{
+	"definitions": {
+		"myref": {
+			"type": "object",
+			"properties": {
+				"myfield": {
+					"type": "integer"
+				}
+			}
+		}
+	},
+	"$ref": "#/definitions/myref"
+}
