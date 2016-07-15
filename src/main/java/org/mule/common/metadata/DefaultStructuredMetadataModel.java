@@ -67,7 +67,8 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (fields != null ? fields.hashCode() : 0);
+        // avoid using fields.hashCode() to allow recursive metadata structures
+        result = 31 * result;
         return result;
     }
 }
