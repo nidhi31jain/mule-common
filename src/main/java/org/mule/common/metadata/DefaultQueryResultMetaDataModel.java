@@ -1,9 +1,9 @@
 package org.mule.common.metadata;
 
+import org.mule.common.metadata.datatype.DataType;
+
 import java.util.List;
 import java.util.Set;
-
-import org.mule.common.metadata.datatype.DataType;
 
 /**
  * <p>Query metadata representation</p>
@@ -96,4 +96,9 @@ public class DefaultQueryResultMetaDataModel implements QueryResultMetaDataModel
         return definedMapMetaDataModel.getProperty(metaDataFieldProperty);
     }
 
+    @Override
+    public boolean isAnyFieldAllowed()
+    {
+        return false;
+    }
 }

@@ -116,7 +116,7 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      */
     DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  XmlMetaDataFieldFactory fieldFactory, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(schemas,rootElement,fieldFactory.createFields(),namespaceManager,properties);
+        this(schemas, rootElement, fieldFactory.createFields(), fieldFactory.isAllowsAnyFields(fieldFactory.getRootType()), namespaceManager, properties);
         if(fieldFactory.getRootType() != null)
         {
             addProperty(new SchemaTypeMetaDataProperty(fieldFactory.getRootType().getName()));
@@ -125,15 +125,18 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
 
     /**
      * This constructor if for internal use only
-     * @param schemas     The schemas
+     * 
+     * @param schemas The schemas
      * @param rootElement The root element QName
-     * @param properties  Additional properties
+     * @param properties Additional properties
      * @param fields The fields
+     * @param allowsAnyFields see {@link StructuredMetaDataModel#isAnyFieldAllowed()}
      * @param namespaceManager Additional manager to check namespace usage
      */
-    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, boolean allowsAnyFields, XmlMetaDataNamespaceManager namespaceManager,
+            MetaDataModelProperty... properties)
     {
-        super(DataType.XML, fields);
+        super(DataType.XML, fields, allowsAnyFields);
         this.schemas = schemas;
         this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
         this.namespaceManager = namespaceManager;
