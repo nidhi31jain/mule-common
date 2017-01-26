@@ -150,6 +150,14 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
                 }
             }
         }
+        // If an element defines only a complex type of any attributes but no explicit attributes,
+        // it will cause the metaDataFields list to be empty, which is not true.
+        final QName anyElement = new QName("mule", "##any");
+        if (type.getElementSequencer().peek(anyElement))
+        {
+            final DefaultSimpleMetaDataModel model = new DefaultSimpleMetaDataModel(DataType.STRING);
+            metaDataFields.add(new DefaultMetaDataField("##any", model, new QNameMetaDataProperty(anyElement)));
+        }
     }
 
     public SchemaType getRootType()
