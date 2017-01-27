@@ -137,11 +137,7 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
     DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager,
             MetaDataModelProperty... properties)
     {
-        super(DataType.XML, fields);
-        this.schemas = schemas;
-        this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
-        this.namespaceManager = namespaceManager;
-        addAllProperties(properties);
+        this(schemas, rootElement, fields, false, namespaceManager, properties);
     }
 
     /**
