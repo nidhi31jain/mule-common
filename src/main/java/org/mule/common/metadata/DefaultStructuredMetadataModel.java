@@ -44,12 +44,6 @@ public class DefaultStructuredMetadataModel extends AbstractMetaDataModel implem
     }
 
     @Override
-    public boolean isAnyFieldAllowed()
-    {
-        return false;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

@@ -1,6 +1,7 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.property.AllowsAnyMetaDataModelProperty;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 import org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty;
 
@@ -133,14 +134,38 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      * @param allowsAnyFields see {@link StructuredMetaDataModel#isAnyFieldAllowed()}
      * @param namespaceManager Additional manager to check namespace usage
      */
-    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, boolean allowsAnyFields, XmlMetaDataNamespaceManager namespaceManager,
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager,
             MetaDataModelProperty... properties)
     {
-        super(DataType.XML, fields, allowsAnyFields);
+        super(DataType.XML, fields);
         this.schemas = schemas;
         this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
         this.namespaceManager = namespaceManager;
         addAllProperties(properties);
+    }
+
+    /**
+     * This constructor if for internal use only
+     * 
+     * @param schemas The schemas
+     * @param rootElement The root element QName
+     * @param properties Additional properties
+     * @param fields The fields
+     * @param allowsAnyFields see {@link StructuredMetaDataModel#isAnyFieldAllowed()}
+     * @param namespaceManager Additional manager to check namespace usage
+     */
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, boolean allowsAnyFields, XmlMetaDataNamespaceManager namespaceManager,
+            MetaDataModelProperty... properties)
+    {
+        super(DataType.XML, fields);
+        this.schemas = schemas;
+        this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
+        this.namespaceManager = namespaceManager;
+        addAllProperties(properties);
+        if (allowsAnyFields)
+        {
+            addProperty(AllowsAnyMetaDataModelProperty.INSTANCE);
+        }
     }
 
 

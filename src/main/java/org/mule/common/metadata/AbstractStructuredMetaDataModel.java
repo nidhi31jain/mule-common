@@ -9,27 +9,16 @@ import java.util.List;
 public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataModel implements StructuredMetaDataModel {
 
     private List<MetaDataField> fields;
-    private boolean allowsAnyFields;
 
 
     protected AbstractStructuredMetaDataModel(DataType dataType, MetaDataFieldFactory fieldFactory) throws Exception {
         super(dataType);
         this.fields = fieldFactory.createFields();
-        this.allowsAnyFields = false;
     }
 
-    protected AbstractStructuredMetaDataModel(DataType dataType, List<MetaDataField> fields)
-    {
+    protected AbstractStructuredMetaDataModel(DataType dataType, List<MetaDataField> fields) {
         super(dataType);
         this.fields = fields;
-        this.allowsAnyFields = false;
-    }
-
-    protected AbstractStructuredMetaDataModel(DataType dataType, List<MetaDataField> fields, boolean allowsAnyFields)
-    {
-        super(dataType);
-        this.fields = fields;
-        this.allowsAnyFields = allowsAnyFields;
     }
 
     @Override
@@ -45,11 +34,5 @@ public abstract class AbstractStructuredMetaDataModel extends AbstractMetaDataMo
             }
         }
         return null;
-    }
-
-    @Override
-    public boolean isAnyFieldAllowed()
-    {
-        return this.allowsAnyFields;
     }
 }
