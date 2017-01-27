@@ -195,11 +195,25 @@ public class XmlMetaDataFieldFactory implements MetaDataFieldFactory
         else
         {
             final ArrayList<MetaDataField> fields = new ArrayList<MetaDataField>();
-            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields, namespaceManager);
+            model = new DefaultXmlMetaDataModel(schemas, rootElementName, fields, isAllowsAnyFields(propertyType), namespaceManager);
             visitedTypes.put(propertyType, model);
             loadFields(propertyType, fields, visitedTypes);
         }
+
         return model;
+    }
+
+    public boolean isAllowsAnyFields(SchemaType propertyType)
+    {
+        boolean allowsAnyFields = false;
+        // If an element defines only a complex type of any attributes but no explicit attributes,
+        // it will cause the metaDataFields list to be empty, which is not true.
+        final QName anyElement = new QName("mule", "##any");
+        if (propertyType != null && propertyType.getElementSequencer().peek(anyElement))
+        {
+            allowsAnyFields = true;
+        }
+        return allowsAnyFields;
     }
 
     private String toLabel(QName name)
