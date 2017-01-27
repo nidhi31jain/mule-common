@@ -1,6 +1,7 @@
 package org.mule.common.metadata;
 
 import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.property.AllowsAnyMetaDataModelProperty;
 import org.mule.common.metadata.property.TextBasedExampleMetaDataModelProperty;
 import org.mule.common.metadata.property.xml.SchemaTypeMetaDataProperty;
 
@@ -116,7 +117,7 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
      */
     DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  XmlMetaDataFieldFactory fieldFactory, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
     {
-        this(schemas,rootElement,fieldFactory.createFields(),namespaceManager,properties);
+        this(schemas, rootElement, fieldFactory.createFields(), fieldFactory.isAllowsAnyFields(fieldFactory.getRootType()), namespaceManager, properties);
         if(fieldFactory.getRootType() != null)
         {
             addProperty(new SchemaTypeMetaDataProperty(fieldFactory.getRootType().getName()));
@@ -125,19 +126,41 @@ public class DefaultXmlMetaDataModel extends AbstractStructuredMetaDataModel imp
 
     /**
      * This constructor if for internal use only
-     * @param schemas     The schemas
+     * 
+     * @param schemas The schemas
      * @param rootElement The root element QName
-     * @param properties  Additional properties
+     * @param properties Additional properties
      * @param fields The fields
      * @param namespaceManager Additional manager to check namespace usage
      */
-    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement,  List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager, MetaDataModelProperty... properties)
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, XmlMetaDataNamespaceManager namespaceManager,
+            MetaDataModelProperty... properties)
+    {
+        this(schemas, rootElement, fields, false, namespaceManager, properties);
+    }
+
+    /**
+     * This constructor if for internal use only
+     * 
+     * @param schemas The schemas
+     * @param rootElement The root element QName
+     * @param properties Additional properties
+     * @param fields The fields
+     * @param allowsAnyFields see {@link XmlMetaDataFieldFactory#isAllowsAnyFields(org.apache.xmlbeans.SchemaType)}
+     * @param namespaceManager Additional manager to check namespace usage
+     */
+    DefaultXmlMetaDataModel(SchemaProvider schemas, QName rootElement, List<MetaDataField> fields, boolean allowsAnyFields, XmlMetaDataNamespaceManager namespaceManager,
+            MetaDataModelProperty... properties)
     {
         super(DataType.XML, fields);
         this.schemas = schemas;
         this.rootElement = namespaceManager.assignPrefixIfNotPresent(rootElement);
         this.namespaceManager = namespaceManager;
         addAllProperties(properties);
+        if (allowsAnyFields)
+        {
+            addProperty(AllowsAnyMetaDataModelProperty.INSTANCE);
+        }
     }
 
 
