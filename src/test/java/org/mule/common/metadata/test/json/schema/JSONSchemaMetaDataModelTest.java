@@ -1,6 +1,7 @@
 package org.mule.common.metadata.test.json.schema;
 
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.collection.IsCollectionWithSize;
 import org.json.JSONObject;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
@@ -30,12 +31,12 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("resource"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
-        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel()).getFields(), IsCollectionWithSize.hasSize(2));
 
         // Test hints field
         Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel()).getFields().get(0).getName(), CoreMatchers.is("hints"));
@@ -53,7 +54,7 @@ public class JSONSchemaMetaDataModelTest {
 
         // Test hints field's fields
         Assert.assertThat(((DefaultStructuredMetadataModel) ((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel()).getFields().get(0).getMetaDataModel())
-                .getFields().size(), CoreMatchers.is(11));
+                .getFields(), IsCollectionWithSize.hasSize(11));
 
     }
 
@@ -67,7 +68,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
 
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("etc"));
@@ -75,7 +76,7 @@ public class JSONSchemaMetaDataModelTest {
 
         Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("friend"));
-        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
     }
 
@@ -89,7 +90,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
 
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("etc"));
@@ -97,7 +98,7 @@ public class JSONSchemaMetaDataModelTest {
 
         Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("friend"));
-        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
     }
 
@@ -109,8 +110,58 @@ public class JSONSchemaMetaDataModelTest {
 
         schemaException.expect(SchemaException.class);
 
-        @SuppressWarnings("UnusedDeclaration")
-        JSONObjectType jsonSchemaObjectType = new JSONObjectType(new SchemaEnv(null, jsonSchemaObject), jsonSchemaObject);
+        new JSONObjectType(new SchemaEnv(null, jsonSchemaObject), jsonSchemaObject);
+    }
+
+    @Test
+    public void whenSchemaHasRefToOtherSchemaRootItShouldLoadTheTypes() throws Exception {
+        URL jsonSchemaResource = getClass().getClassLoader().getResource("jsonSchema/jsonSchemaWithRefToRoot.json");
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaResource);
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
+
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("position"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        assertWarehouseLocationModel((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel());
+    }
+
+    @Test
+    public void whenSchemaHasRefToOtherSchemaRootWithSameIdItShouldLoadTheTypes() throws Exception {
+        URL jsonSchemaResource = getClass().getClassLoader().getResource("jsonSchema/jsonSchemaWithRefToRootWithSameId.json");
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaResource);
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
+
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("position"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+
+        assertWarehouseLocationModel((DefaultStructuredMetadataModel) model.getFields().get(0).getMetaDataModel());
+    }
+
+    @Test
+    public void whenSchemaHasRefToSchemaWithOneOfItShouldHaveAnUnknownModelAssociated() throws Exception {
+        InputStream jsonSchemaStream = getClass().getClassLoader().getResourceAsStream("jsonSchema/jsonSchemaWithRefToOneOf.json");
+        String jsonSchemaString = convertStreamToString(jsonSchemaStream);
+
+        MetaDataModel metaDataModel = modelFactory.buildModel(jsonSchemaString);
+
+        Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
+        DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
+
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
+
+        Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("additionalInformation"));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.UNKNOWN));
+        Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(UnknownMetaDataModel.class));
     }
 
     @Test
@@ -123,7 +174,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
 
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("etc"));
@@ -131,7 +182,7 @@ public class JSONSchemaMetaDataModelTest {
 
         Assert.assertThat(model.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         Assert.assertThat(model.getFields().get(1).getName(), CoreMatchers.is("friend"));
-        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(((DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel()).getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
     }
 
@@ -161,7 +212,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
 
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("value"));
@@ -179,7 +230,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
 
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultUnknownMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("value"));
@@ -226,7 +277,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -235,16 +286,20 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
+        assertWarehouseLocationModel(warehouselocationModel);
+
+    }
+
+    private void assertWarehouseLocationModel(DefaultStructuredMetadataModel warehouselocationModel) {
+        Assert.assertThat(warehouselocationModel.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
         Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
         Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
-
     }
-    
+
     @Test
     public void testHttpsRef() throws Exception {
         // This test depends on the following remote schema: https://raw.githubusercontent.com/mulesoft/mule-common/3.x/src/test/resources/jsonSchema/emptyItemsSchema.json
@@ -257,7 +312,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -280,7 +335,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -289,7 +344,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(warehouselocationModel.getFields(), IsCollectionWithSize.hasSize(1));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("storage"));
         Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.STRING));
@@ -309,7 +364,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -318,13 +373,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        assertWarehouseLocationModel(warehouselocationModel);
 
     }
 
@@ -337,7 +386,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -346,13 +395,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        assertWarehouseLocationModel(warehouselocationModel);
 
     }
 
@@ -365,7 +408,7 @@ public class JSONSchemaMetaDataModelTest {
 
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
         Assert.assertThat(model.getDataType(), CoreMatchers.is(DataType.JSON));
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(2));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(2));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("id"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
@@ -374,13 +417,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(model.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.JSON));
 
         DefaultStructuredMetadataModel warehouselocationModel = (DefaultStructuredMetadataModel) model.getFields().get(1).getMetaDataModel();
-        Assert.assertThat(warehouselocationModel.getFields().size(), CoreMatchers.is(2));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getName(), CoreMatchers.is("latitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getName(), CoreMatchers.is("longitude"));
-        Assert.assertThat(warehouselocationModel.getFields().get(1).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.NUMBER));
+        assertWarehouseLocationModel(warehouselocationModel);
 
     }
 
@@ -394,7 +431,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel model = (DefaultStructuredMetadataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(8));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(8));
 
         Assert.assertThat(model.getFields().get(0).getName(), CoreMatchers.is("apiVersion"));
         Assert.assertThat(model.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
@@ -409,7 +446,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(elementModel, CoreMatchers.instanceOf(DefaultStructuredMetadataModel.class));
         DefaultStructuredMetadataModel structuredElementModel = (DefaultStructuredMetadataModel) elementModel;
 
-        Assert.assertThat(structuredElementModel.getFields().size(), CoreMatchers.is(3));
+        Assert.assertThat(structuredElementModel.getFields(), IsCollectionWithSize.hasSize(3));
         Assert.assertThat(structuredElementModel.getFields().get(0).getName(), CoreMatchers.is("description"));
         Assert.assertThat(structuredElementModel.getFields().get(0).getMetaDataModel(), CoreMatchers.instanceOf(DefaultSimpleMetaDataModel.class));
         Assert.assertThat(structuredElementModel.getFields().get(0).getMetaDataModel().getDataType(), CoreMatchers.is(DataType.STRING));
@@ -491,7 +528,7 @@ public class JSONSchemaMetaDataModelTest {
         Assert.assertThat(metaDataModel, CoreMatchers.instanceOf(StructuredMetaDataModel.class));
         StructuredMetaDataModel model = (StructuredMetaDataModel) metaDataModel;
 
-        Assert.assertThat(model.getFields().size(), CoreMatchers.is(1));
+        Assert.assertThat(model.getFields(), IsCollectionWithSize.hasSize(1));
         Assert.assertThat(model.getFieldByName("myfield").getMetaDataModel().getDataType(), CoreMatchers.is(DataType.INTEGER));
     }
 
@@ -507,7 +544,7 @@ public class JSONSchemaMetaDataModelTest {
     private void assertSimpleTypeModel(String jsonType, DataType dataType) {
         MetaDataModel metaDataModel = modelFactory.buildModel("{ \"type\": \"" + jsonType + "\" }");
         Assert.assertNotNull(metaDataModel);
-        
+
         Assert.assertThat(metaDataModel.getDataType(), CoreMatchers.is(dataType));
     }
 
